@@ -53,7 +53,7 @@ class Footercontent extends Component {
                     <div className="container">
                         <div className="row">
                             <div className="col-lg-7">
-                                <p className="m-0">© Copyright 2020 - <Link to="#">AndroThemes</Link> All Rights Reserved.</p>
+                                <p className="m-0">© Copyright 2020 - <Link to="#">Neprealestate</Link> All Rights Reserved.</p>
                             </div>
                             <div className="col-lg-5">
                                 <ul>

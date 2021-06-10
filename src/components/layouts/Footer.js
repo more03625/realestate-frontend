@@ -15,7 +15,7 @@ class Footer extends Component {
                     <div className="container">
                         <div className="row">
                             <div className="col-lg-5 col-sm-12 footer-widget">
-                                <div className="footer-logo"> <img src={process.env.PUBLIC_URL + "/assets/img/logo.png"} alt="acres" /> </div>
+                                <div className="footer-logo"> <img src={process.env.PUBLIC_URL + "/assets/img/realestaelogo/logo.png"} alt="acres" /> </div>
                                 <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's </p>
                                 <Dropdown className="acr-language-selector">
                                     <Dropdown.Toggle as={NavLink} className="dropdownicon">
@@ -68,7 +68,7 @@ class Footer extends Component {
                     <div className="container">
                         <div className="row">
                             <div className="col-lg-7">
-                                <p className="m-0">© Copyright 2020 - <Link to="#">AndroThemes</Link> All Rights Reserved.</p>
+                                <p className="m-0">© Copyright 2020 - <Link to="#">Neprealestate</Link> All Rights Reserved.</p>
                             </div>
                             <div className="col-lg-5">
                                 <ul>
