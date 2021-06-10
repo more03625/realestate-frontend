@@ -30,7 +30,7 @@ class Header extends HeaderComponent {
                     <div className="top-header">
                         <div className="top-header-inner">
                             <ul className="social-media">
-                                <li> <Link to="#"> <i className="fab fa-facebook-f" /> </Link> </li>
+                                <li> <Link to="https://www.facebook.com/NeprealestateNR/"> <i className="fab fa-facebook-f" /> </Link> </li>
                                 <li> <Link to="#"> <i className="fab fa-pinterest-p" /> </Link> </li>
                                 <li> <Link to="#"> <i className="fab fa-linkedin-in" /> </Link> </li>
                                 <li> <Link to="#"> <i className="fab fa-twitter" /> </Link> </li>

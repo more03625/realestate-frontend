@@ -23,7 +23,7 @@ class Content extends Component {
                 <div className="acr-cs-content">
                     <div className="acr-cs-content-head">
                         <div className="acr-cs-logo">
-                            <Link to="/"><img src={process.env.PUBLIC_URL + "/assets/img/logo.png"} alt="logo" /></Link>
+                            <Link to="/"><img src={process.env.PUBLIC_URL + "/assets/img/realestaelogo/logo.png"} alt="logo" /></Link>
                         </div>
                     </div>
                     <div className="acr-cs-content-body">
@@ -43,7 +43,7 @@ class Content extends Component {
                         </div>
                     </div>
                     <div className="acr-cs-content-footer">
-                        <p> Copyright © 2020 <Link to="#">AndroThemes</Link> All Rights Reserved. </p>
+                        <p> Copyright © 2020 <Link to="#">Neprealestate</Link> All Rights Reserved. </p>
                         <ul className="social-media">
                             <li> <Link to="#"> <i className="fab fa-facebook-f" /> </Link> </li>
                             <li> <Link to="#"> <i className="fab fa-instagram" /> </Link> </li>
