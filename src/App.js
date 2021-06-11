@@ -4,6 +4,9 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 // Preloader
 const Preloader = React.lazy(() => import("./components/layouts/Preloader"));
 
+// RAHULS START
+const News = React.lazy(() => import("./components/pages/News"));
+// RAHUL END
 // Home Pages
 const Home = React.lazy(() => import("./components/pages/Home"));
 const Hometwo = React.lazy(() => import("./components/pages/Hometwo"));
@@ -51,6 +54,11 @@ function App() {
       <Suspense fallback={<div></div>}>
         <Preloader />
         <Switch>
+          {/* RAHUL */}
+          <Route path="/news" component={News} />
+
+
+          {/* RAHUL */}
           {/* Homepages */}
           <Route exact path="/" component={Home} />
           <Route path="/home-v2" component={Hometwo} />

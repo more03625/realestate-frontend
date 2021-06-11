@@ -9,33 +9,51 @@ class Menu extends Component {
                 <Link className="navbar-brand" to="/"> <img src={process.env.PUBLIC_URL + "/assets/img/realestaelogo/logo.png"} alt="logo" /> </Link>
                 {/* Menu */}
                 <ul className="navbar-nav">
+                    {/* <li className="menu-item menu-item-has-children"> */}
+                        {/* <Link to="/">Home</Link> */}
+                        {/* <ul className="submenu"> */}
+                            {/* <li className="menu-item"> <Link to="/">Home v1</Link> </li> */}
+                            {/* <li className="menu-item"> <Link to="/home-v2">Home v2</Link> </li> */}
+                            {/* <li className="menu-item"> <Link to="/home-v3">Home v3</Link> </li> */}
+                            {/* <li className="menu-item"> <Link to="/home-v4">Home v4</Link> </li> */}
+                            {/* <li className="menu-item"> <Link to="/home-v5">Home v5</Link> </li> */}
+                        {/* </ul> */}
+                    {/* </li> */}
                     <li className="menu-item menu-item-has-children">
-                        <Link to="#">Home Pages</Link>
-                        <ul className="submenu">
-                            <li className="menu-item"> <Link to="/">Home v1</Link> </li>
-                            <li className="menu-item"> <Link to="/home-v2">Home v2</Link> </li>
-                            <li className="menu-item"> <Link to="/home-v3">Home v3</Link> </li>
-                            <li className="menu-item"> <Link to="/home-v4">Home v4</Link> </li>
-                            <li className="menu-item"> <Link to="/home-v5">Home v5</Link> </li>
-                        </ul>
+                        <Link to="/rent">Rent</Link>
+                        {/* <ul className="submenu"> */}
+                            {/* <li className="menu-item menu-item-has-children"> */}
+                                {/* <Link to="/blog-grid">Blog Archive</Link> */}
+                                {/* <ul className="submenu"> */}
+                                    {/* <li className="menu-item"> <Link to="/blog-grid">Grid View</Link> </li> */}
+                                    {/* <li className="menu-item"> <Link to="/blog-list">List View</Link> </li> */}
+                                {/* </ul> */}
+                            {/* </li> */}
+                            {/* <li className="menu-item"> */}
+                                {/* <Link to="/blog-single">Blog Single</Link> */}
+                            {/* </li> */}
+                        {/* </ul> */}
                     </li>
                     <li className="menu-item menu-item-has-children">
-                        <Link to="#">Blog</Link>
-                        <ul className="submenu">
-                            <li className="menu-item menu-item-has-children">
-                                <Link to="/blog-grid">Blog Archive</Link>
-                                <ul className="submenu">
-                                    <li className="menu-item"> <Link to="/blog-grid">Grid View</Link> </li>
-                                    <li className="menu-item"> <Link to="/blog-list">List View</Link> </li>
-                                </ul>
-                            </li>
-                            <li className="menu-item">
-                                <Link to="/blog-single">Blog Single</Link>
-                            </li>
-                        </ul>
-                    </li>
-                    <li className="menu-item menu-item-has-children mega-menu-wrapper">
-                        <Link to="#">Pages</Link>
+                        <Link to="/share">Share</Link>
+                        </li>
+                        <li className="menu-item menu-item-has-children">
+                        <Link to="/commerial">Commerial</Link>
+                        </li>
+                        <li className="menu-item menu-item-has-children">
+                        <Link to="/property-consaltant">Property Consaltant</Link>
+                        </li>
+                        <li className="menu-item menu-item-has-children">
+                        <Link to="/about">About Us</Link>
+                        </li>
+                        <li className="menu-item menu-item-has-children">
+                        <Link to="/news">News</Link>
+                        </li>
+                        <li className="menu-item menu-item-has-children">
+                        <Link to="/contact">Contact Us</Link>
+                        </li>
+                    {/* <li className="menu-item menu-item-has-children mega-menu-wrapper">
+                        <Link to="#">Share</Link>
                         <ul className="submenu">
                             <li>
                                 <img src={process.env.PUBLIC_URL + "/assets/img/megamenu.png"} alt="img" />
@@ -75,8 +93,8 @@ class Menu extends Component {
                                 </div>
                             </li>
                         </ul>
-                    </li>
-                    <li className="menu-item menu-item-has-children">
+                    </li> */}
+                    {/* <li className="menu-item menu-item-has-children">
                         <Link to="#">Listings</Link>
                         <ul className="submenu">
                             <li className="menu-item menu-item-has-children">
@@ -98,8 +116,8 @@ class Menu extends Component {
                             <li className="menu-item"> <Link to="/submit-listing">Submit Listing</Link> </li>
                             <li className="menu-item"> <Link to="/compare-listings">Compare Listings</Link> </li>
                         </ul>
-                    </li>
-                    <li className="menu-item menu-item-has-children">
+                    </li> */}
+                    {/* <li className="menu-item menu-item-has-children">
                         <Link to="/agent-archive">Agents</Link>
                         <ul className="submenu">
                             <li className="menu-item"> <Link to="/agent-archive">Agents Archive</Link> </li>
@@ -113,14 +131,14 @@ class Menu extends Component {
                                 </ul>
                             </li>
                         </ul>
-                    </li>
-                    <li className="menu-item menu-item-has-children">
+                    </li> */}
+                    {/* <li className="menu-item menu-item-has-children">
                         <Link to="/agency-archive">Agency</Link>
                         <ul className="submenu">
                             <li className="menu-item"> <Link to="/agency-archive">Agency Archive</Link> </li>
                             <li className="menu-item"> <Link to="/agency-details">Agency Details</Link> </li>
                         </ul>
-                    </li>
+                    </li> */}
                 </ul>
             </Fragment>
         );

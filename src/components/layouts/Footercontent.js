@@ -9,10 +9,9 @@ class Footercontent extends Component {
                     <div className="row">
                         <div className="col-lg-3 col-md-4 col-sm-12 footer-widget">
                             <div className="footer-logo">
-                                <img src={process.env.PUBLIC_URL + "/assets/img/logo-light.png"} alt="acres" />
                                 <img src={process.env.PUBLIC_URL + "/assets/img/logo.png"} alt="acres" />
                             </div>
-                            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's </p>
+                            <p>RAHUL Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's </p>
                             <ul className="social-media">
                                 <li> <Link to="#"> <i className="fab fa-facebook-f" /> </Link> </li>
                                 <li> <Link to="#"> <i className="fab fa-twitter" /> </Link> </li>
