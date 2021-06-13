@@ -38,10 +38,10 @@ class Menu extends Component {
                         <Link to="/share">Share</Link>
                         </li>
                         <li className="menu-item menu-item-has-children">
-                        <Link to="/commerial">Commerial</Link>
+                        <Link to="/commercial">Commerial</Link>
                         </li>
                         <li className="menu-item menu-item-has-children">
-                        <Link to="/property-consaltant">Property Consaltant</Link>
+                        <Link to="/consultants">Property Consaltant</Link>
                         </li>
                         <li className="menu-item menu-item-has-children">
                         <Link to="/about">About Us</Link>

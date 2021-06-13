@@ -16,7 +16,7 @@ class Contactform extends Component {
                                     <div className="acr-infographic-item-body">
                                         <h5>{item.title}</h5>
                                         <p>{item.text}</p>
-                                        <Link to={item.btnurl} className="btn-custom secondary btn-sm">{item.btntext}</Link>
+                                        <Link to={item.btnurl} className="btn-custom calltoaction secondary btn-sm">{item.btntext}</Link>
                                     </div>
                                 </div>
                             </div>

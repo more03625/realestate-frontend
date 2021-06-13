@@ -1020,7 +1020,7 @@ textarea{
   content: '';
   width: 100%;
   height: 0;
-  background-color: #F20000;
+  background-color: #004592;
   position: absolute;
   bottom: 0;
   left: 0;
@@ -1051,6 +1051,9 @@ textarea{
 }
 .btn-custom.secondary{
   background-color: #F20000;
+}
+.btn-custom.calltoaction{
+  background-color: #004592;
 }
 .btn-custom.secondary::before{
   background-color: #004592;
@@ -1936,7 +1939,7 @@ table img{
   font-size: 24px;
 }
 .main-aside ul .menu-item a:hover, .main-aside ul .menu-item a.active{
-  background-color: #01BBBC;
+  background-color: #336AA8;
   color: #fff;
 }
 .main-aside ul .menu-item a:hover i, .main-aside ul .menu-item a.active i{
@@ -2508,7 +2511,7 @@ table img{
   border-right: 1px solid rgba(0,0,0,.1);
 }
 .acr-listing-control:hover{
-  background-color: #01BBBC;
+  background-color: #336AA8;
   color: #fff;
 }
 .acr-listing-control:hover i{
@@ -2919,7 +2922,7 @@ table img{
   background-color: #d9ffff;
   font-size: 12px;
   font-weight: 600;
-  color: #01BBBC;
+  color: #336AA8;
   border-radius: 8px;
   padding: 3px 6px;
 }
@@ -3013,7 +3016,7 @@ table img{
 }
 .cta.cta-2.item2 > i,
 .cta.cta-2.item2 a{
-  color: #01BBBC;
+  color: #336AA8;
 }
 
 /* Style 3 */
@@ -3218,7 +3221,7 @@ table img{
 .infographics-3 .acr-infographic-item > i,
 .infographics-4 .acr-infographic-item > i,
 .infographics-5 .acr-infographic-item > i{
-  color: #01BBBC;
+  color: #336AA8;
 }
 .infographics-2 .acr-infographic-item h5{
   margin-bottom: 10px;
@@ -3238,9 +3241,9 @@ table img{
   height: 50px;
   align-items: center;
   justify-content: center;
-  color: #01BBBC;
+  color: #336AA8;
   border-radius: 50%;
-  border: 1px solid #01BBBC;
+  border: 1px solid #336AA8;
   font-size: 15px;
 }
 .infographics-2 .acr-infographic-item a i{
@@ -3256,13 +3259,13 @@ table img{
 }
 .infographics-2 .acr-infographic-item:hover a{
   color: #fff;
-  background-color: #01BBBC;
+  background-color: #336AA8;
   width: 150px;
   border-radius: 8px;
 }
 .infographics-2 .acr-infographic-item:hover a:hover{
-  background-color: #00a0a1;
-  border-color: #00a0a1;
+  background-color: #336AA8;
+  border-color: #336AA8;
 }
 .infographics-2 .acr-infographic-item:hover a i{
   opacity: 0;
@@ -3357,7 +3360,7 @@ table img{
 .acr-single-agent-thumb{
   position: relative;
   width: 300px;
-  background-color: #01BBBC;
+  background-color: #336AA8;
   padding: 20px 20px 0;
   border-radius: 8px 0 0 8px;
   z-index: 1;
@@ -3679,7 +3682,7 @@ table img{
   transition: .3s;
 }
 .semi-circle:hover{
-  background-color: #01BBBC;
+  background-color: #336AA8;
   color: #fff;
 }
 .semi-circle i{
@@ -5152,7 +5155,7 @@ table img{
   position: absolute;
   top: 15px;
   display: inline-block;
-  background-color: #01BBBC;
+  background-color: #336AA8;
   padding: 7px 20px;
   border-radius: 25px;
   color: #fff;
@@ -5166,7 +5169,7 @@ table img{
   height: 0;
   border-left: 5px solid transparent;
   border-right: 5px solid transparent;
-  border-top: 5px solid #01BBBC;
+  border-top: 5px solid #336AA8;
 }
 .acr-area-price .progress{
   margin-bottom: 30px;
@@ -5174,7 +5177,7 @@ table img{
   height: 10px;
 }
 .progress-bar{
-  background-color: #01BBBC;
+  background-color: #336AA8;
 }
 .acr-area-price-wrapper{
   display: flex;
@@ -5209,7 +5212,7 @@ table img{
 }
 .listing-feature i{
   font-size: 38px;
-  color: #01BBBC;
+  color: #336AA8;
   width: 55px;
 }
 .listing-feature h6{
@@ -5329,7 +5332,7 @@ table img{
   transition: .3s;
 }
 .listing-banner-inner .slick-arrow:hover{
-  background-color: #01BBBC;
+  background-color: #336AA8;
   color: #fff;
 }
 .listing-banner-inner .slick-arrow.slider-prev{
@@ -5378,7 +5381,7 @@ table img{
 }
 .acr-compare-feature i{
   font-size: 38px;
-  color: #01BBBC;
+  color: #336AA8;
   width: 55px;
 }
 .acr-compare-feature-body + i{
@@ -5756,8 +5759,8 @@ table img{
   color: #101737;
 }
 .acr-auth-content .auth-nav a.active{
-  color: #01BBBC;
-  border-bottom: 2px solid #01BBBC;
+  color: #336AA8;
+  border-bottom: 2px solid #336AA8;
 }
 .social-login{
   margin-bottom: 30px;
@@ -5856,7 +5859,7 @@ table img{
 }
 .acr-pricing.hot-plan{
   z-index: 1;
-  background-color: #01BBBC;
+  background-color: #336AA8;
 }
 .acr-pricing.hot-plan::before{
   content: '';

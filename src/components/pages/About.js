@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react';
 import MetaTags from "react-meta-tags";
 import Header from '../layouts/Header';
 import Breadcrumb from '../layouts/Breadcrumb';
-import Footer from '../layouts/Footer';
+import Footer from '../layouts/Footerthree';
 import Content from '../sections/about/Content';
 
 class About extends Component {
