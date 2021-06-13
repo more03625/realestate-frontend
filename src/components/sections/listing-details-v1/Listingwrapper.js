@@ -6,6 +6,7 @@ import Calculator from '../../layouts/Calculator';
 import $ from 'jquery';
 import 'magnific-popup'
 import classNames from 'classnames';
+import Slider from 'react-slick';
 
 // Gallery
 const listinggallery = [
@@ -36,7 +37,20 @@ const areatip = (
     </Tooltip>
 );
 
-
+const mainslider = [
+    { img: 'assets/img/listing-single/2.jpg' },
+    { img: 'assets/img/listing-single/3.jpg' },
+    { img: 'assets/img/listing-single/4.jpg' },
+    { img: 'assets/img/listing-single/5.jpg' },
+    { img: 'assets/img/listing-single/6.jpg' },
+];
+const thumbslider = [
+    { img: 'assets/img/listing-single/2-2.jpg' },
+    { img: 'assets/img/listing-single/3-2.jpg' },
+    { img: 'assets/img/listing-single/4-2.jpg' },
+    { img: 'assets/img/listing-single/5-2.jpg' },
+    { img: 'assets/img/listing-single/6-2.jpg' },
+];
 class Listingwrapper extends Component {
     constructor(props) {
         super(props)
@@ -62,12 +76,50 @@ class Listingwrapper extends Component {
         popup()
     };
     render() {
+        const settings = {
+            slidesToShow: 1,
+            slidesToScroll: 1,
+            arrows: false,
+            fade: true,
+        };
+        const settingsthumb = {
+            slidesToShow: 4,
+            slidesToScroll: 1,
+            dots: false,
+            centerMode: false,
+            focusOnSelect: true,
+            autoplay: true,
+            responsive: [
+                {
+                    breakpoint: 768,
+                    settings: {
+                        slidesToShow: 2,
+                    }
+                },
+            ]
+        }
         return (
-            <div className="section listing-wrapper">
+            <div className="section listing-wrapper mt-5">
                 <div className="container">
                     <div className="row">
                         {/* Listings Start */}
                         <div className="col-lg-8">
+                        <div className="listing-thumbnail">
+                                <Slider className="listing-thumbnail-slider-main col-12" asNavFor={this.state.nav2} ref={slider => (this.slider1 = slider)} {...settings}>
+                                    {mainslider.map((item, i) => (
+                                        <Link key={i} to={item.img} className="slider-thumbnail-item gallery-thumb">
+                                            <img src={process.env.PUBLIC_URL + "/" + item.img} alt="listing" />
+                                        </Link>
+                                    ))}
+                                </Slider>
+                                <Slider className="listing-thumbnail-slider-nav" asNavFor={this.state.nav1} ref={slider => (this.slider2 = slider)} {...settingsthumb}>
+                                    {thumbslider.map((item, i) => (
+                                        <div key={i} className="slider-thumbnail-item col-12">
+                                            <img src={process.env.PUBLIC_URL + "/" + item.img} alt="listing" />
+                                        </div>
+                                    ))}
+                                </Slider>
+                            </div>
                             {/* Content Start */}
                             <div className="listing-content">
                                 <h4>Property Overview</h4>
@@ -94,18 +146,18 @@ class Listingwrapper extends Component {
                             {/* Price Range In the area Start */}
                             <div className="section">
                                 <div className="acr-area-price">
-                                    <span style={{ left: '30%' }}>852,000$</span>
+                                    <span style={{ left: '30%' }}>Rs. 852,000</span>
                                     <div className="progress">
                                         <div className="progress-bar" role="progressbar" style={{ width: '50%' }} aria-valuenow={50} aria-valuemin={0} aria-valuemax={100} />
                                     </div>
                                     <div className="acr-area-price-wrapper">
                                         <div className="acr-area-price-min">
-                                            <h5>562,000$</h5>
+                                            <h5>Rs. 562,000</h5>
                                             <span>Lowest</span>
                                         </div>
                                         <h5>Price range in the area</h5>
                                         <div className="acr-area-price-max">
-                                            <h5>1,280,000$</h5>
+                                            <h5>Rs. 1,280,000</h5>
                                             <span>Highest</span>
                                         </div>
                                     </div>
@@ -486,7 +538,7 @@ class Listingwrapper extends Component {
                                                         </Dropdown>
                                                     </div>
                                                     <h5 className="listing-title"> <Link to="/listing-details-v1" title={item.title}>{item.title}</Link> </h5>
-                                                    <span className="listing-price">{new Intl.NumberFormat().format((item.monthlyprice).toFixed(2))}$ <span>/month</span> </span>
+                                                    <span className="listing-price">Rs. {new Intl.NumberFormat().format((item.monthlyprice).toFixed(2))}<span>/month</span> </span>
                                                     <p className="listing-text">{item.text}</p>
                                                     <div className="acr-listing-icons">
                                                         <OverlayTrigger overlay={bedstip}>
@@ -573,7 +625,7 @@ class Listingwrapper extends Component {
                                             </div>
                                             <div className="listing-body">
                                                 <h6 className="listing-title"> <Link to="/listing-details-v1" title={item.title}>{item.title}</Link> </h6>
-                                                <span className="listing-price">{new Intl.NumberFormat().format((item.monthlyprice).toFixed(2))}$ <span>/month</span> </span>
+                                                <span className="listing-price">Rs. {new Intl.NumberFormat().format((item.monthlyprice).toFixed(2))}<span>/month</span> </span>
                                             </div>
                                         </div>
                                     ))}

@@ -125,7 +125,7 @@ class Content extends Component {
                                             </div>
                                             <div className="listing-body">
                                                 <h6 className="listing-title"> <Link to="/listing-details-v1" title={item.title}>{item.title}</Link> </h6>
-                                                <span className="listing-price">{new Intl.NumberFormat().format((item.monthlyprice).toFixed(2))}$ <span>/month</span> </span>
+                                                <span className="listing-price">Rs. {new Intl.NumberFormat().format((item.monthlyprice).toFixed(2))}<span>/month</span> </span>
                                             </div>
                                         </div>
                                     ))}

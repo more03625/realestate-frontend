@@ -6,7 +6,7 @@ class Content extends Component {
     render() {
         return (
             <Fragment>
-                <Banner/>
+                {/* <Banner/> */}
                 <Listingwrapper/>
             </Fragment>
         );

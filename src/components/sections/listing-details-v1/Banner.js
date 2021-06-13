@@ -49,9 +49,9 @@ class Banner extends Component {
                             <div className="acr-listing-section-body">
                                 <div className="acr-listing-section-price">
                                     <span>For Sale</span>
-                                    <h3>$852,000</h3>
+                                    <h3>Rs. 852,000</h3>
                                     <span>Est. Mortgage</span>
-                                    <p>$1,300/mo</p>
+                                    <p>Rs. 1,300/mo</p>
                                 </div>
                             </div>
                         </div>

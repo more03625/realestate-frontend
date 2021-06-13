@@ -81,7 +81,7 @@ class Recentlisting extends Component {
                                             </Dropdown>
                                         </div>
                                         <h5 className="listing-title"> <Link to="/listing-details-v1" title={item.title}>{item.title}</Link> </h5>
-                                        <span className="listing-price">{new Intl.NumberFormat().format((item.monthlyprice).toFixed(2))}$ <span>/month</span> </span>
+                                        <span className="listing-price">Rs. {new Intl.NumberFormat().format((item.monthlyprice).toFixed(2))} <span>/month</span> </span>
                                         <p className="listing-text">{item.text}</p>
                                         <div className="acr-listing-icons">
                                             <OverlayTrigger overlay={bedstip}>

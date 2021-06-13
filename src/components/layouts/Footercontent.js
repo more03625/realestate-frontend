@@ -22,8 +22,8 @@ class Footercontent extends Component {
                         <div className="col-lg-2 offset-md-1 col-md-4 col-sm-6 footer-widget">
                             <h5 className="widget-title">Menu</h5>
                             <ul>
-                                <li> <Link to="#">Find Home</Link> </li>
-                                <li> <Link to="#">Add Listing</Link> </li>
+                                <li> <Link to="/">Find Home</Link> </li>
+                                <li> <Link to="/submit-listing">Add Listing</Link> </li>
                                 <li> <Link to="#">Listings</Link> </li>
                                 <li> <Link to="#">Blog</Link> </li>
                             </ul>
@@ -52,13 +52,13 @@ class Footercontent extends Component {
                     <div className="container">
                         <div className="row">
                             <div className="col-lg-7">
-                                <p className="m-0">© Copyright 2020 - <Link to="#">Neprealestate</Link> All Rights Reserved.</p>
+                                <p className="m-0">© Copyright 2020 - <Link to="/">Neprealestate</Link> All Rights Reserved.</p>
                             </div>
                             <div className="col-lg-5">
                                 <ul>
-                                    <li> <Link to="#">Find a Home</Link> </li>
-                                    <li> <Link to="#">Add Listing</Link> </li>
-                                    <li> <Link to="#">View Brokers</Link> </li>
+                                    <li> <Link to="/">Find a Home</Link> </li>
+                                    <li> <Link to="/submit-listing">Add Listing</Link> </li>
+                                    <li> <Link to="/consultants">View Brokers</Link> </li>
                                 </ul>
                             </div>
                         </div>
