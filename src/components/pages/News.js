@@ -10,7 +10,7 @@ class News extends Component {
         return (
             <Fragment>
                 <MetaTags>
-                    <title>Neprealestate | Latest News</title>
+                    <title>Latest News | Neprealestate</title>
                     <meta
                         name="description"
                         content="#"

@@ -9,7 +9,7 @@ class Listingdetailsone extends Component {
         return (
             <Fragment>
                 <MetaTags>
-                    <title>Acres - Real Estate React Template | Listing Details</title>
+                    <title>Property Details | Neprealestate</title>
                     <meta
                         name="description"
                         content="#"

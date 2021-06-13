@@ -10,7 +10,7 @@ class About extends Component {
         return (
             <Fragment>
                 <MetaTags>
-                    <title>Acres - Real Estate React Template | About Us</title>
+                    <title>About Us | Neprealestate</title>
                     <meta
                         name="description"
                         content="#"

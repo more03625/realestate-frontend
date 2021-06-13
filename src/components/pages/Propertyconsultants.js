@@ -10,7 +10,7 @@ class Propertyconsultants extends Component {
         return (
             <Fragment>
                 <MetaTags>
-                    <title>Acres - Real Estate React Template | Property Consultants</title>
+                    <title>Property Consultants | Neprealestate</title>
                     <meta
                         name="description"
                         content="#"

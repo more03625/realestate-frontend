@@ -11,7 +11,7 @@ class Contact extends Component {
         return (
             <Fragment>
                 <MetaTags>
-                    <title>Acres - Real Estate React Template | Contact Us</title>
+                    <title>Contact us | Neprealestate</title>
                     <meta
                         name="description"
                         content="#"

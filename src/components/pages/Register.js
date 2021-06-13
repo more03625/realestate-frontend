@@ -8,7 +8,7 @@ class Register extends Component {
         return (
             <Fragment>
                 <MetaTags>
-                    <title>Acres - Real Estate React Template | Register</title>
+                    <title>Register | Neprealestate</title>
                     <meta
                         name="description"
                         content="#"

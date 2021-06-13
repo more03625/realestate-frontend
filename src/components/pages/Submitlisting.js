@@ -10,7 +10,7 @@ class Submitlisting extends Component {
         return (
             <Fragment>
                 <MetaTags>
-                    <title>Acres - Real Estate React Template | Submit Listing</title>
+                    <title>Add Property | Neprealestate</title>
                     <meta
                         name="description"
                         content="#"

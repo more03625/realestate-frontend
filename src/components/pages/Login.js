@@ -8,7 +8,7 @@ class Login extends Component {
         return (
             <Fragment>
                 <MetaTags>
-                    <title>Acres - Real Estate React Template | Login</title>
+                    <title>Login | Neprealestate</title>
                     <meta
                         name="description"
                         content="#"

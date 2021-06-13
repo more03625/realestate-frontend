@@ -9,7 +9,7 @@ class Homefour extends Component {
         return (
             <Fragment>
                 <MetaTags>
-                    <title>Neprealestate</title>
+                    <title>Homepage | Neprealestate </title>
                     <meta
                         name="description"
                         content="#"
