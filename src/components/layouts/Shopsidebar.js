@@ -101,20 +101,7 @@ class Shopsidebar extends Component {
                         </div>
                     </Collapse>
                 </div>
-                <div className="sidebar-widget">
-                    <div className="acr-collapse-trigger acr-custom-chevron-wrapper" onClick={() => this.setState({ open3: !open3 })}>
-                        <h5>Mortgage Calculator</h5>
-                        <div className="acr-custom-chevron">
-                            <span />
-                            <span />
-                        </div>
-                    </div>
-                    <Collapse in={this.state.open3}>
-                        <div className="acr-collapsable">
-                            <Calculator />
-                        </div>
-                    </Collapse>
-                </div>
+                
             </div>
         );
     }

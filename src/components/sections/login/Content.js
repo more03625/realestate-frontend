@@ -23,7 +23,7 @@ class Content extends Component {
                 <div className="acr-auth-content">
                     <form method="post">
                         <div className="auth-text">
-                            <h3>Log Into Acres</h3>
+                            <h3>Log Into Neprealestate</h3>
                             <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's</p>
                         </div>
                         <div className="form-group">
@@ -35,16 +35,9 @@ class Content extends Component {
                             <input type="password" className="form-control form-control-light" placeholder="Password" name="password" />
                         </div>
                         <div className="form-group">
-                            <Link to="#" className="forgot-password">Forgot Password?</Link>
+                            <Link to="/forgot-password" className="forgot-password">Forgot Password?</Link>
                         </div>
                         <button type="submit" className="btn-custom secondary btn-block">Login</button>
-                        <div className="auth-seperator">
-                            <span>OR</span>
-                        </div>
-                        <div className="social-login">
-                            <button type="button" className="acr-social-login facebook"><i className="fab fa-facebook-f" /> Continue with Facebook </button>
-                            <button type="button" className="acr-social-login google"><i className="fab fa-google" /> Continue with Google</button>
-                        </div>
                         <p className="text-center mb-0">Don't have an account? <Link to="/register">Create One</Link> </p>
                     </form>
                 </div>

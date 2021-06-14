@@ -6,7 +6,9 @@ class Menu extends Component {
         return (
             <Fragment>
                 {/* Logo */}
-                <Link className="navbar-brand" to="/" style={{width:150}}> <img src={process.env.PUBLIC_URL + "/assets/img/realestaelogo/logo.png"} alt="logo" /> </Link>
+                <Link className="navbar-brand" to="/" style={{width:150}}>
+                    <img src={process.env.PUBLIC_URL + "/assets/img/realestaelogo/logo.png"} alt="logo" />
+                </Link>
                 {/* Menu */}
                 <ul className="navbar-nav">
                     {/* <li className="menu-item menu-item-has-children"> */}

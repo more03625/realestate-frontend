@@ -62,19 +62,6 @@ class Content extends Component {
                     </p>
                     <div className="post-controls">
                         <Link to="/blog-single" className="btn-custom secondary btn-sm">Read More</Link>
-                        <div className="post-comment-authors">
-                            {
-                                item.totalcomment > 0 || item.totalcomment !== '' ? <Fragment>
-                                    <span>Comments by: </span>
-                                    <div className="post-comment-authors-img">
-                                        {item.usercomment.map((item, i) => (
-                                            <Link key={i} to="#"> <img src={process.env.PUBLIC_URL + "/" + item.img} alt="comment author" /> </Link>
-                                        ))}
-                                        <Link to="#"> +{item.totalcomment} </Link>
-                                    </div>
-                                </Fragment> : <span>0 Comments</span>
-                            }
-                        </div>
                     </div>
                 </div>
             </article>

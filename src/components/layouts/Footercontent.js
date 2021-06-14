@@ -54,7 +54,7 @@ class Footercontent extends Component {
                             </div>
                             <div className="col-lg-5">
                                 <ul>
-                                    <li> <Link to="https://worldindia.com">Desgined & Developed by Dotcom services India Pvt. Ltd.</Link> </li>
+                                    <li> <Link to={{pathname: "https://worldindia.com"}} target="_blank">Desgined & Developed by Dotcom services India Pvt. Ltd.</Link> </li>
                              
                                 </ul>
                             </div>
