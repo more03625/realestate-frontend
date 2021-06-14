@@ -107,7 +107,6 @@ Version: 1.0.0
 /*======================
 1.0. General
 ========================*/
-
 .acr-preloader{
   position: fixed;
   top: 0;
@@ -952,7 +951,8 @@ textarea{
   pointer-events: none;
 }
 .acr-custom-select select{
-  font-size: 0;
+  font-size: 11px;
+  color: #fff;
 }
 .banner .acr-custom-select::after{
   content: '';
@@ -6544,5 +6544,4 @@ table img{
     margin-right: 0;
     margin-bottom: 20px;
   }
-
 }

@@ -12,8 +12,9 @@ class Homefour extends Component {
                     <title>Homepage | Neprealestate </title>
                     <meta
                         name="description"
-                        content="#"
+                        content="THTIS IS DESCRIPTION OF NEPREALESTATE WEBSITE"
                     />
+                    
                 </MetaTags>
                 <Header/>
                 <Content/>

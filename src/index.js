@@ -5,16 +5,17 @@ import { BrowserRouter } from 'react-router-dom';
 import reportWebVitals from './reportWebVitals';
 
 // Css
-import '../node_modules/animate.css/animate.css';
-import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
-import '../node_modules/slick-carousel/slick/slick.css';
-import '../node_modules/slick-carousel/slick/slick-theme.css';
-import '../node_modules/magnific-popup/dist/magnific-popup.css';
-import '../node_modules/react-select2-wrapper/css/select2.css';
+import '../node_modules/animate.css/animate.css'; //yes
+import '../node_modules/bootstrap/dist/css/bootstrap.min.css'; //yes
+import '../node_modules/slick-carousel/slick/slick.css';//yes
+import '../node_modules/slick-carousel/slick/slick-theme.css';//yes
+import '../node_modules/magnific-popup/dist/magnific-popup.css'; //yes
+import '../node_modules/react-select2-wrapper/css/select2.css';//yes
 import '../node_modules/leaflet/dist/leaflet.css';
-import './assets/fonts/flaticon/flaticon.css';
-import './assets/fonts/font-awesome/css/all.min.css';
-import './assets/css/style.css';
+import './assets/fonts/flaticon/flaticon.css';//yes
+import './assets/fonts/font-awesome/css/all.min.css';//yes
+import './assets/css/style.css';//yes
+import './assets/css/restyle.css';
 
 
 ReactDOM.render(
