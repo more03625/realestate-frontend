@@ -99,7 +99,7 @@ class Listingwrapper extends Component {
             ]
         }
         return (
-            <div className="section listing-wrapper mt-5">
+            <div className="section listing-wrapper">
                 <div className="container">
                     <div className="row">
                         {/* Listings Start */}
@@ -129,15 +129,7 @@ class Listingwrapper extends Component {
                                     Letraset sheets
                                     containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
           </p>
-                                <div className="row">
-                                    {listinggallery.map((item, i) => (
-                                        <div key={i} className="col-md-6 mb-3">
-                                            <Link to={item.img} className="gallery-thumb">
-                                                <img src={process.env.PUBLIC_URL + "/" + item.img} alt="post" />
-                                            </Link>
-                                        </div>
-                                    ))}
-                                </div>
+                                
                                 <p>
                                     Lorem Ipsum is simply dummy text of the printing and typesetting industry. <Link to="#">Lorem Ipsum has been the industry's</Link> standard dummy text ever since the 1500s, when an unknown printer took a  galley of type and scrambled it to make a type specimen book.
                                 </p>
@@ -256,120 +248,7 @@ class Listingwrapper extends Component {
                                     </div>
                                 </div>
                             </div>
-                            <div className="section pt-0 acr-listing-nearby">
-                                <h4>What's Nearby</h4>
-                                <div className="listing-nearby-item">
-                                    <h6 className="custom-success">
-                                        <i className="fas fa-utensils" />Restaurants
-                                    </h6>
-                                    <ul>
-                                        <li>
-                                            <span><b>The One</b> <span>(1.3 km)</span> </span>
-                                            <ul>
-                                                <li className="custom-warning"><i className="fas fa-star fa-xs" /></li>
-                                                <li className="custom-warning"><i className="fas fa-star fa-xs" /></li>
-                                                <li className="custom-warning"><i className="fas fa-star fa-xs" /></li>
-                                                <li className="custom-warning"><i className="fas fa-star fa-xs" /></li>
-                                                <li><i className="fas fa-star fa-xs" /></li>
-                                            </ul>
-                                        </li>
-                                        <li>
-                                            <span><b>Elephant</b> <span>(0.2 km)</span> </span>
-                                            <ul>
-                                                <li className="custom-warning"><i className="fas fa-star fa-xs" /></li>
-                                                <li className="custom-warning"><i className="fas fa-star fa-xs" /></li>
-                                                <li className="custom-warning"><i className="fas fa-star fa-xs" /></li>
-                                                <li className="custom-warning"><i className="fas fa-star fa-xs" /></li>
-                                                <li className="custom-warning"><i className="fas fa-star fa-xs" /></li>
-                                            </ul>
-                                        </li>
-                                        <li>
-                                            <span><b>Jorgie and Clyne</b> <span>(3.2 km)</span> </span>
-                                            <ul>
-                                                <li className="custom-warning"><i className="fas fa-star fa-xs" /></li>
-                                                <li className="custom-warning"><i className="fas fa-star fa-xs" /></li>
-                                                <li className="custom-warning"><i className="fas fa-star fa-xs" /></li>
-                                                <li className="custom-warning"><i className="fas fa-star fa-xs" /></li>
-                                                <li><i className="fas fa-star fa-xs" /></li>
-                                            </ul>
-                                        </li>
-                                    </ul>
-                                </div>
-                                <div className="listing-nearby-item">
-                                    <h6 className="custom-danger">
-                                        <i className="fas fa-graduation-cap" />Education
-            </h6>
-                                    <ul>
-                                        <li>
-                                            <span><b>Greater Moscow Liberty School</b> <span>(1.3 km)</span> </span>
-                                            <ul>
-                                                <li className="custom-warning"><i className="fas fa-star fa-xs" /></li>
-                                                <li className="custom-warning"><i className="fas fa-star fa-xs" /></li>
-                                                <li className="custom-warning"><i className="fas fa-star fa-xs" /></li>
-                                                <li className="custom-warning"><i className="fas fa-star fa-xs" /></li>
-                                                <li><i className="fas fa-star fa-xs" /></li>
-                                            </ul>
-                                        </li>
-                                        <li>
-                                            <span><b>Chandler Highschool</b> <span>(0.2 km)</span> </span>
-                                            <ul>
-                                                <li className="custom-warning"><i className="fas fa-star fa-xs" /></li>
-                                                <li className="custom-warning"><i className="fas fa-star fa-xs" /></li>
-                                                <li className="custom-warning"><i className="fas fa-star fa-xs" /></li>
-                                                <li className="custom-warning"><i className="fas fa-star fa-xs" /></li>
-                                                <li className="custom-warning"><i className="fas fa-star fa-xs" /></li>
-                                            </ul>
-                                        </li>
-                                        <li>
-                                            <span><b>Insitution of Science and Technology</b> <span>(3.2 km)</span> </span>
-                                            <ul>
-                                                <li className="custom-warning"><i className="fas fa-star fa-xs" /></li>
-                                                <li className="custom-warning"><i className="fas fa-star fa-xs" /></li>
-                                                <li className="custom-warning"><i className="fas fa-star fa-xs" /></li>
-                                                <li className="custom-warning"><i className="fas fa-star fa-xs" /></li>
-                                                <li><i className="fas fa-star fa-xs" /></li>
-                                            </ul>
-                                        </li>
-                                    </ul>
-                                </div>
-                                <div className="listing-nearby-item">
-                                    <h6 className="custom-warning">
-                                        <i className="fas fa-shopping-basket" />Essentials
-            </h6>
-                                    <ul>
-                                        <li>
-                                            <span><b>Joe's 24/7 Groceries</b> <span>(0.6 km)</span> </span>
-                                            <ul>
-                                                <li className="custom-warning"><i className="fas fa-star fa-xs" /></li>
-                                                <li className="custom-warning"><i className="fas fa-star fa-xs" /></li>
-                                                <li className="custom-warning"><i className="fas fa-star fa-xs" /></li>
-                                                <li className="custom-warning"><i className="fas fa-star fa-xs" /></li>
-                                                <li><i className="fas fa-star fa-xs" /></li>
-                                            </ul>
-                                        </li>
-                                        <li>
-                                            <span><b>Frank and Joe</b> <span>(0.9 km)</span> </span>
-                                            <ul>
-                                                <li className="custom-warning"><i className="fas fa-star fa-xs" /></li>
-                                                <li className="custom-warning"><i className="fas fa-star fa-xs" /></li>
-                                                <li className="custom-warning"><i className="fas fa-star fa-xs" /></li>
-                                                <li className="custom-warning"><i className="fas fa-star fa-xs" /></li>
-                                                <li className="custom-warning"><i className="fas fa-star fa-xs" /></li>
-                                            </ul>
-                                        </li>
-                                        <li>
-                                            <span><b>All United Store</b> <span>(1.2 km)</span> </span>
-                                            <ul>
-                                                <li className="custom-warning"><i className="fas fa-star fa-xs" /></li>
-                                                <li className="custom-warning"><i className="fas fa-star fa-xs" /></li>
-                                                <li className="custom-warning"><i className="fas fa-star fa-xs" /></li>
-                                                <li className="custom-warning"><i className="fas fa-star fa-xs" /></li>
-                                                <li className="custom-warning"><i className="fas fa-star fa-xs" /></li>
-                                            </ul>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
+                           
                             <div className="section pt-0">
                                 <h4>Property Video</h4>
                                 <p>
@@ -379,75 +258,6 @@ class Listingwrapper extends Component {
                                 <div className="embed-responsive embed-responsive-21by9">
                                     <iframe title="video" className="embed-responsive-item" src="https://www.youtube.com/embed/Sz_1tkcU0Co" />
                                 </div>
-                            </div>
-                            <div className="section pt-0 acr-listing-history">
-                                <h4>Property History</h4>
-                                <Accordion defaultActiveKey="0" className="with-gap">
-                                    <Card>
-                                        <Accordion.Collapse eventKey="0" className="collapseparent">
-                                            <Card.Body>
-                                                <div className="row">
-                                                    <div className="col-sm-4">
-
-                                                        <img src={process.env.PUBLIC_URL + "/assets/img/listing-single/history-1.jpg"} alt="property history" />
-                                                    </div>
-                                                    <div className="col-sm-8">
-                                                        <h5>The Beginning</h5>
-                                                            Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon
-                                                            tempor,
-                                                            sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident.
-                                                            Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
-                                                        </div>
-                                                </div>
-                                            </Card.Body>
-                                        </Accordion.Collapse>
-                                        <Card.Header>
-                                            <Accordion.Toggle as={NavLink} variant="link" eventKey="0">
-                                                1979 - 1999
-                                            </Accordion.Toggle>
-                                        </Card.Header>
-                                    </Card>
-                                    <Card>
-                                        <Accordion.Collapse eventKey="1" className="collapseparent">
-                                            <Card.Body>
-                                                <div className="row">
-                                                    <div className="col-sm-4">
-                                                        <img src={process.env.PUBLIC_URL + "/assets/img/listing-single/history-2.jpg"} alt="property history" />
-                                                    </div>
-                                                    <div className="col-sm-8">
-                                                        <h5>The Rebuilding Phase</h5>
-                                                        Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor,
-                                                    </div>
-                                                </div>
-                                            </Card.Body>
-                                        </Accordion.Collapse>
-                                        <Card.Header>
-                                            <Accordion.Toggle as={NavLink} variant="link" eventKey="1">
-                                                2000 - 2012
-                                            </Accordion.Toggle>
-                                        </Card.Header>
-                                    </Card>
-                                    <Card>
-                                        <Accordion.Collapse eventKey="2" className="collapseparent">
-                                            <Card.Body>
-                                                <div className="row">
-                                                    <div className="col-sm-4">
-                                                        <img src={process.env.PUBLIC_URL + "/assets/img/listing-single/history-3.jpg"} alt="property history" />
-                                                    </div>
-                                                    <div className="col-sm-8">
-                                                        <h5>Modernization</h5>
-                                                        Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor,
-                                                    </div>
-                                                </div>
-                                            </Card.Body>
-                                        </Accordion.Collapse>
-                                        <Card.Header>
-                                            <Accordion.Toggle as={NavLink} variant="link" eventKey="2">
-                                                2013 - Till date
-                                            </Accordion.Toggle>
-                                        </Card.Header>
-                                    </Card>
-                                </Accordion>
                             </div>
                             <div className="section pt-0">
                                 <h4>Schedule Link tour</h4>

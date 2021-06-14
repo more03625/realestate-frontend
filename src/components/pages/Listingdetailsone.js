@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import MetaTags from "react-meta-tags";
-import Header from '../layouts/Header';
-import Footer from '../layouts/Footer';
+import Header from '../layouts/Headerfour';
+import Footer from '../layouts/Footerthree';
 import Content from '../sections/listing-details-v1/Content';
 
 class Listingdetailsone extends Component {

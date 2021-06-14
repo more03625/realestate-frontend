@@ -16,7 +16,7 @@ class Findhome extends Component {
                                     <p className="subtitle">
                                         Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s Lorem Ipsum is simply dummy text of the printing and typesetting industry.
                                     </p>
-                                    <Link to="/listing-map" className="btn-custom">Browse Listings</Link>
+                                    <Link to="/rent" className="btn-custom">Browse Listings</Link>
                                 </div>
                             </div>
                             <div className="col-lg-6 infographics-4">

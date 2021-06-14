@@ -205,17 +205,7 @@ class Content extends Component {
                                         House
                                     </Link>
                                 </div>
-                                <div className="acr-toggle-views">
-                                    <OverlayTrigger placement="top" overlay={gridtip}>
-                                        <Link to="/listing-grid"><i className="fas fa-th-large" /></Link>
-                                    </OverlayTrigger>
-                                    <OverlayTrigger placement="top" overlay={listtip}>
-                                        <Link to="/listing-list" className="active"><i className="fas fa-th-list" /></Link>
-                                    </OverlayTrigger>
-                                    <OverlayTrigger placement="top" overlay={maptip}>
-                                        <Link to="/listing-map"><i className="fas fa-map" /></Link>
-                                    </OverlayTrigger>
-                                </div>
+                           
                             </div>
                             {/* Controls End */}
                             <div className="row">

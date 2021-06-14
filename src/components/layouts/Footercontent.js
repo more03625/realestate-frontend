@@ -8,7 +8,7 @@ class Footercontent extends Component {
                 <div className="container">
                     <div className="row">
                         <div className="col-lg-3 col-md-4 col-sm-12 footer-widget">
-                            <div className="footer-logo">
+                            <div className="footer-logo" style={{width:250}}>
                                 <img src={process.env.PUBLIC_URL + "/assets/img/logo.png"} alt="acres" />
                             </div>
                             <p>RAHUL Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's </p>
@@ -36,15 +36,13 @@ class Footercontent extends Component {
                                 <li> <Link to="#">Cookie Policy</Link> </li>
                             </ul>
                         </div>
-                        <div className="col-lg-4 col-md-12 footer-widget">
-                            <h5 className="widget-title">Newsletter</h5>
-                            <p>Join our newsletter today, and get the best flats that we have to offer.</p>
-                            <form method="post">
-                                <div className="form-group">
-                                    <input type="text" className="form-control" placeholder="Email Address" name="newsletter-email" />
-                                </div>
-                                <button type="submit" className="btn-custom primary light btn-block" name="button">Join Newsletter</button>
-                            </form>
+                        <div className="col-lg-4 col-md-4 col-sm-6 footer-widget">
+                            <h5 className="widget-title">Contact us</h5>
+                            <ul>
+                                <li> <Link to="#">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</Link> </li>
+                                <li> <Link to="#">5962325620</Link> </li>
+                                <li> <Link to="#">info@neprealestate.com</Link> </li>
+                            </ul>
                         </div>
                     </div>
                 </div>
@@ -56,9 +54,8 @@ class Footercontent extends Component {
                             </div>
                             <div className="col-lg-5">
                                 <ul>
-                                    <li> <Link to="/">Find a Home</Link> </li>
-                                    <li> <Link to="/submit-listing">Add Listing</Link> </li>
-                                    <li> <Link to="/consultants">View Brokers</Link> </li>
+                                    <li> <Link to="https://worldindia.com">Desgined & Developed by Dotcom services India Pvt. Ltd.</Link> </li>
+                             
                                 </ul>
                             </div>
                         </div>
