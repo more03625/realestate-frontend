@@ -48,6 +48,12 @@ class Content extends Component {
                             placeholder: 'User Type',
                         }} />
                         </div>
+                        <div className="form-group">
+                            <div className="custom-control custom-checkbox">
+                                <input type="checkbox" className="custom-control-input" id="termsAndConditions" />
+                                <label className="custom-control-label" htmlFor="termsAndConditions">I Agree to the <Link to="/terms-and-conditions"> terms &amp; Conditions </Link> of Property Submission</label>
+                            </div>
+                        </div>
                         <button type="submit" className="btn-custom secondary btn-block">Register</button>
                         <p className="text-center mb-0">Already have an account? <Link to="/login">Login</Link> </p>
                     </form>

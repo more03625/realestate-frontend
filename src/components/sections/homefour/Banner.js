@@ -3,7 +3,8 @@ import { locationlist, statuslist, pricerangelist, bedslist, bathroomslist, type
 import Select2 from 'react-select2-wrapper';
 import classNames from 'classnames';
 import { OverlayTrigger, Tooltip, Dropdown, NavLink, Tab, Nav } from 'react-bootstrap';
-
+// import 'C:/xampp/htdocs/neprealestate/src/assets/css/restyle.css';
+import '../../../assets/css/restyle.css';
 
 class Banner extends Component {
     constructor(props) {
