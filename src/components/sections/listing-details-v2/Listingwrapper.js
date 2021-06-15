@@ -571,7 +571,7 @@ class Listingwrapper extends Component {
                         <div className="col-lg-4">
                             <div className="sidebar sticky-sidebar">
                                 <div className="sidebar-widget sidebar-widget-agent">
-                                    <h5>Meet The Agent</h5>
+                                    <h5>Contact Person</h5>
                                     {/* Author Start */}
                                     <div className="media sidebar-author listing-agent">
                                         <Link to="#"><img src={process.env.PUBLIC_URL + "/assets/img/people/1.jpg"} alt="agent" /></Link>
