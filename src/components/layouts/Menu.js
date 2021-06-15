@@ -6,7 +6,7 @@ class Menu extends Component {
         return (
             <Fragment>
                 {/* Logo */}
-                <Link className="navbar-brand" to="/" style={{width:170}}>
+                <Link className="navbar-brand" to="/home" style={{width:170}}>
                     <img src={process.env.PUBLIC_URL + "/assets/img/realestaelogo/logo.png"} alt="logo" />
                 </Link>
                 {/* Menu */}
