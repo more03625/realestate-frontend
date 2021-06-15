@@ -3,6 +3,8 @@ import ReactDOM from 'react-dom';
 import App from './App';
 import { BrowserRouter } from 'react-router-dom';
 import reportWebVitals from './reportWebVitals';
+// import { unregister } from './registerServiceWorker';
+
 
 // Css
 import '../node_modules/animate.css/animate.css'; //yes
@@ -15,7 +17,7 @@ import '../node_modules/leaflet/dist/leaflet.css';
 import './assets/fonts/flaticon/flaticon.css';//yes
 import './assets/fonts/font-awesome/css/all.min.css';//yes
 import './assets/css/style.css';//yes
-import './assets/css/restyle.css';
+
 
 
 ReactDOM.render(

@@ -11,6 +11,8 @@ const Share = React.lazy(() => import("./components/pages/Share"));
 const Commercial = React.lazy(() => import("./components/pages/Commercial"));
 const Propertyconsultants = React.lazy(() => import("./components/pages/Propertyconsultants"));
 const Forgotpassword = React.lazy(() => import("./components/pages/Forgotpassword"));
+const Tandc = React.lazy(() => import("./components/pages/Tandc"));
+
 // RAHUL END
 // Home Pages
 const Home = React.lazy(() => import("./components/pages/Home"));
@@ -66,6 +68,7 @@ function App() {
           <Route path="/commercial" component={Commercial} />
           <Route path="/consultants" component={Propertyconsultants} />
           <Route path="/forgot-password" component={Forgotpassword} />
+          <Route path="/terms-and-conditions" component={Tandc} />
 
           {/* RAHUL */}
           {/* Homepages */}
