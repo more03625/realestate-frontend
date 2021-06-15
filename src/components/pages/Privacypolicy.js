@@ -1,23 +1,23 @@
 import React, { Component, Fragment } from 'react';
 import MetaTags from "react-meta-tags";
 import Header from '../layouts/Headerfour';
-import Breadcrumb from '../sections/blogsingle/Breadcrumb';
+import Breadcrumb from '../layouts/Breadcrumb';
 import Footer from '../layouts/Footerthree';
-import Content from '../sections/blogsingle/Content';
+import Content from '../sections/legal/Content';
 
-class Blogsingle extends Component {
+class Privacypolicy extends Component {
     render() {
         return (
             <Fragment>
                 <MetaTags>
-                    <title>About this blog | Neprealestate</title>
+                    <title>Privacy policy | Neprealestate</title>
                     <meta
                         name="description"
                         content="#"
                     />
                 </MetaTags>
                 <Header/>
-                <Breadcrumb/>
+                <Breadcrumb breadcrumb={{pagename:'Privacy policy'}} />
                 <Content/>
                 <Footer/>
             </Fragment>
@@ -25,4 +25,4 @@ class Blogsingle extends Component {
     }
 }
 
-export default Blogsingle;
+export default Privacypolicy;

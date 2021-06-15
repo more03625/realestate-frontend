@@ -47,7 +47,7 @@ class Content extends Component {
         const renderitems = currentitems.map((item, i) => {
             return <div key={i} className="col-lg-6">
                 <div className="acr-agent">
-                    {item.star === true ? <div className="listing-badge featured"><i className="fas fa-star" /></div> : ''}
+                    
                     <div className="acr-dots-wrapper acr-agent-thumb">
                         <div className="acr-dots" />
                         <Link to="/agent-details"><img src={process.env.PUBLIC_URL + "/" + item.img} alt="agent" /></Link>

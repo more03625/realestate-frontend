@@ -1,8 +1,8 @@
 import React, { Component, Fragment } from 'react';
 import MetaTags from "react-meta-tags";
-import Header from '../layouts/Header';
+import Header from '../layouts/Headerfour';
 import Breadcrumb from '../layouts/Breadcrumb';
-import Footer from '../layouts/Footer';
+import Footer from '../layouts/Footerthree';
 import Content from '../sections/agent-details/Content';
 
 class Agentdetails extends Component {
@@ -10,7 +10,7 @@ class Agentdetails extends Component {
         return (
             <Fragment>
                 <MetaTags>
-                    <title>Acres - Real Estate React Template | Agent Details</title>
+                    <title>Agent Details | Neprealestate</title>
                     <meta
                         name="description"
                         content="#"

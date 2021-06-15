@@ -19,7 +19,6 @@ import './assets/fonts/font-awesome/css/all.min.css';//yes
 import './assets/css/style.css';//yes
 
 
-
 ReactDOM.render(
   <BrowserRouter>
     <App />

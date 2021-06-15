@@ -123,19 +123,6 @@ class Content extends Component {
                                                     </p>
                                                     <div className="post-controls">
                                                         <Link to="/blog-single" className="btn-custom secondary btn-sm">Read More</Link>
-                                                        <div className="post-comment-authors">
-                                                            {
-                                                                item.totalcomment > 0 || item.totalcomment !== '' ? <Fragment>
-                                                                    <span>Comments by: </span>
-                                                                    <div className="post-comment-authors-img">
-                                                                        {item.usercomment.map((item, i) => (
-                                                                            <Link key={i} to="#"> <img src={process.env.PUBLIC_URL + "/" + item.img} alt="comment author" /> </Link>
-                                                                        ))}
-                                                                        <Link to="#"> +{item.totalcomment} </Link>
-                                                                    </div>
-                                                                </Fragment> : <span>0 Comments</span>
-                                                            }
-                                                        </div>
                                                     </div>
                                                 </div>
                                             </article>
@@ -145,7 +132,7 @@ class Content extends Component {
                             </div>
                             {/* Related Posts End */}
                             {/* Comments Start */}
-                            <div className="comments-list section pt-0">
+                            {/* <div className="comments-list section pt-0">
                                 <h4>2 Comments</h4>
                                 <ul>
                                     {blogcomment.map((item, i) => (
@@ -173,8 +160,8 @@ class Content extends Component {
                                         </li>
                                     ))}
                                 </ul>
-                            </div>
-                            <div className="comment-form section p-0">
+                            </div> */}
+                            {/* <div className="comment-form section p-0">
                                 <h4>Leave a Reply</h4>
                                 <form method="post">
                                     <div className="row">
@@ -199,7 +186,7 @@ class Content extends Component {
                                     </div>
                                     <button type="submit" className="btn-custom primary" name="button">Post comment</button>
                                 </form>
-                            </div>
+                            </div> */}
                             {/* Comments End */}
                         </div>
                         {/* Post End */}

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import Slider from 'react-slick';
 import Select2 from 'react-select2-wrapper';
-import { typelist } from '../../../data/select.json';
+import { userType } from '../../../data/select.json';
 const images = [
     { img: 'assets/img/coming-soon/1.jpg', title: "Quote of the day", text: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s" },
     { img: 'assets/img/coming-soon/2.jpg', title: "Quote of the day", text: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s" },
@@ -44,7 +44,8 @@ class Content extends Component {
                             <input type="number" className="form-control form-control-light" placeholder="Enter your mobile number" name="password" />
                         </div>
                         <div className="form-group">
-                        <Select2 data={typelist} options={{
+                        <label>User Type</label>
+                        <Select2 data={userType} options={{
                             placeholder: 'User Type',
                         }} />
                         </div>

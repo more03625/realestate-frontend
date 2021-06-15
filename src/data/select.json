@@ -91,5 +91,11 @@
         "Price: Low - High",
         "Number of baths",
         "Number of beds"
+    ],
+    "userType":[
+        "Agent",
+        "Owner",
+        "Builder",
+        "Franchise"
     ]
 }

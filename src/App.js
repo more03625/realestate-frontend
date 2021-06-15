@@ -12,6 +12,7 @@ const Commercial = React.lazy(() => import("./components/pages/Commercial"));
 const Propertyconsultants = React.lazy(() => import("./components/pages/Propertyconsultants"));
 const Forgotpassword = React.lazy(() => import("./components/pages/Forgotpassword"));
 const Tandc = React.lazy(() => import("./components/pages/Tandc"));
+const Privacypolicy = React.lazy(() => import("./components/pages/Privacypolicy"));
 
 // RAHUL END
 // Home Pages
@@ -69,6 +70,7 @@ function App() {
           <Route path="/consultants" component={Propertyconsultants} />
           <Route path="/forgot-password" component={Forgotpassword} />
           <Route path="/terms-and-conditions" component={Tandc} />
+          <Route path="/privacy-policy" component={Privacypolicy} />
 
           {/* RAHUL */}
           {/* Homepages */}

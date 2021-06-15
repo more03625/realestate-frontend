@@ -42,7 +42,7 @@ class Agentsslider extends Component {
                     <div className="section-title-wrap section-header flex-header">
                         <div className="section-title-text">
                             <h5 className="custom-primary">Our Back bone</h5>
-                            <h2 className="title">Meet Our Agents</h2>
+                            <h2 className="title">Meet Our Team</h2>
                         </div>
                         <div className="acr-arrows primary-arrows">
                             <i className="slider-prev fas fa-arrow-left slick-arrow" onClick={this.previous} />

@@ -7,7 +7,7 @@ class Content extends Component {
             <div className="section">
                 <div className="container">
                     <div className="row">
-                        <div className="col-lg-8">
+                        <div className="col-lg-12">
                             <div className="post-content">
                                 <h3>Who are we</h3>
                                 <p>Our website is: http://androthemes.com/themes/react/acres</p>
@@ -56,9 +56,9 @@ class Content extends Component {
           </p>
                             </div>
                         </div>
-                        <div className="col-lg-4">
-                            <Sidebar />
-                        </div>
+                        {/* <div className="col-lg-4"> */}
+                            {/* <Sidebar /> */}
+                        {/* </div> */}
                     </div>
                 </div>
             </div>
