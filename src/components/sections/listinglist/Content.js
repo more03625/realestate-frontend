@@ -1,4 +1,5 @@
-import React, { Component, Fragment } from 'react';
+import React, {Component,Fragment } from "react";
+
 import { Link } from 'react-router-dom';
 import { OverlayTrigger, Tooltip, Dropdown, NavLink } from 'react-bootstrap';
 import Sidebar from '../../layouts/Shopsidebar';
@@ -44,6 +45,7 @@ const areatip = (
 );
 
 class Content extends Component {
+    
     constructor() {
         super();
         this.state = {
