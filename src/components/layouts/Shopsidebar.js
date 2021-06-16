@@ -153,7 +153,7 @@ class Shopsidebar extends Component {
         </div>
 
         <div className="sidebar-widget">
-          <h5>Advanced filters</h5>
+          
           <button
             type="submit"
             onClick={() => this.handleModal()}

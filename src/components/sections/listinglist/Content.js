@@ -117,7 +117,7 @@ class Content extends Component {
                             <Dropdown.Toggle as={NavLink}><i className="fas fa-ellipsis-v" /></Dropdown.Toggle>
                             <Dropdown.Menu className="dropdown-menu-right">
                                 <ul>
-                                    <li> <Link to="tel:+123456789"> <i className="fas fa-phone" /> Ahire Call Agent</Link> </li>
+                                    <li> <Link to="tel:+123456789"> <i className="fas fa-phone" />Call Agent</Link> </li>
                                     <li> <Link to="mailto:+123456789"> <i className="fas fa-envelope" /> Send Message</Link> </li>
                                     <li> <Link to="/listing-details-v1"> <i className="fas fa-bookmark" /> Book Tour</Link> </li>
                                 </ul>
