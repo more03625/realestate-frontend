@@ -1,7 +1,7 @@
 {
   "name": "acres",
   "version": "0.1.0",
-  "homepage": "http://neprealestate.com/demosite",
+  "homepage": "https://neprealestate.com",
   "private": true,
   "main": "lib/index",
   "types": "lib/index",

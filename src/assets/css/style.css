@@ -1576,6 +1576,7 @@ table img{
 
 .navbar-nav {
   margin-right: auto;
+  margin-top: 20px;
   margin-left: 20px;
   -webkit-box-orient: horizontal;
   -webkit-box-direction: normal;
