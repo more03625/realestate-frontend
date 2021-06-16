@@ -64,7 +64,7 @@ class Banner extends Component {
                     </div>
                   </form>
                   <div className="row">
-                    <div className="col-lg-3 col-md-6">
+                    <div className="col-lg-2 col-md-6">
                       <div className="form-group acr-custom-select">
                           <Select2 data={typelist} options={{
                             placeholder: 'Property Types',
@@ -99,6 +99,14 @@ class Banner extends Component {
                           }} />
                         </div>
                       </div>
+
+                      <div className="col-lg-2 col-md-6">
+                        <div className="form-group acr-custom-select" style={{marginTop:20}}>
+                          <input type="checkbox" />
+                          <label style={{marginLeft:2, marginRight:0}}>Surrounding suburbs</label>
+                        </div>
+                      </div>
+
                   </div>
                 </div>
               </div>
@@ -114,7 +122,7 @@ class Banner extends Component {
                     </div>
                   </form>
                   <div className="row">
-                    <div className="col-lg-3 col-md-6">
+                    <div className="col-lg-2 col-md-6">
                       <div className="form-group acr-custom-select">
                           <Select2 data={typelist} options={{
                             placeholder: 'Property Types',
@@ -149,6 +157,14 @@ class Banner extends Component {
                           }} />
                         </div>
                       </div>
+
+                      <div className="col-lg-2 col-md-6">
+                        <div className="form-group acr-custom-select" style={{marginTop:20}}>
+                          <input type="checkbox" />
+                          <label style={{marginLeft:2, marginRight:0}}>Surrounding suburbs</label>
+                        </div>
+                      </div>
+
                   </div>
                 </div>
               </div>
@@ -164,7 +180,7 @@ class Banner extends Component {
                     </div>
                   </form>
                   <div className="row">
-                    <div className="col-lg-3 col-md-6">
+                    <div className="col-lg-2 col-md-6">
                       <div className="form-group acr-custom-select">
                           <Select2 data={typelist} options={{
                             placeholder: 'Property Types',
@@ -199,6 +215,14 @@ class Banner extends Component {
                           }} />
                         </div>
                       </div>
+
+                      <div className="col-lg-2 col-md-6">
+                        <div className="form-group acr-custom-select" style={{marginTop:20}}>
+                          <input type="checkbox" />
+                          <label style={{marginLeft:2, marginRight:0}}>Surrounding suburbs</label>
+                        </div>
+                      </div>
+
                   </div>
                 </div>
               </div>
@@ -214,7 +238,7 @@ class Banner extends Component {
                     </div>
                   </form>
                   <div className="row">
-                    <div className="col-lg-3 col-md-6">
+                    <div className="col-lg-2 col-md-6">
                       <div className="form-group acr-custom-select">
                           <Select2 data={typelist} options={{
                             placeholder: 'Property Types',
@@ -249,6 +273,15 @@ class Banner extends Component {
                           }} />
                         </div>
                       </div>
+
+                      <div className="col-lg-2 col-md-6">
+                        <div className="form-group acr-custom-select" style={{marginTop:20}}>
+                          <input type="checkbox" />
+                          <label style={{marginLeft:2, marginRight:0}}>Surrounding suburbs</label>
+                        </div>
+                      </div>
+
+                      
                   </div>
                 </div>
               </div>

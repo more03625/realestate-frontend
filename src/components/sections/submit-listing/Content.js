@@ -93,7 +93,7 @@ function Content(props) {
                                                     <option value="Special Offer">Special Offer</option>
                                                 </select>
                                             </div>
-                                            <div className="col-md-6">
+                                            <div className="col-md-6 form-group">
                                                 <label>Property Type</label>
                                                 <select className="form-control" name="type">
                                                     <option value="House">House</option>
@@ -104,8 +104,16 @@ function Content(props) {
                                                     <option value="Duplex">Duplex</option>
                                                 </select>
                                             </div>
+                                            <div className="col-md-6">
+                                                <label>Is Property Price Negotiable?</label>
+                                                <select className="form-control" name="priceNegotiable">
+                                                    <option value="Yes">Yes</option>
+                                                    <option value="No">No</option>
+                                                </select>
+                                            </div>
+
                                             <div className="col-md-6 form-group">
-                                                <label>Property Price</label>
+                                                <label>Property Min Price</label>
                                                 <div className="input-group">
                                                     <div className="input-group-prepend">
                                                         <span className="input-group-text">$</span>
@@ -113,7 +121,16 @@ function Content(props) {
                                                     <input type="text" className="form-control" name="price" placeholder="Property Price" />
                                                 </div>
                                             </div>
-                                            <div className="col-md-6">
+                                            <div className="col-md-6 form-group">
+                                                <label>Property Max Price</label>
+                                                <div className="input-group">
+                                                    <div className="input-group-prepend">
+                                                        <span className="input-group-text">$</span>
+                                                    </div>
+                                                    <input type="text" className="form-control" name="price" placeholder="Property Price" />
+                                                </div>
+                                            </div>
+                                            <div className="col-md-6 ">
                                                 <label>Rental Period</label>
                                                 <select className="form-control" name="period">
                                                     <option value="Monthly">Monthly</option>
@@ -195,14 +212,57 @@ function Content(props) {
                                                 <input type="text" className="form-control" placeholder="Property Year Built" name="built" />
                                             </div>
                                             <div className="col-md-6 form-group">
-                                                <label>Neighborhood</label>
-                                                <input type="text" className="form-control" placeholder="Property Neighborhood" name="neighborhood" />
+                                                <label>Road Type</label>
+                                                <input type="text" className="form-control" placeholder="Road Type" name="roadtype" />
+                                            </div>
+                                            <div className="col-md-6 form-group">
+                                                <label>Facing</label>
+                                                <input type="text" className="form-control" placeholder="Facing" name="facing" />
+                                            </div>
+                                            <div className="col-md-6 ">
+                                                <label>Enquiry Status</label>
+                                                <select className="form-control" name="enquiry_status">
+                                                    <option value="Sold">Sold</option>
+                                                    <option value="Pending">Pending</option>
+                                                </select>
+                                            </div>
+                                            <div className="col-md-6 ">
+                                                <label>Are you</label>
+                                                <select className="form-control" name="period">
+                                                    <option value="Agent">Agent</option>
+                                                    <option value="owner">Owner</option>
+                                                    <option value="Builder">Builder</option>
+                                                    <option value="Franchise">Franchise</option>
+                                                </select>
+                                            </div>
+                                            <div className="col-md-6 form-group">
+                                                <label>Source From</label>
+                                                <input type="text" className="form-control" placeholder="Source From" name="source_from" />
+                                            </div>
+                                            <div className="col-md-6 form-group">
+                                                <label>Call Back Details</label>
+                                                <select className="form-control" name="call_back">
+                                                    <option value="Myself">Myself</option>
+                                                    <option value="Portal Admin">Portal Admin</option>
+                                                </select>
+                                            </div>
+                                            <div className="col-md-6 form-group">
+                                                <label>Contact Preson Name</label>
+                                                <input type="text" className="form-control" placeholder="contact_name" name="contact_name" />
+                                            </div>
+                                            <div className="col-md-6 form-group">
+                                                <label>Contact Preson Email</label>
+                                                <input type="text" className="form-control" placeholder="Email" name="email" />
+                                            </div>
+                                            <div className="col-md-6 form-group">
+                                                <label>Contact Preson Number</label>
+                                                <input type="text" className="form-control" placeholder="contact_number" name="contact_number" />
                                             </div>
                                         </div>
                                         <div className="form-group">
                                             <div className="custom-control custom-checkbox">
                                                 <input type="checkbox" className="custom-control-input" id="termsAndConditions" />
-                                                <label className="custom-control-label" htmlFor="termsAndConditions">I Agree to the terms &amp; Conditions of Property Submission</label>
+                                                <label className="custom-control-label" htmlFor="termsAndConditions">I agree to the terms &amp; conditions of property submission</label>
                                             </div>
                                         </div>
                                         <button type="submit" className="btn-custom" name="submit">Submit Listing</button>

@@ -1,13 +1,4 @@
 import React, { Component } from "react";
-import Select2 from "react-select2-wrapper";
-import { 
-    pricerangelist,
-    bedslist,
-    typelist,
-    locationlist,
-    statuslist,
-    bathroomslist,
- } from "../../../data/select.json";
 
 class Buy extends Component {
   render() {
@@ -136,23 +127,33 @@ class Buy extends Component {
           </div>
           <div className="row">
             <div className="col-md-6">
-              <div className="form-group acr-custom-select">
-                <Select2
-                  data={pricerangelist}
-                  options={{
-                    placeholder: "Any",
-                  }}
-                />
+              <div className="form-group">
+                <label>Min Range</label>
+                <select className="form-control" name="min_range">
+                    <option value="">Any</option>
+                    <option value="$60k">$60k</option>
+                    <option value="$80k">$80k</option>
+                    <option value="$100k">$100k</option>
+                    <option value="$120k">$120k</option>
+                    <option value="$140k">$140k</option>
+                    <option value="$160k">$160k</option>
+                    <option value="$180k">$180k</option>
+                </select>
               </div>
             </div>
             <div className="col-md-6">
-              <div className="form-group acr-custom-select">
-                <Select2
-                  data={typelist}
-                  options={{
-                    placeholder: "Any",
-                  }}
-                />
+              <div className="form-group">
+                <label>Max Range</label>
+                <select className="form-control" name="max_range">
+                    <option value="">Any</option>
+                    <option value="$60k">$60k</option>
+                    <option value="$80k">$80k</option>
+                    <option value="$100k">$100k</option>
+                    <option value="$120k">$120k</option>
+                    <option value="$140k">$140k</option>
+                    <option value="$160k">$160k</option>
+                    <option value="$180k">$180k</option>
+                </select>
               </div>
             </div>
           </div>
@@ -164,68 +165,125 @@ class Buy extends Component {
           </div>
           <div className="row">
             <div className="col-md-6">
-              <div className="acr-custom-select form-group">
-                <label>Type: </label>
-                <Select2
-                  data={bedslist}
-                  options={{
-                    placeholder: "Any",
-                  }}
-                />
+              <div className="form-group">
+                <label>Min</label>
+                <select className="form-control" name="min_beds">
+                    <option value="">Any</option>
+                    <option value="Studio">Studio</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                </select>
               </div>
             </div>
             <div className="col-md-6">
-              <div className="form-group acr-custom-select">
-                <Select2
-                  data={bedslist}
-                  options={{
-                    placeholder: "Any",
-                  }}
-                />
+            <div className="form-group">
+                <label>Max</label>
+                <select className="form-control" name="max_beds">
+                    <option value="">Any</option>
+                    <option value="Studio">Studio</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                </select>
               </div>
             </div>
           </div>
         </div>
         <hr />
+
+        <div className="col-md-12">
+          <div className="row">
+            <h5>Bathrooms</h5>
+          </div>
+          <div className="row">
+            <div className="col-md-6">
+              <div className="form-group">
+                <select className="form-control" name="min_bath">
+                    <option value="">Any</option>
+                    <option value="1">1+</option>
+                    <option value="2">2+</option>
+                    <option value="3">3+</option>
+                    <option value="4">4+</option>
+                    <option value="5">5+</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+        <hr />
+
         <div className="col-md-12">
           <div className="row">
             <h5>Carspaces</h5>
           </div>
           <div className="row">
             <div className="col-md-6">
-            <div className="acr-custom-select form-group">
-                    <label>Status: </label>
-                    <Select2
-                      data={statuslist}
-                      options={{
-                        placeholder: "Any Status",
-                      }}
-                    />
-                  </div>
-
-         
-            </div>
-          </div>
-        </div>
-        <hr />
-        <div className="col-md-12">
-          <div className="row">
-            <h5>Landsize</h5>
-          </div>
-          <div className="row">
-            <div className="col-md-12">
-              <div className="form-group acr-custom-select">
-                <Select2
-                  data={locationlist}
-                  options={{
-                    placeholder: "Any",
-                  }}
-                />
+              <div className="form-group">
+                <select className="form-control" name="min_carspaces">
+                    <option value="">Any</option>
+                    <option value="1">1+</option>
+                    <option value="2">2+</option>
+                    <option value="3">3+</option>
+                    <option value="4">4+</option>
+                    <option value="5">5+</option>
+                </select>
               </div>
             </div>
           </div>
         </div>
         <hr />
+
+        <div className="col-md-12">
+          <div className="row">
+            <h5>Landsize</h5>
+          </div>
+          <div className="row">
+            <div className="col-md-6">
+              <div className="form-group">
+                <select className="form-control" name="landsize">
+                <option value="">Any</option>
+                <option value="1">200 ㎡</option>
+                <option value="1">300 ㎡</option>
+                <option value="1">400 ㎡</option>
+                <option value="1">500 ㎡</option>
+                <option value="1">600 ㎡</option>
+                <option value="1">700 ㎡</option>
+                <option value="1">800 ㎡</option>
+                <option value="1">900 ㎡</option>
+                <option value="1">1,000 ㎡</option>
+                <option value="1">1,200 ㎡</option>
+                <option value="1">1,500 ㎡</option>
+                <option value="1">1,750 ㎡</option>
+                <option value="1">2,000 ㎡</option>
+                <option value="1">3,000 ㎡</option>
+                <option value="1">4,000 ㎡</option>
+                <option value="1">5,000 ㎡</option>
+                <option value="1">10,000 ㎡</option>
+                <option value="1">20,000 ㎡</option>
+                <option value="1">30,000 ㎡</option>
+                <option value="1">40,000 ㎡</option>
+                <option value="1">50,000 ㎡</option>
+                <option value="1">100,000 ㎡</option>
+                <option value="1">200,000 ㎡</option>
+                <option value="1">300,000 ㎡</option>
+                <option value="1">400,000 ㎡</option>
+                <option value="1">500,000 ㎡</option>
+                <option value="1">600,000 ㎡</option>
+                <option value="1">700,000 ㎡</option>
+                <option value="1">800,000 ㎡</option>
+                <option value="1">900,000 ㎡</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+        <hr />
+        
         <div className="col-md-12">
           <div className="row">
             <h5>New or established property</h5>

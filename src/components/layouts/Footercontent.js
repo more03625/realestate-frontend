@@ -1,10 +1,10 @@
-import React, { Component, Fragment } from 'react';
-import { Link } from 'react-router-dom';
+import React, { Component } from 'react';
+import {Link} from 'react-router-dom';
 
 class Footercontent extends Component {
     render() {
         return (
-            <Fragment>
+            <>
                 <div className="container">
                     <div className="row">
                         <div className="col-lg-3 col-md-4 col-sm-12 footer-widget">
@@ -35,10 +35,11 @@ class Footercontent extends Component {
                                 <li> <Link to="/terms-and-conditions">Terms & conditions</Link> </li>
                             </ul>
                         </div>
-                        <div className="col-lg-4 col-md-4 col-sm-6 footer-widget">
-                            <h5 className="widget-title">Contact us</h5>
+                        <div className="col-lg-4 col-md-4 col-sm-6">
+                            <h5 className="widget-title" style={{color:"#fff"}}>Contact us</h5>
                             <ul>
-                                <li> <Link to="#"><i className="fas fa-phone"></i>&nbsp;&nbsp; Lorem Ipsum is simply dummy text of the printing and typesetting industry.</Link> </li>
+                           
+                                <li> <Link to="#"><i className="fas fa-home"></i>&nbsp;&nbsp; Lorem Ipsum is simply dummy text of the printing and typesetting industry.</Link> </li>
                                 <li> <Link to="#"><i className="fas fa-phone"></i>&nbsp;&nbsp; 5962325620</Link> </li>
                                 <li> <Link to={{pathname: "mailto:info@neprealestate.com"}}><i className="fas fa-envelope"></i>&nbsp;&nbsp;info@neprealestate.com</Link> </li>
                             </ul>
@@ -60,7 +61,7 @@ class Footercontent extends Component {
                         </div>
                     </div>
                 </div>
-            </Fragment>
+            </>
         );
     }
 }
