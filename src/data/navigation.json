@@ -4,7 +4,7 @@
         "linkText": "Buy",
         "child": false,
         "icon":"home",
-        "link": "/"
+        "link": "/home"
     },
     {
         "id": 2,
