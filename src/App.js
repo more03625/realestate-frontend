@@ -16,6 +16,7 @@ const Privacypolicy = React.lazy(() => import("./components/pages/Privacypolicy"
 
 // RAHUL END
 // Home Pages
+const CommingSoon = React.lazy(() => import("./components/pages/Comingsoon"));
 const Home = React.lazy(() => import("./components/pages/Home"));
 const Hometwo = React.lazy(() => import("./components/pages/Hometwo"));
 const Homethree = React.lazy(() => import("./components/pages/Homethree"));
@@ -74,7 +75,9 @@ function App() {
 
           {/* RAHUL */}
           {/* Homepages */}
-          <Route exact path="/" component={Home} />
+          <Route exact path="/" component={CommingSoon} />
+          <Route path="/demosite" component={Home} />
+          <Route path="/home" component={Home} />
           <Route path="/home-v2" component={Hometwo} />
           <Route path="/home-v3" component={Homethree} />
           <Route path="/home-v4" component={Homefour} />

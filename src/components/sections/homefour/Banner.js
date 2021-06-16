@@ -26,7 +26,7 @@ class Banner extends Component {
     <div className="row search-form-container">
       <Tab.Container defaultActiveKey="buy">
         <div className="col-lg-12">
-          <h5 className="text-white">Search properties for sale</h5>
+          <h5 className="text-white">Search Properties</h5>
           <div className="sidebar sidebar-left">
             <div className="sidebar-widget">
               <Nav variant="tabs" className="nav nav-tabs tab-cards">

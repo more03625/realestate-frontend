@@ -9,8 +9,8 @@ class Footercontent extends Component {
                 <div className="container">
                     <div className="row">
                         <div className="col-lg-3 col-md-4 col-sm-12 footer-widget">
-                            <div className="footer-logo" style={{width:250}}>
-                                <img src={process.env.PUBLIC_URL + "/assets/img/logo.png"} alt="acres" />
+                            <div className="footer-logo" style={{width:200}}>
+                                <img style={{width:200}} src={process.env.PUBLIC_URL + "/assets/img/logo.png"} alt="acres" />
                             </div>
                             <p>RAHUL Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's </p>
                             <ul className="social-media">
@@ -40,7 +40,7 @@ class Footercontent extends Component {
                             <h5 className="widget-title">Contact us</h5>
                             <ul>
                                 <li> <Link to="#">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</Link> </li>
-                                <li> <Link to="#"><i className="fas fa-phone"></i> 5962325620</Link> </li>
+                                <li> <Link to="#"><i className="fab fa-microphone"></i> 5962325620</Link> </li>
                                 <li> <Link to="#"><i className="fi-rr-envelope"></i> info@neprealestate.com</Link> </li>
                             </ul>
                         </div>

@@ -32,13 +32,13 @@ class Content extends Component {
                                 <div className="acr-dots" />
                             </div>
                             <h1 className="title">A Home For All Is <span className="custom-primary">Coming Soon</span> </h1>
-                            <p className="subtitle">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s</p>
+                            <p className="subtitle" style={{marginBottom:10}}>Meanwhile, please email us at <a href="mailto:admin@xpressewa.com">admin@xpressewa.com</a></p>
                         </div>
                         <div className="acr-cs-newsletter">
-                            <form>
+                            {/* <form>
                                 <input type="text" placeholder="Email Address" className="form-control" name="email-newsletter" />
                                 <button type="submit" className="btn-custom secondary" name="button">Subscribe</button>
-                            </form>
+                            </form> */}
                             <span>*We will notify you as soon as the website goes live.</span>
                         </div>
                     </div>
