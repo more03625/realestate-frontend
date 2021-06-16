@@ -1,6 +1,5 @@
 import React, { Component, Fragment } from 'react';
 import { Link } from 'react-router-dom';
-import { OverlayTrigger, Tooltip, Dropdown, NavLink } from 'react-bootstrap';
 
 class Footercontent extends Component {
     render() {
@@ -39,9 +38,9 @@ class Footercontent extends Component {
                         <div className="col-lg-4 col-md-4 col-sm-6 footer-widget">
                             <h5 className="widget-title">Contact us</h5>
                             <ul>
-                                <li> <Link to="#">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</Link> </li>
-                                <li> <Link to="#"><i className="fab fa-microphone"></i> 5962325620</Link> </li>
-                                <li> <Link to="#"><i className="fi-rr-envelope"></i> info@neprealestate.com</Link> </li>
+                                <li> <Link to="#"> <i className="fas fa-home" /> Lorem Ipsum is simply dummy text of the printing and typesetting industry.</Link> </li>
+                                <li> <Link to="#"><i className="fas fa-phone-volume"></i> 5962325620</Link> </li>
+                                <li> <Link to={{pathname: "mailto:info@neprealestate.com"}}><i className="fas fa-envelope"></i>&nbsp;&nbsp;info@neprealestate.com</Link> </li>
                             </ul>
                         </div>
                     </div>

@@ -23,6 +23,12 @@ class Banner extends Component {
         return (
 <div className="subheader bg-cover bg-center dark-overlay" style={{ backgroundImage: "url(" + process.env.PUBLIC_URL + "/assets/img/banner/3.jpg)" }}>
   <div className="container">
+    <div className="col-md-6"> 
+      <p className="banner-title">Find Your Ideal Home Today </p>
+      <p style={{color: 'white', fontSize: '16px', fontWeight: 500}}>Thousands of people have their flats up for grabs. Don't miss your chance to grab your own house today.</p>
+    </div>
+  </div>
+  <div className="container searchContainer">
     <div className="row search-form-container">
       <Tab.Container defaultActiveKey="buy">
         <div className="col-lg-12">

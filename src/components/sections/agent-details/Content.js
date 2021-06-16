@@ -192,7 +192,6 @@ class Content extends Component {
                             {agents.slice(0, 3).map((item, i) => (
                                 <div key={i} className="col-lg-4">
                                     <div className="acr-agent">
-                                        
                                         <div className="acr-dots-wrapper acr-agent-thumb">
                                             <div className="acr-dots" />
                                             <Link to="/agent-details"><img src={process.env.PUBLIC_URL + "/" + item.img} alt="agent" /></Link>
