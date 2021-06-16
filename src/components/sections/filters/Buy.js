@@ -6,7 +6,7 @@ import {
     typelist,
     locationlist,
     statuslist,
-    bathroomslist
+    bathroomslist,
  } from "../../../data/select.json";
 
 class Buy extends Component {
@@ -193,14 +193,17 @@ class Buy extends Component {
           </div>
           <div className="row">
             <div className="col-md-6">
-              <div className="form-group acr-custom-select">
-                <Select2
-                  data={bedslist}
-                  options={{
-                    placeholder: "Any",
-                  }}
-                />
-              </div>
+            <div className="acr-custom-select form-group">
+                    <label>Status: </label>
+                    <Select2
+                      data={statuslist}
+                      options={{
+                        placeholder: "Any Status",
+                      }}
+                    />
+                  </div>
+
+         
             </div>
           </div>
         </div>

@@ -38,8 +38,8 @@ class Footercontent extends Component {
                         <div className="col-lg-4 col-md-4 col-sm-6 footer-widget">
                             <h5 className="widget-title">Contact us</h5>
                             <ul>
-                                <li> <Link to="#"> <i className="fas fa-home" /> Lorem Ipsum is simply dummy text of the printing and typesetting industry.</Link> </li>
-                                <li> <Link to="#"><i className="fas fa-phone-volume"></i> 5962325620</Link> </li>
+                                <li> <Link to="#"><i className="fas fa-phone"></i>&nbsp;&nbsp; Lorem Ipsum is simply dummy text of the printing and typesetting industry.</Link> </li>
+                                <li> <Link to="#"><i className="fas fa-phone"></i>&nbsp;&nbsp; 5962325620</Link> </li>
                                 <li> <Link to={{pathname: "mailto:info@neprealestate.com"}}><i className="fas fa-envelope"></i>&nbsp;&nbsp;info@neprealestate.com</Link> </li>
                             </ul>
                         </div>
@@ -49,7 +49,7 @@ class Footercontent extends Component {
                     <div className="container">
                         <div className="row">
                             <div className="col-lg-7">
-                                <p className="m-0">© Copyright 2020 - <Link to="/">Neprealestate</Link> All Rights Reserved.</p>
+                                <p className="m-0">© Copyright 2020 - <Link to="/home">Neprealestate</Link> All Rights Reserved.</p>
                             </div>
                             <div className="col-lg-5">
                                 <ul>

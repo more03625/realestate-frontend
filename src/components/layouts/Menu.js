@@ -22,6 +22,9 @@ class Menu extends Component {
                         {/* </ul> */}
                     {/* </li> */}
                     <li className="menu-item menu-item-has-children">
+                        <Link to="/buy">Buy</Link>
+                        </li>
+                    <li className="menu-item menu-item-has-children">
                         <Link to="/rent">Rent</Link>
                         {/* <ul className="submenu"> */}
                             {/* <li className="menu-item menu-item-has-children"> */}

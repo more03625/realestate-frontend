@@ -7,6 +7,7 @@ const Preloader = React.lazy(() => import("./components/layouts/Preloader"));
 // RAHULS START
 const News = React.lazy(() => import("./components/pages/News"));
 const Rent = React.lazy(() => import("./components/pages/Rent"));
+const Buy = React.lazy(() => import("./components/pages/Buy"));
 const Share = React.lazy(() => import("./components/pages/Share"));
 const Commercial = React.lazy(() => import("./components/pages/Commercial"));
 const Propertyconsultants = React.lazy(() => import("./components/pages/Propertyconsultants"));
@@ -66,6 +67,7 @@ function App() {
           {/* RAHUL */}
           <Route path="/news" component={News} />
           <Route path="/rent" component={Rent} />
+          <Route path="/buy" component={Buy} />
           <Route path="/share" component={Share} />
           <Route path="/commercial" component={Commercial} />
           <Route path="/consultants" component={Propertyconsultants} />
