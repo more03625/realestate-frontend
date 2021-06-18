@@ -1691,6 +1691,7 @@ table img{
 }
 .header-controls,
 .header-controls-inner{
+  margin-top: 20px;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -1803,6 +1804,7 @@ table img{
   padding: 10px 0;
   background-color: #004592;
 }
+
 .top-header-inner{
   display: -webkit-box;
   display: -ms-flexbox;
