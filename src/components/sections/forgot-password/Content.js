@@ -9,6 +9,31 @@ const images = [
 ];
 
 class Content extends Component {
+    constructor(){
+        super();
+        this.state ={
+            email:"",
+            emailError:""
+        }
+    }
+    valid(){
+        var emailValidator = new RegExp(/[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,15}/g).test(this.state.email)
+        if(!emailValidator){
+            this.setState({emailError:"Please enter valid email address!"});
+        }else{
+            return true;
+        }
+      }
+
+    submit(k){
+        this.setState({emailError:""});
+        if(this.valid()){
+            alert("You will recive email shortly!");
+        }
+    }
+      handleChange(e){
+        this.setState({[e.target.name]:e.target.value});
+      }
     render() {
         const settings = {
             slidesToShow: 1,
@@ -28,14 +53,16 @@ class Content extends Component {
                         </div>
                         <div className="form-group">
                             <label>Email</label>
-                            <input type="text" className="form-control form-control-light" placeholder="Enter your email" name="email" />
+                            <input type="text" onChange={(e) => this.handleChange(e)} className="form-control form-control-light" placeholder="Enter your email" name="email"/>
+                            <p style={{color:"red", fontSize:"14px"}}>{this.state.emailError}</p>
                         </div>
                    
                         <div className="form-group">
                             <Link to="/login" className="forgot-password">Back to login</Link>
                         </div>
-                        <button type="submit" className="btn-custom secondary btn-block">Forgot password</button>
+                        
                         <p className="text-center mb-0">Don't have an account? <Link to="/register">Create One</Link> </p>
+                        <button type="button" className="btn-custom secondary btn-block" onClick={() => this.submit()}>Login</button>
                     </form>
                 </div>
                 <div className="acr-auth-bg">
