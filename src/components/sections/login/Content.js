@@ -22,6 +22,7 @@ const Content = () =>  {
 
     const [emailError, setEmailError] = useState("");
     const [passwordError, setPasswordError] = useState("");
+
     const [loginStatus, setLoginStatus] = useState(false);
 
     Axios.defaults.withCredentials = true;
@@ -40,17 +41,7 @@ const Content = () =>  {
             return true;
         }
     }
-    // const isUserAuthenticated = () => {
-    //     Axios.get(Host + Endpoints.isAuthenticated, {
-    //         headers: {
-    //             "x-access-token":localStorage.getItem("token"),
-    //         }
-    //     }).then((response) => {
-    //         if(response.data === 'Authenticated'){
-    //             setLoginStatus(true);
-    //         }
-    //     });
-    // }
+
     const login = (e) => {
         e.preventDefault();
 
@@ -65,7 +56,7 @@ const Content = () =>  {
             }).then((response) => {
                 console.log(response.data.token);
                 if(!response.data.auth){
-                    setLoginStatus(false);
+                    setLoginStatus(response.data.message);
                 }else{
                     localStorage.setItem("token", response.data.token);
                     setLoginStatus(true);
@@ -73,24 +64,10 @@ const Content = () =>  {
             });
         }
     }
-    // useEffect(()=>{
-    //     isUserAuthenticated();
-    // }, []);
-    // const checkLogin = () => {
-    //     Axios.get(Host + Endpoints.Login).then((response) => {
-    //         console.log(response);
-    //         if(response.data.loggedIn === true){
-    //             setLoginStatus(response.data.user[0].id);
-    //         }
-    //     });
-    // }
-    // useEffect(() => {console.log(checkLogin())}, []);
-        // if(isUserAuthenticated() === "Authenticated"){
-        //     return <Redirect to="/" />  
-        // }
+    
         return (
             <div className="acr-auth-container">
-                {loginStatus && 
+                {loginStatus === true && 
                     <Redirect to="/home"/>
                 }
                 <div className="acr-auth-content">
@@ -111,7 +88,7 @@ const Content = () =>  {
                         <div className="form-group">
                             <Link to="/forgot-password" className="forgot-password">Forgot Password?</Link>
                         </div>
-                        <p className="text-center mb-0">{loginStatus}</p>
+                        <p className="text-center mb-0" style={{color: 'red'}}>{loginStatus}</p>
                         <p className="text-center mb-0">Don't have an account? <Link to="/register">Create One</Link> </p>
                         <button type="submit" className="btn-custom secondary btn-block">Login</button>
                     </form>
