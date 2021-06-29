@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Redirect} from 'react-router-dom';
 import Select2 from 'react-select2-wrapper';
 import { userTypeDrop } from '../../../data/select.json';
 import Axios from 'axios';
@@ -66,8 +66,8 @@ const Content = () => {
         }
     }
     const registerFun = (e) => {
-        console.log(isValid());
         e.preventDefault();
+
         setNameError("");
         setEmailError("");
         setPasswordError("");
@@ -86,7 +86,8 @@ const Content = () => {
                 "tandC":tandcBox
             }).then((response) => {
                 if(response.data.success === true) {
-                    setRegStatus("Your registration has been successfully completed!");
+                    setRegStatus(response.data.message);
+                    return <Redirect to="/login" />
                 }else{
                     if(response.data.message.code === "ER_DUP_ENTRY"){
                         setRegStatus("This email has been already registered!");

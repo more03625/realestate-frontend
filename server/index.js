@@ -1,5 +1,7 @@
 require('dotenv').config();
 const express           = require('express');
+const fileUpload = require('express-fileupload');
+const morgan = require('morgan');
 const app               = express();
 const mysql             = require('mysql');
 const bodyParser        = require('body-parser');
@@ -9,11 +11,26 @@ const saltRounds        = 10;
 const cookieParser      = require('cookie-parser');
 const expressSession    = require('express-session');
 const jwt               = require('jsonwebtoken'); // Whenerv user logged in we want to create token
+const multer = require('multer');
+const nodemailer = require('nodemailer');
+const crypto = require('crypto');
 
+
+// const multert.diskStorage({
+//     destination:(req,res,cb) => {
+//         cb(null, './assets/images')
+//     },
+//     fileName
+// });
+
+// const upload = multer({storage:storage})
 app.listen(3001, () => {
     console.log("Running on port 3001");
 });
 
+app.use(fileUpload({
+    createParentPath:true
+}));
 const db = mysql.createPool({
     host: 'localhost',
     user: 'root',
@@ -30,30 +47,33 @@ app.use(cors({
 
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({extended:true}));
-app.use(expressSession({
-    key:"userId",
-    secret:"cryptography",
-    resave:true,
-    saveuninitialized:false,
-    cookie:{
-        expires:60*60*24,
-    },
-}));
+
+// app.use(expressSession({
+//     key:"userId",
+//     secret:"cryptography",
+//     resave:true,
+//     saveuninitialized:false,
+//     cookie:{
+//         expires:60*60*24,
+//     },
+// }));
 app.post('/api/register', (req, res) => {
     const name = req.body.name;
     const email = req.body.email;
     const password = req.body.password;
     const mobileNumber = req.body.mobileNumber;
+    const mailVerificationKey = crypto.randomUUID();
+
     bcrypt.hash(password, saltRounds, (err, hash) => {
         if(err){
             console.log(err);
         }else{
-            db.query("INSERT INTO users (name, email, password, mobile_number) VALUES (?, ?, ?, ?)", [name, email, hash, mobileNumber], (err, result) => {
+            db.query("INSERT INTO users (name, email, password, mobile_number, mail_verification_key) VALUES (?, ?, ?, ?, ?)", [name, email, hash, mobileNumber, mailVerificationKey], (err, result) => {
                if(err){
                    res.send({success:false, message:err});
                }else{
-                    res.send({success:true, message:result});
-                    console.log("RAHUL MORE YOGESH MORE");
+                    res.send({success:true, message:"Registration has been completed!"});
+                    mailVerification(email, mailVerificationKey);
                }
             });
         }
@@ -75,8 +95,7 @@ app.post('/api/login', (req, res) => {
             bcrypt.compare(password, result[0].password, (err, response) => {
                 if(response){
                     const id = result[0].id;
-                    const userEmail = result[0].email;
-                    const user = {id:id, userEmail:userEmail};
+                    const user = {id:id};
 
                     const token = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET);
                     // req.session.user = result;
@@ -86,12 +105,11 @@ app.post('/api/login', (req, res) => {
                 }
             });
         }else{
-            res.json({auth:false, message:"User doesn't exist!"});
+            res.json({auth:false, message:"Invalid username or password!"});
         }
     });
 });
 app.post('/api/updateProfile', authenticateToken, (req, res) => {
-    console.log(authenticateToken);
 
     var fullName = req.body.fullName;
     var userName = req.body.userName;
@@ -100,8 +118,27 @@ app.post('/api/updateProfile', authenticateToken, (req, res) => {
     var addressOne = req.body.addressOne;
     var addressTwo = req.body.addressTwo;
     var aboutMe = req.body.aboutMe;
+
+    // console.log(req.body);
     
-     if (fullName === '' || userName === '' || email === '' || phoneNumber === '' || addressOne === '' || addressTwo === '' || aboutMe === ''){
+    //  if (fullName === '' || userName === '' || email === '' || phoneNumber === '' || addressOne === '' || addressTwo === '' || aboutMe === ''){
+
+        if(!req.files){
+            return res.send({
+                status:false,
+                message:"No files"
+            });
+        }else{
+            const {picture} = req.files.img;
+            console.log(picture);
+            // picture.mv("./uploads" + picture.name);
+
+            return res.send({
+                status:false,
+                message:"File has been uploaded!"
+            });
+        }
+
         const authHeader = req.headers['authorization'];
         const token = authHeader && authHeader.split(' ')[1];
     
@@ -115,9 +152,10 @@ app.post('/api/updateProfile', authenticateToken, (req, res) => {
     
             return res.send({success:true, message:"Profile has been Saved successfully!"});
         });
-    }else{
-        return res.send({success:false, message:"All feilds are required!"});
-    }
+    // }
+    // else{
+    //     return res.send({success:false, message:"All feilds are required!"});
+    // }
 
 });
 function authenticateToken(req, res, next){
@@ -131,5 +169,32 @@ function authenticateToken(req, res, next){
         if(err) return res.send({success: false, message: "Please login again!"});
         req.user = user;
         next();
+    });
+}
+
+function mailVerification(toMail, mailVerificationKey){
+    var transporter = nodemailer.createTransport({
+        host:process.env.MAIL_HOST,
+        port:process.env.MAIL_PORT,
+        secure:false,
+        requireTLS:process.env.requireTLS,
+        auth:{
+            user:process.env.MAIL_USERNAME,
+            pass:process.env.MAIL_PASSWORD
+        }
+    });
+    
+    var mailOptions = {
+        from:process.env.MAIL_USERNAME,
+        to:toMail,
+        subject:"Please verify your email!",
+        text:"This is for email verification! Please click on this link",
+        html:`<p>Please Click on <a href=${process.env.BASE_URL+ "email-verification/" +mailVerificationKey}>this link</a> to verify your email!</p>`
+    }
+    
+    transporter.sendMail(mailOptions, function(error, info){
+        if(error) return console.log(error);
+    
+        console.log("email has been sent successfully" + info.response);
     });
 }
