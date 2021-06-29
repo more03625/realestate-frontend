@@ -15,6 +15,7 @@ class Content extends Component {
             <Fragment>
                 <Banner />
                 <Categories />
+                {/* {console.log(setLoginStatus())} */}
                 <div className="section section-padding pt-0">
                     <Blockcta />
                 </div>

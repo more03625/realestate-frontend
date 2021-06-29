@@ -190,7 +190,7 @@
         "Number of baths",
         "Number of beds"
     ],
-    "userType":[
+    "userTypeDrop":[
         "Agent",
         "Owner",
         "Builder",

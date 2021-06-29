@@ -14,6 +14,7 @@ const Propertyconsultants = React.lazy(() => import("./components/pages/Property
 const Forgotpassword = React.lazy(() => import("./components/pages/Forgotpassword"));
 const Tandc = React.lazy(() => import("./components/pages/Tandc"));
 const Privacypolicy = React.lazy(() => import("./components/pages/Privacypolicy"));
+const Logout = React.lazy(() => import("./components/pages/Logout"));
 
 // RAHUL END
 // Home Pages
@@ -97,6 +98,7 @@ function App() {
           <Route path="/coming-soon" component={Comingsoon} />
           <Route path="/error-404" component={Error} />
           <Route path="/login" component={Login} />
+          <Route path="/logout" component={Logout} />
           <Route path="/register" component={Register} />
           <Route path="/legal" component={Legal} />
           {/* Listings */}
