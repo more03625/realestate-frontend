@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import MetaTags from "react-meta-tags";
-import Header from '../layouts/Headerfour';
+import Header from '../layouts/Headerfive';
 import Footer from '../layouts/Footerthree';
 import Content from '../sections/homefour/Content';
 
@@ -14,7 +14,6 @@ class Homefour extends Component {
                         name="description"
                         content="THTIS IS DESCRIPTION OF NEPREALESTATE WEBSITE"
                     />
-                    
                 </MetaTags>
                 <Header/>
                 <Content/>

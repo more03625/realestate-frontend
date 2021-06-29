@@ -1,118 +1,147 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import Slider from 'react-slick';
 import Select2 from 'react-select2-wrapper';
-import { userType } from '../../../data/select.json';
+import { userTypeDrop } from '../../../data/select.json';
+import Axios from 'axios';
+import Slider from 'react-slick';
+import { Endpoints, Host } from '../../../helper/server';
+
+
 const images = [
     { img: 'assets/img/coming-soon/1.jpg', title: "Quote of the day", text: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s" },
     { img: 'assets/img/coming-soon/2.jpg', title: "Quote of the day", text: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s" },
     { img: 'assets/img/coming-soon/3.jpg', title: "Quote of the day", text: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s" },
 ];
+const settings = {
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    arrows: false,
+    autoplay: true,
+    dots: true,
+    dotsClass: "d-flex slick-dots",
+}
 
-class Content extends Component {
-    constructor(){
-        super();
-        this.state = {
-            name:"",
-            email:"",
-            password:"",
-            mobileNumber:"",
-            userType:"",
-            tandcBox:"",
+const Content = () => {
+    const [name, setName] = useState("");
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [mobileNumber, setMobileNumber] = useState("");
+    // const [userType, setUserType] = useState("");
+    const [tandcBox, setTandcBox] = useState("");
 
-            nameError:"",
-            emailError:"",
-            passwordError:"",
-            mobileNumberError:"",
-            userTypeError:"",
-            tandcBoxError:""
-        }
-    }
-    valid(){
-        var emailValidator = new RegExp(/[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,15}/g).test(this.state.email);
-        if(this.state.name === ''){
-            this.setState({nameError:"Name feild should not be empty!"});
-        }
-        if(!emailValidator){
-            this.setState({emailError:"Please enter a valid email address!"});
-        }
-        if(this.state.password === ''){
-            this.setState({passwordError:"Password feild should not be empty!"});
-        }
-        if(this.state.mobileNumber === ''){
-            this.setState({mobileNumberError:"Mobile Number feild should not be empty!"});
-        }
-        if(this.state.userType === ''){
-            this.setState({userTypeError:"User Type feild should not be empty!"});
-        }
-        
-        
-        if(this.state.tandcBox === ''){
-            this.setState({tandcBoxError:"You must accept T&C in order to use Neprealestate!"});
-        }
-    }
-    submit(){
-        this.setState({nameError:"", emailError:"", passwordError:"", mobileNumberError:"", userTypeError:"", tandcBoxError:""});
-        if(this.valid()){
-            alert("Please confirm your email!");
-        }
-    }
-    handleChange(e){
-        this.setState({[e.target.name]:e.target.value});
-    }
+    const [nameError, setNameError] = useState("");
+    const [emailError, setEmailError] = useState("");
+    const [passwordError, setPasswordError] = useState("");
+    const [mobileNumberError, setMobileNumberError] = useState("");
+    // const [userTypeError, setUserTypeError] = useState("");
+    const [tandcBoxError, setTandcBoxError] = useState("");
+
+    const [regStatus, setRegStatus] = useState("");
+
     
-    render() {
-        const settings = {
-            slidesToShow: 1,
-            slidesToScroll: 1,
-            arrows: false,
-            autoplay: true,
-            dots: true,
-            dotsClass: "d-flex slick-dots",
+    const isValid = () => {
+        var emailValidator = new RegExp(/[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,15}/g).test(email);
+        if(name === '' && !emailValidator && password === '' && mobileNumber === '' && tandcBox === ''){
+            setNameError("Name feild should not be empty!");
+            setEmailError("Please enter a valid email address!");
+            setPasswordError("Password feild should not be empty!");
+            setMobileNumberError("Mobile Number feild should not be empty!");
+            setTandcBoxError("You must accept T&C in order to use Neprealestate!");
+        }else if(name === ''){
+            setNameError("Name feild should not be empty!");
+        }else if(!emailValidator){
+            setEmailError("Please enter a valid email address!");
+        }else if(password === ''){
+            setPasswordError("Password feild should not be empty!");
+        }else if(mobileNumber === ''){
+            setMobileNumberError("Mobile Number feild should not be empty!");
         }
+        // else if(userType === ''){
+        //     setUserTypeError("User Type feild should not be empty!");
+        // }
+        else if(tandcBox === ''){
+            setTandcBoxError("You must accept T&C in order to use Neprealestate!");
+        }else {
+            return true;
+        }
+    }
+    const registerFun = (e) => {
+        console.log(isValid());
+        e.preventDefault();
+        setNameError("");
+        setEmailError("");
+        setPasswordError("");
+        setMobileNumberError("");
+        // setUserTypeError("");
+        setTandcBoxError("");
+        setRegStatus("");
+
+        if(isValid()){
+            let url = Host + Endpoints.Register;
+            Axios.post(url, {
+                "name":name,
+                "email":email,
+                "password":password,
+                "mobileNumber":mobileNumber,
+                "tandC":tandcBox
+            }).then((response) => {
+                if(response.data.success === true) {
+                    setRegStatus("Your registration has been successfully completed!");
+                }else{
+                    if(response.data.message.code === "ER_DUP_ENTRY"){
+                        setRegStatus("This email has been already registered!");
+                    }else{
+                        setRegStatus("Something went wrong! Please try again!");
+                    }
+                }
+            });
+        }
+    }
         return (
             <div className="acr-auth-container">
                 <div className="acr-auth-content">
-                    <form method="post">
+                    <form method="post" onSubmit={registerFun}>
                         <div className="auth-text">
                             <h3>Create An Acres Account</h3>
                             <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's</p>
                         </div>
                         <div className="form-group">
                             <label>Name</label>
-                            <input type="text" className="form-control form-control-light" onChange={ (e) => this.handleChange(e) } placeholder="Username" name="name" />
-                            <p style={{color:"red", fontSize:"14px"}}>{this.state.nameError}</p>
+                            <input type="text" className="form-control form-control-light" onChange={(e) => setName(e.target.value)} placeholder="Username" name="name" />
+                            <p style={{color:"red", fontSize:"14px"}}>{nameError}</p>
                         </div>
                         <div className="form-group">
                             <label>Email Address</label>
-                            <input type="email" className="form-control form-control-light" onChange={ (e) => this.handleChange(e) } placeholder="Email Address" name="email" />
-                            <p style={{color:"red", fontSize:"14px"}}>{this.state.emailError}</p>
+                            <input type="email" className="form-control form-control-light" onChange={(e) => setEmail(e.target.value)} placeholder="Email Address" name="email" />
+                            <p style={{color:"red", fontSize:"14px"}}>{emailError}</p>
                         </div>
                         <div className="form-group">
                             <label>Password</label>
-                            <input type="password" className="form-control form-control-light" onChange={ (e) => this.handleChange(e) } placeholder="Password" name="password" autoComplete="off"/>
-                            <p style={{color:"red", fontSize:"14px"}}>{this.state.passwordError}</p>
+                            <input type="password" className="form-control form-control-light" onChange={ (e) => setPassword(e.target.value)} placeholder="Password" name="password" autoComplete="off"/>
+                            <p style={{color:"red", fontSize:"14px"}}>{passwordError}</p>
                         </div>
                         <div className="form-group">
                             <label>Mobile Number</label>
-                            <input type="number" className="form-control form-control-light" onChange={ (e) => this.handleChange(e) } placeholder="Enter your mobile number" name="mobileNumber" />
-                            <p style={{color:"red", fontSize:"14px"}}>{this.state.mobileNumberError}</p>
+                            <input type="number" className="form-control form-control-light" onChange={(e) => setMobileNumber(e.target.value)} placeholder="Enter your mobile number" name="mobileNumber" />
+                            <p style={{color:"red", fontSize:"14px"}}>{mobileNumberError}</p>
                         </div>
                         {/* <div className="form-group">
                             <label>User Type</label>
-                            <Select2 name="userType" onChange={ (e) => this.handleChange(e) } data={userType} options={{
+                            <Select2 name="userType" onChange={(e) => setUserType(e.target.value) } data={userTypeDrop} options={{
                                 placeholder: 'User Type',
                             }} />
-                            <p style={{color:"red", fontSize:"14px"}}>{this.state.userTypeError}</p>
+                            <p style={{color:"red", fontSize:"14px"}}>{userTypeError}</p>
                         </div> */}
                         <div className="form-group">
                             <div className="custom-control custom-checkbox">
-                                <input type="checkbox" className="custom-control-input" id="termsAndConditions" onChange={ (e) => this.handleChange(e) } name="tandcBox"/>
+                                <input type="checkbox" className="custom-control-input" id="termsAndConditions" onChange={(e) => setTandcBox(e.target.value)} name="tandcBox"/>
+
                                 <label className="custom-control-label" htmlFor="termsAndConditions">I Agree to the <Link to="/terms-and-conditions"> terms &amp; Conditions </Link> of Property Submission</label>
                             </div>
-                            <p style={{color:"red", fontSize:"14px"}}>{this.state.tandcBoxError}</p>
+                            <p style={{color:"red", fontSize:"14px"}}>{tandcBoxError}</p>
+                            <p style={{color:"red", fontSize:"14px"}}>{regStatus}</p>
                         </div>
-                        <button type="button" className="btn-custom secondary btn-block" onClick={ (e) => this.submit() }>Register</button>
+                        <button type="submit" className="btn-custom secondary btn-block">Register</button>
                         <p className="text-center mb-0">Already have an account? <Link to="/login">Login</Link> </p>
                     </form>
                 </div>
@@ -132,7 +161,6 @@ class Content extends Component {
                 </div>
             </div>
         );
-    }
 }
 
 export default Content;

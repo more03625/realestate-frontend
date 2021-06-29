@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import Slider from 'react-slick';
 
@@ -7,54 +7,49 @@ const images = [
     { img: 'assets/img/coming-soon/2.jpg', title: "Quote of the day", text: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s" },
     { img: 'assets/img/coming-soon/3.jpg', title: "Quote of the day", text: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s" },
 ];
+const settings = {
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    arrows: false,
+    autoplay: true,
+    dots: true,
+    dotsClass: "d-flex slick-dots",
+}
+const Content = () => {
+    const [email, setEmail] = useState("");
+    const [emailError, setEmailError] = useState("");
 
-class Content extends Component {
-    constructor(){
-        super();
-        this.state ={
-            email:"",
-            emailError:""
-        }
-    }
-    valid(){
-        var emailValidator = new RegExp(/[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,15}/g).test(this.state.email)
-        if(!emailValidator){
-            this.setState({emailError:"Please enter valid email address!"});
-        }else{
-            return true;
-        }
-      }
+        const isValid = () => {
+            var emailValidator = new RegExp(/[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,15}/g).test(email);
 
-    submit(k){
-        this.setState({emailError:""});
-        if(this.valid()){
-            alert("You will recive email shortly!");
+            if(!emailValidator){
+                setEmailError("Please enter a valid email address!");
+            }else{
+                return true;
+            }
         }
-    }
-      handleChange(e){
-        this.setState({[e.target.name]:e.target.value});
-      }
-    render() {
-        const settings = {
-            slidesToShow: 1,
-            slidesToScroll: 1,
-            arrows: false,
-            autoplay: true,
-            dots: true,
-            dotsClass: "d-flex slick-dots",
+
+        const submit = (e) => {
+            e.preventDefault();
+
+            setEmailError("");
+
+            if(isValid()){
+                alert("Your email is: " + email);
+            }
         }
         return (
             <div className="acr-auth-container">
                 <div className="acr-auth-content">
-                    <form method="post">
+                    <form method="post" onSubmit={submit}>
                         <div className="auth-text">
                             <h3>Forgot Password</h3>
                             <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's</p>
                         </div>
                         <div className="form-group">
                             <label>Email</label>
-                            <input type="text" onChange={(e) => this.handleChange(e)} className="form-control form-control-light" placeholder="Enter your email" name="email"/>
-                            <p style={{color:"red", fontSize:"14px"}}>{this.state.emailError}</p>
+                            <input type="text" onChange={(e) => setEmail(e.target.value)} className="form-control form-control-light" placeholder="Enter your email" name="email"/>
+                            <p style={{color:"red", fontSize:"14px"}}>{emailError}</p>
                         </div>
                    
                         <div className="form-group">
@@ -62,7 +57,7 @@ class Content extends Component {
                         </div>
                         
                         <p className="text-center mb-0">Don't have an account? <Link to="/register">Create One</Link> </p>
-                        <button type="button" className="btn-custom secondary btn-block" onClick={() => this.submit()}>Login</button>
+                        <button type="submit" className="btn-custom secondary btn-block">Login</button>
                     </form>
                 </div>
                 <div className="acr-auth-bg">
@@ -81,7 +76,6 @@ class Content extends Component {
                 </div>
             </div>
         );
-    }
 }
 
 export default Content;
