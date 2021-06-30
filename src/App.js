@@ -1,5 +1,7 @@
 import React, { Suspense } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import LoggedInProtected from './components/sections/protected/LoggedInProtected';
+import Protected from './components/sections/protected/Protected';
 
 // Preloader
 const Preloader = React.lazy(() => import("./components/layouts/Preloader"));
@@ -15,6 +17,7 @@ const Forgotpassword = React.lazy(() => import("./components/pages/Forgotpasswor
 const Tandc = React.lazy(() => import("./components/pages/Tandc"));
 const Privacypolicy = React.lazy(() => import("./components/pages/Privacypolicy"));
 const Logout = React.lazy(() => import("./components/pages/Logout"));
+const Verification = React.lazy(() => import("./components/pages/Verification"));
 
 // RAHUL END
 // Home Pages
@@ -72,7 +75,11 @@ function App() {
           <Route path="/share" component={Share} />
           <Route path="/commercial" component={Commercial} />
           <Route path="/consultants" component={Propertyconsultants} />
-          <Route path="/forgot-password" component={Forgotpassword} />
+
+          <Route path="/forgot-password">
+            <LoggedInProtected component={Forgotpassword}/>
+          </Route>
+
           <Route path="/terms-and-conditions" component={Tandc} />
           <Route path="/privacy-policy" component={Privacypolicy} />
 
@@ -97,9 +104,18 @@ function App() {
           <Route path="/contact" component={Contact} />
           <Route path="/coming-soon" component={Comingsoon} />
           <Route path="/error-404" component={Error} />
-          <Route path="/login" component={Login} />
+
+          <Route path="/login">
+            <LoggedInProtected component={Login}/>
+          </Route>
+
           <Route path="/logout" component={Logout} />
-          <Route path="/register" component={Register} />
+          <Route path="/verification" component={Verification} />
+
+          <Route path="/register">
+            <LoggedInProtected component={Register}/>
+          </Route>
+
           <Route path="/legal" component={Legal} />
           {/* Listings */}
           <Route path="/listing-grid" component={Listinggrid} />
@@ -108,17 +124,26 @@ function App() {
           <Route path="/listing-details-v1" component={Listingdetailsone} />
           <Route path="/listing-details-v2" component={Listingdetailstwo} />
           <Route path="/listing-details-v3" component={Listingdetailsthree} />
-          <Route path="/submit-listing" component={Submitlisting} />
+
+          <Route path="/submit-listing">
+            <Protected  component={Submitlisting} />
+          </Route>
+
           <Route path="/compare-listings" component={Comparelistings} />
           {/* Agents */}
           <Route path="/agent-archive" component={Agentarchive} />
           <Route path="/agent-details" component={Agentdetails} />
-          <Route path="/profile" component={Profile} />
+
+          <Route path="/profile">
+            <Protected  component={Profile} />
+          </Route>
+          
           <Route path="/profile-listings" component={Profilelistings} />
           <Route path="/profile-saved-listings" component={Profilesavedlistings} />
           {/* Agency */}
           <Route path="/agency-archive" component={Agencyarchive} />
           <Route path="/agency-details" component={Agencydetails} />
+          <Route path="*" component={Error} />
         </Switch>
       </Suspense>
     </Router>

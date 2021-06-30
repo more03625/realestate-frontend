@@ -40,7 +40,7 @@ const db = mysql.createPool({
 
 app.use(express.json());
 app.use(cors({
-    origin:["http://localhost:3000"],
+    origin:["http://localhost:3001"],
     methods: ["GET", "POST"],
     credentials:true
 }));
@@ -48,32 +48,25 @@ app.use(cors({
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({extended:true}));
 
-// app.use(expressSession({
-//     key:"userId",
-//     secret:"cryptography",
-//     resave:true,
-//     saveuninitialized:false,
-//     cookie:{
-//         expires:60*60*24,
-//     },
-// }));
 app.post('/api/register', (req, res) => {
     const name = req.body.name;
     const email = req.body.email;
+    const userType = req.body.userType;
     const password = req.body.password;
     const mobileNumber = req.body.mobileNumber;
-    const mailVerificationKey = crypto.randomUUID();
+    const mailOTP = Math.floor(100000 + Math.random() * 900000);
+    const phoneOTP = Math.floor(100000 + Math.random() * 900000);
 
     bcrypt.hash(password, saltRounds, (err, hash) => {
         if(err){
             console.log(err);
         }else{
-            db.query("INSERT INTO users (name, email, password, mobile_number, mail_verification_key) VALUES (?, ?, ?, ?, ?)", [name, email, hash, mobileNumber, mailVerificationKey], (err, result) => {
+            db.query("INSERT INTO users (name, email, user_type, password, mobile_number, phone_otp, mail_otp) VALUES (?, ?, ?, ?, ?, ?, ?)", [name, email, userType, hash, mobileNumber, phoneOTP, mailOTP], (err, result) => {
                if(err){
                    res.send({success:false, message:err});
                }else{
                     res.send({success:true, message:"Registration has been completed!"});
-                    mailVerification(email, mailVerificationKey);
+                    mailVerification(email, mailOTP);
                }
             });
         }
@@ -111,15 +104,11 @@ app.post('/api/login', (req, res) => {
 });
 app.post('/api/updateProfile', authenticateToken, (req, res) => {
 
-    var fullName = req.body.fullName;
-    var userName = req.body.userName;
-    var email = req.body.email;
+    var fullName    = req.body.fullName;
+    var email       = req.body.email;
     var phoneNumber = req.body.phoneNumber;
-    var addressOne = req.body.addressOne;
-    var addressTwo = req.body.addressTwo;
-    var aboutMe = req.body.aboutMe;
+    var aboutMe     = req.body.aboutMe;
 
-    // console.log(req.body);
     
     //  if (fullName === '' || userName === '' || email === '' || phoneNumber === '' || addressOne === '' || addressTwo === '' || aboutMe === ''){
 
@@ -129,9 +118,11 @@ app.post('/api/updateProfile', authenticateToken, (req, res) => {
                 message:"No files"
             });
         }else{
-            const {picture} = req.files.img;
-            console.log(picture);
-            // picture.mv("./uploads" + picture.name);
+            // console.log(req.files.img);
+            // const picture = req.files.img;
+
+            // console.log(picture.name);
+            // picture.mv("./uploads" + picture.name);//
 
             return res.send({
                 status:false,
@@ -145,9 +136,9 @@ app.post('/api/updateProfile', authenticateToken, (req, res) => {
         const decode = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
         const userID = decode.id;
         
-        var updateProfileSql = "UPDATE users SET  `name` = ?, `username` = ?, `email` = ?, `mobile_number` = ?, `address_one` = ?, `address_two` = ?, `about_me` = ? WHERE id = ? ";
+        var updateProfileSql = "UPDATE users SET  `name` = ?, `email` = ?, `mobile_number` = ?, `about_me` = ? WHERE id = ? ";
     
-        db.query(updateProfileSql, [fullName, userName, email, phoneNumber, addressOne, addressTwo, aboutMe, userID], (err, result) => {
+        db.query(updateProfileSql, [fullName, email, phoneNumber, aboutMe, userID], (err, result) => {
             if(err) return res.send({success:false, message:err});
     
             return res.send({success:true, message:"Profile has been Saved successfully!"});
@@ -172,7 +163,14 @@ function authenticateToken(req, res, next){
     });
 }
 
-function mailVerification(toMail, mailVerificationKey){
+function mailVerification(toMail, mailOTP){
+    console.log("env start");
+
+    console.log(process.env.MAIL_HOST);
+    console.log(process.env.MAIL_PORT);
+    console.log(process.env.MAIL_USERNAME);
+    console.log(process.env.MAIL_PASSWORD);
+    console.log("env end");
     var transporter = nodemailer.createTransport({
         host:process.env.MAIL_HOST,
         port:process.env.MAIL_PORT,
@@ -189,11 +187,11 @@ function mailVerification(toMail, mailVerificationKey){
         to:toMail,
         subject:"Please verify your email!",
         text:"This is for email verification! Please click on this link",
-        html:`<p>Please Click on <a href=${process.env.BASE_URL+ "email-verification/" +mailVerificationKey}>this link</a> to verify your email!</p>`
-    }
-    
+        html:`<h3>Your OTP is: ${mailOTP}</h3>`
+    };
+
     transporter.sendMail(mailOptions, function(error, info){
-        if(error) return console.log(error);
+        if(error) return console.log(error + "Mail error");
     
         console.log("email has been sent successfully" + info.response);
     });
