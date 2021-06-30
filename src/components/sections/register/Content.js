@@ -26,14 +26,14 @@ const Content = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [mobileNumber, setMobileNumber] = useState("");
-    // const [userType, setUserType] = useState("");
+    const [userType, setUserType] = useState("");
     const [tandcBox, setTandcBox] = useState("");
 
     const [nameError, setNameError] = useState("");
     const [emailError, setEmailError] = useState("");
     const [passwordError, setPasswordError] = useState("");
     const [mobileNumberError, setMobileNumberError] = useState("");
-    // const [userTypeError, setUserTypeError] = useState("");
+    const [userTypeError, setUserTypeError] = useState("");
     const [tandcBoxError, setTandcBoxError] = useState("");
 
     const [regStatus, setRegStatus] = useState("");
@@ -51,43 +51,44 @@ const Content = () => {
             setNameError("Name feild should not be empty!");
         }else if(!emailValidator){
             setEmailError("Please enter a valid email address!");
-        }else if(password === ''){
-            setPasswordError("Password feild should not be empty!");
-        }else if(mobileNumber === ''){
-            setMobileNumberError("Mobile Number feild should not be empty!");
+        }else if(password === '' || password.length < 8){
+            setPasswordError("Password should be minimum 8 characters!");
+        }else if(mobileNumber === '' || mobileNumber.length < 10){
+            setMobileNumberError("Please enter valid 10 digit mobile number!");
         }
-        // else if(userType === ''){
-        //     setUserTypeError("User Type feild should not be empty!");
-        // }
+        else if(userType === ''){
+            setUserTypeError("User Type feild should not be empty!");
+        }
         else if(tandcBox === ''){
             setTandcBoxError("You must accept T&C in order to use Neprealestate!");
         }else {
             return true;
         }
+        console.log(mobileNumber.length);
     }
     const registerFun = (e) => {
         e.preventDefault();
-
         setNameError("");
         setEmailError("");
         setPasswordError("");
         setMobileNumberError("");
-        // setUserTypeError("");
+        setUserTypeError("");
         setTandcBoxError("");
         setRegStatus("");
 
         if(isValid()){
             let url = Host + Endpoints.Register;
+
             Axios.post(url, {
                 "name":name,
                 "email":email,
                 "password":password,
                 "mobileNumber":mobileNumber,
+                "userType":userType,
                 "tandC":tandcBox
             }).then((response) => {
                 if(response.data.success === true) {
-                    setRegStatus(response.data.message);
-                    return <Redirect to="/login" />
+                    setRegStatus(response.data.success);
                 }else{
                     if(response.data.message.code === "ER_DUP_ENTRY"){
                         setRegStatus("This email has been already registered!");
@@ -99,7 +100,12 @@ const Content = () => {
         }
     }
         return (
+           
+          
             <div className="acr-auth-container">
+                {regStatus === true && 
+                    <Redirect to="/login"/>
+                }
                 <div className="acr-auth-content">
                     <form method="post" onSubmit={registerFun}>
                         <div className="auth-text">
@@ -126,13 +132,19 @@ const Content = () => {
                             <input type="number" className="form-control form-control-light" onChange={(e) => setMobileNumber(e.target.value)} placeholder="Enter your mobile number" name="mobileNumber" />
                             <p style={{color:"red", fontSize:"14px"}}>{mobileNumberError}</p>
                         </div>
-                        {/* <div className="form-group">
+                        <div className="form-group">
                             <label>User Type</label>
-                            <Select2 name="userType" onChange={(e) => setUserType(e.target.value) } data={userTypeDrop} options={{
+                                <select className="form-control" name="userType" onChange={(e) => setUserType(e.target.value) }>
+                                    <option value="agent">Agent</option>
+                                    <option value="owner">Owner</option>
+                                    <option value="builder">Builder</option>
+                                    <option value="franchise">Franchise</option>
+                                </select>
+                            {/* <Select2 name="userType" onChange={(e) => setUserType(e.target.value) } data={userTypeDrop} options={{
                                 placeholder: 'User Type',
-                            }} />
+                            }} /> */}
                             <p style={{color:"red", fontSize:"14px"}}>{userTypeError}</p>
-                        </div> */}
+                        </div>
                         <div className="form-group">
                             <div className="custom-control custom-checkbox">
                                 <input type="checkbox" className="custom-control-input" id="termsAndConditions" onChange={(e) => setTandcBox(e.target.value)} name="tandcBox"/>

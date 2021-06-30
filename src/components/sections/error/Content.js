@@ -8,9 +8,9 @@ class Content extends Component {
                 <div className="container">
                     <div className="section-404">
                         <div className="section-404-text mb-0">
-                            <h1 className="title">Error 404</h1>
-                            <p className="subtitle">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been</p>
-                            <Link to="/" className="btn-custom">Go back Home</Link>
+                            <h3>Sorry, this page isn't available.</h3>
+                            <p className="subtitle">The link you followed may be broken, or the page may have been removed. Go back to Nep Real Estate.</p>
+                            <Link to="/home" className="btn-custom">Go back Home</Link>
                         </div>
                     </div>
                 </div>

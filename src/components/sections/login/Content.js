@@ -73,7 +73,8 @@ const Content = () =>  {
                 <div className="acr-auth-content">
                     <form method="post" onSubmit={login}>
                         <div className="auth-text">
-                            <h3>Log Into Neprealestate</h3>
+                        <h3>Log Into <span style={{color: '#004592'}}>Nep </span><span style={{color: '#F42F2F'}}>Real Estate</span></h3>
+
                         </div>
                         <div className="form-group">
                             <label>Username</label>
