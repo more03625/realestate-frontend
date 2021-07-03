@@ -50,15 +50,16 @@ const Content = () =>  {
         
         if(isValid()){
             let url = Host + Endpoints.Login;
+            
             Axios.post(url, {
                 "email":email,
-                "password":password
+                "password":password,
+                "type":"seller"
             }).then((response) => {
-                console.log(response.data.token);
-                if(!response.data.auth){
-                    setLoginStatus(response.data.message);
+                if(response.data.error === true){
+                    setLoginStatus(response.data.title);
                 }else{
-                    localStorage.setItem("token", response.data.token);
+                    localStorage.setItem("token", JSON.stringify(response.data));
                     setLoginStatus(true);
                 }
             });

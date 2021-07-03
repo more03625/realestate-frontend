@@ -40,7 +40,7 @@ const db = mysql.createPool({
 
 app.use(express.json());
 app.use(cors({
-    origin:["http://localhost:3001"],
+    origin:["http://localhost:3000"],
     methods: ["GET", "POST"],
     credentials:true
 }));
@@ -92,7 +92,7 @@ app.post('/api/login', (req, res) => {
 
                     const token = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET);
                     // req.session.user = result;
-                    res.json({auth:true, token:token});
+                    res.json({auth:true, token:token, result:result});
                 }else{
                     res.json({auth:false, message:"Wrong username & password Combination!"});
                 }

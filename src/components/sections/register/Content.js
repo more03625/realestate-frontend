@@ -64,7 +64,6 @@ const Content = () => {
         }else {
             return true;
         }
-        console.log(mobileNumber.length);
     }
     const registerFun = (e) => {
         e.preventDefault();
@@ -83,17 +82,15 @@ const Content = () => {
                 "name":name,
                 "email":email,
                 "password":password,
-                "mobileNumber":mobileNumber,
-                "userType":userType,
-                "tandC":tandcBox
+                "mobile":mobileNumber,
+                // "userType":userType,
+                // "tandC":tandcBox
             }).then((response) => {
-                if(response.data.success === true) {
-                    setRegStatus(response.data.success);
+                if(response.data.error === false) {
+                    setRegStatus(true);
                 }else{
-                    if(response.data.message.code === "ER_DUP_ENTRY"){
-                        setRegStatus("This email has been already registered!");
-                    }else{
-                        setRegStatus("Something went wrong! Please try again!");
+                    if(response.data.error === true){
+                        setRegStatus(response.data.title);
                     }
                 }
             });

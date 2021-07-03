@@ -1,8 +1,10 @@
-export const Host = 'http://localhost:3001/api/';
+export const Host = 'http://localhost:5254/';
 
 export const Endpoints = {
-    Login: 'login',
-    Register: 'register',
+    Login: 'users/login',
+    Register: 'users/register',
     isAuthenticated:'isAuthenticated',
-    updateProfile:'updateProfile'
+    updateProfile:'users/updateProfile',
+    verifyOtp:"users/verifyOtp",
+    changePassword: "users/changePassword"
 }
