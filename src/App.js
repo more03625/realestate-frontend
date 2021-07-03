@@ -17,7 +17,7 @@ const Forgotpassword = React.lazy(() => import("./components/pages/Forgotpasswor
 const Tandc = React.lazy(() => import("./components/pages/Tandc"));
 const Privacypolicy = React.lazy(() => import("./components/pages/Privacypolicy"));
 const Logout = React.lazy(() => import("./components/pages/Logout"));
-
+const Verification = React.lazy(() => import("./components/pages/Verification"));
 
 // RAHUL END
 // Home Pages
@@ -110,6 +110,7 @@ function App() {
           </Route>
 
           <Route path="/logout" component={Logout} />
+          <Route path="/verification" component={Verification} />
 
           <Route path="/register">
             <LoggedInProtected component={Register}/>

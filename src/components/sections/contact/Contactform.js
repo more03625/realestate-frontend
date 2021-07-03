@@ -1,8 +1,57 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
-class Contactform extends Component {
-    render() {
+
+const Contactform = () => {
+        const [fullName, setFullName] = useState("");
+        const [phoneNumber, setPhoneNumber]  = useState("");
+        const [email, setEmail]  = useState("");
+        const [message, setMessage] = useState("");
+
+        const [fullNameError, setFullNameError] = useState("");
+        const [phoneNumberError, setPhoneNumberError] = useState("");
+        const [emailError, setEmailError] = useState("");
+        const [messageError, setMessageError] = useState("");
+
+        const isValid = () => {
+        var emailValidator = new RegExp(/[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,15}/g).test(email);
+
+            if(!emailValidator && fullName === '' && phoneNumber === '' && email === '' && message === ''){
+                setFullNameError("Name feild is required!");
+                setPhoneNumberError("Phone Number is required!");
+                setEmailError("Please enter a valid email address!");
+                setMessageError("Message is required!");
+            }
+            else if(phoneNumber === '' || phoneNumber.length < 10){
+                setPhoneNumberError("Please enter a valid 10 digit number!");
+            }
+            else if(!emailValidator || email ===''){
+                setEmailError("Please enter a valid email address!");
+            }
+
+        
+            else if(message === ''){
+                setMessageError("Message is required!");
+            }
+            else{
+                return true;
+            }
+        }
+        const submitContactForm = (e) => {
+            e.preventDefault();
+            setFullNameError("");
+            setPhoneNumberError("");
+            setEmailError("");
+            setMessageError("");
+            if(isValid()){
+                alert("Your fullName is: " + fullName);
+                alert("Your phoneNumber is: " + phoneNumber);
+                alert("Your email is: " + email);
+                alert("Your message is: " + message);
+                alert("Thanks for form submission!");
+            }
+
+        } 
         return (
             <div className="section pt-0">
                 <div className="container">
@@ -60,27 +109,27 @@ class Contactform extends Component {
                                 <h2 className="title">Got Any Questions?</h2>
                             </div>
                             <div className="comment-form">
-                                <form>
+                                <form onSubmit={submitContactForm}>
                                     <div className="row">
-                                        <div className="col-md-6 form-group">
+                                        <div className="col-md-12 form-group">
                                             <label>Full Name</label>
-                                            <input type="text" className="form-control" placeholder="Full Name" name="fname" />
+                                            <input type="text" className="form-control" placeholder="Full Name" name="fname" onChange={(e)=>setFullName(e.target.value)}/>
+                                            <p style={{fontSize:"14", color:"red"}}>{fullNameError}</p>
                                         </div>
-                                        <div className="col-md-6 form-group">
-                                            <label>Subject</label>
-                                            <input type="text" className="form-control" placeholder="Subject" name="subject" />
-                                        </div>
-                                        <div className="col-md-6 form-group">
+                                        <div className="col-md-12 form-group">
                                             <label>Phone Number</label>
-                                            <input type="text" className="form-control" placeholder="Phone Number" name="phone" />
+                                            <input type="text" className="form-control" placeholder="Phone Number" name="phone" onChange={(e)=>setPhoneNumber(e.target.value)}/>
+                                            <p style={{fontSize:"14", color:"red"}}>{phoneNumberError}</p>
                                         </div>
-                                        <div className="col-md-6 form-group">
+                                        <div className="col-md-12 form-group">
                                             <label>Email Address</label>
-                                            <input type="email" className="form-control" placeholder="Email Address" name="email" />
+                                            <input type="email" className="form-control" placeholder="Email Address" name="email" onChange={(e)=>setEmail(e.target.value)}/>
+                                            <p style={{fontSize:"14", color:"red"}}>{emailError}</p>
                                         </div>
                                         <div className="col-md-12 form-group">
                                             <label>Your Message</label>
-                                            <textarea className="form-control" placeholder="Type your message..." name="comment" rows={7} />
+                                            <textarea className="form-control" placeholder="Type your message..." name="comment" rows={7} onChange={(e)=>setMessage(e.target.value)}/>
+                                            <p style={{fontSize:"14", color:"red"}}>{messageError}</p>
                                         </div>
                                     </div>
                                     <button type="submit" className="btn-custom primary">Send Message</button>
@@ -91,7 +140,6 @@ class Contactform extends Component {
                 </div>
             </div>
         );
-    }
 }
 
 export default Contactform;

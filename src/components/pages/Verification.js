@@ -1,28 +1,24 @@
 import React, { Component, Fragment } from 'react';
 import MetaTags from "react-meta-tags";
 import Header from '../layouts/Headerfive';
-import Footer from '../layouts/Footerthree';
-import Content from '../sections/homefour/Content';
+import Content from '../sections/verification/Content';
 
-class Homefour extends Component {
-
+class Verification extends Component {
     render() {
         return (
             <Fragment>
                 <MetaTags>
-                    <title>Homepage | Neprealestate </title>
+                    <title>Verification | Neprealestate</title>
                     <meta
                         name="description"
-                        content="THTIS IS DESCRIPTION OF NEPREALESTATE WEBSITE"
+                        content="#"
                     />
-                   
                 </MetaTags>
                 <Header/>
                 <Content/>
-                <Footer/>
             </Fragment>
         );
     }
 }
 
-export default Homefour;
+export default Verification;
