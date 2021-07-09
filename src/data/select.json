@@ -1,4 +1,15 @@
 {
+    "areaMeasurement":[
+        "sqmt",
+        "sqft",
+        "ropani",
+        "aana",
+        "paisa",
+        "daam",
+        "bigga",
+        "kattha",
+        "dhur"
+    ],
     "locationlist":[
         "Any Location",
         "California, CA",

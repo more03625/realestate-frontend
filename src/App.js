@@ -1,23 +1,32 @@
-import React, { Suspense } from 'react';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import LoggedInProtected from './components/sections/protected/LoggedInProtected';
-import Protected from './components/sections/protected/Protected';
+import React, { Suspense } from "react";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import LoggedInProtected from "./components/sections/protected/LoggedInProtected";
+import Protected from "./components/sections/protected/Protected";
 
 // Preloader
 const Preloader = React.lazy(() => import("./components/layouts/Preloader"));
 
 // RAHULS START
 const News = React.lazy(() => import("./components/pages/News"));
+const Newsdetail = React.lazy(() => import("./components/pages/Newsdetail"));
 const Rent = React.lazy(() => import("./components/pages/Rent"));
 const Buy = React.lazy(() => import("./components/pages/Buy"));
 const Share = React.lazy(() => import("./components/pages/Share"));
 const Commercial = React.lazy(() => import("./components/pages/Commercial"));
-const Propertyconsultants = React.lazy(() => import("./components/pages/Propertyconsultants"));
-const Forgotpassword = React.lazy(() => import("./components/pages/Forgotpassword"));
+const Propertyconsultants = React.lazy(() =>
+  import("./components/pages/Propertyconsultants")
+);
+const Forgotpassword = React.lazy(() =>
+  import("./components/pages/Forgotpassword")
+);
 const Tandc = React.lazy(() => import("./components/pages/Tandc"));
-const Privacypolicy = React.lazy(() => import("./components/pages/Privacypolicy"));
+const Privacypolicy = React.lazy(() =>
+  import("./components/pages/Privacypolicy")
+);
 const Logout = React.lazy(() => import("./components/pages/Logout"));
-const Verification = React.lazy(() => import("./components/pages/Verification"));
+const Verification = React.lazy(() =>
+  import("./components/pages/Verification")
+);
 
 // RAHUL END
 // Home Pages
@@ -46,21 +55,42 @@ const Legal = React.lazy(() => import("./components/pages/Legal"));
 const Listinggrid = React.lazy(() => import("./components/pages/Listinggrid"));
 const Listinglist = React.lazy(() => import("./components/pages/Listinglist"));
 const Listingmap = React.lazy(() => import("./components/pages/Listingmap"));
-const Listingdetailsone = React.lazy(() => import("./components/pages/Listingdetailsone"));
-const Listingdetailstwo = React.lazy(() => import("./components/pages/Listingdetailstwo"));
-const Listingdetailsthree = React.lazy(() => import("./components/pages/Listingdetailsthree"));
-const Submitlisting = React.lazy(() => import("./components/pages/Submitlisting"));
-const Comparelistings = React.lazy(() => import("./components/pages/Comparelistings"));
+const Listingdetailsone = React.lazy(() =>
+  import("./components/pages/Listingdetailsone")
+);
+const Listingdetailstwo = React.lazy(() =>
+  import("./components/pages/Listingdetailstwo")
+);
+const Listingdetailsthree = React.lazy(() =>
+  import("./components/pages/Listingdetailsthree")
+);
+const Submitlisting = React.lazy(() =>
+  import("./components/pages/Submitlisting")
+);
+const Comparelistings = React.lazy(() =>
+  import("./components/pages/Comparelistings")
+);
 // Agents
-const Agentarchive = React.lazy(() => import("./components/pages/Agentarchive"));
-const Agentdetails = React.lazy(() => import("./components/pages/Agentdetails"));
+const Agentarchive = React.lazy(() =>
+  import("./components/pages/Agentarchive")
+);
+const Agentdetails = React.lazy(() =>
+  import("./components/pages/Agentdetails")
+);
 const Profile = React.lazy(() => import("./components/pages/Profile"));
-const Profilelistings = React.lazy(() => import("./components/pages/Profilelistings"));
-const Profilesavedlistings = React.lazy(() => import("./components/pages/Profilesavedlistings"));
+const Profilelistings = React.lazy(() =>
+  import("./components/pages/Profilelistings")
+);
+const Profilesavedlistings = React.lazy(() =>
+  import("./components/pages/Profilesavedlistings")
+);
 // Agency
-const Agencyarchive = React.lazy(() => import("./components/pages/Agencyarchive"));
-const Agencydetails = React.lazy(() => import("./components/pages/Agencydetails"));
-
+const Agencyarchive = React.lazy(() =>
+  import("./components/pages/Agencyarchive")
+);
+const Agencydetails = React.lazy(() =>
+  import("./components/pages/Agencydetails")
+);
 
 function App() {
   return (
@@ -70,6 +100,7 @@ function App() {
         <Switch>
           {/* RAHUL */}
           <Route path="/news" component={News} />
+          <Route path="/read/news/:slug/:newsID" component={Newsdetail} />
           <Route path="/rent" component={Rent} />
           <Route path="/buy" component={Buy} />
           <Route path="/share" component={Share} />
@@ -77,7 +108,7 @@ function App() {
           <Route path="/consultants" component={Propertyconsultants} />
 
           <Route path="/forgot-password">
-            <LoggedInProtected component={Forgotpassword}/>
+            <LoggedInProtected component={Forgotpassword} />
           </Route>
 
           <Route path="/terms-and-conditions" component={Tandc} />
@@ -106,14 +137,14 @@ function App() {
           <Route path="/error-404" component={Error} />
 
           <Route path="/login">
-            <LoggedInProtected component={Login}/>
+            <LoggedInProtected component={Login} />
           </Route>
 
           <Route path="/logout" component={Logout} />
           <Route path="/verification" component={Verification} />
 
           <Route path="/register">
-            <LoggedInProtected component={Register}/>
+            <LoggedInProtected component={Register} />
           </Route>
 
           <Route path="/legal" component={Legal} />
@@ -126,7 +157,7 @@ function App() {
           <Route path="/listing-details-v3" component={Listingdetailsthree} />
 
           <Route path="/submit-listing">
-            <Protected  component={Submitlisting} />
+            <Protected component={Submitlisting} />
           </Route>
 
           <Route path="/compare-listings" component={Comparelistings} />
@@ -135,11 +166,14 @@ function App() {
           <Route path="/agent-details" component={Agentdetails} />
 
           <Route path="/profile">
-            <Protected  component={Profile} />
+            <Protected component={Profile} />
           </Route>
-          
+
           <Route path="/profile-listings" component={Profilelistings} />
-          <Route path="/profile-saved-listings" component={Profilesavedlistings} />
+          <Route
+            path="/profile-saved-listings"
+            component={Profilesavedlistings}
+          />
           {/* Agency */}
           <Route path="/agency-archive" component={Agencyarchive} />
           <Route path="/agency-details" component={Agencydetails} />

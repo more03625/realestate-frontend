@@ -31,10 +31,12 @@
     "react-scripts": "4.0.1",
     "react-select2-wrapper": "^1.0.4-beta6",
     "react-slick": "^0.27.13",
+    "react-toastify": "^7.0.4",
     "slick-carousel": "^1.8.1",
     "web-vitals": "^0.2.4"
   },
   "scripts": {
+    "devStart": "concurrently \"npm start\" \"node app.js\"",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
