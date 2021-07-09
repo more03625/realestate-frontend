@@ -172,7 +172,7 @@ const Shopsidebar = () => {
           onClick={handleModal}
           className="btn-block btn-custom"
           name="button"
-          style={{ backgroundColor: "#007bff" }}
+          // style={{ backgroundColor: "#007bff" }}
         >
           <i className="fa fa-filter" /> Advanced filters{" "}
         </button>

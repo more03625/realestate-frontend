@@ -101,11 +101,17 @@ function App() {
           {/* RAHUL */}
           <Route path="/news" component={News} />
           <Route path="/read/news/:slug/:newsID" component={Newsdetail} />
-          <Route path="/rent" component={Rent} />
+          {/* <Route path="/rent" component={Rent} />
           <Route path="/buy" component={Buy} />
-          <Route path="/share" component={Share} />
+          <Route path="/sold" component={Sold} />
+          <Route path="/share" component={Share} /> */}
+          <Route path="/rent" component={Home} />
+          <Route path="/buy" component={Home} />
+          <Route path="/sold" component={Home} />
+          <Route path="/share" component={Home} />
           <Route path="/commercial" component={Commercial} />
           <Route path="/consultants" component={Propertyconsultants} />
+          <Route path="/property-listing" component={Commercial} />
 
           <Route path="/forgot-password">
             <LoggedInProtected component={Forgotpassword} />
@@ -156,9 +162,9 @@ function App() {
           <Route path="/listing-details-v2" component={Listingdetailstwo} />
           <Route path="/listing-details-v3" component={Listingdetailsthree} />
 
-          <Route path="/submit-listing">
-            <Protected component={Submitlisting} />
-          </Route>
+          <Route path="/submit-listing" component={Submitlisting} />
+            {/* <Protected component={Submitlisting} /> */}
+          {/* </Route> */}
 
           <Route path="/compare-listings" component={Comparelistings} />
           {/* Agents */}

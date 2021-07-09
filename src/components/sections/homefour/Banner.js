@@ -56,11 +56,12 @@ class Banner extends Component {
               <Tab.Pane eventKey="buy">
               <div className="agency-content">
                 <div className="sidebar-widget">
-                  <form method="post">
+                  <form method="get" action="/property-listing">
                     <div className="search-wrapper">
-                        <input type="text" className="form-control" placeholder="Search Properties to own..." name="sidebar-search" />
+                        <input type="text" className="form-control" placeholder="Search Properties to own..." name="search" />
                         <i className="flaticon-search"></i>
-                        <button type="submit" className="btn-custom" name="button"> Search</button>
+                        {/* <button type="submit" className="btn-custom" name="button"> Search</button> */}
+                        <button type="submit" className="btn-custom" > Search</button>
                     </div>
                   </form>
                   <div className="row">

@@ -6,7 +6,7 @@ class Menu extends Component {
     return (
       <Fragment>
         {/* Logo */}
-        <Link className="navbar-brand" to="/home" style={{ width: 170 }}>
+        <Link className="navbar-brand" to="/home" style={{ width: 105 }}>
           <img
             src={process.env.PUBLIC_URL + "/assets/img/realestaelogo/logo.png"}
             alt="logo"
@@ -41,6 +41,9 @@ class Menu extends Component {
             {/* <Link to="/blog-single">Blog Single</Link> */}
             {/* </li> */}
             {/* </ul> */}
+          </li>
+          <li className="menu-item menu-item-has-children">
+            <Link to="/sold">Sold</Link>
           </li>
           <li className="menu-item menu-item-has-children">
             <Link to="/share">Share</Link>
@@ -148,6 +151,7 @@ class Menu extends Component {
                         </ul>
                     </li> */}
         </ul>
+        <div class="header-controls"><ul class="header-controls-inner d-none d-lg-flex"><li><a class="btn-custom primary" href="/submit-listing">Submit Listing <i class="fas fa-plus"></i> </a></li></ul><div class="aside-toggler aside-trigger"><span></span><span></span><span></span></div></div>
       </Fragment>
     );
   }
