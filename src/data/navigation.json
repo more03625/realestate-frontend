@@ -3,7 +3,7 @@
         "id": 1,
         "linkText": "Buy",
         "child": false,
-        "icon":"home",
+        "icon":"house",
         "link": "/home"
     },
     {
@@ -15,9 +15,16 @@
     },
     {
         "id": 3,
+        "linkText": "Sold",
+        "child": false,
+        "icon":"sold",
+        "link": "/sold"
+    },
+    {
+        "id": 3,
         "linkText": "Share",
         "child": false,
-        "icon":"company",
+        "icon":"apartment",
         "link": "/share"
     },
     {
@@ -38,21 +45,21 @@
         "id": 4,
         "linkText": "About us",
         "child": false,
-        "icon":"home",
+        "icon":"house",
         "link": "/about"
     },
     {
         "id": 4,
         "linkText": "News",
         "child": false,
-        "icon":"home",
+        "icon":"blog",
         "link": "/news"
     },
     {
         "id": 4,
         "linkText": "Contact us",
         "child": false,
-        "icon":"home",
+        "icon":"location",
         "link": "/contact"
     }
 ]

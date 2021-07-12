@@ -6,7 +6,7 @@ import Axios from "axios";
 import Slider from "react-slick";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
+import { successToast, errorToast } from "../../../helper/Toasthelper";
 import { Endpoints, Host } from "../../../helper/server";
 const images = [
   {
@@ -83,28 +83,7 @@ const Content = () => {
       return true;
     }
   };
-  const successToast = () => {
-    toast.success("Success! Please verify your email", {
-      position: "top-center",
-      autoClose: 5000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-    });
-  };
-  const errorToast = (message) => {
-    toast.error(message, {
-      position: "top-center",
-      autoClose: 3000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-    });
-  };
+
   const registerFun = (e) => {
     e.preventDefault();
     setNameError("");
@@ -133,15 +112,27 @@ const Content = () => {
           }, 3000);
         } else {
           if (response.data.error === true) {
+            errorToast(response.data.title);
             setRegStatus(response.data.title);
           }
         }
       });
     }
   };
+  var verificationData = {
+    email,
+    mobile: mobileNumber,
+  };
   return (
     <div className="acr-auth-container">
-      {regStatus === true && <Redirect to="/login" />}
+      {regStatus === true && (
+        <Redirect
+          to={{
+            pathname: "/verification",
+            state: verificationData, // your data array of objects
+          }}
+        />
+      )}
       <div className="acr-auth-content">
         <form method="post" onSubmit={registerFun}>
           <div className="auth-text">

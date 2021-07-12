@@ -5,6 +5,7 @@ import Axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Endpoints, Host } from "../../../helper/server";
+import { successToast, errorToast } from "../../../helper/Toasthelper";
 const images = [
   {
     img: "assets/img/coming-soon/1.jpg",
@@ -38,6 +39,7 @@ const Content = () => {
   const [passwordError, setPasswordError] = useState("");
 
   const [loginStatus, setLoginStatus] = useState(false);
+  const [loginButtonStatus, setLoginButtonStatus] = useState(false);
 
   Axios.defaults.withCredentials = true;
 
@@ -58,28 +60,6 @@ const Content = () => {
     }
   };
 
-  const successToast = () => {
-    toast.success("✅" + "Success!", {
-      position: "top-center",
-      autoClose: 1000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-    });
-  };
-  const errorToast = (message) => {
-    toast.error(message, {
-      position: "top-center",
-      autoClose: 3000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-    });
-  };
   const login = (e) => {
     e.preventDefault();
 
@@ -95,8 +75,10 @@ const Content = () => {
         type: "seller",
       }).then((response) => {
         if (response.data.error === true) {
-          errorToast("❌" + response.data.title);
+          errorToast(response.data.title);
+          setLoginButtonStatus(true);
           setTimeout(function () {
+            setLoginButtonStatus(false);
             setLoginStatus(response.data.title);
           }, 3000);
         } else {
@@ -108,6 +90,10 @@ const Content = () => {
         }
       });
     }
+  };
+  const loginBtnFun = () => {
+    alert("hi");
+    // setLoginButtonStatus(true);
   };
 
   return (
@@ -153,7 +139,11 @@ const Content = () => {
           <p className="text-center mb-0">
             Don't have an account? <Link to="/register">Create One</Link>{" "}
           </p>
-          <button type="submit" className="btn-custom secondary btn-block">
+          <button
+            type="submit"
+            className="btn-custom secondary btn-block"
+            disabled={loginButtonStatus}
+          >
             Login
           </button>
           <ToastContainer />

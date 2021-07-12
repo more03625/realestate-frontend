@@ -28,14 +28,14 @@ const Blogsidebar = () => {
   return (
     <div className="sidebar">
       <div className="sidebar-widget">
-        <form method="post">
+        <form method="get" action="/results">
           <h5>Search News</h5>
           <div className="search-wrapper">
             <input
               type="text"
               className="form-control"
               placeholder="Search"
-              name="sidebar-search"
+              name="search_query"
             />
             <button type="submit" className="btn-custom">
               <i className="flaticon-search" />

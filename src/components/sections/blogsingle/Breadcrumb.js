@@ -1,8 +1,13 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 
-const Breadcrumb = ({ newsData }) => {
-  console.log(newsData);
+const Breadcrumb = ({ resultsData }) => {
+  var key,
+    count = 0;
+  for (key in resultsData) {
+    if (resultsData.hasOwnProperty(key)) count++;
+  }
+
   return (
     <div
       className="subheader subheader-2 bg-cover bg-center dark-overlay"
@@ -13,11 +18,7 @@ const Breadcrumb = ({ newsData }) => {
     >
       <div className="container">
         <div className="subheader-inner">
-          <h1 className="text-white">
-            {newsData && newsData.title !== undefined
-              ? newsData.title
-              : "Loading..."}
-          </h1>
+          <h1 className="text-white">Search results for</h1>
           <nav aria-label="breadcrumb">
             <ol className="breadcrumb">
               <li className="breadcrumb-item">
@@ -30,8 +31,8 @@ const Breadcrumb = ({ newsData }) => {
                 <Link to="#">News</Link>
               </li>
               <li className="breadcrumb-item active" aria-current="page">
-                {newsData && newsData.title !== undefined
-                  ? newsData.title
+                {resultsData && resultsData.title !== undefined
+                  ? resultsData.title
                   : "Loading..."}
               </li>
             </ol>

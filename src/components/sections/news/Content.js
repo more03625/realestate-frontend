@@ -50,6 +50,7 @@ const Content = () => {
   const indexOfLastitem = currentPage * itemsPerPage;
   const indexOfFirstitem = indexOfLastitem - itemsPerPage;
   const currentitems = items.slice(indexOfFirstitem, indexOfLastitem);
+
   function convertToSlug(blogTitle) {
     return blogTitle
       .toLowerCase()

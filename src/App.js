@@ -8,10 +8,11 @@ const Preloader = React.lazy(() => import("./components/layouts/Preloader"));
 
 // RAHULS START
 const News = React.lazy(() => import("./components/pages/News"));
+// const Rent = React.lazy(() => import("./components/pages/Rent"));
+// const Buy = React.lazy(() => import("./components/pages/Buy"));
+// const Share = React.lazy(() => import("./components/pages/Share"));
 const Newsdetail = React.lazy(() => import("./components/pages/Newsdetail"));
-const Rent = React.lazy(() => import("./components/pages/Rent"));
-const Buy = React.lazy(() => import("./components/pages/Buy"));
-const Share = React.lazy(() => import("./components/pages/Share"));
+const Results = React.lazy(() => import("./components/pages/Searchnews"));
 const Commercial = React.lazy(() => import("./components/pages/Commercial"));
 const Propertyconsultants = React.lazy(() =>
   import("./components/pages/Propertyconsultants")
@@ -19,6 +20,10 @@ const Propertyconsultants = React.lazy(() =>
 const Forgotpassword = React.lazy(() =>
   import("./components/pages/Forgotpassword")
 );
+const Forgotpasswordverification = React.lazy(() =>
+  import("./components/pages/Forgotpasswordverification")
+);
+
 const Tandc = React.lazy(() => import("./components/pages/Tandc"));
 const Privacypolicy = React.lazy(() =>
   import("./components/pages/Privacypolicy")
@@ -51,6 +56,7 @@ const Error = React.lazy(() => import("./components/pages/Error"));
 const Login = React.lazy(() => import("./components/pages/Login"));
 const Register = React.lazy(() => import("./components/pages/Register"));
 const Legal = React.lazy(() => import("./components/pages/Legal"));
+const Icons = React.lazy(() => import("./components/pages/Icons"));
 // Listings
 const Listinggrid = React.lazy(() => import("./components/pages/Listinggrid"));
 const Listinglist = React.lazy(() => import("./components/pages/Listinglist"));
@@ -100,6 +106,7 @@ function App() {
         <Switch>
           {/* RAHUL */}
           <Route path="/news" component={News} />
+          <Route path="/results" component={Results} />
           <Route path="/read/news/:slug/:newsID" component={Newsdetail} />
           {/* <Route path="/rent" component={Rent} />
           <Route path="/buy" component={Buy} />
@@ -110,11 +117,15 @@ function App() {
           <Route path="/sold" component={Home} />
           <Route path="/share" component={Home} />
           <Route path="/commercial" component={Commercial} />
-          <Route path="/consultants" component={Propertyconsultants} />
+          <Route path="/consultants" component={Home} />
+          {/*<Route path="/consultants" component={Propertyconsultants} />*/}
           <Route path="/property-listing" component={Commercial} />
 
           <Route path="/forgot-password">
             <LoggedInProtected component={Forgotpassword} />
+          </Route>
+          <Route path="/forgot-password-verification">
+            <LoggedInProtected component={Forgotpasswordverification} />
           </Route>
 
           <Route path="/terms-and-conditions" component={Tandc} />
@@ -154,6 +165,7 @@ function App() {
           </Route>
 
           <Route path="/legal" component={Legal} />
+          <Route path="/icons" component={Icons} />
           {/* Listings */}
           <Route path="/listing-grid" component={Listinggrid} />
           <Route path="/listing-list" component={Listinglist} />
@@ -163,7 +175,7 @@ function App() {
           <Route path="/listing-details-v3" component={Listingdetailsthree} />
 
           <Route path="/submit-listing" component={Submitlisting} />
-            {/* <Protected component={Submitlisting} /> */}
+          {/* <Protected component={Submitlisting} /> */}
           {/* </Route> */}
 
           <Route path="/compare-listings" component={Comparelistings} />

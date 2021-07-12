@@ -1,8 +1,10 @@
-import axios from "axios";
+import Axios from "axios";
 import React, { useState, useEffect } from "react";
 import { Link, useHistory } from "react-router-dom";
 import Slider from "react-slick";
 import { Endpoints, Host } from "../../../helper/server";
+import { successToast, errorToast } from "../../../helper/Toasthelper";
+
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 const images = [
@@ -30,94 +32,88 @@ const settings = {
   dots: true,
   dotsClass: "d-flex slick-dots",
 };
-const Content = () => {
-  const [email, setEmail] = useState("");
-  const [emailError, setEmailError] = useState("");
+const Otpcontent = () => {
+  const [otp, setOtp] = useState("");
+  const [password, setPassword] = useState("");
+  const [otpError, setOtpError] = useState("");
+  const [passwordError, setPasswordError] = useState("");
+
   const history = useHistory();
 
   const isValid = () => {
-    var emailValidator = new RegExp(
-      /[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,15}/g
-    ).test(email);
-
-    if (!emailValidator) {
-      setEmailError("Please enter a valid email address!");
+    if (otp === "" && password === "") {
+      setOtpError("Please enter a valid 4 digit OTP");
+      setPasswordError("Password should be minimum 8 characters!");
+    } else if (otp === "" || otp < 4) {
+      setOtpError("Please enter a valid 4 digit OTP");
+    } else if (password === "" || password.length < 8) {
+      setPasswordError("Password should be minimum 8 characters!");
     } else {
       return true;
     }
   };
-  const successToast = () => {
-    toast.success("✅" + "Success!", {
-      position: "top-center",
-      autoClose: 1000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-    });
-  };
-  const errorToast = (message) => {
-    toast.error(message, {
-      position: "top-center",
-      autoClose: 3000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-    });
-  };
+
   const submit = (e) => {
     e.preventDefault();
 
-    setEmailError("");
+    setOtpError("");
 
     if (isValid()) {
       var url = Host + Endpoints.changePassword;
-      var data = email;
-      axios.post(url, data).then((response) => {
+      var data = {
+        otp,
+        password,
+      };
+      Axios.post(url, data).then((response) => {
         if (response.data.error === true) {
-          history.push("/forgot-password-verification");
-          errorToast("❌" + response.data.title);
+          errorToast(response.data.title);
           setTimeout(function () {
             console.log(response.data.title);
-            // setLoginStatus(response.data.title);
           }, 3000);
         } else {
-          successToast();
+          successToast(response.data.title);
           setTimeout(function () {
-            console.log(response.data.title);
-            // setLoginStatus(true);
+            history.push("/login");
           }, 1000);
           localStorage.setItem("token", JSON.stringify(response.data));
         }
       });
     }
   };
+
   return (
     <div className="acr-auth-container">
       <div className="acr-auth-content">
         <form method="post" onSubmit={submit}>
           <div className="auth-text">
-            <h3>Forgot Password</h3>
+            <h3>Enter OTP & Password</h3>
             <p>
               Lorem Ipsum is simply dummy text of the printing and typesetting
               industry. Lorem Ipsum has been the industry's
             </p>
           </div>
           <div className="form-group">
-            <label>Email</label>
+            <label>OTP</label>
             <input
               type="text"
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={(e) => setOtp(e.target.value)}
               className="form-control form-control-light"
-              placeholder="Enter your email"
-              name="email"
+              placeholder="Enter OTP"
+              name="otp"
             />
-            <p style={{ color: "red", fontSize: "14px" }}>{emailError}</p>
+            <p style={{ color: "red", fontSize: "14px" }}>{otpError}</p>
           </div>
-
+          <div className="form-group">
+            <label>Password</label>
+            <input
+              type="password"
+              className="form-control form-control-light"
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder="Enter New password"
+              name="password"
+            />
+            <p style={{ color: "red", fontSize: "14px" }}>{passwordError}</p>
+          </div>
           <div className="form-group">
             <Link to="/login" className="forgot-password">
               Back to login
@@ -128,7 +124,7 @@ const Content = () => {
             Don't have an account? <Link to="/register">Create One</Link>{" "}
           </p>
           <button type="submit" className="btn-custom secondary btn-block">
-            Login
+            Change Password
           </button>
         </form>
         <ToastContainer />
@@ -157,4 +153,4 @@ const Content = () => {
   );
 };
 
-export default Content;
+export default Otpcontent;

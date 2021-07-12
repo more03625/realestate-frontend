@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from "react";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 
 class Menu extends Component {
   render() {
@@ -25,10 +25,14 @@ class Menu extends Component {
           {/* </ul> */}
           {/* </li> */}
           <li className="menu-item menu-item-has-children">
-            <Link to="/buy">Buy</Link>
+            <NavLink exact to="/buy">
+              Buy
+            </NavLink>
           </li>
           <li className="menu-item menu-item-has-children">
-            <Link to="/rent">Rent</Link>
+            <NavLink exact to="/rent">
+              Rent
+            </NavLink>
             {/* <ul className="submenu"> */}
             {/* <li className="menu-item menu-item-has-children"> */}
             {/* <Link to="/blog-grid">Blog Archive</Link> */}
@@ -43,25 +47,39 @@ class Menu extends Component {
             {/* </ul> */}
           </li>
           <li className="menu-item menu-item-has-children">
-            <Link to="/sold">Sold</Link>
+            <NavLink className="nav-link" exact to="/sold">
+              Sold
+            </NavLink>
           </li>
           <li className="menu-item menu-item-has-children">
-            <Link to="/share">Share</Link>
+            <NavLink className="nav-link" exact to="/share">
+              Share
+            </NavLink>
           </li>
           <li className="menu-item menu-item-has-children">
-            <Link to="/commercial">Commerial</Link>
+            <NavLink exact to="/commercial">
+              Commerial
+            </NavLink>
           </li>
           <li className="menu-item menu-item-has-children">
-            <Link to="/consultants">Property Consaltant</Link>
+            <NavLink exact to="/consultants">
+              Property Consaltant
+            </NavLink>
           </li>
           <li className="menu-item menu-item-has-children">
-            <Link to="/about">About Us</Link>
+            <NavLink exact to="/about">
+              About Us
+            </NavLink>
           </li>
           <li className="menu-item menu-item-has-children">
-            <Link to="/news">News</Link>
+            <NavLink exact to="/news">
+              News
+            </NavLink>
           </li>
           <li className="menu-item menu-item-has-children">
-            <Link to="/contact">Contact Us</Link>
+            <NavLink exact to="/contact">
+              Contact Us
+            </NavLink>
           </li>
           {/* <li className="menu-item menu-item-has-children mega-menu-wrapper">
                         <Link to="#">Share</Link>
@@ -151,7 +169,20 @@ class Menu extends Component {
                         </ul>
                     </li> */}
         </ul>
-        <div class="header-controls"><ul class="header-controls-inner d-none d-lg-flex"><li><a class="btn-custom primary" href="/submit-listing">Submit Listing <i class="fas fa-plus"></i> </a></li></ul><div class="aside-toggler aside-trigger"><span></span><span></span><span></span></div></div>
+        {/*<div className="header-controls">
+          <ul className="header-controls-inner d-none d-lg-flex">
+            <li>
+              <a className="btn-custom primary" href="/submit-listing">
+                Submit Listing <i className="fas fa-plus"></i>{" "}
+              </a>
+            </li>
+          </ul>
+          <div className="aside-toggler aside-trigger">
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+        </div>*/}
       </Fragment>
     );
   }
