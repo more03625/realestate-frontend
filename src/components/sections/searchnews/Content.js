@@ -6,9 +6,15 @@ import $ from "jquery";
 import "magnific-popup";
 import axios from "axios";
 import { Endpoints, Host } from "../../../helper/server";
+import { convertToSlug } from "../../../helper/helper.js";
 
 const Content = ({ resultsData }) => {
-  console.log(resultsData.entries());
+  var searchedArray = [];
+
+  for (const key in resultsData) {
+    searchedArray.push(resultsData[key]);
+  }
+  console.log(searchedArray);
   return (
     <div className="section blog-wrapper">
       <div className="container">
@@ -20,13 +26,21 @@ const Content = ({ resultsData }) => {
             <div className="section section-padding">
               <h4>Search News Related Posts</h4>
               <div className="row">
-                {resultsData.map((item, i) => (
+                {searchedArray.map((item, i) => (
                   <div key={i} className="col-md-6">
                     <article className="post single">
                       <div className="post-thumbnail">
-                        <Link to="/blog-single">
+                        <Link
+                          to={`/read/news/${convertToSlug(item.title)}/${
+                            item.id
+                          }`}
+                        >
                           <img
-                            src={process.env.PUBLIC_URL + "/" + item.gridimg}
+                            src={
+                              process.env.PUBLIC_URL +
+                              "/assets/img/blog/" +
+                              item.image
+                            }
                             alt="blog post"
                           />
                         </Link>
@@ -34,25 +48,40 @@ const Content = ({ resultsData }) => {
                       <div className="post-body">
                         <div className="post-author">
                           <img
-                            src={process.env.PUBLIC_URL + "/" + item.authorimg}
+                            src={
+                              process.env.PUBLIC_URL +
+                              "assets/img/people/" +
+                              item.created_by +
+                              ".jpg"
+                            }
                             alt="author"
                           />
                           <div className="post-author-body">
                             <p>
                               {" "}
-                              <Link to="#">{item.authorname}</Link>{" "}
+                              <Link to="#">{item.created_by}</Link>{" "}
                             </p>
-                            <span className="post-date">{item.postdate}</span>
+                            <span className="post-date">{item.createAt}</span>
                           </div>
                         </div>
                         <h5 className="post-title">
                           {" "}
-                          <Link to="/blog-single">{item.title}</Link>{" "}
+                          <Link
+                            to={`/read/news/${convertToSlug(item.title)}/${
+                              item.id
+                            }`}
+                          >
+                            {item.id} ) {item.title}
+                          </Link>{" "}
                         </h5>
-                        <p className="post-text">{item.text.slice(0, 75)}</p>
+                        <p className="post-text">
+                          {item.description.slice(0, 75) + "..."}
+                        </p>
                         <div className="post-controls">
                           <Link
-                            to="/blog-single"
+                            to={`/read/news/${convertToSlug(item.title)}/${
+                              item.id
+                            }`}
                             className="btn-custom secondary btn-sm"
                           >
                             Read More

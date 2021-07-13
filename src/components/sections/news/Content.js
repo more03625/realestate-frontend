@@ -6,6 +6,7 @@ import classNames from "classnames";
 import Loader from "../../layouts/Loader";
 import { Host, Endpoints } from "../../../helper/server.js";
 import Axios from "axios";
+import { convertToSlug } from "../../../helper/helper.js";
 
 const Content = () => {
   function getNews() {
@@ -50,13 +51,6 @@ const Content = () => {
   const indexOfLastitem = currentPage * itemsPerPage;
   const indexOfFirstitem = indexOfLastitem - itemsPerPage;
   const currentitems = items.slice(indexOfFirstitem, indexOfLastitem);
-
-  function convertToSlug(blogTitle) {
-    return blogTitle
-      .toLowerCase()
-      .replace(/ /g, "-")
-      .replace(/[^\w-]+/g, "");
-  }
 
   const renderitems = currentitems.map((item, i) => {
     return (

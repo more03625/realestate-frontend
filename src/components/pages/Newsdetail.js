@@ -35,7 +35,10 @@ const Newsdetail = () => {
         <meta name="description" content="#" />
       </MetaTags>
       <Header />
-      <Breadcrumb newsData={detailedNews} />
+      <Breadcrumb
+        breadcrumb={{ pagename: "News details" }}
+        newsData={detailedNews}
+      />
       <Content newsData={detailedNews} />
       <Footer />
     </Fragment>
