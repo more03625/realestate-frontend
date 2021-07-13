@@ -163,13 +163,13 @@
         "4",
         "5+"
     ],
-    "typelist":[
+    "propertyType":[
         "All types",
         "House",
+        "Land",
         "Apartment Unit",
         "Townhouse",
         "Villa",
-        "Land",
         "Acreage",
         "Rural",
         "Block of Units",
@@ -206,5 +206,11 @@
         "Owner",
         "Builder",
         "Franchise"
+    ],
+    "category":[
+        "Any Type",
+        "Residential", 
+        "commercial", 
+        "industrial"
     ]
 }

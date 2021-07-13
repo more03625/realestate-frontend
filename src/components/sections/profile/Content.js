@@ -8,7 +8,7 @@ import { successToast, errorToast } from "../../../helper/Toasthelper";
 import { render } from "@testing-library/react";
 
 const Content = () => {
-  const userInfo = JSON.parse(localStorage.getItem("token"));
+  const userInfo = JSON.parse(localStorage.getItem("token")); // get this details from db
 
   const [fullName, setFullName] = useState(
     userInfo.data.name !== null ? userInfo.data.name : ""

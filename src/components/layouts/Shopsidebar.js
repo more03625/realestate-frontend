@@ -3,7 +3,8 @@ import { Link } from "react-router-dom";
 import {
   pricerangelist,
   bedslist,
-  typelist,
+  category,
+  propertyType,
   locationlist,
   statuslist,
   bathroomslist,
@@ -104,12 +105,12 @@ const Shopsidebar = () => {
                 </div>
 
                 <div className="acr-custom-select form-group">
-                  <label>Property Status: </label>
+                  <label>Category: </label>
                   <Select2
                     name="propertStatus"
-                    data={statuslist}
+                    data={category}
                     options={{
-                      placeholder: "Any Status",
+                      placeholder: "Any Category",
                     }}
                   />
                 </div>
@@ -147,7 +148,7 @@ const Shopsidebar = () => {
                   <label>Property Type: </label>
                   <Select2
                     name="propertytype"
-                    data={typelist}
+                    data={propertyType}
                     options={{
                       placeholder: "Any Type",
                     }}

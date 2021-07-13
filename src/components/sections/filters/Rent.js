@@ -230,7 +230,7 @@ class Rent extends Component {
 
         <div className="col-md-12">
           <div className="row">
-            <h5>Land size</h5>
+            <h5>Area size</h5>
           </div>
           <div className="row">
             <div className="col-md-6">
