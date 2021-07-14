@@ -216,10 +216,11 @@ const Shopsidebar = () => {
                       </Link>{" "}
                     </h6>
                     <span className="listing-price">
+                      Rs.
                       {new Intl.NumberFormat().format(
                         item.monthlyprice.toFixed(2)
                       )}
-                      $ <span>/month</span>{" "}
+                      <span>/month</span>{" "}
                     </span>
                   </div>
                 </div>

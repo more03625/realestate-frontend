@@ -16,7 +16,7 @@ import Select2 from "react-select2-wrapper";
 const gallerytip = <Tooltip>Gallery</Tooltip>;
 const bedstip = <Tooltip>Beds</Tooltip>;
 const bathstip = <Tooltip>Bathrooms</Tooltip>;
-const areatip = <Tooltip>Square Feet</Tooltip>;
+const areatip = <Tooltip>Ropani-Aana-Paisa-Daam</Tooltip>;
 
 class Listings extends Component {
   render() {

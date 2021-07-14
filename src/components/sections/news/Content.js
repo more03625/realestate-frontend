@@ -68,7 +68,7 @@ const Content = () => {
             <img
               src={
                 process.env.PUBLIC_URL +
-                "/assets/img/people/2.jpg/" +
+                "/assets/img/people/3.jpg" +
                 item.authorimg
               }
               alt="author"

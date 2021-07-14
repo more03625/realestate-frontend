@@ -1,4 +1,7 @@
-export const Host = "http://localhost:5254/";
+export const Host =
+  window.location.host === "localhost:3000"
+    ? "http://localhost:5254/"
+    : "http://neprealestate.com:5254/";
 
 export const Endpoints = {
   Login: "users/login",

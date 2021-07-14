@@ -26,7 +26,7 @@ const listinggallery = [
 const gallerytip = <Tooltip>Gallery</Tooltip>;
 const bedstip = <Tooltip>Beds</Tooltip>;
 const bathstip = <Tooltip>Bathrooms</Tooltip>;
-const areatip = <Tooltip>Square Feet</Tooltip>;
+const areatip = <Tooltip>Ropani-Aana-Paisa-Daam</Tooltip>;
 
 const mainslider = [
   { img: "assets/img/listing-single/2.jpg" },
@@ -290,7 +290,9 @@ const Listingwrapper = () => {
                     <div className="listing-feature">
                       <i className="flaticon-ruler" />
                       <h6 className="listing-feature-label">Property Size</h6>
-                      <span className="listing-feature-value">3,000 Sqft</span>
+                      <span className="listing-feature-value">
+                        3,000 Ropani-Aana-Paisa-Daam
+                      </span>
                     </div>
                   </div>
                 </div>
@@ -334,11 +336,13 @@ const Listingwrapper = () => {
                       <h6 className="listing-feature-label">Condition</h6>
                       <span className="listing-feature-value">New</span>
                     </div>
+                    {/*
                     <div className="listing-feature">
                       <i className="flaticon-ruler" />
                       <h6 className="listing-feature-label">Lot Size</h6>
                       <span className="listing-feature-value">89 Acres</span>
                     </div>
+                    */}
                     <div className="listing-feature">
                       <i className="flaticon-eye" />
                       <h6 className="listing-feature-label">View</h6>

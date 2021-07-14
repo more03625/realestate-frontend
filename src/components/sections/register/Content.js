@@ -8,6 +8,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { successToast, errorToast } from "../../../helper/Toasthelper";
 import { Endpoints, Host } from "../../../helper/server";
+
 const images = [
   {
     img: "assets/img/coming-soon/1.jpg",

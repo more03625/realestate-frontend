@@ -6,6 +6,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Endpoints, Host } from "../../../helper/server";
 import { successToast, errorToast } from "../../../helper/Toasthelper";
+import ReCaptchaV2 from "react-google-recaptcha";
 const images = [
   {
     img: "assets/img/coming-soon/1.jpg",
@@ -136,6 +137,7 @@ const Content = () => {
             </Link>
           </div>
 
+          {/*<ReCaptchaV2 sitekey={process.env.REACT_APP_RECAPTCHA_SITE_KEY} />*/}
           <p className="text-center mb-0">
             Don't have an account? <Link to="/register">Create One</Link>{" "}
           </p>

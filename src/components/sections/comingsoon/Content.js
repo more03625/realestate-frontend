@@ -25,6 +25,7 @@ class Content extends Component {
             <div className="acr-cs-logo">
               <Link to="/">
                 <img
+                  style={{ width: 145 }}
                   src={
                     process.env.PUBLIC_URL +
                     "/assets/img/realestaelogo/logo.png"

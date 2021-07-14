@@ -15,7 +15,7 @@ const listtip = <Tooltip>List</Tooltip>;
 const maptip = <Tooltip>Map</Tooltip>;
 const bedstip = <Tooltip>Beds</Tooltip>;
 const bathstip = <Tooltip>Bathrooms</Tooltip>;
-const areatip = <Tooltip>Square Feet</Tooltip>;
+const areatip = <Tooltip>Ropani-Aana-Paisa-Daam</Tooltip>;
 
 const Content = () => {
   const [loading, setLoading] = useState(false);
