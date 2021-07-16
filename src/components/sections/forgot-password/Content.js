@@ -74,23 +74,13 @@ const Content = () => {
     setEmailError("");
 
     if (isValid()) {
-      var url = Host + Endpoints.changePassword;
-      var data = email;
-      axios.post(url, data).then((response) => {
+      var url = Host + Endpoints.forgotPassword;
+      axios.post(url, {email: email, type:'seller'}).then((response) => {
         if (response.data.error === true) {
-          history.push("/forgot-password-verification");
+          // history.push("/forgot-password-verification");
           errorToast("❌" + response.data.title);
-          setTimeout(function () {
-            console.log(response.data.title);
-            // setLoginStatus(response.data.title);
-          }, 3000);
         } else {
           successToast();
-          setTimeout(function () {
-            console.log(response.data.title);
-            // setLoginStatus(true);
-          }, 1000);
-          localStorage.setItem("token", JSON.stringify(response.data));
         }
       });
     }
