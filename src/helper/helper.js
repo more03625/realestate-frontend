@@ -11,10 +11,3 @@ function processRatingStars(rating) {
   return stars;
 }
 export { processRatingStars };
-
-export const convertToSlug = (blogTitle) => {
-  return blogTitle
-    .toLowerCase()
-    .replace(/ /g, "-")
-    .replace(/[^\w-]+/g, "");
-};

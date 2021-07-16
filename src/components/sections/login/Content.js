@@ -36,6 +36,9 @@ const Content = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  const [token, setToken] = useState("");
+  const [tokenError, setTokenError] = useState("");
+
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
 
@@ -49,13 +52,16 @@ const Content = () => {
       /[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,15}/g
     ).test(email);
 
-    if (!emailValidator && password === "") {
+    if (!emailValidator && password === "" && token.length === 0) {
       setEmailError("Please enter a valid email address!");
       setPasswordError("Please enter your password!");
+      setTokenError("Please Verify captcha!");
     } else if (!emailValidator) {
       setEmailError("Please enter a valid email address!");
     } else if (password === "") {
       setPasswordError("Please enter your password!");
+    } else if (token.length === 0) {
+      setTokenError("Please Verify captcha!");
     } else {
       return true;
     }
@@ -73,6 +79,7 @@ const Content = () => {
       Axios.post(url, {
         email: email,
         password: password,
+        token: token, //captcha token
         type: "seller",
       }).then((response) => {
         if (response.data.error === true) {
@@ -96,7 +103,12 @@ const Content = () => {
     alert("hi");
     // setLoginButtonStatus(true);
   };
-
+  const handleToken = (captchaToken) => {
+    setToken(captchaToken);
+  };
+  const handleExpire = () => {
+    setToken(null);
+  };
   return (
     <div className="acr-auth-container">
       {loginStatus === true && <Redirect to="/home" />}
@@ -137,7 +149,13 @@ const Content = () => {
             </Link>
           </div>
 
-          {/*<ReCaptchaV2 sitekey={process.env.REACT_APP_RECAPTCHA_SITE_KEY} />*/}
+          <ReCaptchaV2
+            sitekey={process.env.REACT_APP_RECAPTCHA_SITE_KEY}
+            onChange={handleToken}
+            onExpire={handleExpire}
+          />
+
+          <p style={{ color: "red", fontSize: "14px" }}>{tokenError}</p>
           <p className="text-center mb-0">
             Don't have an account? <Link to="/register">Create One</Link>{" "}
           </p>

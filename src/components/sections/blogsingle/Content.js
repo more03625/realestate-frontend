@@ -18,6 +18,12 @@ const Content = ({ newsData }) => {
           <div className="col-lg-8">
             {/* Content Start */}
             <article className="post-single">
+              <div className="post-thumbnail">
+                <img
+                  src={process.env.PUBLIC_URL + "/assets/img/blog/5.jpg"}
+                  alt="post"
+                />
+              </div>
               <div className="post-content">
                 {newsData && newsData.description !== undefined
                   ? newsData.description

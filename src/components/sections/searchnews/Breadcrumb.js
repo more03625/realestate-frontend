@@ -1,8 +1,11 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
-const Breadcrumb = ({ newsData }) => {
-  console.log(newsData);
+const Breadcrumb = ({ resultsData }) => {
+  function useQuery() {
+    return new URLSearchParams(useLocation().search);
+  }
+  let query = useQuery().get("search_query");
 
   return (
     <div
@@ -14,11 +17,7 @@ const Breadcrumb = ({ newsData }) => {
     >
       <div className="container">
         <div className="subheader-inner">
-          <h3 className="text-white">
-            {newsData && newsData.title !== undefined
-              ? newsData.title
-              : "Loading..."}
-          </h3>
+          <h1 className="text-white">Search results for "{query}"</h1>
           <nav aria-label="breadcrumb">
             <ol className="breadcrumb">
               <li className="breadcrumb-item">
@@ -31,9 +30,7 @@ const Breadcrumb = ({ newsData }) => {
                 <Link to="#">News</Link>
               </li>
               <li className="breadcrumb-item active" aria-current="page">
-                {newsData && newsData.title !== undefined
-                  ? newsData.title
-                  : "Loading..."}
+                results
               </li>
             </ol>
           </nav>

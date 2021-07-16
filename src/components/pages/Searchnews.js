@@ -1,7 +1,7 @@
 import React, { useEffect, Fragment, useState } from "react";
 import MetaTags from "react-meta-tags";
 import Header from "../layouts/Headerfive";
-import Breadcrumb from "../sections/blogsingle/Breadcrumb";
+import Breadcrumb from "../sections/searchnews/Breadcrumb";
 import Footer from "../layouts/Footerthree";
 import Content from "../sections/searchnews/Content";
 import { Link, useParams, useLocation } from "react-router-dom";

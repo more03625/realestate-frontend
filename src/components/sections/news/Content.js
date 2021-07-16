@@ -4,9 +4,8 @@ import { blogblock } from "../../../data/blog.json";
 import Sidebar from "../../layouts/Blogsidebar";
 import classNames from "classnames";
 import Loader from "../../layouts/Loader";
-import { Host, Endpoints } from "../../../helper/server.js";
+import { Host, Endpoints, convertToSlug } from "../../../helper/server.js";
 import Axios from "axios";
-import { convertToSlug } from "../../../helper/helper.js";
 
 const Content = () => {
   function getNews() {
@@ -66,11 +65,7 @@ const Content = () => {
         <div className="post-body">
           <div className="post-author">
             <img
-              src={
-                process.env.PUBLIC_URL +
-                "/assets/img/people/3.jpg" +
-                item.authorimg
-              }
+              src={process.env.PUBLIC_URL + "/assets/img/people/3.jpg"}
               alt="author"
             />
             <div className="post-author-body">

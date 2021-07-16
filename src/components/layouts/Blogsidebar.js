@@ -57,7 +57,9 @@ const Blogsidebar = () => {
             <div className="media-body">
               <h6>
                 {" "}
-                <Link to="/blog-single">{item.title}</Link>{" "}
+                <Link to={`/read/news/${convertToSlug(item.title)}/${item.id}`}>
+                  {item.title.slice(0, 55) + "..."}
+                </Link>{" "}
               </h6>
               <span>{item.createdAt}</span>
             </div>

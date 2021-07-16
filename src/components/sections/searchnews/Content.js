@@ -5,8 +5,7 @@ import { blogblock, blogcomment } from "../../../data/blog.json";
 import $ from "jquery";
 import "magnific-popup";
 import axios from "axios";
-import { Endpoints, Host } from "../../../helper/server";
-import { convertToSlug } from "../../../helper/helper.js";
+import { Endpoints, Host, convertToSlug } from "../../../helper/server";
 
 const Content = ({ resultsData }) => {
   var searchedArray = [];

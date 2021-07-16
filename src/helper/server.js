@@ -17,3 +17,10 @@ export const Endpoints = {
   getNewsDetails: "news/getNewsDetails?id=",
   contactUs: "users/contact_us",
 };
+
+export const convertToSlug = (blogTitle) => {
+  return blogTitle
+    .toLowerCase()
+    .replace(/ /g, "-")
+    .replace(/[^\w-]+/g, "");
+};

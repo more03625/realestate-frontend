@@ -98,6 +98,10 @@ const Agencydetails = React.lazy(() =>
   import("./components/pages/Agencydetails")
 );
 
+const NepadminLogin = React.lazy(() =>
+  import("./admin/components/pages/NepadminLogin")
+);
+
 function App() {
   return (
     <Router>
@@ -195,6 +199,11 @@ function App() {
           {/* Agency */}
           <Route path="/agency-archive" component={Agencyarchive} />
           <Route path="/agency-details" component={Agencydetails} />
+
+          {/*Admin Panel Start*/}
+          <Route path="/nep-admin" component={NepadminLogin} />
+          {/*Admin Panel End*/}
+
           <Route path="*" component={Error} />
         </Switch>
       </Suspense>
