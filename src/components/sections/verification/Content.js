@@ -45,8 +45,6 @@ const Content = ({ userData }) => {
 
   const [otpStatus, setOtpStatus] = useState(false);
 
-  // Axios.defaults.withCredentials = true;
-
   const isValid = () => {
     if (emailOTP === "" && phoneOTP === "") {
       setEmailOTPError("Please enter a valid email OTP!");
@@ -68,7 +66,6 @@ const Content = ({ userData }) => {
 
     if (isValid()) {
       let url = Host + Endpoints.verifyOtp;
-      alert(userData.email);
       Axios.post(url, {
         email: userData.email,
         sms_otp: emailOTP,
@@ -168,6 +165,20 @@ const Content = ({ userData }) => {
             Submit
           </button>
         </form>
+      </div>
+      <div className="acr-auth-bg">
+        <Slider className="acr-auth-bg-slider acr-cs-bg-slider" {...settings}>
+          {images.map((item, i) => (
+            <div key={i}>
+              <div className="acr-cs-bg-item bg-cover bg-center" style={{ backgroundImage: "url(" + process.env.PUBLIC_URL + "/" + item.img + ")" }} >
+                <div className="acr-auth-quote">
+                  <h6>{item.title}</h6>
+                  <p>{item.text}</p>
+                </div>
+              </div>
+            </div>
+          ))}
+        </Slider>
       </div>
     </div>
   );

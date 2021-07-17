@@ -103,7 +103,7 @@ const Content = () => {
         email: email,
         password: password,
         mobile: mobileNumber,
-        // "userType":userType,
+        "user_type":userType,
         // "tandC":tandcBox
       }).then((response) => {
         if (response.data.error === false) {
@@ -197,6 +197,7 @@ const Content = () => {
               name="userType"
               onChange={(e) => setUserType(e.target.value)}
             >
+              <option value="">Select User Type</option>
               <option value="agent">Agent</option>
               <option value="owner">Owner</option>
               <option value="builder">Builder</option>

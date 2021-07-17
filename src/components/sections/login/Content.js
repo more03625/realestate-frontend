@@ -45,8 +45,6 @@ const Content = () => {
   const [loginStatus, setLoginStatus] = useState(false);
   const [loginButtonStatus, setLoginButtonStatus] = useState(false);
 
-  // Axios.defaults.withCredentials = true;
-
   const isValid = () => {
     var emailValidator = new RegExp(
       /[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,15}/g
@@ -174,18 +172,18 @@ const Content = () => {
         </form>
       </div>
       <div className="acr-auth-bg">
-        {/* <Slider className="acr-auth-bg-slider acr-cs-bg-slider" {...settings}>
-                        {images.map((item, i) => (
-                            <div key={i}>
-                                <div className="acr-cs-bg-item bg-cover bg-center" style={{ backgroundImage: "url(" + process.env.PUBLIC_URL + "/" + item.img + ")" }} >
-                                    <div className="acr-auth-quote">
-                                        <h6>{item.title}</h6>
-                                        <p>{item.text}</p>
-                                    </div>
-                                </div>
-                            </div>
-                        ))}
-                    </Slider> */}
+        <Slider className="acr-auth-bg-slider acr-cs-bg-slider" {...settings}>
+          {images.map((item, i) => (
+            <div key={i}>
+              <div className="acr-cs-bg-item bg-cover bg-center" style={{ backgroundImage: "url(" + process.env.PUBLIC_URL + "/" + item.img + ")" }} >
+                <div className="acr-auth-quote">
+                  <h6>{item.title}</h6>
+                  <p>{item.text}</p>
+                </div>
+              </div>
+            </div>
+          ))}
+        </Slider>
       </div>
     </div>
   );
