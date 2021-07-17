@@ -45,7 +45,7 @@ const Content = ({ userData }) => {
 
   const [otpStatus, setOtpStatus] = useState(false);
 
-  Axios.defaults.withCredentials = true;
+  // Axios.defaults.withCredentials = true;
 
   const isValid = () => {
     if (emailOTP === "" && phoneOTP === "") {

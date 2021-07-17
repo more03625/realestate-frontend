@@ -1,5 +1,5 @@
 export const Host =
-  window.location.host === "localhost:3000"
+  window.location.host === "localhost:3000" || "localhost:3001"
     ? "http://localhost:5254/"
     : "http://neprealestate.com:5254/";
 

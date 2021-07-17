@@ -45,7 +45,7 @@ const Content = () => {
   const [loginStatus, setLoginStatus] = useState(false);
   const [loginButtonStatus, setLoginButtonStatus] = useState(false);
 
-  Axios.defaults.withCredentials = true;
+  // Axios.defaults.withCredentials = true;
 
   const isValid = () => {
     var emailValidator = new RegExp(
@@ -75,12 +75,16 @@ const Content = () => {
 
     if (isValid()) {
       let url = Host + Endpoints.Login;
-
-      Axios.post(url, {
+      var data = {
         email: email,
         password: password,
-        token: token, //captcha token
+        token: token,
         type: "seller",
+      }
+      Axios.post(url, data, {
+        headers: {
+          "Access-Control-Allow-Origin": "http://localhost:3000/"
+        }
       }).then((response) => {
         if (response.data.error === true) {
           errorToast(response.data.title);
