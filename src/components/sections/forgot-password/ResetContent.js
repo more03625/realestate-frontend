@@ -1,10 +1,9 @@
 import Axios from "axios";
 import React, { useState, useEffect } from "react";
-import { Link, useHistory } from "react-router-dom";
+import { Link, useHistory, useParams } from "react-router-dom";
 import Slider from "react-slick";
 import { Endpoints, Host } from "../../../helper/server";
 import { successToast, errorToast } from "../../../helper/Toasthelper";
-
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 const images = [
@@ -32,22 +31,24 @@ const settings = {
   dots: true,
   dotsClass: "d-flex slick-dots",
 };
-const Otpcontent = () => {
-  const [otp, setOtp] = useState("");
+const ResetContent = () => {
+  const { remember_token } = useParams();
+  const [confirmPass, setConfirmPass] = useState("");
   const [password, setPassword] = useState("");
-  const [otpError, setOtpError] = useState("");
+  const [confirmPassError, setconfirmPassError] = useState("");
   const [passwordError, setPasswordError] = useState("");
 
   const history = useHistory();
-
   const isValid = () => {
-    if (otp === "" && password === "") {
-      setOtpError("Please enter a valid 4 digit OTP");
+    if (confirmPass === "" && password === "") {
+      setconfirmPassError("Password should be minimum 8 characters!");
       setPasswordError("Password should be minimum 8 characters!");
-    } else if (otp === "" || otp < 4) {
-      setOtpError("Please enter a valid 4 digit OTP");
+    } else if (confirmPass === "" || confirmPass < 8) {
+      setconfirmPassError("Password should be minimum 8 characters!");
     } else if (password === "" || password.length < 8) {
       setPasswordError("Password should be minimum 8 characters!");
+    } else if (password !== confirmPass) {
+      setconfirmPassError("Password and confirm password should be same!");
     } else {
       return true;
     }
@@ -56,26 +57,22 @@ const Otpcontent = () => {
   const submit = (e) => {
     e.preventDefault();
 
-    setOtpError("");
+    setconfirmPassError("");
 
     if (isValid()) {
-      var url = Host + Endpoints.changePassword;
+      var url = Host + Endpoints.ResetPassword;
       var data = {
-        otp,
+        remember_token,
         password,
       };
       Axios.post(url, data).then((response) => {
         if (response.data.error === true) {
           errorToast(response.data.title);
-          setTimeout(function () {
-            console.log(response.data.title);
-          }, 3000);
         } else {
           successToast(response.data.title);
           setTimeout(function () {
             history.push("/login");
           }, 1000);
-          localStorage.setItem("token", JSON.stringify(response.data));
         }
       });
     }
@@ -86,23 +83,13 @@ const Otpcontent = () => {
       <div className="acr-auth-content">
         <form method="post" onSubmit={submit}>
           <div className="auth-text">
-            <h3>Enter OTP & Password</h3>
-            <p>
+            <h3>Enter Your New Password</h3>
+            {/* <p>
               Lorem Ipsum is simply dummy text of the printing and typesetting
               industry. Lorem Ipsum has been the industry's
-            </p>
+            </p> */}
           </div>
-          <div className="form-group">
-            <label>OTP</label>
-            <input
-              type="text"
-              onChange={(e) => setOtp(e.target.value)}
-              className="form-control form-control-light"
-              placeholder="Enter OTP"
-              name="otp"
-            />
-            <p style={{ color: "red", fontSize: "14px" }}>{otpError}</p>
-          </div>
+          
           <div className="form-group">
             <label>Password</label>
             <input
@@ -113,6 +100,17 @@ const Otpcontent = () => {
               name="password"
             />
             <p style={{ color: "red", fontSize: "14px" }}>{passwordError}</p>
+          </div>
+          <div className="form-group">
+            <label>Confirm Password</label>
+            <input
+              type="password"
+              onChange={(e) => setConfirmPass(e.target.value)}
+              className="form-control form-control-light"
+              placeholder="Enter Confirm password"
+              name="confirm_password"
+            />
+            <p style={{ color: "red", fontSize: "14px" }}>{confirmPassError}</p>
           </div>
           <div className="form-group">
             <Link to="/login" className="forgot-password">
@@ -153,4 +151,4 @@ const Otpcontent = () => {
   );
 };
 
-export default Otpcontent;
+export default ResetContent;

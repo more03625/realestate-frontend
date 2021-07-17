@@ -17,7 +17,7 @@ export const Endpoints = {
   getNewsDetails: "news/getNewsDetails?id=",
   contactUs: "users/contact_us",
   forgotPassword: "users/forgotPassword",
-  resetPassword: "users/resetPassword",
+  ResetPassword: "users/resetPassword",
 };
 
 export const convertToSlug = (blogTitle) => {

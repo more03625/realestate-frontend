@@ -20,8 +20,8 @@ const Propertyconsultants = React.lazy(() =>
 const Forgotpassword = React.lazy(() =>
   import("./components/pages/Forgotpassword")
 );
-const Forgotpasswordverification = React.lazy(() =>
-  import("./components/pages/Forgotpasswordverification")
+const ResetPassword = React.lazy(() =>
+  import("./components/pages/ResetPassword")
 );
 
 const Tandc = React.lazy(() => import("./components/pages/Tandc"));
@@ -128,8 +128,8 @@ function App() {
           <Route path="/forgot-password">
             <LoggedInProtected component={Forgotpassword} />
           </Route>
-          <Route path="/forgot-password-verification">
-            <LoggedInProtected component={Forgotpasswordverification} />
+          <Route path="/resetPassword/:remember_token">
+            <LoggedInProtected component={ResetPassword} />
           </Route>
 
           <Route path="/terms-and-conditions" component={Tandc} />
