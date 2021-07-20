@@ -25,6 +25,7 @@ const Blogsidebar = () => {
     getRecentNews();
   }, []);
 
+
   return (
     <div className="sidebar">
       <div className="sidebar-widget">
@@ -61,7 +62,7 @@ const Blogsidebar = () => {
                   {item.title.slice(0, 55) + "..."}
                 </Link>{" "}
               </h6>
-              <span>{item.createdAt}</span>
+              <span>{new Date(item.createdAt).toDateString()}</span>
             </div>
           </article>
         ))}

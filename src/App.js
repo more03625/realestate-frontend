@@ -36,6 +36,7 @@ const Verification = React.lazy(() =>
 // RAHUL END
 // Home Pages
 const CommingSoon = React.lazy(() => import("./components/pages/Comingsoon"));
+const Propertydetails = React.lazy(() => import("./components/pages/Propertydetails"));
 const Home = React.lazy(() => import("./components/pages/Home"));
 const Hometwo = React.lazy(() => import("./components/pages/Hometwo"));
 const Homethree = React.lazy(() => import("./components/pages/Homethree"));
@@ -109,9 +110,9 @@ function App() {
         <Preloader />
         <Switch>
           {/* RAHUL */}
-          <Route path="/news" component={News} />
+          <Route exact path="/news" component={News} />
           <Route path="/results" component={Results} />
-          <Route path="/read/news/:slug/:newsID" component={Newsdetail} />
+          <Route exact path="/read/news/:slug/:newsID" component={Newsdetail} />
           {/* <Route path="/rent" component={Rent} />
           <Route path="/buy" component={Buy} />
           <Route path="/sold" component={Sold} />
@@ -121,6 +122,7 @@ function App() {
           <Route path="/sold" component={Home} />
           <Route path="/share" component={Home} />
           <Route path="/commercial" component={Commercial} />
+          <Route path="/property/:slug/:propertyID" component={Propertydetails} />
           <Route path="/consultants" component={Home} />
           {/*<Route path="/consultants" component={Propertyconsultants} />*/}
           <Route path="/property-listing" component={Commercial} />
@@ -191,7 +193,7 @@ function App() {
             <Protected component={Profile} />
           </Route>
 
-          <Route path="/profile-listings" component={Profilelistings} />
+          <Route path="/my-listings" component={Profilelistings} />
           <Route
             path="/profile-saved-listings"
             component={Profilesavedlistings}

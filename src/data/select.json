@@ -148,7 +148,6 @@
     ],
     "bedslist":[
         "Any",
-        "Studio",
         "1 Bed",
         "2 Beds",
         "3 Beds",
@@ -163,11 +162,13 @@
         "4",
         "5+"
     ],
-    "propertyType":[
+    "subCategories":[
         "All types",
         "House",
-        "Land",
         "Apartment Unit",
+        "Land",
+        "Shop",
+        "Flat",
         "Townhouse",
         "Villa",
         "Acreage",
@@ -212,5 +213,11 @@
         "Residential", 
         "commercial", 
         "industrial"
+    ],
+    "type":[
+        "Buy",
+        "Rent",
+        "Share"
     ]
+
 }

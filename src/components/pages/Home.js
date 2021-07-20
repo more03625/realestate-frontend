@@ -15,11 +15,10 @@ class Homefour extends Component {
                         name="description"
                         content="THTIS IS DESCRIPTION OF NEPREALESTATE WEBSITE"
                     />
-                   
                 </MetaTags>
-                <Header/>
-                <Content/>
-                <Footer/>
+                <Header />
+                <Content />
+                <Footer />
             </Fragment>
         );
     }

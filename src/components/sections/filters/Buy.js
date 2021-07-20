@@ -1,10 +1,14 @@
+import { map } from "leaflet";
 import React, { Component } from "react";
+import { pricerangelist, maxpricerangelist } from '../../../data/select.json';
 
 class Buy extends Component {
+
   render() {
     return (
       <>
         <div className="col-md-12">
+
           <div className="col-md-12">
             <div className="row">
               <h5>Buy Property Types</h5>
@@ -135,14 +139,12 @@ class Buy extends Component {
               <div className="form-group">
                 <label>Max Range</label>
                 <select className="form-control" name="max_range">
-                  <option value="">Any</option>
-                  <option value="$60k">$60k</option>
-                  <option value="$80k">$80k</option>
-                  <option value="$100k">$100k</option>
-                  <option value="$120k">$120k</option>
-                  <option value="$140k">$140k</option>
-                  <option value="$160k">$160k</option>
-                  <option value="$180k">$180k</option>
+                  {
+                    pricerangelist.map((abc, index) => {
+                      console.log(abc);
+                      <option value={abc}>{abc}</option>
+                    })
+                  }
                 </select>
               </div>
             </div>

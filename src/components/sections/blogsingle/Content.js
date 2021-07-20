@@ -20,7 +20,7 @@ const Content = ({ newsData }) => {
             <article className="post-single">
               <div className="post-thumbnail">
                 <img
-                  src={process.env.PUBLIC_URL + "/assets/img/blog/5.jpg"}
+                  src={`/assets/img/blog/${newsData && newsData.image !== undefined ? newsData.image : ''}`}
                   alt="post"
                 />
               </div>

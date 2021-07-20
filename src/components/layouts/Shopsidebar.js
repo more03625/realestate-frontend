@@ -4,7 +4,7 @@ import {
   pricerangelist,
   bedslist,
   category,
-  propertyType,
+  subCategories,
   locationlist,
   statuslist,
   bathroomslist,
@@ -17,7 +17,7 @@ import Rent from "../sections/filters/Rent.js";
 import Sold from "../sections/filters/Sold.js";
 import Keywordsearchbar from "../sections/filters/Keywordsearchbar";
 import Searchbar from "../sections/filters/Searchbar";
-import { Endpoints, Host } from "./../../helper/server";
+import { Endpoints, Host, convertToSlug } from "./../../helper/server";
 import Axios from "axios";
 
 const Shopsidebar = () => {
@@ -28,6 +28,7 @@ const Shopsidebar = () => {
 
   const [show, setShow] = useState(false);
   const [states, setStates] = useState();
+  const [recentProperties, setRecentProperties] = useState([]);
 
   function handleModal() {
     setShow(!show);
@@ -42,8 +43,19 @@ const Shopsidebar = () => {
     }
     setStates(locationArray);
   };
+  const getRecentProperties = () => {
+    var url = Host + Endpoints.getRecentProperties;
+    Axios.get(url).then((response) => {
+      if (response.data.error === true) {
+        alert(response.data.title);
+      } else {
+        setRecentProperties(response.data.data);
+      }
+    });
+  }
   useEffect(() => {
     getStates();
+    getRecentProperties();
   }, []);
 
   return (
@@ -147,8 +159,8 @@ const Shopsidebar = () => {
                 <div className="acr-custom-select form-group">
                   <label>Property Type: </label>
                   <Select2
-                    name="propertytype"
-                    data={propertyType}
+                    name="subCategories"
+                    data={subCategories}
                     options={{
                       placeholder: "Any Type",
                     }}
@@ -173,7 +185,7 @@ const Shopsidebar = () => {
           onClick={handleModal}
           className="btn-block btn-custom"
           name="button"
-          // style={{ backgroundColor: "#007bff" }}
+        // style={{ backgroundColor: "#007bff" }}
         >
           <i className="fa fa-filter" /> Advanced filters{" "}
         </button>
@@ -182,7 +194,7 @@ const Shopsidebar = () => {
       <div className="sidebar-widget">
         <div
           className="acr-collapse-trigger acr-custom-chevron-wrapper"
-          // onClick={setOpen2(open2)}
+        // onClick={setOpen2(open2)}
         >
           <h5>Recent Listing</h5>
           <div className="acr-custom-chevron">
@@ -193,15 +205,13 @@ const Shopsidebar = () => {
         <Collapse in={open2}>
           <div className="acr-collapsable">
             {/* Listing Start */}
-            {listing
-              .filter(function (item) {
-                return item.recent === true;
-              })
+            {recentProperties
+
               .slice(0, 4)
               .map((item, i) => (
                 <div key={i} className="listing listing-list">
                   <div className="listing-thumbnail">
-                    <Link to="/listing-details-v1">
+                    <Link to={`property/${convertToSlug(item.title)}/${item.id}`}>
                       <img
                         src={process.env.PUBLIC_URL + "/" + item.gridimg}
                         alt="listing"
@@ -211,14 +221,14 @@ const Shopsidebar = () => {
                   <div className="listing-body">
                     <h6 className="listing-title">
                       {" "}
-                      <Link to="/listing-details-v1" title={item.title}>
+                      <Link to={`property/${convertToSlug(item.title)}/${item.id}`} title={item.title}>
                         {item.title}
                       </Link>{" "}
                     </h6>
                     <span className="listing-price">
                       Rs.
                       {new Intl.NumberFormat().format(
-                        item.monthlyprice.toFixed(2)
+                        33232
                       )}
                       <span>/month</span>{" "}
                     </span>

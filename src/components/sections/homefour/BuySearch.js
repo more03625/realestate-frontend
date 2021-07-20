@@ -1,27 +1,25 @@
-import React, { Component } from "react";
+import React from "react";
 
 import {
-  OverlayTrigger,
-  Tooltip,
-  Dropdown,
   NavLink,
   Tab,
   Nav,
 } from "react-bootstrap";
+
 import {
-  locationlist,
-  statuslist,
   pricerangelist,
   bedslist,
-  bathroomslist,
+  subCategories,
   category,
-  diameterlist,
   maxpricerangelist,
 } from "../../../data/select.json";
+
 import Select2 from "react-select2-wrapper";
 import "../../../assets/css/restyle.css";
 
 const BuySearch = () => {
+
+
   return (
     <div className="container searchContainer">
       <div className="row search-form-container">
@@ -73,7 +71,7 @@ const BuySearch = () => {
                       <div className="col-lg-2 col-md-6">
                         <div className="form-group acr-custom-select">
                           <Select2
-                            data={category}
+                            data={subCategories}
                             options={{
                               placeholder: "Property Types",
                             }}

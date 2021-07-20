@@ -26,14 +26,16 @@ const Content = () => {
     getNews();
   }, []);
   const [items, setItems] = useState([]);
+  console.log(items);
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage, setItemsPerPage] = useState(2);
+  const [itemsPerPage, setItemsPerPage] = useState(5);
   const [loading, setLoading] = useState(false);
 
   const handleClick = (event) => {
     var paginationContent = event.target.closest(".pagination-content");
 
     if (paginationContent) {
+      console.log(paginationContent);
       paginationContent.scrollIntoView();
     }
 
@@ -73,7 +75,8 @@ const Content = () => {
                 {" "}
                 <Link to="#">{item.authorname}</Link>{" "}
               </p>
-              <span className="post-date">{item.createdAt}</span>
+
+              <span className="post-date">{new Date(item.createdAt).toDateString()}</span>
             </div>
           </div>
           <h5 className="post-title">
@@ -155,7 +158,7 @@ const Content = () => {
                 {/* Next */}
                 {/* to show next, we should not be on the last page */}
                 {pageNumbers.length > 1 &&
-                currentPage !== pageNumbers.length ? (
+                  currentPage !== pageNumbers.length ? (
                   <li className="page-item">
                     <Link
                       className="page-link"

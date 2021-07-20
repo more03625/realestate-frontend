@@ -168,12 +168,14 @@ const Content = () => {
                 </li>
                 <li>
                   {" "}
-                  <Link to="/profile-listings">My Listings</Link>{" "}
+                  <Link to="/my-listings">My Listings</Link>{" "}
                 </li>
+                {/*
                 <li>
                   {" "}
                   <Link to="/profile-saved-listings">Saved Listings</Link>{" "}
                 </li>
+                */}
                 <li>
                   {" "}
                   <Link className="logout" to="/logout">
@@ -187,11 +189,7 @@ const Content = () => {
           <div className="col-lg-8">
             <div className="acr-welcome-message">
               <h3>Welcome Back, Randy Blue</h3>
-              <p>
-                Lorem Ipsum is simply dummy text of the printing and typesetting
-                industry. Lorem Ipsum has been the industry's standard dummy
-                text ever since the 1500s
-              </p>
+
             </div>
             <form id="profileForm" onSubmit={updateProfile}>
               <div className="row">
@@ -278,12 +276,8 @@ const Content = () => {
             </form>
             <hr />
             <div className="acr-welcome-message">
-              <h3>Security</h3>
-              <p>
-                Lorem Ipsum is simply dummy text of the printing and typesetting
-                industry. Lorem Ipsum has been the industry's standard dummy
-                text ever since the 1500s
-              </p>
+              <h3>Change Password</h3>
+
             </div>
             <form onSubmit={changePassword}>
               <div className="row">

@@ -18,6 +18,9 @@ export const Endpoints = {
   contactUs: "users/contact_us",
   forgotPassword: "users/forgotPassword",
   ResetPassword: "users/resetPassword",
+  getPropertyDetails: "property/getPropertyDetails?id=",
+  getRecentProperties: "property/getRecentProperties",
+  getPropertiesBySellerID: "property/getPropertiesBySellerID"
 };
 
 export const convertToSlug = (blogTitle) => {

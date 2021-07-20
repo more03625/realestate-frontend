@@ -1,8 +1,8 @@
 import React, { Component, Fragment } from 'react';
 import MetaTags from "react-meta-tags";
-import Header from '../layouts/Header';
+import Header from '../layouts/Headerfive';
 import Breadcrumb from '../layouts/Userbreadcrumb';
-import Footer from '../layouts/Footer';
+import Footer from '../layouts/Footerthree';
 import Content from '../sections/profile-listings/Content';
 
 class Profilelistings extends Component {
@@ -10,16 +10,16 @@ class Profilelistings extends Component {
         return (
             <Fragment>
                 <MetaTags>
-                    <title>Acres - Real Estate React Template | My Listings</title>
+                    <title>My Listings | Neprealestate</title>
                     <meta
                         name="description"
                         content="#"
                     />
                 </MetaTags>
-                <Header/>
-                <Breadcrumb/>
-                <Content/>
-                <Footer/>
+                <Header />
+                <Breadcrumb />
+                <Content />
+                <Footer />
             </Fragment>
         );
     }
