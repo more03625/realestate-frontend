@@ -3,9 +3,10 @@ import { Link, useHistory } from "react-router-dom";
 import Slider from "react-slick";
 import Axios from "axios";
 import "react-toastify/dist/ReactToastify.css";
-import { ToastContainer, toast } from "react-toastify";
-import { Endpoints, Host } from "../../../helper/server";
-import { successToast, errorToast } from "../../../helper/Toasthelper";
+import { ToastContainer } from "react-toastify";
+
+import { Endpoints, Host, successToast, errorToast } from "../../../helper/comman_helper";
+
 const images = [
   {
     img: "assets/img/coming-soon/1.jpg",

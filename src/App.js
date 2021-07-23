@@ -99,8 +99,8 @@ const Agencydetails = React.lazy(() =>
   import("./components/pages/Agencydetails")
 );
 
-const NepadminLogin = React.lazy(() =>
-  import("./admin/components/pages/NepadminLogin")
+const Propertyresults = React.lazy(() =>
+  import("./components/pages/Propertyresults")
 );
 
 function App() {
@@ -113,6 +113,8 @@ function App() {
           <Route exact path="/news" component={News} />
           <Route path="/results" component={Results} />
           <Route exact path="/read/news/:slug/:newsID" component={Newsdetail} />
+          <Route path="/property-results" component={Propertyresults} />
+
           {/* <Route path="/rent" component={Rent} />
           <Route path="/buy" component={Buy} />
           <Route path="/sold" component={Sold} />
@@ -121,9 +123,10 @@ function App() {
           <Route path="/buy" component={Home} />
           <Route path="/sold" component={Home} />
           <Route path="/share" component={Home} />
+          <Route path="/consultants" component={Home} />
+
           <Route path="/commercial" component={Commercial} />
           <Route path="/property/:slug/:propertyID" component={Propertydetails} />
-          <Route path="/consultants" component={Home} />
           {/*<Route path="/consultants" component={Propertyconsultants} />*/}
           <Route path="/property-listing" component={Commercial} />
 
@@ -202,9 +205,6 @@ function App() {
           <Route path="/agency-archive" component={Agencyarchive} />
           <Route path="/agency-details" component={Agencydetails} />
 
-          {/*Admin Panel Start*/}
-          <Route path="/nep-admin" component={NepadminLogin} />
-          {/*Admin Panel End*/}
 
           <Route path="*" component={Error} />
         </Switch>

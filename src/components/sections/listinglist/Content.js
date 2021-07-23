@@ -7,7 +7,7 @@ import listing from "../../../data/listings.json";
 import classNames from "classnames";
 import Loader from "../../layouts/Loader";
 import Axios from "axios";
-import { Endpoints, Host } from "../../../helper/server";
+import { Endpoints, Host } from "../../../helper/comman_helper";
 
 const gallerytip = <Tooltip>Gallery</Tooltip>;
 const gridtip = <Tooltip>Grid</Tooltip>;
@@ -30,7 +30,21 @@ const Content = () => {
   useEffect((event) => {
     getStates();
   }, []);
+  const handleClick = (event) => {
+    var paginationContent = event.target.closest(".pagination-content");
 
+    if (paginationContent) {
+      console.log(paginationContent);
+      paginationContent.scrollIntoView();
+    }
+
+    setLoading(true);
+
+    setTimeout(() => {
+      setCurrentPage(Number(event.target.getAttribute("data-page")));
+      setLoading(false);
+    }, 2000);
+  };
   // Logic for displaying items
   const indexOfLastitem = 1 * 5;
   const indexOfFirstitem = 5 - 5;
@@ -191,7 +205,7 @@ const Content = () => {
               className="page-link"
               to="#"
               data-page={number}
-              //   onClick={this.handleClick}
+              onClick={handleClick}
             >
               {number}
             </Link>
@@ -221,21 +235,7 @@ const Content = () => {
                     <span />
                     <span />
                   </div>
-                  Any Status
-                </Link>
-                <Link to="#">
-                  <div className="close-btn close-dark">
-                    <span />
-                    <span />
-                  </div>
-                  West Roxbury, MA
-                </Link>
-                <Link to="#">
-                  <div className="close-btn close-dark">
-                    <span />
-                    <span />
-                  </div>
-                  House
+                  Commercial
                 </Link>
               </div>
             </div>
@@ -256,7 +256,7 @@ const Content = () => {
                       className="page-link"
                       to="#"
                       data-page={currentPage - 1}
-                      //   onClick={this.handleClick}
+                      onClick={handleClick}
                     >
                       <i className="fas fa-chevron-left" />
                     </Link>
@@ -269,13 +269,13 @@ const Content = () => {
                 {/* Next */}
                 {/* to show next, we should not be on the last page */}
                 {pageNumbers.length > 1 &&
-                currentPage !== pageNumbers.length ? (
+                  currentPage !== pageNumbers.length ? (
                   <li className="page-item">
                     <Link
                       className="page-link"
                       to="#"
                       data-page={parseInt(currentPage + 1)}
-                      //   onClick={this.handleClick}
+                      onClick={handleClick}
                     >
                       <i className="fas fa-chevron-right" />
                     </Link>

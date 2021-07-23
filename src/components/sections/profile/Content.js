@@ -1,11 +1,9 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import Axios from "axios";
-import { Endpoints, Host } from "../../../helper/server";
-import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { successToast, errorToast } from "../../../helper/Toasthelper";
-import { render } from "@testing-library/react";
+import { successToast, errorToast, Endpoints, Host } from "../../../helper/comman_helper";
 
 const Content = () => {
   const userInfo = JSON.parse(localStorage.getItem("token")); // get this details from db

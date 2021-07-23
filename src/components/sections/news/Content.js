@@ -4,7 +4,7 @@ import { blogblock } from "../../../data/blog.json";
 import Sidebar from "../../layouts/Blogsidebar";
 import classNames from "classnames";
 import Loader from "../../layouts/Loader";
-import { Host, Endpoints, convertToSlug } from "../../../helper/server.js";
+import { Host, Endpoints, convertToSlug } from "../../../helper/comman_helper";
 import Axios from "axios";
 
 const Content = () => {

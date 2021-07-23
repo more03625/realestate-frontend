@@ -2,9 +2,8 @@ import Axios from "axios";
 import React, { useState, useEffect } from "react";
 import { Link, useHistory, useParams } from "react-router-dom";
 import Slider from "react-slick";
-import { Endpoints, Host } from "../../../helper/server";
-import { successToast, errorToast } from "../../../helper/Toasthelper";
-import { ToastContainer, toast } from "react-toastify";
+import { successToast, Endpoints, Host, errorToast } from "../../../helper/comman_helper";
+import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 const images = [
   {
@@ -89,7 +88,7 @@ const ResetContent = () => {
               industry. Lorem Ipsum has been the industry's
             </p> */}
           </div>
-          
+
           <div className="form-group">
             <label>Password</label>
             <input

@@ -2,7 +2,7 @@ import React, { useState, Fragment, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { blogblock, blogcategory } from "../../data/blog.json";
 import Axios from "axios";
-import { Host, Endpoints, convertToSlug } from "./../../helper/server.js";
+import { Host, Endpoints, convertToSlug } from "./../../helper/comman_helper";
 
 const Blogsidebar = () => {
   const [recentNews, setRecentNews] = useState([]);

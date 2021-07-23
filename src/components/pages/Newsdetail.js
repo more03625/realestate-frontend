@@ -5,7 +5,7 @@ import Breadcrumb from "../sections/blogsingle/Breadcrumb";
 import Footer from "../layouts/Footerthree";
 import Content from "../sections/blogsingle/Content";
 import { Link, useParams } from "react-router-dom";
-import { Host, Endpoints } from "../../helper/server.js";
+import { Host, Endpoints } from "../../helper/comman_helper";
 import Axios from "axios";
 const Newsdetail = () => {
   const { slug, newsID } = useParams();

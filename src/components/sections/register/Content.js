@@ -6,8 +6,7 @@ import Axios from "axios";
 import Slider from "react-slick";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { successToast, errorToast } from "../../../helper/Toasthelper";
-import { Endpoints, Host } from "../../../helper/server";
+import { Endpoints, Host, successToast, errorToast } from "../../../helper/comman_helper";
 
 const images = [
   {
@@ -103,7 +102,7 @@ const Content = () => {
         email: email,
         password: password,
         mobile: mobileNumber,
-        "user_type":userType,
+        "user_type": userType,
         // "tandC":tandcBox
       }).then((response) => {
         if (response.data.error === false) {

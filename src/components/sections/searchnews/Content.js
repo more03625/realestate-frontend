@@ -5,7 +5,7 @@ import { blogblock, blogcomment } from "../../../data/blog.json";
 import $ from "jquery";
 import "magnific-popup";
 import axios from "axios";
-import { Endpoints, Host, convertToSlug } from "../../../helper/server";
+import { Endpoints, Host, convertToSlug } from "../../../helper/comman_helper";
 
 const Content = ({ resultsData }) => {
   var searchedArray = [];
@@ -30,9 +30,8 @@ const Content = ({ resultsData }) => {
                     <article className="post single">
                       <div className="post-thumbnail">
                         <Link
-                          to={`/read/news/${convertToSlug(item.title)}/${
-                            item.id
-                          }`}
+                          to={`/read/news/${convertToSlug(item.title)}/${item.id
+                            }`}
                         >
                           <img
                             src={
@@ -66,9 +65,8 @@ const Content = ({ resultsData }) => {
                         <h5 className="post-title">
                           {" "}
                           <Link
-                            to={`/read/news/${convertToSlug(item.title)}/${
-                              item.id
-                            }`}
+                            to={`/read/news/${convertToSlug(item.title)}/${item.id
+                              }`}
                           >
                             {item.id} ) {item.title}
                           </Link>{" "}
@@ -78,9 +76,8 @@ const Content = ({ resultsData }) => {
                         </p>
                         <div className="post-controls">
                           <Link
-                            to={`/read/news/${convertToSlug(item.title)}/${
-                              item.id
-                            }`}
+                            to={`/read/news/${convertToSlug(item.title)}/${item.id
+                              }`}
                             className="btn-custom secondary btn-sm"
                           >
                             Read More

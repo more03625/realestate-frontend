@@ -2,9 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import listing from "../../../data/listings.json";
 import { OverlayTrigger, Tooltip, Dropdown, NavLink } from "react-bootstrap";
-import { Endpoints, Host, convertToSlug } from "../../../helper/server";
-import { successToast, errorToast } from "../../../helper/Toasthelper";
-import { openInGmail } from "../../../helper/comman_helper";
+import { openInGmail, successToast, errorToast, Endpoints, Host, convertToSlug } from "../../../helper/comman_helper";
 import Axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 
@@ -14,6 +12,8 @@ const bathstip = <Tooltip>Bathrooms</Tooltip>;
 const areatip = <Tooltip>Ropani-Aana-Paisa-Daam</Tooltip>;
 const Content = () => {
   const [myProperties, setMyProperties] = useState([]);
+  var userInfo = JSON.parse(localStorage.getItem('token')).data;
+  var userName = userInfo.name;
 
   const getMyProperties = () => {
     var url = Host + Endpoints.getPropertiesBySellerID;
@@ -133,7 +133,7 @@ const Content = () => {
                     <div className="listing-author-body">
                       <p>
                         {" "}
-                        <Link to="#">Rahul More</Link>{" "}
+                        <Link to="#">{userName}</Link>{" "}
                       </p>
                       <span className="listing-date">{new Date(item.createdAt).toDateString()}</span>
                     </div>

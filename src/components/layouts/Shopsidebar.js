@@ -17,7 +17,7 @@ import Rent from "../sections/filters/Rent.js";
 import Sold from "../sections/filters/Sold.js";
 import Keywordsearchbar from "../sections/filters/Keywordsearchbar";
 import Searchbar from "../sections/filters/Searchbar";
-import { Endpoints, Host, convertToSlug } from "./../../helper/server";
+import { Endpoints, Host, convertToSlug } from "./../../helper/comman_helper";
 import Axios from "axios";
 
 const Shopsidebar = () => {
@@ -213,8 +213,8 @@ const Shopsidebar = () => {
                   <div className="listing-thumbnail">
                     <Link to={`property/${convertToSlug(item.title)}/${item.id}`}>
                       <img
-                        src={process.env.PUBLIC_URL + "/" + item.gridimg}
-                        alt="listing"
+                        src={process.env.REACT_APP_CONTENT_URL + "/properties/" + item.image + "_small.jpg"}
+                        alt={item.image + "_small.jpg"}
                       />
                     </Link>
                   </div>
@@ -226,10 +226,7 @@ const Shopsidebar = () => {
                       </Link>{" "}
                     </h6>
                     <span className="listing-price">
-                      Rs.
-                      {new Intl.NumberFormat().format(
-                        33232
-                      )}
+                      Rs. {new Number(item.price).toLocaleString()}
                       <span>/month</span>{" "}
                     </span>
                   </div>

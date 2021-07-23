@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { OverlayTrigger, Tooltip, Dropdown, NavLink } from "react-bootstrap";
 import listing from "../../../data/listings.json";
 import Axios from 'axios';
-import { Endpoints, Host, convertToSlug } from "../../../helper/server";
+import { openInGmail, saveProperty, Endpoints, Host, convertToSlug } from "../../../helper/comman_helper";
 
 const gallerytip = <Tooltip>Gallery</Tooltip>;
 const bedstip = <Tooltip>Beds</Tooltip>;
@@ -47,8 +47,8 @@ const Recentlisting = () => {
                 <div className="listing-thumbnail">
                   <Link to={`property/${convertToSlug(item.title)}/${item.id}`}>
                     <img
-                      src={process.env.PUBLIC_URL + "/assets/img/listings-list/3.jpg"}
-                      alt="listing"
+                      src={process.env.REACT_APP_CONTENT_URL + "properties/" + item.image + "_mediam.jpg"}
+                      alt={item.image + "_mediam.jpg"}
                     />
                   </Link>
                   <div className="listing-badges">
@@ -77,24 +77,22 @@ const Recentlisting = () => {
                     )}
                   </div>
                   <div className="listing-controls">
-                    <Link to="#" className="favorite">
+                    <Link to="#" onClick={() => saveProperty(item.id)} className="favorite">
                       <i className="far fa-heart" />
                     </Link>
-                    <Link to="#" className="compare">
-                      <i className="fas fa-sync-alt" />
-                    </Link>
+
                   </div>
                 </div>
                 <div className="listing-body">
                   <div className="listing-author">
                     <img
-                      src={process.env.PUBLIC_URL + "/assets/img/people/1.jpg"}
-                      alt="author"
+                      src={process.env.REACT_APP_CONTENT_URL + item.profile_image + "_small.jpg"}
+                      alt={item.profile_image + "_small.jpg"}
                     />
                     <div className="listing-author-body">
                       <p>
                         {" "}
-                        <Link to="#">RAHUL MORE</Link>{" "}
+                        <Link to="#">{item.name}</Link>{" "}
                       </p>
                       <span className="listing-date">{item.postdate}</span>
                     </div>
@@ -106,21 +104,21 @@ const Recentlisting = () => {
                         <ul>
                           <li>
                             {" "}
-                            <Link to="tel:+123456789">
+                            <Link to={{ pathname: `tel:${item.number_for_contact}` }}>
                               {" "}
                               <i className="fas fa-phone" /> Call Agent
                             </Link>{" "}
                           </li>
                           <li>
                             {" "}
-                            <Link to="mailto:+123456789">
+                            <Link to={{ pathname: `${openInGmail(item.email_for_contact)}` }}>
                               {" "}
                               <i className="fas fa-envelope" /> Send Message
                             </Link>{" "}
                           </li>
                           <li>
                             {" "}
-                            <Link to={`property/${convertToSlug(item.title)}/${item.id}`}>
+                            <Link to={`property/${convertToSlug(item.title)}/${item.id}#book_tour`}>
                               {" "}
                               <i className="fas fa-bookmark" /> Book Tour
                             </Link>{" "}
@@ -136,11 +134,7 @@ const Recentlisting = () => {
                     </Link>{" "}
                   </h5>
                   <span className="listing-price">
-                    Rs.{" "}
-                    {new Intl.NumberFormat().format(
-                      2562032
-
-                    )}{" "}
+                    Rs. {new Number(item.price).toLocaleString()}
                     <span>/month</span>{" "}
                   </span>
                   <p className="listing-text">{item.text}</p>

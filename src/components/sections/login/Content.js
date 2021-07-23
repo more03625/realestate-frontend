@@ -4,8 +4,7 @@ import Slider from "react-slick";
 import Axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { Endpoints, Host } from "../../../helper/server";
-import { successToast, errorToast } from "../../../helper/Toasthelper";
+import { successToast, errorToast, Endpoints, Host } from "../../../helper/comman_helper";
 import ReCaptchaV2 from "react-google-recaptcha";
 const images = [
   {

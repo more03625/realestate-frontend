@@ -2,8 +2,7 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { successToast, errorToast } from "../../../helper/Toasthelper";
-import { Endpoints, Host } from "../../../helper/server";
+import { successToast, errorToast, Endpoints, Host } from "../../../helper/comman_helper";
 import Axios from "axios";
 
 const Contactform = () => {

@@ -5,7 +5,7 @@ import Breadcrumb from "../sections/searchnews/Breadcrumb";
 import Footer from "../layouts/Footerthree";
 import Content from "../sections/searchnews/Content";
 import { Link, useParams, useLocation } from "react-router-dom";
-import { Host, Endpoints } from "../../helper/server.js";
+import { Host, Endpoints } from "../../helper/comman_helper.js";
 import Axios from "axios";
 const Searchnews = () => {
   function useQuery() {

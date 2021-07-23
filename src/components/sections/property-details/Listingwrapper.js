@@ -5,18 +5,15 @@ import {
     Tooltip,
     Dropdown,
     NavLink,
-    Accordion,
-    Card,
+
 } from "react-bootstrap";
-import listing from "../../../data/listings.json";
 import Calculator from "../../layouts/Calculator";
 import $ from "jquery";
 import "magnific-popup";
 import classNames from "classnames";
 import Slider from "react-slick";
 import Axios from "axios";
-import { Endpoints, Host, convertToSlug } from "../../../helper/server";
-
+import { openInGmail, saveProperty, Endpoints, Host, convertToSlug } from "../../../helper/comman_helper";
 // Gallery
 const listinggallery = [
     { img: "assets/img/listing-single/2.jpg" },
@@ -108,7 +105,7 @@ const Listingwrapper = () => {
         popup();
         getPropertyDetails();
         getRecentProperties()
-    }, []);
+    }, [propertyID]);
 
     const [fname, setFname] = useState("");
     const [email, setEmail] = useState("");
@@ -174,7 +171,7 @@ const Listingwrapper = () => {
         }
     };
 
-
+    const agentProfileImage = propertyDetails && propertyDetails.profile_image ? propertyDetails.profile_image + "_small.jpg" : '';
 
     return (
         <div className="section listing-wrapper">
@@ -182,6 +179,7 @@ const Listingwrapper = () => {
                 <div className="row">
                     {/* Listings Start */}
                     <div className="col-lg-8">
+                        <h4>{propertyDetails && propertyDetails.title ? propertyDetails.title : ''}</h4>
                         <div className="listing-thumbnail">
                             <Slider
                                 className="listing-thumbnail-slider-main col-12"
@@ -228,7 +226,6 @@ const Listingwrapper = () => {
                         {/* Price Range In the area Start */}
                         <div className="section">
                             <div className="acr-area-price">
-
 
                                 <span style={{ left: "30%" }}>Rs. {propertyDetails && propertyDetails.price ? new Number(propertyDetails.price).toLocaleString() : ''}</span>
                                 <div className="progress">
@@ -457,7 +454,7 @@ const Listingwrapper = () => {
                                 </button>
                             </form>
                         </div>
-                        {/* Pagination Start */}
+                        {/* Pagination Start
                         <div className="section p-0 post-single-pagination-wrapper">
                             <div className="post-single-pagination post-prev">
                                 <i className="fas fa-arrow-left" />
@@ -474,7 +471,7 @@ const Listingwrapper = () => {
                                 <i className="fas fa-arrow-right" />
                             </div>
                         </div>
-                        {/* Pagination End */}
+                         */}
                         {/* Similar Start */}
                         <div className="section section-padding">
                             <h4>Similar Listings</h4>
@@ -486,7 +483,7 @@ const Listingwrapper = () => {
                                             <div className="listing-thumbnail">
                                                 <Link to={`/property/${convertToSlug(item.title)}/${item.id}`}>
                                                     <img
-                                                        src={process.env.PUBLIC_URL + "/" + item.gridimg}
+                                                        src={process.env.REACT_APP_CONTENT_URL + "properties/" + item.image + "_mediam.jpg"}
                                                         alt="listing"
                                                     />
                                                 </Link>
@@ -519,27 +516,25 @@ const Listingwrapper = () => {
                                                     )}
                                                 </div>
                                                 <div className="listing-controls">
-                                                    <Link to="#" className="favorite">
+                                                    <Link to="#" onClick={() => saveProperty(item.id)} className="favorite">
+
                                                         <i className="far fa-heart" />
-                                                    </Link>
-                                                    <Link to="#" className="compare">
-                                                        <i className="fas fa-sync-alt" />
                                                     </Link>
                                                 </div>
                                             </div>
                                             <div className="listing-body">
                                                 <div className="listing-author">
                                                     <img
-                                                        src={process.env.PUBLIC_URL + "/" + item.authorimg}
+                                                        src={process.env.REACT_APP_CONTENT_URL + item.profile_image + "_small.jpg"}
                                                         alt="author"
                                                     />
                                                     <div className="listing-author-body">
                                                         <p>
                                                             {" "}
-                                                            <Link to="#">{item.authorname}</Link>{" "}
+                                                            <Link to="#">Rahul More</Link>{" "}
                                                         </p>
                                                         <span className="listing-date">
-                                                            {item.postdate}
+                                                            Mon Jul 12 2021
                                                         </span>
                                                     </div>
                                                     <Dropdown className="options-dropdown">
@@ -550,14 +545,17 @@ const Listingwrapper = () => {
                                                             <ul>
                                                                 <li>
                                                                     {" "}
-                                                                    <Link to="tel:+123456789">
+                                                                    <Link to={{ pathname: `tel:${item.number_for_contact}` }}>
                                                                         {" "}
                                                                         <i className="fas fa-phone" /> Call Agent
                                                                     </Link>{" "}
                                                                 </li>
                                                                 <li>
                                                                     {" "}
-                                                                    <Link to="mailto:+123456789">
+
+                                                                    <Link to={{
+                                                                        pathname: `${openInGmail(item.email_for_contact)}`
+                                                                    }}>
                                                                         {" "}
                                                                         <i className="fas fa-envelope" /> Send
                                                                         Message
@@ -581,10 +579,7 @@ const Listingwrapper = () => {
                                                     </Link>{" "}
                                                 </h5>
                                                 <span className="listing-price">
-                                                    Rs.{" "}
-                                                    {new Intl.NumberFormat().format(
-                                                        56256
-                                                    )}
+                                                    Rs. {new Number(item.price).toLocaleString()}
                                                     <span>/month</span>{" "}
                                                 </span>
                                                 <p className="listing-text">{item.text}</p>
@@ -593,7 +588,7 @@ const Listingwrapper = () => {
                                                         <div className="acr-listing-icon">
                                                             <i className="flaticon-bedroom" />
                                                             <span className="acr-listing-icon-value">
-                                                                {item.beds}
+                                                                {item.no_of_bathrooms}
                                                             </span>
                                                         </div>
                                                     </OverlayTrigger>
@@ -601,7 +596,7 @@ const Listingwrapper = () => {
                                                         <div className="acr-listing-icon">
                                                             <i className="flaticon-bathroom" />
                                                             <span className="acr-listing-icon-value">
-                                                                {item.bathrooms}
+                                                                {item.no_of_beds}
                                                             </span>
                                                         </div>
                                                     </OverlayTrigger>
@@ -609,7 +604,7 @@ const Listingwrapper = () => {
                                                         <div className="acr-listing-icon">
                                                             <i className="flaticon-ruler" />
                                                             <span className="acr-listing-icon-value">
-                                                                {new Intl.NumberFormat().format(item.area)}
+                                                                {item.area}
                                                             </span>
                                                         </div>
                                                     </OverlayTrigger>
@@ -647,7 +642,7 @@ const Listingwrapper = () => {
                                 <div className="media sidebar-author listing-agent">
                                     <Link to="#">
                                         <img
-                                            src={process.env.PUBLIC_URL + "/assets/img/people/1.jpg"}
+                                            src={process.env.REACT_APP_CONTENT_URL + agentProfileImage}
                                             alt="agent"
                                         />
                                     </Link>
@@ -667,7 +662,7 @@ const Listingwrapper = () => {
                                             <ul>
                                                 <li>
                                                     {" "}
-                                                    <Link to="tel:+123456789">
+                                                    <Link to={{ pathname: `tel:${propertyDetails && propertyDetails.number_for_contact ? propertyDetails.number_for_contact : ''}` }}>
                                                         {" "}
                                                         <i className="fas fa-phone" /> Call Agent
                                                     </Link>{" "}
@@ -736,8 +731,8 @@ const Listingwrapper = () => {
                                             <div className="listing-thumbnail">
                                                 <Link to={`/property/${convertToSlug(item.title)}/${item.id}`}>
                                                     <img
-                                                        src={process.env.PUBLIC_URL + "/" + item.gridimg}
-                                                        alt="listing"
+                                                        src={process.env.REACT_APP_CONTENT_URL + "/properties/" + item.image + "_small.jpg"}
+                                                        alt={item.image + "_small.jpg"}
                                                     />
                                                 </Link>
                                             </div>
@@ -749,10 +744,7 @@ const Listingwrapper = () => {
                                                     </Link>{" "}
                                                 </h6>
                                                 <span className="listing-price">
-                                                    Rs.{" "}
-                                                    {new Intl.NumberFormat().format(
-                                                        item.price
-                                                    )}
+                                                    Rs. {new Number(item.price).toLocaleString()}
                                                     <span>/month</span>{" "}
                                                 </span>
                                             </div>

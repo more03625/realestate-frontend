@@ -6,13 +6,13 @@ import Content from "../sections/property-details/Content";
 import { useParams } from "react-router-dom";
 
 const Listingdetailsone = () => {
-
+    const { slug } = useParams();
 
 
     return (
         <Fragment>
             <MetaTags>
-                <title>Property Details | Neprealestate</title>
+                <title>{slug} | Property Details</title>
                 <meta name="description" content="#" />
             </MetaTags>
             <Header />

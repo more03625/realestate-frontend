@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { Link, useHistory } from "react-router-dom";
 import Slider from "react-slick";
-import { Endpoints, Host } from "../../../helper/server";
+import { Endpoints, Host } from "../../../helper/comman_helper";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 const images = [
@@ -75,7 +75,7 @@ const Content = () => {
 
     if (isValid()) {
       var url = Host + Endpoints.forgotPassword;
-      axios.post(url, {email: email, type:'seller'}).then((response) => {
+      axios.post(url, { email: email, type: 'seller' }).then((response) => {
         if (response.data.error === true) {
           // history.push("/forgot-password-verification");
           errorToast("❌" + response.data.title);

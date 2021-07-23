@@ -6,13 +6,16 @@ const ctablock = [
         id: 1,
         icon: 'sales-agent',
         title: 'Buying a Home?',
-        text: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's"
+        text: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's",
+        link: "/buy"
     },
     {
         id: 2,
         icon: 'sold',
         title: 'Selling a Home?',
-        text: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's"
+        text: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's",
+        link: "/sold"
+
     }
 ]
 
@@ -28,7 +31,7 @@ class Blockcta extends Component {
                                 <div className="cta-body">
                                     <h4>{item.title}</h4>
                                     <p>{item.text}</p>
-                                    <Link to="/pricing" className="btn-link">Find Out More <i className="fas fa-arrow-right" /> </Link>
+                                    <Link to={item.link} className="btn-link">Find Out More <i className="fas fa-arrow-right" /> </Link>
                                 </div>
                             </div>
                         </div>

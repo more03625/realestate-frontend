@@ -5,7 +5,7 @@ import { blogblock, blogcomment } from "../../../data/blog.json";
 import $ from "jquery";
 import "magnific-popup";
 import axios from "axios";
-import { Endpoints, Host } from "../../../helper/server";
+
 
 const Content = ({ newsData }) => {
   const { slug, newsID } = useParams();
