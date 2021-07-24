@@ -10,7 +10,7 @@ class Error extends Component {
     return (
       <Fragment>
         <MetaTags>
-          <title>Acres - Real Estate React Template | Error 404</title>
+          <title>Error 404 | Neprealestate</title>
           <meta name="description" content="#" />
         </MetaTags>
         <Header />

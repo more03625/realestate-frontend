@@ -27,7 +27,6 @@ const Propertyresults = () => {
                     setSearchResults(response.data.data.properties);
                 }
             })
-
     }
 
     useEffect((event) => {

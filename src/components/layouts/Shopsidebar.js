@@ -57,7 +57,10 @@ const Shopsidebar = () => {
     getStates();
     getRecentProperties();
   }, []);
+  const filter = (propertyFilter) => {
+    alert(propertyFilter);
 
+  }
   return (
     <div className="sidebar sidebar-left">
       <Modal
@@ -108,7 +111,7 @@ const Shopsidebar = () => {
                 <div className="acr-custom-select form-group">
                   <label>State: </label>
                   <Select2
-                    name="states"
+                    name="states" onChange={(e) => filter(e.target.value, "state")}
                     data={states}
                     options={{
                       placeholder: "Any State",

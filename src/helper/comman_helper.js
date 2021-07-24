@@ -1,6 +1,8 @@
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
+export const Host = process.env.REACT_APP_CONTENT_URL;
+
 export const Endpoints = {
     Login: "users/login",
     Register: "users/register",
@@ -23,7 +25,6 @@ export const Endpoints = {
 };
 
 export const openInGmail = (to, cc = null, bcc = null) => {
-
     var subject = "This is subject";
     var body = "This is body";
     var mailLink = `https://mail.google.com/mail/?view=cm&fs=1&to=${to}&su=${subject}&body=${body}`;
@@ -35,11 +36,6 @@ export const uppercaseFirstLetter = (string) => {
 export const saveProperty = (propertyID) => {
     alert(`Ok, i will save this property number ${propertyID}`);
 }
-
-export const Host =
-    window.location.host === "localhost:3000" || "localhost:3001"
-        ? "http://localhost:5254/"
-        : "http://neprealestate.com:5254/";
 
 export const convertToSlug = (blogTitle) => {
     return blogTitle
