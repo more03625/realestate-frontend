@@ -1,4 +1,4 @@
-import React, { useEffect, Fragment, useState } from "react";
+import React, { useEffect, Fragment, useState, useRef } from "react";
 import MetaTags from "react-meta-tags";
 import Header from "../layouts/Headerfive";
 import Breadcrumb from "../sections/blogsingle/Breadcrumb";
@@ -7,9 +7,11 @@ import Content from "../sections/blogsingle/Content";
 import { Link, useParams } from "react-router-dom";
 import { Host, Endpoints } from "../../helper/comman_helper";
 import Axios from "axios";
+import Loader from "../layouts/Loader";
+
 const Newsdetail = () => {
   const { slug, newsID } = useParams();
-
+  const ref = useRef();
   const getNewsDetails = () => {
     var url = Host + Endpoints.getNewsDetails + newsID;
     Axios.get(url).then((response) => {
@@ -20,11 +22,13 @@ const Newsdetail = () => {
       }
     });
   };
-  useEffect(() => {
-    getNewsDetails();
-  }, []);
   const [detailedNewsError, setDetailedNewsError] = useState();
   const [detailedNews, setDetailedNews] = useState();
+
+  useEffect(() => {
+    getNewsDetails();
+  }, [newsID]);
+
 
   return (
     <Fragment>
@@ -39,7 +43,9 @@ const Newsdetail = () => {
         breadcrumb={{ pagename: "News details" }}
         newsData={detailedNews}
       />
-      <Content newsData={detailedNews} />
+      {
+        detailedNews == '' ? <Loader /> : <Content newsData={detailedNews} ref={ref} />
+      }
       <Footer />
     </Fragment>
   );

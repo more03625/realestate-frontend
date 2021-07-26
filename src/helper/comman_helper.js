@@ -1,3 +1,4 @@
+import { red } from "chalk";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -21,7 +22,8 @@ export const Endpoints = {
     getPropertyDetails: "property/getPropertyDetails?id=",
     getRecentProperties: "property/getRecentProperties",
     getPropertiesBySellerID: "property/getPropertiesBySellerID",
-    getProperties: "property/getProperties"
+    getProperties: "property/getProperties",
+    addProperty: "property/addProperty",
 };
 
 export const openInGmail = (to, cc = null, bcc = null) => {
@@ -34,7 +36,7 @@ export const uppercaseFirstLetter = (string) => {
     return string[0].toUpperCase() + string.slice(1);
 }
 export const saveProperty = (propertyID) => {
-    alert(`Ok, i will save this property number ${propertyID}`);
+    alert(`Ok, i will save this property if you are logged in. number is ${propertyID}`);
 }
 
 export const convertToSlug = (blogTitle) => {

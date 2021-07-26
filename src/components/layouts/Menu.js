@@ -142,7 +142,7 @@ class Menu extends Component {
                                     <li className="menu-item"> <Link to="/listing-details-v3">Listing Details v3</Link> </li>
                                 </ul>
                             </li>
-                            <li className="menu-item"> <Link to="/submit-listing">Submit Listing</Link> </li>
+                            <li className="menu-item"> <Link to="/add-property">Submit Listing</Link> </li>
                             <li className="menu-item"> <Link to="/compare-listings">Compare Listings</Link> </li>
                         </ul>
                     </li> */}
@@ -172,7 +172,7 @@ class Menu extends Component {
         {/*<div className="header-controls">
           <ul className="header-controls-inner d-none d-lg-flex">
             <li>
-              <a className="btn-custom primary" href="/submit-listing">
+              <a className="btn-custom primary" href="/add-property">
                 Submit Listing <i className="fas fa-plus"></i>{" "}
               </a>
             </li>

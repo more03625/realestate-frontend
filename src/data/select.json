@@ -154,6 +154,13 @@
         "4 Beds",
         "5 Beds"
     ],
+    "carspaces":[
+        "1",
+        "2",
+        "3",
+        "4",
+        "5+"
+    ],
     "bathroomslist":[
         "Any",
         "1",
@@ -218,6 +225,40 @@
         "Buy",
         "Rent",
         "Share"
+    ],
+    "facing":[
+        "South",
+        "North",
+        "East",
+        "West",
+        "South-East",
+        "South-West",
+        "North-East",
+        "North-West"
+    ],
+    "areaUnit":[
+        "Sq Meter",
+        "Sq Feet",
+        "Acres",
+        "Bigha-Kattha-Dhur-Haat",
+        "Ropani-Aana-Paisa-Daam"
+    ],
+    "buildType":[
+        "Old",
+        "New"
+    ],
+    "roadType":[
+        "Soil Stabilized",
+        "Gravelled",
+        "Paved",
+        "Black Topped",
+        "Alley"
     ]
 
+ 
 }
+
+
+
+
+

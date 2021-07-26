@@ -19,27 +19,25 @@ const ctablock = [
     }
 ]
 
-class Blockcta extends Component {
-    render() {
-        return (
-            <div className="container">
-                <div className="row">
-                    {ctablock.map((item, i) => (
-                        <div key={i} className="col-lg-6">
-                            <div className={"cta cta-2 item" + item.id + ""}>
-                                <i className={"flaticon-" + item.icon + ""} />
-                                <div className="cta-body">
-                                    <h4>{item.title}</h4>
-                                    <p>{item.text}</p>
-                                    <Link to={item.link} className="btn-link">Find Out More <i className="fas fa-arrow-right" /> </Link>
-                                </div>
+const Blockcta = () => {
+    return (
+        <div className="container">
+            <div className="row">
+                {ctablock.map((item, i) => (
+                    <div key={i} className="col-lg-6">
+                        <div className={"cta cta-2 item" + item.id + ""}>
+                            <i className={"flaticon-" + item.icon + ""} />
+                            <div className="cta-body">
+                                <h4>{item.title}</h4>
+                                <p>{item.text}</p>
+                                <Link to={item.link} className="btn-link">Find Out More <i className="fas fa-arrow-right" /> </Link>
                             </div>
                         </div>
-                    ))}
-                </div>
+                    </div>
+                ))}
             </div>
-        );
-    }
+        </div>
+    );
 }
 
 export default Blockcta;

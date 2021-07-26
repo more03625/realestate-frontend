@@ -32,7 +32,7 @@ class Headerthree extends HeaderComponent {
                         <div className="header-controls">
                             <ul className="header-controls-inner d-none d-lg-flex">
                                 <li>
-                                    <Link to="/submit-listing" className="btn-custom primary">Submit Listing <i className="fas fa-plus" /> </Link>
+                                    <Link to="/add-property" className="btn-custom primary">Submit Listing <i className="fas fa-plus" /> </Link>
                                 </li>
                             </ul>
                             {/* Toggler */}

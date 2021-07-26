@@ -20,7 +20,7 @@ import Searchbar from "../sections/filters/Searchbar";
 import { Endpoints, Host, convertToSlug } from "./../../helper/comman_helper";
 import Axios from "axios";
 
-const Shopsidebar = () => {
+const Shopsidebar = ({ parentCallback }) => {
   // console.log(locationlist);
   const [open, setOpen] = useState(true);
   const [open2, setOpen2] = useState(true);
@@ -29,6 +29,14 @@ const Shopsidebar = () => {
   const [show, setShow] = useState(false);
   const [states, setStates] = useState();
   const [recentProperties, setRecentProperties] = useState([]);
+
+
+  const [filterState, setFilterState] = useState(null);
+  const [filterCategory, setFilterCategory] = useState(null);
+  const [filterPrice, setFilterPrice] = useState(null);
+  const [filterBeds, setFilterBeds] = useState(null);
+  const [filterBathrooms, setFilterBathrooms] = useState(null);
+  const [filterSubCategories, setFilterSubCategories] = useState(null);
 
   function handleModal() {
     setShow(!show);
@@ -52,15 +60,39 @@ const Shopsidebar = () => {
         setRecentProperties(response.data.data);
       }
     });
-  }
+  };
   useEffect(() => {
     getStates();
     getRecentProperties();
   }, []);
-  const filter = (propertyFilter) => {
-    alert(propertyFilter);
 
-  }
+  const filter = (e) => {
+    e.preventDefault();
+
+    var data = {
+      filterState,
+      filterCategory,
+      filterPrice,
+      filterBeds,
+      filterBathrooms,
+      filterSubCategories,
+    }
+    // console.log(filterState + " filterState");
+    // console.log(filterCategory + " filterCategory");
+    // console.log(filterPrice + " filterPrice");
+    // console.log(filterBeds + " filterBeds");
+    // console.log(filterBathrooms + " filterBathrooms");
+    // console.log(filterSubCategories + " filterSubCategories");
+    var filterURL = Host + Endpoints.getProperties;
+    Axios.post(filterURL, data)
+      .then((response) => {
+        parentCallback(response.data.data.properties);
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+
+  };
   return (
     <div className="sidebar sidebar-left">
       <Modal
@@ -107,68 +139,70 @@ const Shopsidebar = () => {
         <Collapse in={open}>
           <div className="acr-collapsable">
             <div className="acr-filter-form">
-              <form>
-                <div className="acr-custom-select form-group">
-                  <label>State: </label>
-                  <Select2
-                    name="states" onChange={(e) => filter(e.target.value, "state")}
-                    data={states}
-                    options={{
-                      placeholder: "Any State",
-                    }}
-                  />
+              <form onSubmit={filter}>
+                <div className="form-group">
+                  <label>Select States</label>
+                  <select className="form-control" name="states" onChange={(e) => setFilterState(e.target.value)}>
+                    <option value="">Select States</option>
+                    <option value="Any">Any States</option>
+                    {states !== undefined ? states.map((value, index) => (
+                      <option value={index}>{value}</option>
+                    )) : ''}
+                  </select>
                 </div>
 
-                <div className="acr-custom-select form-group">
-                  <label>Category: </label>
-                  <Select2
-                    name="propertStatus"
-                    data={category}
-                    options={{
-                      placeholder: "Any Category",
-                    }}
-                  />
+                <div className="form-group">
+                  <label>Select category</label>
+                  <select className="form-control" name="category" onChange={(e) => setFilterCategory(e.target.value)}>
+                    <option value="">Select category</option>
+                    {category.map((value, index) => (
+                      <option value={index}>{value}</option>
+                    ))}
+                  </select>
                 </div>
-                <div className="acr-custom-select form-group">
-                  <label>Price Range: </label>
-                  <Select2
-                    name="priceRange"
-                    data={pricerangelist}
-                    options={{
-                      placeholder: "Any Range",
-                    }}
-                  />
+                <div className="form-group">
+                  <label>Select Price</label>
+                  <select className="form-control" name="pricerange" onChange={(e) => setFilterPrice(e.target.value)}>
+                    <option value="">Select Price</option>
+                    {pricerangelist.map((value, index) => (
+                      <option value={value}>{value}</option>
+                    ))}
+                  </select>
                 </div>
-                <div className="acr-custom-select form-group">
-                  <label>Beds: </label>
-                  <Select2
-                    name="beds"
-                    data={bedslist}
-                    options={{
-                      placeholder: "Any amount",
-                    }}
-                  />
+
+                <div className="form-group">
+                  <label>Select Beds</label>
+
+                  <select className="form-control" name="beds" onChange={(e) => setFilterBeds(e.target.value)}>
+                    <option value="">Select Beds</option>
+                    {bedslist.map((value, index) => (
+                      <option value={value}>{value}</option>
+                    ))}
+                  </select>
                 </div>
-                <div className="acr-custom-select form-group">
-                  <label>Bathrooms: </label>
-                  <Select2
-                    name="bathrooms"
-                    data={bathroomslist}
-                    options={{
-                      placeholder: "Any amount",
-                    }}
-                  />
+
+                <div className="form-group">
+                  <label>Select Bathrooms</label>
+
+                  <select className="form-control" name="bathrooms" onChange={(e) => setFilterBathrooms(e.target.value)}>
+                    <option value="">Select Bathrooms</option>
+                    {bathroomslist.map((value, index) => (
+                      <option value={value}>{value}</option>
+                    ))}
+                  </select>
                 </div>
-                <div className="acr-custom-select form-group">
-                  <label>Property Type: </label>
-                  <Select2
-                    name="subCategories"
-                    data={subCategories}
-                    options={{
-                      placeholder: "Any Type",
-                    }}
-                  />
+
+                <div className="form-group">
+                  <label>Property Type</label>
+
+                  <select className="form-control" name="subcategory" onChange={(e) => setFilterSubCategories(e.target.value)}>
+                    <option value="">Property Type</option>
+                    {subCategories.map((value, index) => (
+                      <option value={value}>{value}</option>
+                    ))}
+                  </select>
                 </div>
+
                 <button
                   type="submit"
                   className="filter-btn btn-block btn-custom"
@@ -208,33 +242,38 @@ const Shopsidebar = () => {
         <Collapse in={open2}>
           <div className="acr-collapsable">
             {/* Listing Start */}
-            {recentProperties
-
-              .slice(0, 4)
-              .map((item, i) => (
-                <div key={i} className="listing listing-list">
-                  <div className="listing-thumbnail">
-                    <Link to={`property/${convertToSlug(item.title)}/${item.id}`}>
-                      <img
-                        src={process.env.REACT_APP_CONTENT_URL + "/properties/" + item.image + "_small.jpg"}
-                        alt={item.image + "_small.jpg"}
-                      />
-                    </Link>
-                  </div>
-                  <div className="listing-body">
-                    <h6 className="listing-title">
-                      {" "}
-                      <Link to={`property/${convertToSlug(item.title)}/${item.id}`} title={item.title}>
-                        {item.title}
-                      </Link>{" "}
-                    </h6>
-                    <span className="listing-price">
-                      Rs. {new Number(item.price).toLocaleString()}
-                      <span>/month</span>{" "}
-                    </span>
-                  </div>
+            {recentProperties.slice(0, 4).map((item, i) => (
+              <div key={i} className="listing listing-list">
+                <div className="listing-thumbnail">
+                  <Link to={`property/${convertToSlug(item.title)}/${item.id}`}>
+                    <img
+                      src={
+                        process.env.REACT_APP_CONTENT_URL +
+                        "/properties/" +
+                        item.image +
+                        "_small.jpg"
+                      }
+                      alt={item.image + "_small.jpg"}
+                    />
+                  </Link>
                 </div>
-              ))}
+                <div className="listing-body">
+                  <h6 className="listing-title">
+                    {" "}
+                    <Link
+                      to={`property/${convertToSlug(item.title)}/${item.id}`}
+                      title={item.title}
+                    >
+                      {item.title}
+                    </Link>{" "}
+                  </h6>
+                  <span className="listing-price">
+                    Rs. {new Number(item.price).toLocaleString()}
+                    <span>/month</span>{" "}
+                  </span>
+                </div>
+              </div>
+            ))}
             {/* Listing End */}
           </div>
         </Collapse>

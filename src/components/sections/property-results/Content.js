@@ -17,12 +17,11 @@ const bedstip = <Tooltip>Beds</Tooltip>;
 const bathstip = <Tooltip>Bathrooms</Tooltip>;
 const areatip = <Tooltip>Ropani-Aana-Paisa-Daam</Tooltip>;
 
-const Content = ({ searchResults, propertyType, searchQuery }) => {
+const Content = ({ propertyType, searchQuery, searchResults, parentCallback }) => {
 
     const [currentPage, setCurrentPage] = useState(1);
     const [itemsPerPage, setItemsPerPage] = useState(10);
     const [loading, setLoading] = useState(false);
-
     const handleClick = (event) => {
         var paginationContent = event.target.closest(".pagination-content");
 
@@ -37,10 +36,12 @@ const Content = ({ searchResults, propertyType, searchQuery }) => {
             setLoading(false);
         }, 2000);
     };
+
     // Logic for displaying items
     const indexOfLastitem = currentPage * itemsPerPage;
     const indexOfFirstitem = indexOfLastitem - itemsPerPage;
-    const currentitems = searchResults.slice(indexOfFirstitem, indexOfLastitem);
+
+    const currentitems = searchResults !== undefined || searchResults !== null ? searchResults.slice(indexOfFirstitem, indexOfLastitem) : [];
 
 
     var renderitems = [];
@@ -53,7 +54,7 @@ const Content = ({ searchResults, propertyType, searchQuery }) => {
                     <div className="listing-thumbnail">
                         <Link to={propertyURL}>
                             <img
-                                src={process.env.REACT_APP_CONTENT_URL + "properties/" + item.image + ".jpg"}
+                                src={process.env.REACT_APP_CONTENT_URL + item.image + "_medium.jpg"}
                                 alt={item.image + ".jpg"}
                             />
                         </Link>
@@ -227,7 +228,7 @@ const Content = ({ searchResults, propertyType, searchQuery }) => {
                 <div className="row">
                     {/* Sidebar Start */}
                     <div className="col-lg-4">
-                        <Sidebar />
+                        <Sidebar parentCallback={parentCallback} />
                     </div>
                     {/* Sidebar End */}
                     {/* Posts Start */}

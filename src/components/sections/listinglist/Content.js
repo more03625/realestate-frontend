@@ -22,8 +22,9 @@ const Content = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [states, setStates] = useState();
 
-  var url = Host + Endpoints.getStates;
   const getStates = async () => {
+    var url = Host + Endpoints.getStates;
+
     var result = await Axios.get(url);
     setStates(result.data.data);
   };

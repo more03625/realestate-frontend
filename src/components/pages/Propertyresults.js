@@ -12,6 +12,8 @@ const Propertyresults = () => {
     var search = queryParams.get("search");
     var property_type = queryParams.get("property_type");
 
+
+
     const getSearchResults = () => {
         var searchURL = Host + Endpoints.getProperties;
         var data = {
@@ -36,6 +38,10 @@ const Propertyresults = () => {
 
     const [searchResults, setSearchResults] = useState([]);
 
+    const handleCallback = (childData) => {
+        alert(searchResults + "callback main");
+        setSearchResults(childData);
+    }
 
     return (
         <Fragment>
@@ -48,7 +54,7 @@ const Propertyresults = () => {
             </MetaTags>
             <Header />
             <Breadcrumb breadcrumb={{ pagename: `Results for ${search}` }} />
-            <Content propertyType={property_type} searchQuery={search} searchResults={searchResults} />
+            <Content propertyType={property_type} searchQuery={search} searchResults={searchResults} parentCallback={handleCallback} />
             <Footer />
         </Fragment>
 

@@ -35,6 +35,7 @@ const mainslider = [
     { img: "assets/img/listing-single/5.jpg" },
     { img: "assets/img/listing-single/6.jpg" },
 ];
+
 const thumbslider = [
     { img: "assets/img/listing-single/2-2.jpg" },
     { img: "assets/img/listing-single/3-2.jpg" },
@@ -67,10 +68,14 @@ const settingsthumb = {
 const Listingwrapper = () => {
     const ref = useRef();
     const { propertyID } = useParams();
-    console.log(propertyID);
-    const [showmore, setShowMore] = useState(false);
+    const slider = useRef();
+
     const [propertyDetails, setPropertyDetails] = useState(null);
     const [recentProperties, setRecentProperties] = useState([]);
+
+    const [nav1, setNav1] = useState(null);
+    const [nav2, setNav2] = useState(null);
+    const [showmore, setShowMore] = useState(false);
 
     var showmoretoggle = () => {
         setShowMore(!showmore);
@@ -87,9 +92,7 @@ const Listingwrapper = () => {
     const getPropertyDetails = () => {
         var url = Host + Endpoints.getPropertyDetails + propertyID;
         Axios.get(url).then((response) => {
-            if (response.data.error === true) {
-                alert(response.data.title);
-            } else {
+            if (response.data.error !== true) {
                 setPropertyDetails(response.data.data);
             }
         });
@@ -105,11 +108,12 @@ const Listingwrapper = () => {
         });
     }
     useEffect(() => {
-        ref.current.scrollIntoView()
-
-        // popup();
+        ref.current.scrollIntoView();
+        setNav1(ref.slider1);
+        setNav2(ref.slider2);
         getPropertyDetails();
         getRecentProperties()
+        // popup();
     }, [propertyID]);
 
     const [fname, setFname] = useState("");
@@ -175,8 +179,12 @@ const Listingwrapper = () => {
             console.log("In else");
         }
     };
-    console.log(propertyDetails);
+
+
     const agentProfileImage = propertyDetails && propertyDetails.profile_image ? propertyDetails.profile_image + "_small.jpg" : '';
+    //const mainImg = propertyDetails && propertyDetails.images ? propertyDetails.images : [];
+    //console.log(Object.assign({}, JSON.parse(mainImg)));
+
 
     return (
         <div className="section listing-wrapper" ref={ref}>
@@ -193,44 +201,45 @@ const Listingwrapper = () => {
                                         <div className="listing-thumbnail">
                                             <Slider
                                                 className="listing-thumbnail-slider-main col-12"
-                                                // asNavFor={this.state.nav2}
-                                                // ref={(slider) => (this.slider1 = slider)}
+                                                asNavFor={nav2}
+                                                ref={slider}
                                                 {...settings}
                                             >
                                                 {mainslider.map((item, i) => (
                                                     <Link
                                                         key={i}
-                                                        to={item.img}
+                                                        to="#"
                                                         className="slider-thumbnail-item gallery-thumb"
                                                     >
                                                         <img
                                                             src={process.env.PUBLIC_URL + "/" + item.img}
-                                                            alt="listing"
+                                                            alt={item.img + ".jpg"}
                                                         />
                                                     </Link>
                                                 ))}
+
                                             </Slider>
                                             <Slider
                                                 className="listing-thumbnail-slider-nav"
-                                                // asNavFor={this.state.nav1}
-                                                // ref={(slider) => (this.slider2 = slider)}
+                                                asNavFor={nav1}
+                                                ref={slider}
                                                 {...settingsthumb}
                                             >
                                                 {thumbslider.map((item, i) => (
                                                     <div key={i} className="slider-thumbnail-item col-12">
                                                         <img
                                                             src={process.env.PUBLIC_URL + "/" + item.img}
-                                                            alt="listing"
+                                                            alt={item.img + ".jpg"}
                                                         />
                                                     </div>
                                                 ))}
+
                                             </Slider>
                                         </div>
                                         {/* Content Start */}
                                         <div className="listing-content">
                                             <h4>Property Overview</h4>
                                             {propertyDetails && propertyDetails.description ? propertyDetails.description : ''}
-
                                         </div>
                                         {/* Content End */}
                                         {/* Price Range In the area Start */}

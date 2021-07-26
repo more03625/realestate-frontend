@@ -141,7 +141,7 @@ class Buy extends Component {
                 <select className="form-control" name="max_range">
                   {
                     pricerangelist.map((abc, index) => {
-                      console.log(abc);
+
                       <option value={abc}>{abc}</option>
                     })
                   }

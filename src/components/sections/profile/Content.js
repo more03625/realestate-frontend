@@ -111,7 +111,12 @@ const Content = () => {
       return true;
     }
   };
+  const uploadImage = async (e) => {
+    const file = e.target.files[0];
 
+    const base64Image = await convertToBase64(file);
+    setProfileImage(base64Image);
+  }
   function updateProfile(event) {
     event.preventDefault();
 
@@ -123,32 +128,39 @@ const Content = () => {
       let url = Host + Endpoints.updateProfile;
       let reader = new FileReader();
 
-      if (profileImage !== "") {
-        reader.readAsDataURL(profileImage[0]);
-        reader.onload = (e) => {
-          var userImage = e.target.result;
-          const fd = {
-            name: fullName, //key & value pair (Object) mkbhd
-            mobile: phoneNumber,
-            about_me: aboutMe,
-            photo: userImage,
-          };
-          Axios.post(url, fd, {
-            headers: {
-              token: `${userInfo.token}`,
-            },
-          }).then((response) => {
-            if (response.data.error === true) {
-              errorToast(response.data.title);
-            } else {
-              successToast(response.data.title);
-            }
-          });
-        };
-      } else {
-        alert("Upload Image!");
-      }
+      const fd = {
+        name: fullName, //key & value pair (Object) mkbhd
+        mobile: phoneNumber,
+        about_me: aboutMe,
+        photo: profileImage,
+      };
+
+      Axios.post(url, fd, {
+        headers: {
+          token: `${userInfo.token}`,
+        },
+      }).then((response) => {
+        if (response.data.error === true) {
+          errorToast(response.data.title);
+        } else {
+          successToast(response.data.title);
+        }
+      });
     }
+  }
+  const convertToBase64 = (file) => {
+    return new Promise((resolve, reject) => {
+      const fileReader = new FileReader();
+      fileReader.readAsDataURL(file);
+
+      fileReader.onload = () => {
+        resolve(fileReader.result);
+      }
+
+      fileReader.onerror = (error) => {
+        reject(error);
+      }
+    })
   }
   return (
     <div className="section">
@@ -248,14 +260,14 @@ const Content = () => {
                   </p>
                 </div>
                 <div className="col-lg-12 form-group">
-                  <label>Upload Your ID</label>
+                  <label>Profile Image</label>
                   <div className="custom-file">
                     <input
                       type="file"
                       className="custom-file-input"
                       id="propertyThumbnail"
                       name="img"
-                      onChange={(e) => setProfileImage(e.target.files)}
+                      onChange={(e) => uploadImage(e)}
                     />
                     <label
                       className="custom-file-label"

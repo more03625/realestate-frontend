@@ -8,6 +8,7 @@ import axios from "axios";
 
 
 const Content = ({ newsData }) => {
+
   const { slug, newsID } = useParams();
 
   return (

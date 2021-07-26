@@ -107,7 +107,7 @@ class Footer extends Component {
                   </li>
                   <li>
                     {" "}
-                    <Link to="/submit-listing">Add Listing</Link>{" "}
+                    <Link to="/add-property">Add Listing</Link>{" "}
                   </li>
                   <li>
                     {" "}
@@ -183,7 +183,7 @@ class Footer extends Component {
                   </li>
                   <li>
                     {" "}
-                    <Link to="/submit-listing">Add Listing</Link>{" "}
+                    <Link to="/add-property">Add Listing</Link>{" "}
                   </li>
                   <li>
                     {" "}
