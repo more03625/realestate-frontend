@@ -13,8 +13,9 @@ import {
     bathroomslist,
     type, facing, carspaces, areaUnit
 } from "../../../data/select.json";
-import { Host, Endpoints, successToast, errorToast, errorStyle } from '../../../helper/comman_helper';
+import { Host, Endpoints, successToast, errorToast, errorStyle, getUserToken } from '../../../helper/comman_helper';
 import Axios from 'axios';
+import { useHistory } from 'react-router-dom';
 // Features
 const features = [
     { id: 1, icon: 'bone', title: 'Pet Friendly' },
@@ -26,6 +27,7 @@ const features = [
 ];
 
 function Content(props) {
+    const history = useHistory();
     const errorStyle = {
         color: 'red',
         fontSize: '14px',
@@ -34,8 +36,6 @@ function Content(props) {
         color: '#28a745',
         fontSize: '14px',
     };
-    const userInfo = JSON.parse(localStorage.getItem("token")); // get this details from db
-    const userID = userInfo.data.id;
 
     const [propertyData, setPropertyData] = useState([]);
     const [propertyDataError, setPropertyDataError] = useState([]);
@@ -111,7 +111,7 @@ function Content(props) {
         getStates();
 
         setPropertyData({
-            ...propertyData, "city": "Mumbai", "user_id": userID, "features": [1, 2]
+            ...propertyData, "city": "Mumbai", "user_id": getUserToken().data.id, "features": [1, 2]
         });
 
         files.forEach(file => URL.revokeObjectURL(file.preview));
@@ -278,7 +278,7 @@ function Content(props) {
             var addPropertyURL = Host + Endpoints.addProperty;
             Axios.post(addPropertyURL, propertyData, {
                 headers: {
-                    token: process.env.REACT_APP_ACCESS_TOKEN_SECRET
+                    token: getUserToken().token
                 }
             })
                 .then((response) => {
@@ -287,6 +287,9 @@ function Content(props) {
                         errorToast(response.data.title);
                     } else {
                         successToast(response.data.title);
+                        setTimeout(function () {
+                            history.push("/my-listings");
+                        }, 2000);
                     }
                 })
                 .catch((error) => {

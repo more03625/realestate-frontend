@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import listing from "../../../data/listings.json";
 import { OverlayTrigger, Tooltip, Dropdown, NavLink } from "react-bootstrap";
-import { openInGmail, successToast, errorToast, Endpoints, Host, convertToSlug } from "../../../helper/comman_helper";
+import { openInGmail, successToast, errorToast, Endpoints, Host, convertToSlug, getUserToken } from "../../../helper/comman_helper";
 import Axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 
@@ -12,13 +12,11 @@ const bathstip = <Tooltip>Bathrooms</Tooltip>;
 const areatip = <Tooltip>Ropani-Aana-Paisa-Daam</Tooltip>;
 const Content = () => {
   const [myProperties, setMyProperties] = useState([]);
-  var userInfo = JSON.parse(localStorage.getItem('token')).data;
-  var userName = userInfo.name;
 
   const getMyProperties = () => {
     var url = Host + Endpoints.getPropertiesBySellerID;
     var data = {
-      "id": 3,
+      "id": getUserToken().data.id,
       "search": "",
       "limit": 5,
       "offset": 0,
@@ -27,7 +25,7 @@ const Content = () => {
     }
     Axios.post(url, data, {
       headers: {
-        token: process.env.REACT_APP_ACCESS_TOKEN_SECRET
+        token: getUserToken().token
       }
     }).then((response) => {
       if (response.data.error === true) {
@@ -55,7 +53,7 @@ const Content = () => {
                 </li>
                 <li>
                   {" "}
-                  <Link className="active" to="/profile-listings">
+                  <Link className="active" to="/my-listings">
                     My Listings
                   </Link>{" "}
                 </li>
@@ -83,8 +81,8 @@ const Content = () => {
                 <div className="listing-thumbnail">
                   <Link to={`/property/${convertToSlug(item.title)}/${item.id}`}>
                     <img
-                      src={process.env.PUBLIC_URL + "/assets/img/listings-list/" + item.image}
-                      alt="listing"
+                      src={process.env.REACT_APP_CONTENT_URL + item.image + ".jpg"}
+                      alt={`image of ${item.title}`}
                     />
                   </Link>
                   <div className="listing-badges">
@@ -127,13 +125,13 @@ const Content = () => {
                 <div className="listing-body">
                   <div className="listing-author">
                     <img
-                      src={process.env.PUBLIC_URL + "/assets/img/people/3.jpg"}
-                      alt="author"
+                      src={item.profile_image != null ? process.env.REACT_APP_CONTENT_URL + item.profile_image + "_small.jpg" : process.env.REACT_APP_CONTENT_URL + "/users/default.png"}
+                      alt={item.profile_image + "_small.jpg"}
                     />
                     <div className="listing-author-body">
                       <p>
                         {" "}
-                        <Link to="#">{userName}</Link>{" "}
+                        <Link to="#">{getUserToken().data.name}</Link>{" "}
                       </p>
                       <span className="listing-date">{new Date(item.createdAt).toDateString()}</span>
                     </div>
@@ -145,23 +143,9 @@ const Content = () => {
                         <ul>
                           <li>
                             {" "}
-                            <Link target="_blank" to={{ pathname: `tel:${item.number_for_contact}` }}>
+                            <Link to={{ pathname: `edit-property/${item.id}` }}>
                               {" "}
-                              <i className="fas fa-phone" /> Call Agent
-                            </Link>{" "}
-                          </li>
-                          <li>
-                            {" "}
-                            <Link target="_blank" to={{ pathname: `${openInGmail(item.email_for_contact)}` }}>
-                              {" "}
-                              <i className="fas fa-envelope" /> Send Message
-                            </Link>{" "}
-                          </li>
-                          <li>
-                            {" "}
-                            <Link to={`/property/${convertToSlug(item.title)}/${item.id}#book_tour`}>
-                              {" "}
-                              <i className="fas fa-bookmark" /> Book Tour
+                              <i className="fas fa-pen" /> Edit Property
                             </Link>{" "}
                           </li>
                         </ul>

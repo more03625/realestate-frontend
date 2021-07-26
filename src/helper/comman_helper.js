@@ -5,25 +5,26 @@ import "react-toastify/dist/ReactToastify.css";
 export const Host = process.env.REACT_APP_CONTENT_URL;
 
 export const Endpoints = {
-    Login: "users/login",
-    Register: "users/register",
-    isAuthenticated: "isAuthenticated",
-    updateProfile: "users/updateProfile",
-    verifyOtp: "users/verifyOtp",
-    resendOtp: "users/resendOtp",
-    changePassword: "users/changePassword",
-    getStates: "users/getStates",
-    getRecentNews: "news/getRecentNews",
-    getNews: "news/getNews",
-    getNewsDetails: "news/getNewsDetails?id=",
-    contactUs: "users/contact_us",
-    forgotPassword: "users/forgotPassword",
-    ResetPassword: "users/resetPassword",
-    getPropertyDetails: "property/getPropertyDetails?id=",
-    getRecentProperties: "property/getRecentProperties",
-    getPropertiesBySellerID: "property/getPropertiesBySellerID",
-    getProperties: "property/getProperties",
-    addProperty: "property/addProperty",
+    Login: "/users/login",
+    Register: "/users/register",
+    isAuthenticated: "/isAuthenticated",
+    updateProfile: "/users/updateProfile",
+    verifyOtp: "/users/verifyOtp",
+    resendOtp: "/users/resendOtp",
+    changePassword: "/users/changePassword",
+    getStates: "/users/getStates",
+    getRecentNews: "/news/getRecentNews",
+    getNews: "/news/getNews",
+    getNewsDetails: "/news/getNewsDetails?id=",
+    contactUs: "/users/contact_us",
+    forgotPassword: "/users/forgotPassword",
+    ResetPassword: "/users/resetPassword",
+    getPropertyDetails: "/property/getPropertyDetails?id=",
+    getRecentProperties: "/property/getRecentProperties",
+    getPropertiesBySellerID: "/property/getPropertiesBySellerID",
+    getProperties: "/property/getProperties",
+    addProperty: "/property/addProperty",
+    getSubCategories: "/admin/getSubCategories",
 };
 
 export const openInGmail = (to, cc = null, bcc = null) => {
@@ -69,3 +70,6 @@ export const errorToast = (message = "❌" + " Error") => {
         progress: undefined,
     });
 };
+export const getUserToken = () => {
+    return JSON.parse(localStorage.getItem('token'));
+}

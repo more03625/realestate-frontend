@@ -3,22 +3,28 @@ import { Link } from "react-router-dom";
 import Axios from "axios";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { successToast, errorToast, Endpoints, Host } from "../../../helper/comman_helper";
+import { successToast, errorToast, Endpoints, Host, getUserToken } from "../../../helper/comman_helper";
 
 const Content = () => {
-  const userInfo = JSON.parse(localStorage.getItem("token")); // get this details from db
 
+  const successStyle = {
+    color: '#28a745',
+    fontSize: '14px',
+  };
+  const getUser = () => {
+    //write function here & get this data from DB
+  }
   const [fullName, setFullName] = useState(
-    userInfo.data.name !== null ? userInfo.data.name : ""
+    getUserToken().data.name !== null ? getUserToken().data.name : ""
   );
   const [email, setEmail] = useState(
-    userInfo.data.email !== null ? userInfo.data.email : ""
+    getUserToken().data.email !== null ? getUserToken().data.email : ""
   );
   const [phoneNumber, setPhoneNumber] = useState(
-    userInfo.data.mobile !== null ? userInfo.data.mobile : ""
+    getUserToken().data.mobile !== null ? getUserToken().data.mobile : ""
   );
   const [aboutMe, setAboutMe] = useState(
-    userInfo.data.about_me !== null ? userInfo.data.about_me : ""
+    getUserToken().data.about_me !== null ? getUserToken().data.about_me : ""
   );
   const [profileImage, setProfileImage] = useState("");
   const [updateProfileStatus, setUpdateProfileStatus] = useState(false);
@@ -37,7 +43,7 @@ const Content = () => {
     false,
     null,
   ]);
-
+  const [profileImageMessage, setProfileImageMessage] = useState();
   const isValidChangePassword = () => {
     if (newPassword === "" && newConfirmPassword === "") {
       setNewPasswordError("Password should be minimum 8 characters");
@@ -68,7 +74,7 @@ const Content = () => {
         },
         {
           headers: {
-            token: `${userInfo.token}`,
+            token: `${getUserToken().token}`,
           },
         }
       ).then((response) => {
@@ -113,7 +119,7 @@ const Content = () => {
   };
   const uploadImage = async (e) => {
     const file = e.target.files[0];
-
+    setProfileImageMessage(`${file.name} has been selected!`);
     const base64Image = await convertToBase64(file);
     setProfileImage(base64Image);
   }
@@ -126,7 +132,6 @@ const Content = () => {
 
     if (isValid()) {
       let url = Host + Endpoints.updateProfile;
-      let reader = new FileReader();
 
       const fd = {
         name: fullName, //key & value pair (Object) mkbhd
@@ -137,7 +142,7 @@ const Content = () => {
 
       Axios.post(url, fd, {
         headers: {
-          token: `${userInfo.token}`,
+          token: `${getUserToken().token}`,
         },
       }).then((response) => {
         if (response.data.error === true) {
@@ -211,7 +216,7 @@ const Content = () => {
                     className="form-control"
                     placeholder="Your Name"
                     onChange={(e) => setFullName(e.target.value)}
-                    defaultValue={userInfo.data.name}
+                    defaultValue={getUserToken().data.name}
                   />
                   <p style={{ color: "red", fontSize: "14px" }}>
                     {fullNameError}
@@ -226,7 +231,7 @@ const Content = () => {
                     className="form-control"
                     placeholder="Your email"
                     onChange={(e) => setEmail(e.target.value)}
-                    defaultValue={userInfo.data.email}
+                    defaultValue={getUserToken().data.email}
                   />
                   <p style={{ color: "red", fontSize: "14px" }}>{emailError}</p>
                 </div>
@@ -238,7 +243,7 @@ const Content = () => {
                     className="form-control"
                     placeholder="+123 456 789"
                     onChange={(e) => setPhoneNumber(e.target.value)}
-                    defaultValue={userInfo.data.mobile}
+                    defaultValue={getUserToken().data.mobile}
                   />
                   <p style={{ color: "red", fontSize: "14px" }}>
                     {phoneNumberError}
@@ -253,7 +258,7 @@ const Content = () => {
                     className="form-control"
                     placeholder="About Me"
                     onChange={(e) => setAboutMe(e.target.value)}
-                    defaultValue={userInfo.data.about_me}
+                    defaultValue={getUserToken().data.about_me}
                   />
                   <p style={{ color: "red", fontSize: "14px" }}>
                     {aboutMeError}
@@ -276,6 +281,7 @@ const Content = () => {
                       Choose file
                     </label>
                   </div>
+                  <p style={successStyle}>{profileImageMessage}</p>
                 </div>
               </div>
               <button type="submit" name="submit" className="btn-custom">

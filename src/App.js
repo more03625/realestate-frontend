@@ -184,6 +184,8 @@ function App() {
           <Route path="/listing-details-v3" component={Listingdetailsthree} />
 
           <Route path="/add-property" component={Submitlisting} />
+          <Route path="/edit-property/:propertyID" component={Submitlisting} />
+
           {/* <Protected component={Submitlisting} /> */}
           {/* </Route> */}
 
@@ -197,6 +199,7 @@ function App() {
           </Route>
 
           <Route path="/my-listings" component={Profilelistings} />
+
           <Route
             path="/profile-saved-listings"
             component={Profilesavedlistings}

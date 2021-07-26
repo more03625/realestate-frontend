@@ -15,10 +15,11 @@ export const BuyArea = () => {
                         <input type="hidden" name="property_type" value="buy" />
                         <SearchButton />
                     </div>
+
+                    <div className="row">
+                        <Searchoptions />
+                    </div>
                 </form>
-                <div className="row">
-                    <Searchoptions />
-                </div>
             </div>
         </div>
     )
@@ -39,10 +40,11 @@ export const RentArea = () => {
                         <input type="hidden" name="property_type" value="rent" />
                         <SearchButton />
                     </div>
+
+                    <div className="row">
+                        <Searchoptions />
+                    </div>
                 </form>
-                <div className="row">
-                    <Searchoptions />
-                </div>
             </div>
         </div>
     )
@@ -64,10 +66,11 @@ export const SoldArea = () => {
                         <input type="hidden" name="property_type" value="sold" />
                         <SearchButton />
                     </div>
+
+                    <div className="row">
+                        <Searchoptions />
+                    </div>
                 </form>
-                <div className="row">
-                    <Searchoptions />
-                </div>
             </div>
         </div>
     )
@@ -87,10 +90,11 @@ export const ShareArea = () => {
                         <input type="hidden" name="property_type" value="share" />
                         <SearchButton />
                     </div>
+
+                    <div className="row">
+                        <Searchoptions />
+                    </div>
                 </form>
-                <div className="row">
-                    <Searchoptions />
-                </div>
             </div>
         </div>
     )
@@ -111,10 +115,11 @@ export const FindAgents = () => {
                         <input type="hidden" name="property_type" value="findagent" />
                         <SearchButton />
                     </div>
+
+                    <div className="row">
+                        <Searchoptions />
+                    </div>
                 </form>
-                <div className="row">
-                    <Searchoptions />
-                </div>
             </div>
         </div>
     )

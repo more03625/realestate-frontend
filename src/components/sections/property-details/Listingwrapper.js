@@ -13,7 +13,7 @@ import "magnific-popup";
 import classNames from "classnames";
 import Slider from "react-slick";
 import Axios from "axios";
-import { openInGmail, saveProperty, Endpoints, Host, convertToSlug } from "../../../helper/comman_helper";
+import { openInGmail, saveProperty, Endpoints, Host, convertToSlug, getUserToken } from "../../../helper/comman_helper";
 import Loader from "../../layouts/Loader";
 import ContentNotFound from "../../pages/ContentNotFound";
 // Gallery
@@ -27,44 +27,41 @@ const gallerytip = <Tooltip>Gallery</Tooltip>;
 const bedstip = <Tooltip>Beds</Tooltip>;
 const bathstip = <Tooltip>Bathrooms</Tooltip>;
 const areatip = <Tooltip>Ropani-Aana-Paisa-Daam</Tooltip>;
-
-const mainslider = [
-    { img: "assets/img/listing-single/2.jpg" },
-    { img: "assets/img/listing-single/3.jpg" },
-    { img: "assets/img/listing-single/4.jpg" },
-    { img: "assets/img/listing-single/5.jpg" },
-    { img: "assets/img/listing-single/6.jpg" },
-];
-
-const thumbslider = [
-    { img: "assets/img/listing-single/2-2.jpg" },
-    { img: "assets/img/listing-single/3-2.jpg" },
-    { img: "assets/img/listing-single/4-2.jpg" },
-    { img: "assets/img/listing-single/5-2.jpg" },
-    { img: "assets/img/listing-single/6-2.jpg" },
-];
+function SampleNextArrow(props) {
+    const { className, style, onClick } = props;
+    return (
+        <div
+            className={className}
+            style={{ ...style, display: "block", position: "relative" }}
+            onClick={onClick}
+        />
+    );
+}
+function SamplePrevArrow(props) {
+    const { className, style, onClick } = props;
+    return (
+        <div
+            className={className}
+            style={{ ...style, display: "block", position: "absolute" }}
+            onClick={onClick}
+        />
+    );
+}
 const settings = {
-    slidesToShow: 1,
-    slidesToScroll: 1,
-    arrows: false,
+
+
+    arrows: true,
     fade: true,
-};
-const settingsthumb = {
-    slidesToShow: 4,
+    dots: true,
+    infinite: true,
+    slidesToShow: 3,
     slidesToScroll: 1,
-    dots: false,
-    centerMode: false,
-    focusOnSelect: true,
-    autoplay: true,
-    responsive: [
-        {
-            breakpoint: 768,
-            settings: {
-                slidesToShow: 2,
-            },
-        },
-    ],
+    nextArrow: <SampleNextArrow />,
+    prevArrow: <SamplePrevArrow />
+
+
 };
+
 const Listingwrapper = () => {
     const ref = useRef();
     const { propertyID } = useParams();
@@ -80,7 +77,10 @@ const Listingwrapper = () => {
     var showmoretoggle = () => {
         setShowMore(!showmore);
     };
-
+    const imageGal = {
+        width: "730px",
+        height: "485px",
+    }
     function popup() {
         $(".gallery-thumb").magnificPopup({
             type: "image",
@@ -97,6 +97,23 @@ const Listingwrapper = () => {
             }
         });
     }
+
+    const settingsthumb = {
+        slidesToShow: 4,
+        slidesToScroll: 1,
+        dots: false,
+        centerMode: false,
+        focusOnSelect: true,
+        autoplay: true,
+        responsive: [
+            {
+                breakpoint: 768,
+                settings: {
+                    slidesToShow: 2,
+                },
+            },
+        ],
+    };
     const getRecentProperties = () => {
         var url = Host + Endpoints.getRecentProperties;
         Axios.get(url).then((response) => {
@@ -181,10 +198,16 @@ const Listingwrapper = () => {
     };
 
 
-    const agentProfileImage = propertyDetails && propertyDetails.profile_image ? propertyDetails.profile_image + "_small.jpg" : '';
-    //const mainImg = propertyDetails && propertyDetails.images ? propertyDetails.images : [];
-    //console.log(Object.assign({}, JSON.parse(mainImg)));
 
+    const agentProfileImage = propertyDetails && propertyDetails.profile_image ? propertyDetails.profile_image + "_small.jpg" : '';
+    var mainslider = [];
+    if (propertyDetails && propertyDetails.images !== null) {
+        var array = JSON.parse("[" + propertyDetails.images + "]");
+        for (var i = 0; i < array[0].length; i++) {
+            mainslider.push(array[0][i]);
+        }
+        console.log(mainslider);
+    }
 
     return (
         <div className="section listing-wrapper" ref={ref}>
@@ -205,36 +228,23 @@ const Listingwrapper = () => {
                                                 ref={slider}
                                                 {...settings}
                                             >
-                                                {mainslider.map((item, i) => (
-                                                    <Link
-                                                        key={i}
-                                                        to="#"
-                                                        className="slider-thumbnail-item gallery-thumb"
-                                                    >
-                                                        <img
-                                                            src={process.env.PUBLIC_URL + "/" + item.img}
-                                                            alt={item.img + ".jpg"}
-                                                        />
-                                                    </Link>
-                                                ))}
+                                                {mainslider &&
+                                                    mainslider.map((item, i) => (
+
+                                                        <Link
+                                                            key={i}
+                                                            to="#"
+                                                            className="slider-thumbnail-item gallery-thumb"
+                                                        >
+                                                            <img style={{ imageGal }}
+                                                                src={process.env.REACT_APP_CONTENT_URL + item + ".jpg"}
+                                                                alt={propertyDetails && propertyDetails.title ? propertyDetails.title : ''}
+                                                            />
+                                                        </Link>
+                                                    ))}
 
                                             </Slider>
-                                            <Slider
-                                                className="listing-thumbnail-slider-nav"
-                                                asNavFor={nav1}
-                                                ref={slider}
-                                                {...settingsthumb}
-                                            >
-                                                {thumbslider.map((item, i) => (
-                                                    <div key={i} className="slider-thumbnail-item col-12">
-                                                        <img
-                                                            src={process.env.PUBLIC_URL + "/" + item.img}
-                                                            alt={item.img + ".jpg"}
-                                                        />
-                                                    </div>
-                                                ))}
 
-                                            </Slider>
                                         </div>
                                         {/* Content Start */}
                                         <div className="listing-content">
@@ -503,7 +513,7 @@ const Listingwrapper = () => {
                                                             <div className="listing-thumbnail">
                                                                 <Link to={`/property/${convertToSlug(item.title)}/${item.id}`}>
                                                                     <img
-                                                                        src={process.env.REACT_APP_CONTENT_URL + "properties/" + item.image + "_mediam.jpg"}
+                                                                        src={process.env.REACT_APP_CONTENT_URL + item.image + "_medium.jpg"}
                                                                         alt="listing"
                                                                     />
                                                                 </Link>
@@ -544,9 +554,8 @@ const Listingwrapper = () => {
                                                             </div>
                                                             <div className="listing-body">
                                                                 <div className="listing-author">
-                                                                    <img
-                                                                        src={process.env.REACT_APP_CONTENT_URL + item.profile_image + "_small.jpg"}
-                                                                        alt="author"
+                                                                    <img src={item.profile_image != null ? process.env.REACT_APP_CONTENT_URL + item.profile_image + "_small.jpg" : process.env.REACT_APP_CONTENT_URL + "/users/default.png"}
+                                                                        alt={item.profile_image + "_small.jpg"}
                                                                     />
                                                                     <div className="listing-author-body">
                                                                         <p>
@@ -663,9 +672,10 @@ const Listingwrapper = () => {
                                                 <div className="media sidebar-author listing-agent">
                                                     <Link to="#">
                                                         <img
-                                                            src={process.env.REACT_APP_CONTENT_URL + agentProfileImage}
-                                                            alt="agent"
+                                                            src={getUserToken().data.profile_image != null ? process.env.REACT_APP_CONTENT_URL + getUserToken().data.profile_image + "_small.jpg" : process.env.REACT_APP_CONTENT_URL + "/users/default.png"}
+                                                            alt={getUserToken().data.profile_image + "_small.jpg"}
                                                         />
+
                                                     </Link>
                                                     <div className="media-body">
                                                         <h6>
@@ -673,8 +683,10 @@ const Listingwrapper = () => {
 
                                                             <Link to="#">{propertyDetails && propertyDetails.name_for_contact ? propertyDetails.name_for_contact : ''}</Link>{" "}
                                                         </h6>
-                                                        <span>Company Agent</span>
+                                                        {/*<span>{propertyDetails && propertyDetails.type ? propertyDetails.type : 'MKBHD'}</span>*/}
                                                     </div>
+                                                    {/* 
+
                                                     <Dropdown className="options-dropdown">
                                                         <Dropdown.Toggle as={NavLink}>
                                                             <i className="fas fa-ellipsis-v" />
@@ -705,41 +717,29 @@ const Listingwrapper = () => {
                                                             </ul>
                                                         </Dropdown.Menu>
                                                     </Dropdown>
+                                                    Author End */}
                                                 </div>
-                                                {/* Author End */}
+
                                                 {/* Contact Start */}
-                                                <form>
-                                                    <div className="form-group">
-                                                        <input
-                                                            type="text"
-                                                            className="form-control"
-                                                            placeholder="Email Address"
-                                                            name="email"
-                                                        />
-                                                    </div>
-                                                    <div className="form-group">
-                                                        <input
-                                                            type="text"
-                                                            className="form-control"
-                                                            placeholder="Phone Number"
-                                                            name="phone"
-                                                        />
-                                                    </div>
-                                                    <div className="form-group">
-                                                        <textarea
-                                                            name="message"
-                                                            rows={3}
-                                                            placeholder="Enter your message"
-                                                            className="form-control"
-                                                        />
-                                                    </div>
-                                                    <button
-                                                        type="submit"
-                                                        className="btn-custom primary light btn-block"
-                                                    >
-                                                        Send Message
-                                                    </button>
-                                                </form>
+                                                {
+                                                    propertyDetails && propertyDetails.is_contact_show === 1 &&
+                                                    <>
+                                                        <div className="form-group">
+                                                            <b>Name: &nbsp;&nbsp;</b>{propertyDetails && propertyDetails.name_for_contact ? propertyDetails.name_for_contact : ''}
+
+
+                                                        </div>
+                                                        <div className="form-group">
+                                                            <b>Phone: &nbsp;&nbsp;</b>{propertyDetails && propertyDetails.number_for_contact ? propertyDetails.number_for_contact : ''}
+
+                                                        </div>
+                                                        <div className="form-group">
+                                                            <b>Email: &nbsp;&nbsp;</b>{propertyDetails && propertyDetails.number_for_contact ? propertyDetails.number_for_contact : ''}
+                                                        </div>
+                                                    </>
+                                                }
+
+
                                                 {/* Contact End */}
                                             </div>
                                             <div className="sidebar-widget">
@@ -752,7 +752,7 @@ const Listingwrapper = () => {
                                                             <div className="listing-thumbnail">
                                                                 <Link to={`/property/${convertToSlug(item.title)}/${item.id}`}>
                                                                     <img
-                                                                        src={process.env.REACT_APP_CONTENT_URL + "/properties/" + item.image + "_small.jpg"}
+                                                                        src={process.env.REACT_APP_CONTENT_URL + item.image + "_small.jpg"}
                                                                         alt={item.image + "_small.jpg"}
                                                                     />
                                                                 </Link>

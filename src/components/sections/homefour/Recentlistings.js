@@ -47,10 +47,11 @@ const Recentlisting = () => {
                 <div className="listing-thumbnail">
                   <Link to={`property/${convertToSlug(item.title)}/${item.id}`}>
                     <img
-                      src={process.env.REACT_APP_CONTENT_URL + "properties/" + item.image + "_mediam.jpg"}
-                      alt={item.image + "_mediam.jpg"}
+                      src={process.env.REACT_APP_CONTENT_URL + item.image + "_medium.jpg"}
+                      alt={`image of ${item.title}`}
                     />
                   </Link>
+
                   <div className="listing-badges">
                     {item.star === true ? (
                       <span className="listing-badge featured">
@@ -85,8 +86,7 @@ const Recentlisting = () => {
                 </div>
                 <div className="listing-body">
                   <div className="listing-author">
-                    <img
-                      src={process.env.REACT_APP_CONTENT_URL + item.profile_image + "_small.jpg"}
+                    <img src={item.profile_image != null ? process.env.REACT_APP_CONTENT_URL + item.profile_image + "_small.jpg" : process.env.REACT_APP_CONTENT_URL + "/users/default.png"}
                       alt={item.profile_image + "_small.jpg"}
                     />
                     <div className="listing-author-body">
