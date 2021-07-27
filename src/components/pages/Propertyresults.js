@@ -11,14 +11,23 @@ const Propertyresults = () => {
     const queryParams = new URLSearchParams(window.location.search);
     var search = queryParams.get("search");
     var property_type = queryParams.get("property_type");
-
-
+    var minBed = queryParams.get("min_beds");
+    var maxBed = queryParams.get("max_beds");
+    var minPrice = queryParams.get("min_price");
+    var maxPrice = queryParams.get("max_price");
+    var subCategory = queryParams.get("subcategory");
 
     const getSearchResults = () => {
-        var searchURL = Host + Endpoints.getProperties;
+        var searchURL = Host + Endpoints.getPropertiesWithFilters;
         var data = {
+
             "search": search,
-            "property_type": property_type
+            "property_type": property_type,
+            'subcategory': subCategory,
+            "min_beds": minBed,
+            "max_beds": maxBed,
+            "min_price": minPrice,
+            "max_price": maxPrice,
         }
         Axios.post(searchURL, data)
             .then((response) => {

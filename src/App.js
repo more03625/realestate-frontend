@@ -184,7 +184,7 @@ function App() {
           <Route path="/listing-details-v3" component={Listingdetailsthree} />
 
           <Route path="/add-property" component={Submitlisting} />
-          <Route path="/edit-property/:propertyID" component={Submitlisting} />
+          <Route path="/edit-property/:slug/:propertyID" component={Submitlisting} />
 
           {/* <Protected component={Submitlisting} /> */}
           {/* </Route> */}

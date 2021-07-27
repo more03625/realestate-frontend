@@ -13,9 +13,9 @@ import {
     bathroomslist,
     type, facing, carspaces, areaUnit
 } from "../../../data/select.json";
-import { Host, Endpoints, successToast, errorToast, errorStyle, getUserToken } from '../../../helper/comman_helper';
+import { Host, Endpoints, successToast, errorToast, errorStyle, getUserToken, uppercaseFirstLetter, lowercaseFirstLetter } from '../../../helper/comman_helper';
 import Axios from 'axios';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 // Features
 const features = [
     { id: 1, icon: 'bone', title: 'Pet Friendly' },
@@ -26,8 +26,8 @@ const features = [
     { id: 6, icon: 'eye', title: 'City View' },
 ];
 
-function Content(props) {
-    const history = useHistory();
+function Content() {
+
     const errorStyle = {
         color: 'red',
         fontSize: '14px',
@@ -37,12 +37,18 @@ function Content(props) {
         fontSize: '14px',
     };
 
+    const history = useHistory();
+    const { propertyID } = useParams();
+
     const [propertyData, setPropertyData] = useState([]);
     const [propertyDataError, setPropertyDataError] = useState([]);
-
     const [states, setStates] = useState([]);
-
+    const [cities, setCities] = useState([]);
     const [files, setFiles] = useState([]);
+    const [isImageSelected, setIsImageSelected] = useState([]);
+    const [propertyDetails, setPropertyDetails] = useState([]);
+    const [stepID, setStepID] = useState(1);
+
     const { getRootProps, getInputProps } = useDropzone({
         accept: 'image/*',
         onDrop: acceptedFiles => {
@@ -54,12 +60,17 @@ function Content(props) {
 
         }
     });
-    const [isImageSelected, setIsImageSelected] = useState([]);
 
     const getStates = () => {
         var url = Host + Endpoints.getStates;
         Axios.get(url).then((response) => {
             setStates(response.data.data);
+        });
+    };
+    const getCities = () => {
+        var url = Host + Endpoints.getCities;
+        Axios.get(url).then((response) => {
+            setCities(response.data.data);
         });
     };
     const uploadImage = async (e) => {
@@ -103,15 +114,26 @@ function Content(props) {
             </div>
         </div>
     ));
-    const [stepID, setStepID] = useState(1);
 
+
+    const getPropertyDetails = () => {
+        if (propertyID !== undefined) {
+            var url = Host + Endpoints.getPropertyDetails + propertyID;
+            Axios.get(url).then((response) => {
+                if (response.data.error !== true) {
+                    setPropertyData(response.data.data);
+                }
+            });
+        }
+    }
 
     useEffect(() => {
         // Make sure to revoke the data uris to avoid memory leaks
         getStates();
-
+        getPropertyDetails();
+        getCities();
         setPropertyData({
-            ...propertyData, "city": "Mumbai", "user_id": getUserToken().data.id, "features": [1, 2]
+            ...propertyData, "user_id": getUserToken().data.id, "features": [1, 2]
         });
 
         files.forEach(file => URL.revokeObjectURL(file.preview));
@@ -136,6 +158,16 @@ function Content(props) {
     const name_for_contact = useRef();
     const number_for_contact = useRef();
     const email_for_contact = useRef();
+    const is_contact_show = useRef();
+
+    var features = [];
+    const handleFeatures = (e) => {
+
+
+        alert(e)
+        features.push(e);
+        console.log(features);
+    }
 
     const isValid = () => {
         var emailValidator = new RegExp(/[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,15}/g).test(propertyData.email_for_contact);
@@ -264,25 +296,56 @@ function Content(props) {
             setPropertyDataError({ email_for_contact: "Please specify a valid email to contact!" });
             return false;
         }
+        else if (propertyData.is_contact_show === '' || propertyData.is_contact_show === null || propertyData.is_contact_show === undefined) {
+            errorToast("Please let us know about visibility of your contact!");
+            document.getElementById("tab6").click();
+            is_contact_show.current.scrollIntoView();
+            setPropertyDataError({ is_contact_show: "Please let us know about visibility of your contact!" });
+            return false;
+        }
         else {
             setPropertyDataError({ email_for_contact: "" });
             return true;
         }
     }
 
-
     const handleSubmit = (e) => {
         e.preventDefault()
 
+
+
+        // if (isImageSelected.length === 0) {
+        //     alert('if');
+
+        //     setPropertyData({ ...propertyData, "image": 'Youtube 1' });
+        //     setPropertyData({ ...propertyData, "images": 'Youtube 2' });
+        // } else {
+        //     alert('in else');
+        // }
+
+
+        // alert(propertyData.image)
+        // alert(propertyData.images)
+        // alert('End of p')
+
         if (isValid()) {
-            var addPropertyURL = Host + Endpoints.addProperty;
+
+            if (propertyData.id > 0) {
+
+                var addPropertyURL = Host + Endpoints.editProperty;
+
+            } else {
+                var addPropertyURL = Host + Endpoints.addProperty;
+
+            }
+
             Axios.post(addPropertyURL, propertyData, {
                 headers: {
                     token: getUserToken().token
                 }
             })
                 .then((response) => {
-                    console.log(response.data.error);
+
                     if (response.data.error === true) {
                         errorToast(response.data.title);
                     } else {
@@ -297,6 +360,7 @@ function Content(props) {
                 })
         }
     }
+
     return (
         <div className="section">
             <div className="container">
@@ -334,24 +398,25 @@ function Content(props) {
                                     <Tab.Pane eventKey="tab1">
                                         <div className="row">
                                             <div className="col-md-12 form-group">
-                                                <label class="required">Property Name</label>
-                                                <input type="text" className="form-control" placeholder="Property Name" name="title" id="title" ref={title} onChange={(e) => setPropertyData({ ...propertyData, "title": e.target.value })} />
+                                                <label className="required">Property Name</label>
+                                                <input type="hidden" name="form_type" value={propertyID > 0 ? propertyID : 0} />
+                                                <input type="text" className="form-control" placeholder="Property Name" name="title" id="title" ref={title} onChange={(e) => setPropertyData({ ...propertyData, "title": e.target.value })} defaultValue={propertyData && propertyData.title ? propertyData.title : ''} />
                                                 <p style={errorStyle}>{propertyDataError.title}</p>
                                             </div>
                                             <div className="col-md-12 form-group">
-                                                <label class="required">Property Description</label>
-                                                <textarea name="content" ref={description} rows={4} className="form-control" placeholder="Property Description" onChange={(e) => setPropertyData({ ...propertyData, "description": e.target.value })} />
+                                                <label className="required">Property Description</label>
+                                                <textarea name="content" ref={description} rows={4} className="form-control" placeholder="Property Description" onChange={(e) => setPropertyData({ ...propertyData, "description": e.target.value })} defaultValue={propertyData && propertyData.description ? propertyData.description : ''} />
                                                 <p style={errorStyle}>{propertyDataError.description}</p>
 
                                             </div>
 
 
                                             <div className="col-md-6 form-group">
-                                                <label class="required">Property Type</label>
-                                                <select className="form-control" name="propertyType" ref={property_type} onChange={(e) => setPropertyData({ ...propertyData, "property_type": e.target.value })}>
+                                                <label className="required">Property Type</label>
+                                                <select className="form-control" name="propertyType" ref={property_type} onChange={(e) => setPropertyData({ ...propertyData, "property_type": e.target.value })} value={propertyData && propertyData.property_type ? lowercaseFirstLetter(propertyData.property_type) : ''}>
                                                     <option value="">Property Type</option>
                                                     {type.map((value, index) => (
-                                                        <option value={index}>{value}</option>
+                                                        <option value={lowercaseFirstLetter(value)}>{value}</option>
                                                     ))}
                                                 </select>
 
@@ -360,8 +425,8 @@ function Content(props) {
                                             </div>
 
                                             <div className="col-md-6 form-group">
-                                                <label class="required">Category</label>
-                                                <select className="form-control" name="category" ref={categoryRef} onChange={(e) => setPropertyData({ ...propertyData, "category": e.target.value })}>
+                                                <label className="required">Category</label>
+                                                <select className="form-control" name="category" ref={categoryRef} onChange={(e) => setPropertyData({ ...propertyData, "category": e.target.value })} value={propertyData && propertyData.category ? propertyData.category : ''}>
                                                     <option value="">category</option>
                                                     {category.map((value, index) => (
                                                         <option value={index}>{value}</option>
@@ -371,8 +436,8 @@ function Content(props) {
 
                                             </div>
                                             <div className="col-md-6 form-group">
-                                                <label class="required">Sub category</label>
-                                                <select className="form-control" name="sub_category" ref={subcategory} onChange={(e) => setPropertyData({ ...propertyData, "subcategory": e.target.value })}>
+                                                <label className="required">Sub category</label>
+                                                <select className="form-control" name="sub_category" ref={subcategory} onChange={(e) => setPropertyData({ ...propertyData, "subcategory": e.target.value })} value={propertyData && propertyData.subcategory ? propertyData.subcategory : ''}>
                                                     <option value="">Sub category</option>
                                                     {subCategories.map((value, index) => (
                                                         <option value={index}>{value}</option>
@@ -386,21 +451,22 @@ function Content(props) {
 
 
                                             <div className="col-md-6 form-group">
-                                                <label class="required">Property Min Price</label>
+                                                <label className="required">Property Min Price</label>
                                                 <div className="input-group">
                                                     <div className="input-group-prepend">
                                                         <span className="input-group-text">&#8377;</span>
                                                     </div>
                                                     <input type="number" className="form-control" name="price" ref={price} placeholder="Property Price"
-                                                        onChange={(e) => setPropertyData({ ...propertyData, "price": e.target.value })}
+                                                        onChange={(e) => setPropertyData({ ...propertyData, "price": e.target.value })} defaultValue={propertyData && propertyData.price ? propertyData.price : ''}
                                                     />
 
                                                 </div>
                                                 <p style={errorStyle}>{propertyDataError.price}</p>
                                             </div>
+                                            {/*
                                             <div className="col-md-6 form-group">
-                                                <label class="required">Price Per</label>
-                                                <select className="form-control" name="price_per_area_unit" ref={default_area_unit} onChange={(e) => setPropertyData({ ...propertyData, "price_per_area_unit": e.target.value })}>
+                                                <label className="required">Price Per</label>
+                                                <select className="form-control" name="price_per_area_unit" ref={default_area_unit} onChange={(e) => setPropertyData({ ...propertyData, "price_per_area_unit": e.target.value })} value={propertyData && propertyData.price_per_area_unit ? propertyData.price_per_area_unit : ''}>
                                                     <option>Select</option>
                                                     {
                                                         areaUnit.map((value, index) => (
@@ -411,12 +477,15 @@ function Content(props) {
                                                 </select>
                                                 <p style={errorStyle}>{propertyDataError.price_per_area_unit}</p>
                                             </div>
+                                            */}
                                             <div className="col-md-6 form-group">
                                                 <label>Price Negotiable?</label>
-                                                <select className="form-control" name="price_negotiable" onChange={(e) => setPropertyData({ ...propertyData, "price_negotiable": e.target.value })}>
-                                                    <option>Select</option>
-                                                    <option value="1">Yes</option>
+                                                <select className="form-control" name="price_negotiable" onChange={(e) => setPropertyData({ ...propertyData, "price_negotiable": e.target.value })}
+                                                    value={propertyData && propertyData.price_negotiable ? '1' : '0'}>
+                                                    <option value="">Select</option>
                                                     <option value="0">No</option>
+                                                    <option value="1">Yes</option>
+
                                                 </select>
                                             </div>
 
@@ -424,7 +493,7 @@ function Content(props) {
                                     </Tab.Pane>
                                     <Tab.Pane eventKey="tab2">
                                         <div className="form-group">
-                                            <label class="required">Property Thumbnail</label>
+                                            <label className="required">Property Thumbnail</label>
                                             <div className="custom-file">
                                                 <input type="file" className="custom-file-input" ref={image} id="propertyThumbnail" onChange={(e) => {
                                                     uploadImage(e)
@@ -437,10 +506,10 @@ function Content(props) {
                                         </div>
                                         <div className="form-group">
                                             <label>Youtube URL</label>
-                                            <input type="text" className="form-control" placeholder="https://www.youtube.com/watch?v=m2Ux2PnJe6E" />
+                                            <input type="url" className="form-control" placeholder="https://www.youtube.com/watch?v=m2Ux2PnJe6E" onChange={(e) => setPropertyData({ ...propertyData, "video_url": e.target.value })} defaultValue={propertyData && propertyData.video_url ? propertyData.video_url : ''} />
                                         </div>
                                         <div className="form-group">
-                                            <label class="required">Add Image Gallary</label>
+                                            <label className="required">Add Image Gallary</label>
                                             <div className="custom-file">
                                                 <input type="file" className="custom-file-input" ref={images} id="propertyGallery" multiple onChange={(e) => {
                                                     uploadMultipleImages(e);
@@ -480,12 +549,12 @@ function Content(props) {
                                         {/****************************Address****************************/}
                                         <div className="row">
                                             <div className="col-md-6">
-                                                <label class="required">State</label>
-                                                <select className="form-control" name="state" ref={state} onChange={(e) => setPropertyData({ ...propertyData, "state": e.target.value })}>
+                                                <label className="required">State</label>
+                                                <select className="form-control" name="state" ref={state} onChange={(e) => setPropertyData({ ...propertyData, "state": e.target.value })} value={propertyData && propertyData.state ? propertyData.state : ''}>
                                                     <option value="">Select State</option>
                                                     {
                                                         states.map((value, index) => (
-                                                            <option value={index}>{value.state_name}</option>
+                                                            <option value={value.id}>{value.state_name}</option>
 
                                                         ))
                                                     }
@@ -497,18 +566,23 @@ function Content(props) {
 
 
                                             <div className="col-md-6">
-                                                <label class="required">City</label>
-                                                <select className="form-control" name="city" ref={city} onChange={(e) => setPropertyData({ ...propertyData, "city": e.target.value })}>
+                                                <label className="required">City</label>
+                                                <select className="form-control" name="city" ref={city} onChange={(e) => setPropertyData({ ...propertyData, "city": e.target.value })} value={propertyData && propertyData.city ? propertyData.city : ''}>
                                                     <option value="">Select City</option>
+                                                    {
+                                                        cities.map((value, index) => (
+                                                            <option value={value.id}>{value.city_name}</option>
 
+                                                        ))
+                                                    }
                                                 </select>
                                                 <p style={errorStyle}>{propertyDataError.city}</p>
 
                                             </div>
 
                                             <div className="col-md-12">
-                                                <label class="required">Address</label>
-                                                <input className="form-control" placeholder="address" ref={address} name="address" onChange={(e) => setPropertyData({ ...propertyData, "address": e.target.value })} />
+                                                <label className="required">Address</label>
+                                                <input className="form-control" placeholder="address" ref={address} name="address" onChange={(e) => setPropertyData({ ...propertyData, "address": e.target.value })} defaultValue={propertyData && propertyData.address ? propertyData.address : ''} />
                                                 <p style={errorStyle}>{propertyDataError.address}</p>
                                             </div>
                                         </div>
@@ -519,28 +593,26 @@ function Content(props) {
                                     <Tab.Pane eventKey="tab4">
                                         <div className="row">
                                             <div className="col-md-6 form-group">
-                                                <label class="required">Area</label>
-                                                <input type="text" className="form-control" placeholder="500 Sq.ft" ref={area} name="area" onChange={(e) => setPropertyData({ ...propertyData, "area": e.target.value })} />
+                                                <label className="required">Area</label>
+                                                <input type="text" className="form-control" placeholder="500 Sq.ft" ref={area} name="area" onChange={(e) => setPropertyData({ ...propertyData, "area": e.target.value })} defaultValue={propertyData && propertyData.area ? propertyData.area : ''} />
                                                 <p style={errorStyle}>{propertyDataError.area}</p>
 
                                             </div>
 
                                             <div className="col-md-6 form-group">
-                                                <label class="required">Area Unit</label>
-                                                <select className="form-control" name="default_area_unit" onChange={(e) => setPropertyData({ ...propertyData, "default_area_unit": e.target.value })}>
+                                                <label className="required">Area Unit</label>
+                                                <select className="form-control" name="default_area_unit" onChange={(e) => setPropertyData({ ...propertyData, "default_area_unit": e.target.value })} value={propertyData && propertyData.default_area_unit ? propertyData.default_area_unit : ''}>
                                                     <option>Select</option>
                                                     {areaUnit.map((value, index) => (
                                                         <option value={index}>{value}</option>
                                                     ))}
                                                 </select>
                                                 <p style={errorStyle}>{propertyDataError.default_area_unit}</p>
-
                                             </div>
-
 
                                             <div className="col-md-6 form-group">
                                                 <label>Facing</label>
-                                                <select className="form-control" name="facing" onChange={(e) => setPropertyData({ ...propertyData, "facing": e.target.value })}>
+                                                <select className="form-control" name="facing" onChange={(e) => setPropertyData({ ...propertyData, "facing": e.target.value })} value={propertyData && propertyData.facing ? propertyData.facing : ''}>
                                                     <option>Select Facing</option>
                                                     {facing.map((value, index) => (
                                                         <option value={index}>{value}</option>
@@ -550,7 +622,7 @@ function Content(props) {
 
                                             <div className="col-md-6 form-group">
                                                 <label>Road Type</label>
-                                                <select className="form-control" name="roadtype" onChange={(e) => setPropertyData({ ...propertyData, "road_type": e.target.value })}>
+                                                <select className="form-control" name="roadtype" onChange={(e) => setPropertyData({ ...propertyData, "road_type": e.target.value })} value={propertyData && propertyData.road_type ? propertyData.road_type : ''}>
                                                     <option>Select Road Type</option>
                                                     {roadType.map((value, index) => (
                                                         <option value={index}>{value}</option>
@@ -565,7 +637,7 @@ function Content(props) {
                                             {features.map((item, i) => (
                                                 <div key={i} className="col-lg-4 col-md-6 col-sm-6">
                                                     <label className="acr-listing-feature">
-                                                        <input type="checkbox" name={"feature" + item.id + ""} />
+                                                        <input type="checkbox" name={"feature" + item.id + ""} value={item.id} onChange={(e) => handleFeatures(e.target.value)} />
                                                         <i className="acr-feature-check fas fa-check" />
                                                         <i className={"acr-listing-feature-icon flaticon-" + item.icon + ""} />
                                                         {item.title}
@@ -580,8 +652,8 @@ function Content(props) {
                                             <div className="col-md-6 form-group">
                                                 <label>Beds</label>
 
-                                                <select className="form-control" name="beds" onChange={(e) => setPropertyData({ ...propertyData, "no_of_beds": e.target.value })}>
-                                                    <option>Select beds</option>
+                                                <select className="form-control" name="beds" onChange={(e) => setPropertyData({ ...propertyData, "no_of_beds": e.target.value })} value={propertyData && propertyData.no_of_beds ? propertyData.no_of_beds : ''}>
+                                                    <option value="">Select beds</option>
                                                     {bedslist.map((value, index) => (
                                                         <option value={index}>{value}</option>
                                                     ))}
@@ -592,7 +664,7 @@ function Content(props) {
 
                                             <div className="col-md-6 form-group">
                                                 <label>Bathrooms</label>
-                                                <select className="form-control" name="bathrooms" onChange={(e) => setPropertyData({ ...propertyData, "no_of_bathrooms": e.target.value })}>
+                                                <select className="form-control" name="bathrooms" onChange={(e) => setPropertyData({ ...propertyData, "no_of_bathrooms": e.target.value })} value={propertyData && propertyData.no_of_bathrooms ? propertyData.no_of_bathrooms : ''}>
                                                     <option>Select bathrooms</option>
                                                     {bathroomslist.map((value, index) => (
                                                         <option value={index}>{value}</option>
@@ -604,7 +676,7 @@ function Content(props) {
 
                                             <div className="col-md-6 form-group">
                                                 <label>Garage</label>
-                                                <select className="form-control" name="garage" onChange={(e) => setPropertyData({ ...propertyData, "no_of_garage": e.target.value })}>
+                                                <select className="form-control" name="garage" onChange={(e) => setPropertyData({ ...propertyData, "no_of_garage": e.target.value })} value={propertyData && propertyData.no_of_garage ? propertyData.no_of_garage : ''}>
                                                     <option>Select garage</option>
                                                     {carspaces.map((value, index) => (
                                                         <option value={index}>{value}</option>
@@ -617,7 +689,7 @@ function Content(props) {
                                             <div className="col-md-6 form-group">
                                                 <label>Floor</label>
 
-                                                <select className="form-control" name="floors" onChange={(e) => setPropertyData({ ...propertyData, "floor": e.target.value })}>
+                                                <select className="form-control" name="floors" onChange={(e) => setPropertyData({ ...propertyData, "floor": e.target.value })} value={propertyData && propertyData.floor ? propertyData.floor : ''}>
                                                     <option>Select floors</option>
                                                     {floorlist.map((value, index) => (
                                                         <option value={index}>{value}</option>
@@ -628,7 +700,7 @@ function Content(props) {
 
                                             <div className="col-md-6 form-group">
                                                 <label>Car spcaes</label>
-                                                <select className="form-control" name="car_spaces" onChange={(e) => setPropertyData({ ...propertyData, "car_spaces": e.target.value })}>
+                                                <select className="form-control" name="car_spaces" onChange={(e) => setPropertyData({ ...propertyData, "car_spaces": e.target.value })} value={propertyData && propertyData.car_spaces ? propertyData.car_spaces : ''}>
                                                     <option>Select</option>
                                                     {carspaces.map((value, index) => (
                                                         <option value={index}>{value}</option>
@@ -638,17 +710,17 @@ function Content(props) {
 
                                             <div className="col-md-6 form-group">
                                                 <label>Surrounding Areas</label>
-                                                <input type="text" className="form-control" placeholder="Surrounding Areas" name="surrounding_areas" onChange={(e) => setPropertyData({ ...propertyData, "surrounding_areas": e.target.value })} />
+                                                <input type="text" className="form-control" placeholder="Surrounding Areas" name="surrounding_areas" onChange={(e) => setPropertyData({ ...propertyData, "surrounding_areas": e.target.value })} defaultValue={propertyData && propertyData.surrounding_areas ? propertyData.surrounding_areas : ''} />
                                             </div>
 
 
                                             <div className="col-md-6 ">
-                                                <label class="required">Are you</label>
-                                                <select className="form-control" name="are_you" ref={are_you} onChange={(e) => setPropertyData({ ...propertyData, "are_you": e.target.value })}>
+                                                <label className="required">Are you</label>
+                                                <select className="form-control" name="are_you" ref={are_you} onChange={(e) => setPropertyData({ ...propertyData, "are_you": e.target.value })} value={propertyData && propertyData.are_you ? uppercaseFirstLetter(propertyData.are_you) : ''}>
 
                                                     {
                                                         userTypeDrop.map((value, index) => (
-                                                            <option value={index}>{value}</option>
+                                                            <option value={value}>{value}</option>
 
                                                         ))
                                                     }
@@ -658,46 +730,67 @@ function Content(props) {
                                             </div>
                                             <div className="col-md-6 form-group">
                                                 <label>Year Built</label>
-                                                <input type="number" className="form-control" placeholder="Property Year Built" name="build_year" onChange={(e) => setPropertyData({ ...propertyData, "build_year": e.target.value })} />
+                                                <input type="date" className="form-control" placeholder="Property Year Built" name="build_year" onChange={(e) => setPropertyData({ ...propertyData, "build_year": e.target.value })} defaultValue={propertyData && propertyData.build_year ? propertyData.build_year : ''} />
                                             </div>
                                             <div className="col-md-6 ">
                                                 <label>Build Type</label>
-                                                <select className="form-control" name="build_type" onChange={(e) => setPropertyData({ ...propertyData, "build_type": e.target.value })}>
+                                                <select className="form-control" name="build_type" onChange={(e) => setPropertyData({ ...propertyData, "build_type": e.target.value })} value={propertyData && propertyData.build_type ? uppercaseFirstLetter(propertyData.build_type) : ''}>
                                                     {
                                                         buildType.map((value, index) => (
-                                                            <option value={index}>{value}</option>
+                                                            <option value={value}>{value}</option>
 
                                                         ))
                                                     }
                                                 </select>
                                             </div>
-
-                                            <div className="col-md-6 form-group">
-                                                <label class="required">Contact Preson Name</label>
-                                                <input type="text" className="form-control" ref={name_for_contact} placeholder="Contact Name" name="name_for_contact" onChange={(e) => setPropertyData({ ...propertyData, "name_for_contact": e.target.value })} />
-                                                <p style={errorStyle}>{propertyDataError.name_for_contact}</p>
+                                            <div className="col-md-6 ">
+                                                <label>Is Under offer?</label>
+                                                <select className="form-control" name="is_under_offer" onChange={(e) => setPropertyData({ ...propertyData, "is_under_offer": e.target.value })} value={propertyData && propertyData.is_under_offer ? '1' : '0'}>
+                                                    <option value="">Select</option>
+                                                    <option value="1">Yes</option>
+                                                    <option value="0">No</option>
+                                                </select>
 
                                             </div>
                                             <div className="col-md-6 form-group">
-                                                <label class="required">Contact Preson Number</label>
-                                                <input type="number" className="form-control" ref={number_for_contact} placeholder="contact number" name="number_for_contact" onChange={(e) => setPropertyData({ ...propertyData, "number_for_contact": e.target.value })} />
+                                                <label className="required">Contact Preson Name</label>
+                                                <input type="text" className="form-control" ref={name_for_contact} placeholder="Contact Name" name="name_for_contact" onChange={(e) => setPropertyData({ ...propertyData, "name_for_contact": e.target.value })} defaultValue={propertyData && propertyData.name_for_contact ? propertyData.name_for_contact : ''} />
+                                                <p style={errorStyle}>{propertyDataError.name_for_contact}</p>
+                                            </div>
+                                            <div className="col-md-6 form-group">
+                                                <label className="required">Contact Preson Number</label>
+                                                <input type="number" className="form-control" ref={number_for_contact} placeholder="contact number" name="number_for_contact" onChange={(e) => setPropertyData({ ...propertyData, "number_for_contact": e.target.value })} defaultValue={propertyData && propertyData.number_for_contact ? propertyData.number_for_contact : ''} />
                                                 <p style={errorStyle}>{propertyDataError.number_for_contact}</p>
 
                                             </div>
                                             <div className="col-md-6 form-group">
-                                                <label class="required">Contact Preson Email</label>
-                                                <input type="text" className="form-control" placeholder="Email" name="email_for_contact" ref={email_for_contact} onChange={(e) => setPropertyData({ ...propertyData, "email_for_contact": e.target.value })} />
+                                                <label className="required">Contact Preson Email</label>
+                                                <input type="text" className="form-control" placeholder="Email" name="email_for_contact" ref={email_for_contact} onChange={(e) => setPropertyData({ ...propertyData, "email_for_contact": e.target.value })} defaultValue={propertyData && propertyData.email_for_contact ? propertyData.email_for_contact : ''} />
                                                 <p style={errorStyle}>{propertyDataError.email_for_contact}</p>
 
                                             </div>
+                                            <div className="col-md-6 ">
+                                                <label className="required">Show contact on website?</label>
+                                                <select className="form-control" name="is_contact_show" onChange={(e) => setPropertyData({ ...propertyData, "is_contact_show": e.target.value })} value={propertyData && propertyData.is_contact_show ? '1' : '0'}>
+                                                    <option value="">Select</option>
+                                                    <option value="1">Yes</option>
+                                                    <option value="0">No</option>
+                                                </select>
+                                                <p style={errorStyle}>{propertyDataError.is_contact_show}</p>
 
+                                            </div>
                                             <div className="col-md-6 form-group">
                                                 <label>Source From</label>
-                                                <input type="text" className="form-control" placeholder="Source From" name="source_from" onChange={(e) => setPropertyData({ ...propertyData, "source_from": e.target.value })} />
+                                                <input type="text" className="form-control" placeholder="Source From" name="source_from" onChange={(e) => setPropertyData({ ...propertyData, "source_from": e.target.value })} defaultValue={propertyData && propertyData.source_from ? propertyData.source_from : ''} />
                                             </div>
                                             <div className="col-md-6 form-group">
                                                 <label>Available from</label>
-                                                <input type="date" className="form-control" name="available_from" onChange={(e) => setPropertyData({ ...propertyData, "available_from": e.target.value })} />
+                                                <input type="date" className="form-control" name="available_from" onChange={(e) => setPropertyData({ ...propertyData, "available_from": e.target.value })} defaultValue={propertyData && propertyData.available_from ? propertyData.available_from : ''} />
+                                            </div>
+
+                                            <div className="col-md-12 form-group">
+                                                <label>Keywords</label>
+                                                <input type="text" className="form-control" placeholder="Enter Keywords to rank on NepRealEstate" name="keywords" onChange={(e) => setPropertyData({ ...propertyData, "keywords": e.target.value })} defaultValue={propertyData && propertyData.keywords ? propertyData.keywords : ''} />
                                             </div>
                                         </div>
                                         {/*

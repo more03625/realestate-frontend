@@ -33,32 +33,60 @@ export const Searchoptions = () => {
     useEffect(() => {
         getSubCategories();
     }, []);
-    console.log(optionsData)
-    console.log(optionsData && optionsData.categories.name);
-    console.log(optionsData && optionsData.categories.id);
+
+
+
+    var propertyTypes = {};
+    if (optionsData && optionsData !== undefined) {
+        optionsData.categories.forEach(function (category, index) {
+            propertyTypes[category.id] = category.name;
+        });
+        // console.log(propertyTypes);
+        // propertyTypes.forEach(function (value, i) {
+        //     console.log(value);
+        // });
+    }
+    const ptypes = [
+        { text: "All types", id: 1 },
+        { text: "House", id: 2 },
+        { text: "Apartment Unit", id: 3 },
+        { text: "Land", id: 4 },
+        { text: "Shop", id: 5 },
+        { text: "Flat", id: 6 },
+        { text: "Townhouse", id: 7 },
+        { text: "Villa", id: 8 },
+        { text: "Acreage", id: 9 },
+        { text: "Rural", id: 10 },
+        { text: "Block of Units", id: 11 },
+        { text: "Retirement Livin", id: 12 }
+    ];
+    const beds = [
+        { text: "Any", id: 1 },
+        { text: "1 Bed", id: 2 },
+        { text: "2 Beds", id: 3 },
+        { text: "3 Beds", id: 4 },
+        { text: "4 Beds", id: 5 },
+        { text: "5 Beds", id: 6 },
+    ];
     return (
         <>
             <div className="col-lg-2 col-md-6">
                 <div className="form-group acr-custom-select">
-                    {optionsData &&
 
-                        <Select2
-                            data={[
-                                { text: optionsData.categories.name, id: optionsData.categories.id }
-                            ]}
-                            options={{
-                                placeholder: "Property Types",
-                            }}
-                            name="subcategory"
-                        />
+                    <Select2
+                        data={ptypes}
+                        options={{
+                            placeholder: "Property Types",
+                        }}
+                        name="subcategory"
+                    />
 
-                    }
                 </div>
             </div>
             <div className="col-lg-2 col-md-6">
                 <div className="form-group acr-custom-select">
                     <Select2
-                        data={bedslist}
+                        data={beds}
                         options={{
                             placeholder: "Beds (min)",
                         }}
@@ -69,7 +97,7 @@ export const Searchoptions = () => {
             <div className="col-lg-2 col-md-6">
                 <div className="form-group acr-custom-select">
                     <Select2
-                        data={bedslist}
+                        data={beds}
                         options={{
                             placeholder: "Beds (max)",
                         }}
@@ -92,9 +120,7 @@ export const Searchoptions = () => {
             <div className="col-lg-2 col-md-6">
                 <div className="form-group acr-custom-select">
                     <Select2
-                        data={[
-                            maxpricerangelist
-                        ]}
+                        data={pricerangelist}
                         options={{
                             placeholder: "Price (max)",
                         }}

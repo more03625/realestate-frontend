@@ -143,7 +143,7 @@ const Content = () => {
                         <ul>
                           <li>
                             {" "}
-                            <Link to={{ pathname: `edit-property/${item.id}` }}>
+                            <Link to={{ pathname: `edit-property/${convertToSlug(item.title)}/${item.id}` }}>
                               {" "}
                               <i className="fas fa-pen" /> Edit Property
                             </Link>{" "}

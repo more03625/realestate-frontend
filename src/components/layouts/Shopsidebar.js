@@ -70,6 +70,9 @@ const Shopsidebar = ({ parentCallback }) => {
     e.preventDefault();
 
     var data = {
+
+
+
       filterState,
       filterCategory,
       filterPrice,
@@ -248,9 +251,7 @@ const Shopsidebar = ({ parentCallback }) => {
                   <Link to={`property/${convertToSlug(item.title)}/${item.id}`}>
                     <img
                       src={
-                        process.env.REACT_APP_CONTENT_URL +
-                        "/properties/" +
-                        item.image +
+                        process.env.REACT_APP_CONTENT_URL + item.image +
                         "_small.jpg"
                       }
                       alt={item.image + "_small.jpg"}

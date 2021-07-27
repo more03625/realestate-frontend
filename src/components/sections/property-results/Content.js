@@ -96,9 +96,7 @@ const Content = ({ propertyType, searchQuery, searchResults, parentCallback }) =
                     </div>
                     <div className="listing-body">
                         <div className="listing-author">
-                            <img
-                                src={process.env.REACT_APP_CONTENT_URL + item.profile_image + "_small.jpg"}
-
+                            <img src={item.profile_image != null ? process.env.REACT_APP_CONTENT_URL + item.profile_image + "_small.jpg" : process.env.REACT_APP_CONTENT_URL + "/users/default.png"}
                                 alt={item.profile_image + "_small.jpg"}
                             />
                             <div className="listing-author-body">

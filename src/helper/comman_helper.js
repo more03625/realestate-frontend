@@ -25,6 +25,9 @@ export const Endpoints = {
     getProperties: "/property/getProperties",
     addProperty: "/property/addProperty",
     getSubCategories: "/admin/getSubCategories",
+    getCities: "/users/getCities",
+    getPropertiesWithFilters: '/property/getPropertiesWithFilters',
+    editProperty: "/property/editProperty"
 };
 
 export const openInGmail = (to, cc = null, bcc = null) => {
@@ -35,6 +38,9 @@ export const openInGmail = (to, cc = null, bcc = null) => {
 }
 export const uppercaseFirstLetter = (string) => {
     return string[0].toUpperCase() + string.slice(1);
+}
+export const lowercaseFirstLetter = (string) => {
+    return string[0].toLowerCase() + string.slice(1);
 }
 export const saveProperty = (propertyID) => {
     alert(`Ok, i will save this property if you are logged in. number is ${propertyID}`);

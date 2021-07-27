@@ -4873,6 +4873,7 @@ table img {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  max-width: 350px;
 }
 .listing .listing-thumbnail .listing-controls {
   position: absolute;
