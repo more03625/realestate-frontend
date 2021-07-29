@@ -102,6 +102,9 @@ const Agencydetails = React.lazy(() =>
 const Propertyresults = React.lazy(() =>
   import("./components/pages/Propertyresults")
 );
+const Alertssubscribe = React.lazy(() =>
+  import("./components/pages/Alertssubscribe")
+);
 
 function App() {
   return (
@@ -183,8 +186,13 @@ function App() {
           <Route path="/listing-details-v2" component={Listingdetailstwo} />
           <Route path="/listing-details-v3" component={Listingdetailsthree} />
 
-          <Route path="/add-property" component={Submitlisting} />
-          <Route path="/edit-property/:slug/:propertyID" component={Submitlisting} />
+          <Route path="/add-property">
+            <Protected component={Submitlisting} />
+
+          </Route>
+          <Route path="/edit-property/:slug/:propertyID">
+            <Protected component={Submitlisting} />
+          </Route>
 
           {/* <Protected component={Submitlisting} /> */}
           {/* </Route> */}
@@ -198,7 +206,9 @@ function App() {
             <Protected component={Profile} />
           </Route>
 
-          <Route path="/my-listings" component={Profilelistings} />
+          <Route path="/my-listings">
+            <Protected component={Profilelistings} />
+          </Route>
 
           <Route
             path="/profile-saved-listings"
@@ -207,6 +217,7 @@ function App() {
           {/* Agency */}
           <Route path="/agency-archive" component={Agencyarchive} />
           <Route path="/agency-details" component={Agencydetails} />
+          <Route path="/subscribe-for-alerts" component={Alertssubscribe} />
 
 
           <Route path="*" component={Error} />

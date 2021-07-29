@@ -169,7 +169,7 @@ const Content = ({ userData }) => {
       </div>
       <div className="acr-auth-bg">
         <Slider className="acr-auth-bg-slider acr-cs-bg-slider" {...settings}>
-          {images.map((item, i) => (
+          {images && images.map((item, i) => (
             <div key={i}>
               <div className="acr-cs-bg-item bg-cover bg-center" style={{ backgroundImage: "url(" + process.env.PUBLIC_URL + "/" + item.img + ")" }} >
                 <div className="acr-auth-quote">

@@ -4,9 +4,6 @@ import {
   pricerangelist,
   bedslist,
   category,
-  subCategories,
-  locationlist,
-  statuslist,
   bathroomslist,
 } from "../../data/select.json";
 import Select2 from "react-select2-wrapper";
@@ -27,9 +24,10 @@ const Shopsidebar = ({ parentCallback }) => {
   const [open3, setOpen3] = useState(true);
 
   const [show, setShow] = useState(false);
-  const [states, setStates] = useState();
+  const [states, setStates] = useState([]);
   const [recentProperties, setRecentProperties] = useState([]);
 
+  const [subCategories, setSubCategories] = useState([]);
 
   const [filterState, setFilterState] = useState(null);
   const [filterCategory, setFilterCategory] = useState(null);
@@ -49,7 +47,8 @@ const Shopsidebar = ({ parentCallback }) => {
     for (const [key, value] of Object.entries(result.data.data)) {
       locationArray.push(value.state_name);
     }
-    setStates(locationArray);
+    setStates(result.data.data);
+
   };
   const getRecentProperties = () => {
     var url = Host + Endpoints.getRecentProperties;
@@ -61,7 +60,20 @@ const Shopsidebar = ({ parentCallback }) => {
       }
     });
   };
+  const getSubCategories = async () => {
+    var url = Host + Endpoints.getSubCategories;
+    var result = await Axios.get(url);
+
+    if (result.data.error === true) {
+      console.log('there are some erros');
+
+    } else {
+      console.log(result.data.data);
+      setSubCategories(result.data.data.categories);
+    }
+  }
   useEffect(() => {
+    getSubCategories();
     getStates();
     getRecentProperties();
   }, []);
@@ -71,22 +83,15 @@ const Shopsidebar = ({ parentCallback }) => {
 
     var data = {
 
-
-
-      filterState,
-      filterCategory,
-      filterPrice,
-      filterBeds,
-      filterBathrooms,
-      filterSubCategories,
+      "category": filterCategory,
+      "state": filterState,
+      "min_price": filterPrice,
+      "min_bedroom": filterBeds,
+      "min_bathrooms": filterBathrooms,
+      "subcategory": filterSubCategories,
     }
-    // console.log(filterState + " filterState");
-    // console.log(filterCategory + " filterCategory");
-    // console.log(filterPrice + " filterPrice");
-    // console.log(filterBeds + " filterBeds");
-    // console.log(filterBathrooms + " filterBathrooms");
-    // console.log(filterSubCategories + " filterSubCategories");
-    var filterURL = Host + Endpoints.getProperties;
+
+    var filterURL = Host + Endpoints.getPropertiesWithFilters;
     Axios.post(filterURL, data)
       .then((response) => {
         parentCallback(response.data.data.properties);
@@ -148,9 +153,11 @@ const Shopsidebar = ({ parentCallback }) => {
                   <select className="form-control" name="states" onChange={(e) => setFilterState(e.target.value)}>
                     <option value="">Select States</option>
                     <option value="Any">Any States</option>
-                    {states !== undefined ? states.map((value, index) => (
-                      <option value={index}>{value}</option>
-                    )) : ''}
+                    {states &&
+                      states.map((value, index) => (
+                        <option value={value.id}>{value.state_name}</option>
+                      ))
+                    }
                   </select>
                 </div>
 
@@ -179,7 +186,7 @@ const Shopsidebar = ({ parentCallback }) => {
                   <select className="form-control" name="beds" onChange={(e) => setFilterBeds(e.target.value)}>
                     <option value="">Select Beds</option>
                     {bedslist.map((value, index) => (
-                      <option value={value}>{value}</option>
+                      <option value={index}>{value}</option>
                     ))}
                   </select>
                 </div>
@@ -190,18 +197,18 @@ const Shopsidebar = ({ parentCallback }) => {
                   <select className="form-control" name="bathrooms" onChange={(e) => setFilterBathrooms(e.target.value)}>
                     <option value="">Select Bathrooms</option>
                     {bathroomslist.map((value, index) => (
-                      <option value={value}>{value}</option>
+                      <option value={index}>{value}</option>
                     ))}
                   </select>
                 </div>
 
                 <div className="form-group">
-                  <label>Property Type</label>
+                  <label>Select Subcategory</label>
 
                   <select className="form-control" name="subcategory" onChange={(e) => setFilterSubCategories(e.target.value)}>
-                    <option value="">Property Type</option>
-                    {subCategories.map((value, index) => (
-                      <option value={value}>{value}</option>
+                    <option value="">Select Subcategory</option>
+                    {subCategories && subCategories.map((value, index) => (
+                      <option value={value.id}>{value.name}</option>
                     ))}
                   </select>
                 </div>
@@ -245,7 +252,7 @@ const Shopsidebar = ({ parentCallback }) => {
         <Collapse in={open2}>
           <div className="acr-collapsable">
             {/* Listing Start */}
-            {recentProperties.slice(0, 4).map((item, i) => (
+            {recentProperties && recentProperties.slice(0, 4).map((item, i) => (
               <div key={i} className="listing listing-list">
                 <div className="listing-thumbnail">
                   <Link to={`property/${convertToSlug(item.title)}/${item.id}`}>

@@ -68,7 +68,7 @@ const Content = () => {
                     </div>
                     <div className="row">
                         {/* Listing Start */}
-                        {recentProperties.slice(0, 6).map((item, i) => (
+                        {recentProperties && recentProperties.slice(0, 6).map((item, i) => (
                             <div key={i} className="col-lg-4">
                                 <div className="listing">
                                     <div className="listing-thumbnail">

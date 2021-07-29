@@ -51,7 +51,7 @@ const Content = () => {
   const indexOfFirstitem = 5 - 5;
   const currentitems = listing.slice(indexOfFirstitem, indexOfLastitem);
 
-  const renderitems = currentitems.map((item, i) => {
+  const renderitems = currentitems && currentitems.map((item, i) => {
     return (
       <div key={i} className="listing listing-list">
         <div className="listing-thumbnail">

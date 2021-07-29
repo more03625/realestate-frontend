@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Axios from "axios";
 import { ToastContainer } from "react-toastify";
@@ -11,8 +11,19 @@ const Content = () => {
     color: '#28a745',
     fontSize: '14px',
   };
-  const getUser = () => {
+
+  const [userData, setUserData] = useState("");
+  const getUser = async () => {
     //write function here & get this data from DB
+    var url = Host + Endpoints.getProfileDetails;
+    var result = await Axios.get(url, {
+      headers: {
+        token: getUserToken().token
+      }
+    });
+
+    setUserData(result.data.data);
+
   }
   const [fullName, setFullName] = useState(
     getUserToken().data.name !== null ? getUserToken().data.name : ""
@@ -148,6 +159,7 @@ const Content = () => {
         if (response.data.error === true) {
           errorToast(response.data.title);
         } else {
+          setUserData(response.data.data);
           successToast(response.data.title);
         }
       });
@@ -167,6 +179,9 @@ const Content = () => {
       }
     })
   }
+  useEffect(() => {
+    getUser();
+  }, []);
   return (
     <div className="section">
       <div className="container">
@@ -203,7 +218,7 @@ const Content = () => {
 
           <div className="col-lg-8">
             <div className="acr-welcome-message">
-              <h3>Welcome Back, Randy Blue</h3>
+              <h3>Welcome Back, {userData && userData.name ? userData.name : ''}</h3>
 
             </div>
             <form id="profileForm" onSubmit={updateProfile}>
@@ -216,7 +231,7 @@ const Content = () => {
                     className="form-control"
                     placeholder="Your Name"
                     onChange={(e) => setFullName(e.target.value)}
-                    defaultValue={getUserToken().data.name}
+                    defaultValue={userData && userData.name ? userData.name : ''}
                   />
                   <p style={{ color: "red", fontSize: "14px" }}>
                     {fullNameError}
@@ -231,7 +246,7 @@ const Content = () => {
                     className="form-control"
                     placeholder="Your email"
                     onChange={(e) => setEmail(e.target.value)}
-                    defaultValue={getUserToken().data.email}
+                    defaultValue={userData && userData.email ? userData.email : ''}
                   />
                   <p style={{ color: "red", fontSize: "14px" }}>{emailError}</p>
                 </div>
@@ -243,7 +258,7 @@ const Content = () => {
                     className="form-control"
                     placeholder="+123 456 789"
                     onChange={(e) => setPhoneNumber(e.target.value)}
-                    defaultValue={getUserToken().data.mobile}
+                    defaultValue={userData && userData.mobile ? userData.mobile : ''}
                   />
                   <p style={{ color: "red", fontSize: "14px" }}>
                     {phoneNumberError}
@@ -258,7 +273,7 @@ const Content = () => {
                     className="form-control"
                     placeholder="About Me"
                     onChange={(e) => setAboutMe(e.target.value)}
-                    defaultValue={getUserToken().data.about_me}
+                    defaultValue={userData && userData.about_me ? userData.about_me : ''}
                   />
                   <p style={{ color: "red", fontSize: "14px" }}>
                     {aboutMeError}

@@ -2,9 +2,7 @@ import Select2 from "react-select2-wrapper";
 
 import {
     pricerangelist,
-    bedslist,
-    category,
-    maxpricerangelist,
+
 } from "../../../../data/select.json";
 import Axios from "axios";
 import { Endpoints, Host } from "../../../../helper/comman_helper";
@@ -14,52 +12,28 @@ export const Searchoptions = () => {
 
     const [optionsData, setOptionsData] = useState();
 
+
     const getSubCategories = async () => {
         var url = Host + Endpoints.getSubCategories;
         var result = await Axios.get(url);
 
         if (result.data.error === true) {
             console.log('there are some erros');
+
         } else {
             var subCategoryName = [];
             for (var i = 0; i < result.data.data.categories.length; i++) {
-                subCategoryName.push(result.data.data.categories[i])
+                subCategoryName.push({ 'id': result.data.data.categories[i].id, text: result.data.data.categories[i].name });
             }
-
+            console.log(subCategoryName);
             setOptionsData({ ...optionsData, 'categories': subCategoryName });
-
         }
     }
+
     useEffect(() => {
         getSubCategories();
-    }, []);
+    }, [])
 
-
-
-    var propertyTypes = {};
-    if (optionsData && optionsData !== undefined) {
-        optionsData.categories.forEach(function (category, index) {
-            propertyTypes[category.id] = category.name;
-        });
-        // console.log(propertyTypes);
-        // propertyTypes.forEach(function (value, i) {
-        //     console.log(value);
-        // });
-    }
-    const ptypes = [
-        { text: "All types", id: 1 },
-        { text: "House", id: 2 },
-        { text: "Apartment Unit", id: 3 },
-        { text: "Land", id: 4 },
-        { text: "Shop", id: 5 },
-        { text: "Flat", id: 6 },
-        { text: "Townhouse", id: 7 },
-        { text: "Villa", id: 8 },
-        { text: "Acreage", id: 9 },
-        { text: "Rural", id: 10 },
-        { text: "Block of Units", id: 11 },
-        { text: "Retirement Livin", id: 12 }
-    ];
     const beds = [
         { text: "Any", id: 1 },
         { text: "1 Bed", id: 2 },
@@ -74,7 +48,7 @@ export const Searchoptions = () => {
                 <div className="form-group acr-custom-select">
 
                     <Select2
-                        data={ptypes}
+                        data={optionsData && optionsData.categories}
                         options={{
                             placeholder: "Property Types",
                         }}

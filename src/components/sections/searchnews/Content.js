@@ -25,7 +25,7 @@ const Content = ({ resultsData }) => {
             <div className="section section-padding">
               <h4>Search News Related Posts</h4>
               <div className="row">
-                {searchedArray.map((item, i) => (
+                {searchedArray && searchedArray.map((item, i) => (
                   <div key={i} className="col-md-6">
                     <article className="post single">
                       <div className="post-thumbnail">

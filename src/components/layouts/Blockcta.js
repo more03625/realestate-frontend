@@ -7,14 +7,17 @@ const ctablock = [
         icon: 'sales-agent',
         title: 'Buying a Home?',
         text: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's",
-        link: "/buy"
+        link: "/subscribe-for-alerts",
+        linkText: "Subscribe for alerts"
     },
     {
         id: 2,
         icon: 'sold',
         title: 'Selling a Home?',
         text: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's",
-        link: "/sold"
+        link: "/sold",
+        linkText: "Find out more"
+
 
     }
 ]
@@ -30,7 +33,7 @@ const Blockcta = () => {
                             <div className="cta-body">
                                 <h4>{item.title}</h4>
                                 <p>{item.text}</p>
-                                <Link to={item.link} className="btn-link">Find Out More <i className="fas fa-arrow-right" /> </Link>
+                                <Link to={item.link} className="btn-link">{item.linkText}<i className="fas fa-arrow-right" /> </Link>
                             </div>
                         </div>
                     </div>

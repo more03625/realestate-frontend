@@ -44,7 +44,7 @@ class Content extends Component {
         const indexOfFirstitem = indexOfLastitem - itemsPerPage;
         const currentitems = items.slice(indexOfFirstitem, indexOfLastitem);
 
-        const renderitems = currentitems.map((item, i) => {
+        const renderitems = currentitems && currentitems.map((item, i) => {
             return <div key={i} className="col-lg-6">
                 <div className="acr-agent">
                     {item.star === true ? <div className="listing-badge featured"><i className="fas fa-star" /></div> : ''}

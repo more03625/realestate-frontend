@@ -41,13 +41,13 @@ const Recentlisting = () => {
         </div>
         <div className="row">
           {/* Listing Start */}
-          {recentProperties.slice(0, 6).map((item, i) => (
+          {recentProperties && recentProperties.slice(0, 6).map((item, i) => (
             <div key={i} className="col-lg-4">
               <div className="listing">
                 <div className="listing-thumbnail">
                   <Link to={`property/${convertToSlug(item.title)}/${item.id}`}>
-                    <img
-                      src={process.env.REACT_APP_CONTENT_URL + item.image + "_medium.jpg"}
+
+                    <img src={item.image != null ? process.env.REACT_APP_CONTENT_URL + item.image + "_medium.jpg" : process.env.REACT_APP_CONTENT_URL + "/users/default.png"}
                       alt={`image of ${item.title}`}
                     />
                   </Link>

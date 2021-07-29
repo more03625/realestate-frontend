@@ -44,10 +44,10 @@ class Content extends Component {
         const indexOfFirstitem = indexOfLastitem - itemsPerPage;
         const currentitems = items.slice(indexOfFirstitem, indexOfLastitem);
 
-        const renderitems = currentitems.map((item, i) => {
+        const renderitems = currentitems && currentitems.map((item, i) => {
             return <div key={i} className="col-lg-6">
                 <div className="acr-agent">
-                    
+
                     <div className="acr-dots-wrapper acr-agent-thumb">
                         <div className="acr-dots" />
                         <Link to="/agent-details"><img src={process.env.PUBLIC_URL + "/" + item.img} alt="agent" /></Link>

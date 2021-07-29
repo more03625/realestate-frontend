@@ -17,7 +17,7 @@ const bedstip = <Tooltip>Beds</Tooltip>;
 const bathstip = <Tooltip>Bathrooms</Tooltip>;
 const areatip = <Tooltip>Ropani-Aana-Paisa-Daam</Tooltip>;
 
-const Content = ({ propertyType, searchQuery, searchResults, parentCallback }) => {
+const Content = ({ propertyType, searchQuery, searchResults, parentCallback, subCategoryName, subCategoryID }) => {
 
     const [currentPage, setCurrentPage] = useState(1);
     const [itemsPerPage, setItemsPerPage] = useState(10);
@@ -46,7 +46,7 @@ const Content = ({ propertyType, searchQuery, searchResults, parentCallback }) =
 
     var renderitems = [];
     if (currentitems.length !== 0) {
-        var renderitems = currentitems.map((item, i) => {
+        var renderitems = currentitems && currentitems.map((item, i) => {
             var propertyURL = "property" + "/" + convertToSlug(item.title) + "/" + item.id;
 
             return (
@@ -232,17 +232,33 @@ const Content = ({ propertyType, searchQuery, searchResults, parentCallback }) =
                     {/* Posts Start */}
                     <div className="col-lg-8">
                         {/* Controls Start */}
+
                         <div className="acr-global-listing-controls">
                             <div className="acr-listing-active-filters">
-                                <Link to={`?search=${searchQuery}&property_type=${propertyType}`}>
-                                    <div className="close-btn close-dark">
-                                        <span />
-                                        <span />
-                                    </div>
-                                    Commercial
-                                </Link>
+                                {
+                                    subCategoryName && subCategoryID ?
+                                        <Link to={`?category=${subCategoryName}&category_id=${subCategoryID}`}>
+                                            <div className="close-btn close-dark">
+                                                <span />
+                                                <span />
+                                            </div>
+                                            {subCategoryName ? subCategoryName : propertyType}
+                                        </Link>
+                                        :
+                                        <Link to={`?search=${searchQuery}&property_type=${propertyType}`}>
+                                            <div className="close-btn close-dark">
+                                                <span />
+                                                <span />
+                                            </div>
+                                            {subCategoryName ? subCategoryName : propertyType}
+                                        </Link>
+                                }
+
+
                             </div>
                         </div>
+
+
                         {/* Controls End */}
                         <div className="row">
                             {/* Listing Start */}
@@ -256,14 +272,29 @@ const Content = ({ propertyType, searchQuery, searchResults, parentCallback }) =
                                 {/* to show previous, we need to be on the 2nd or more page */}
                                 {pageNumbers.length > 1 && currentPage !== 1 ? (
                                     <li className="page-item">
-                                        <Link
-                                            className="page-link"
-                                            to={`?search=${searchQuery}&property_type=${propertyType}`}
-                                            data-page={currentPage - 1}
-                                            onClick={handleClick}
-                                        >
-                                            <i className="fas fa-chevron-left" />
-                                        </Link>
+
+                                        {
+                                            subCategoryName && subCategoryID ?
+                                                <Link
+                                                    className="page-link"
+                                                    to={`?category=${subCategoryName}&category_id=${subCategoryID}`}
+                                                    data-page={currentPage - 1}
+                                                    onClick={handleClick}
+                                                >
+                                                    <i className="fas fa-chevron-left" />
+                                                </Link>
+                                                :
+                                                <Link
+                                                    className="page-link"
+                                                    to={`?search=${searchQuery}&property_type=${propertyType}`}
+                                                    data-page={currentPage - 1}
+                                                    onClick={handleClick}
+                                                >
+
+                                                    <i className="fas fa-chevron-left" />
+                                                </Link>
+                                        }
+
                                     </li>
                                 ) : (
                                     ""

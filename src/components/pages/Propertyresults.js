@@ -16,14 +16,15 @@ const Propertyresults = () => {
     var minPrice = queryParams.get("min_price");
     var maxPrice = queryParams.get("max_price");
     var subCategory = queryParams.get("subcategory");
+    var subCategoryID = queryParams.get("subcategory_id");
+    var subCategoryName = queryParams.get("sub_category");
 
     const getSearchResults = () => {
         var searchURL = Host + Endpoints.getPropertiesWithFilters;
         var data = {
-
             "search": search,
             "property_type": property_type,
-            'subcategory': subCategory,
+            'subcategory': subCategoryID,
             "min_beds": minBed,
             "max_beds": maxBed,
             "min_price": minPrice,
@@ -33,7 +34,7 @@ const Propertyresults = () => {
             .then((response) => {
 
                 if (response.data.error === true) {
-                    alert("There are some errors. please reload the page!")
+                    console.log('There are some errors!');
                 } else {
                     setSearchResults(response.data.data.properties);
                 }
@@ -48,22 +49,21 @@ const Propertyresults = () => {
     const [searchResults, setSearchResults] = useState([]);
 
     const handleCallback = (childData) => {
-        alert(searchResults + "callback main");
         setSearchResults(childData);
     }
 
     return (
         <Fragment>
             <MetaTags>
-                <title>Results for {search}</title>
+                <title>Results for {search ? search : subCategoryName}</title>
                 <meta
                     name="description"
                     content="#"
                 />
             </MetaTags>
             <Header />
-            <Breadcrumb breadcrumb={{ pagename: `Results for ${search}` }} />
-            <Content propertyType={property_type} searchQuery={search} searchResults={searchResults} parentCallback={handleCallback} />
+            <Breadcrumb breadcrumb={{ pagename: `Results for ${search ? search : subCategoryName}` }} />
+            <Content propertyType={property_type} searchQuery={search} searchResults={searchResults} parentCallback={handleCallback} subCategoryName={subCategoryName} subCategoryID={subCategoryID} />
             <Footer />
         </Fragment>
 

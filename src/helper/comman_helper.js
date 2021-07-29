@@ -27,7 +27,11 @@ export const Endpoints = {
     getSubCategories: "/admin/getSubCategories",
     getCities: "/users/getCities",
     getPropertiesWithFilters: '/property/getPropertiesWithFilters',
-    editProperty: "/property/editProperty"
+    editProperty: "/property/editProperty",
+    getUserById: "/admin/getUserById?id=",
+    getProfileDetails: "/users/getProfileDetails",
+    getPropertyCounts: "/property/getPropertyCounts?id=",
+    getCategories: "/admin/getCategories"
 };
 
 export const openInGmail = (to, cc = null, bcc = null) => {

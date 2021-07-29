@@ -53,7 +53,7 @@ const Content = () => {
   const indexOfFirstitem = indexOfLastitem - itemsPerPage;
   const currentitems = items.slice(indexOfFirstitem, indexOfLastitem);
 
-  const renderitems = currentitems.map((item, i) => {
+  const renderitems = currentitems && currentitems.map((item, i) => {
     return (
       <article key={i} className="post">
         <div className="post-thumbnail">

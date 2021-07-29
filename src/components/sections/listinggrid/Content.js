@@ -52,7 +52,7 @@ class Content extends Component {
     const indexOfFirstitem = indexOfLastitem - itemsPerPage;
     const currentitems = items.slice(indexOfFirstitem, indexOfLastitem);
 
-    const renderitems = currentitems.map((item, i) => {
+    const renderitems = currentitems && currentitems.map((item, i) => {
       return (
         <div key={i} className="col-md-6">
           <div className="listing">
@@ -308,7 +308,7 @@ class Content extends Component {
                   {/* Next */}
                   {/* to show next, we should not be on the last page */}
                   {pageNumbers.length > 1 &&
-                  this.state.currentPage !== pageNumbers.length ? (
+                    this.state.currentPage !== pageNumbers.length ? (
                     <li className="page-item">
                       <Link
                         className="page-link"

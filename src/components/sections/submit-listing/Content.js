@@ -133,7 +133,7 @@ function Content() {
         getPropertyDetails();
         getCities();
         setPropertyData({
-            ...propertyData, "user_id": getUserToken().data.id, "features": [1, 2]
+            ...propertyData, "user_id": getUserToken().data.id
         });
 
         files.forEach(file => URL.revokeObjectURL(file.preview));
@@ -160,14 +160,23 @@ function Content() {
     const email_for_contact = useRef();
     const is_contact_show = useRef();
 
-    var features = [];
+    var selectedFeatures = [];
+
     const handleFeatures = (e) => {
+        var index = selectedFeatures.indexOf(e);
 
+        if (index == -1) {
+            selectedFeatures.push(e);
+        }
+        else {
+            selectedFeatures.splice(index);
+        }
 
-        alert(e)
-        features.push(e);
-        console.log(features);
+        console.log(selectedFeatures);
+        setPropertyData({ ...propertyData, "features": selectedFeatures });
+
     }
+
 
     const isValid = () => {
         var emailValidator = new RegExp(/[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,15}/g).test(propertyData.email_for_contact);
@@ -299,6 +308,7 @@ function Content() {
         else if (propertyData.is_contact_show === '' || propertyData.is_contact_show === null || propertyData.is_contact_show === undefined) {
             errorToast("Please let us know about visibility of your contact!");
             document.getElementById("tab6").click();
+
             is_contact_show.current.scrollIntoView();
             setPropertyDataError({ is_contact_show: "Please let us know about visibility of your contact!" });
             return false;
@@ -311,22 +321,6 @@ function Content() {
 
     const handleSubmit = (e) => {
         e.preventDefault()
-
-
-
-        // if (isImageSelected.length === 0) {
-        //     alert('if');
-
-        //     setPropertyData({ ...propertyData, "image": 'Youtube 1' });
-        //     setPropertyData({ ...propertyData, "images": 'Youtube 2' });
-        // } else {
-        //     alert('in else');
-        // }
-
-
-        // alert(propertyData.image)
-        // alert(propertyData.images)
-        // alert('End of p')
 
         if (isValid()) {
 
@@ -415,7 +409,7 @@ function Content() {
                                                 <label className="required">Property Type</label>
                                                 <select className="form-control" name="propertyType" ref={property_type} onChange={(e) => setPropertyData({ ...propertyData, "property_type": e.target.value })} value={propertyData && propertyData.property_type ? lowercaseFirstLetter(propertyData.property_type) : ''}>
                                                     <option value="">Property Type</option>
-                                                    {type.map((value, index) => (
+                                                    {type && type.map((value, index) => (
                                                         <option value={lowercaseFirstLetter(value)}>{value}</option>
                                                     ))}
                                                 </select>
@@ -428,7 +422,7 @@ function Content() {
                                                 <label className="required">Category</label>
                                                 <select className="form-control" name="category" ref={categoryRef} onChange={(e) => setPropertyData({ ...propertyData, "category": e.target.value })} value={propertyData && propertyData.category ? propertyData.category : ''}>
                                                     <option value="">category</option>
-                                                    {category.map((value, index) => (
+                                                    {category && category.map((value, index) => (
                                                         <option value={index}>{value}</option>
                                                     ))}
                                                 </select>
@@ -439,7 +433,7 @@ function Content() {
                                                 <label className="required">Sub category</label>
                                                 <select className="form-control" name="sub_category" ref={subcategory} onChange={(e) => setPropertyData({ ...propertyData, "subcategory": e.target.value })} value={propertyData && propertyData.subcategory ? propertyData.subcategory : ''}>
                                                     <option value="">Sub category</option>
-                                                    {subCategories.map((value, index) => (
+                                                    {subCategories && subCategories.map((value, index) => (
                                                         <option value={index}>{value}</option>
                                                     ))}
 
@@ -552,7 +546,7 @@ function Content() {
                                                 <label className="required">State</label>
                                                 <select className="form-control" name="state" ref={state} onChange={(e) => setPropertyData({ ...propertyData, "state": e.target.value })} value={propertyData && propertyData.state ? propertyData.state : ''}>
                                                     <option value="">Select State</option>
-                                                    {
+                                                    {states &&
                                                         states.map((value, index) => (
                                                             <option value={value.id}>{value.state_name}</option>
 
@@ -569,7 +563,7 @@ function Content() {
                                                 <label className="required">City</label>
                                                 <select className="form-control" name="city" ref={city} onChange={(e) => setPropertyData({ ...propertyData, "city": e.target.value })} value={propertyData && propertyData.city ? propertyData.city : ''}>
                                                     <option value="">Select City</option>
-                                                    {
+                                                    {cities &&
                                                         cities.map((value, index) => (
                                                             <option value={value.id}>{value.city_name}</option>
 
@@ -594,7 +588,7 @@ function Content() {
                                         <div className="row">
                                             <div className="col-md-6 form-group">
                                                 <label className="required">Area</label>
-                                                <input type="text" className="form-control" placeholder="500 Sq.ft" ref={area} name="area" onChange={(e) => setPropertyData({ ...propertyData, "area": e.target.value })} defaultValue={propertyData && propertyData.area ? propertyData.area : ''} />
+                                                <input type="number" className="form-control" placeholder="500 Sq.ft" ref={area} name="area" onChange={(e) => setPropertyData({ ...propertyData, "area": e.target.value })} defaultValue={propertyData && propertyData.area ? propertyData.area : ''} />
                                                 <p style={errorStyle}>{propertyDataError.area}</p>
 
                                             </div>
@@ -603,8 +597,8 @@ function Content() {
                                                 <label className="required">Area Unit</label>
                                                 <select className="form-control" name="default_area_unit" onChange={(e) => setPropertyData({ ...propertyData, "default_area_unit": e.target.value })} value={propertyData && propertyData.default_area_unit ? propertyData.default_area_unit : ''}>
                                                     <option>Select</option>
-                                                    {areaUnit.map((value, index) => (
-                                                        <option value={index}>{value}</option>
+                                                    {areaUnit && areaUnit.map((value, index) => (
+                                                        <option value={value}>{value}</option>
                                                     ))}
                                                 </select>
                                                 <p style={errorStyle}>{propertyDataError.default_area_unit}</p>
@@ -614,8 +608,8 @@ function Content() {
                                                 <label>Facing</label>
                                                 <select className="form-control" name="facing" onChange={(e) => setPropertyData({ ...propertyData, "facing": e.target.value })} value={propertyData && propertyData.facing ? propertyData.facing : ''}>
                                                     <option>Select Facing</option>
-                                                    {facing.map((value, index) => (
-                                                        <option value={index}>{value}</option>
+                                                    {facing && facing.map((value, index) => (
+                                                        <option value={value}>{value}</option>
                                                     ))}
                                                 </select>
                                             </div>
@@ -624,8 +618,8 @@ function Content() {
                                                 <label>Road Type</label>
                                                 <select className="form-control" name="roadtype" onChange={(e) => setPropertyData({ ...propertyData, "road_type": e.target.value })} value={propertyData && propertyData.road_type ? propertyData.road_type : ''}>
                                                     <option>Select Road Type</option>
-                                                    {roadType.map((value, index) => (
-                                                        <option value={index}>{value}</option>
+                                                    {roadType && roadType.map((value, index) => (
+                                                        <option value={value}>{value}</option>
                                                     ))}
                                                 </select>
 
@@ -634,10 +628,10 @@ function Content() {
                                     </Tab.Pane>
                                     <Tab.Pane eventKey="tab5">
                                         <div className="row">
-                                            {features.map((item, i) => (
+                                            {features && features.map((item, i) => (
                                                 <div key={i} className="col-lg-4 col-md-6 col-sm-6">
                                                     <label className="acr-listing-feature">
-                                                        <input type="checkbox" name={"feature" + item.id + ""} value={item.id} onChange={(e) => handleFeatures(e.target.value)} />
+                                                        <input type="checkbox" name={"feature" + item.id + ""} onChange={(e) => handleFeatures(item.id)} />
                                                         <i className="acr-feature-check fas fa-check" />
                                                         <i className={"acr-listing-feature-icon flaticon-" + item.icon + ""} />
                                                         {item.title}
@@ -654,7 +648,7 @@ function Content() {
 
                                                 <select className="form-control" name="beds" onChange={(e) => setPropertyData({ ...propertyData, "no_of_beds": e.target.value })} value={propertyData && propertyData.no_of_beds ? propertyData.no_of_beds : ''}>
                                                     <option value="">Select beds</option>
-                                                    {bedslist.map((value, index) => (
+                                                    {bedslist && bedslist.map((value, index) => (
                                                         <option value={index}>{value}</option>
                                                     ))}
                                                 </select>
@@ -666,7 +660,7 @@ function Content() {
                                                 <label>Bathrooms</label>
                                                 <select className="form-control" name="bathrooms" onChange={(e) => setPropertyData({ ...propertyData, "no_of_bathrooms": e.target.value })} value={propertyData && propertyData.no_of_bathrooms ? propertyData.no_of_bathrooms : ''}>
                                                     <option>Select bathrooms</option>
-                                                    {bathroomslist.map((value, index) => (
+                                                    {bathroomslist && bathroomslist.map((value, index) => (
                                                         <option value={index}>{value}</option>
                                                     ))}
                                                 </select>
@@ -678,7 +672,7 @@ function Content() {
                                                 <label>Garage</label>
                                                 <select className="form-control" name="garage" onChange={(e) => setPropertyData({ ...propertyData, "no_of_garage": e.target.value })} value={propertyData && propertyData.no_of_garage ? propertyData.no_of_garage : ''}>
                                                     <option>Select garage</option>
-                                                    {carspaces.map((value, index) => (
+                                                    {carspaces && carspaces.map((value, index) => (
                                                         <option value={index}>{value}</option>
                                                     ))}
                                                 </select>
@@ -691,8 +685,8 @@ function Content() {
 
                                                 <select className="form-control" name="floors" onChange={(e) => setPropertyData({ ...propertyData, "floor": e.target.value })} value={propertyData && propertyData.floor ? propertyData.floor : ''}>
                                                     <option>Select floors</option>
-                                                    {floorlist.map((value, index) => (
-                                                        <option value={index}>{value}</option>
+                                                    {floorlist && floorlist.map((value, index) => (
+                                                        <option value={value}>{value}</option>
                                                     ))}
                                                 </select>
 
@@ -702,7 +696,7 @@ function Content() {
                                                 <label>Car spcaes</label>
                                                 <select className="form-control" name="car_spaces" onChange={(e) => setPropertyData({ ...propertyData, "car_spaces": e.target.value })} value={propertyData && propertyData.car_spaces ? propertyData.car_spaces : ''}>
                                                     <option>Select</option>
-                                                    {carspaces.map((value, index) => (
+                                                    {carspaces && carspaces.map((value, index) => (
                                                         <option value={index}>{value}</option>
                                                     ))}
                                                 </select>
@@ -718,7 +712,7 @@ function Content() {
                                                 <label className="required">Are you</label>
                                                 <select className="form-control" name="are_you" ref={are_you} onChange={(e) => setPropertyData({ ...propertyData, "are_you": e.target.value })} value={propertyData && propertyData.are_you ? uppercaseFirstLetter(propertyData.are_you) : ''}>
 
-                                                    {
+                                                    {userTypeDrop &&
                                                         userTypeDrop.map((value, index) => (
                                                             <option value={value}>{value}</option>
 
@@ -735,7 +729,7 @@ function Content() {
                                             <div className="col-md-6 ">
                                                 <label>Build Type</label>
                                                 <select className="form-control" name="build_type" onChange={(e) => setPropertyData({ ...propertyData, "build_type": e.target.value })} value={propertyData && propertyData.build_type ? uppercaseFirstLetter(propertyData.build_type) : ''}>
-                                                    {
+                                                    {buildType &&
                                                         buildType.map((value, index) => (
                                                             <option value={value}>{value}</option>
 
@@ -771,7 +765,7 @@ function Content() {
                                             </div>
                                             <div className="col-md-6 ">
                                                 <label className="required">Show contact on website?</label>
-                                                <select className="form-control" name="is_contact_show" onChange={(e) => setPropertyData({ ...propertyData, "is_contact_show": e.target.value })} value={propertyData && propertyData.is_contact_show ? '1' : '0'}>
+                                                <select className="form-control" name="is_contact_show" ref={is_contact_show} onChange={(e) => setPropertyData({ ...propertyData, "is_contact_show": e.target.value })} value={propertyData && propertyData.is_contact_show ? '1' : '0'}>
                                                     <option value="">Select</option>
                                                     <option value="1">Yes</option>
                                                     <option value="0">No</option>

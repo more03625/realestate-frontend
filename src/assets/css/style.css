@@ -4823,6 +4823,7 @@ table img {
   border-radius: 8px;
   margin-bottom: 20px;
   overflow: hidden;
+  max-height: 300px;
 }
 .listing .listing-thumbnail img {
   border-radius: 8px;

@@ -47,7 +47,7 @@ const Blogsidebar = () => {
       <div className="sidebar-widget">
         <h5>Recent News</h5>
 
-        {recentNews.slice(0, 4).map((item, i) => (
+        {recentNews && recentNews.slice(0, 4).map((item, i) => (
           <article key={i} className="media">
             <Link to="/blog-single">
               <img

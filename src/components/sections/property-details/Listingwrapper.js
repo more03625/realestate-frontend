@@ -13,7 +13,7 @@ import "magnific-popup";
 import classNames from "classnames";
 import Slider from "react-slick";
 import Axios from "axios";
-import { openInGmail, saveProperty, Endpoints, Host, convertToSlug, getUserToken } from "../../../helper/comman_helper";
+import { openInGmail, saveProperty, Endpoints, Host, convertToSlug, getUserToken, uppercaseFirstLetter } from "../../../helper/comman_helper";
 import Loader from "../../layouts/Loader";
 import ContentNotFound from "../../pages/ContentNotFound";
 // Gallery
@@ -54,7 +54,7 @@ const settings = {
     fade: true,
     dots: true,
     infinite: true,
-    slidesToShow: 3,
+    slidesToShow: 1,
     slidesToScroll: 1,
     nextArrow: <SampleNextArrow />,
     prevArrow: <SamplePrevArrow />
@@ -206,13 +206,13 @@ const Listingwrapper = () => {
         for (var i = 0; i < array[0].length; i++) {
             mainslider.push(array[0][i]);
         }
-        console.log(mainslider);
+
     }
 
     return (
         <div className="section listing-wrapper" ref={ref}>
             {
-                propertyDetails == null ? <ContentNotFound /> :
+                propertyDetails == null ? <Loader /> :
                     propertyDetails == undefined ? <Loader /> :
                         <>
                             <div className="container">
@@ -220,7 +220,7 @@ const Listingwrapper = () => {
                                     {/* Listings Start */}
                                     <div className="col-lg-8">
 
-                                        <h4>{propertyDetails && propertyDetails.title ? propertyDetails.title : ''}</h4>
+                                        <h4>{propertyDetails && propertyDetails.title ? propertyDetails.title : ''} (Rs. {propertyDetails && propertyDetails.price ? new Number(propertyDetails.price).toLocaleString() : ''}) </h4>
                                         <div className="listing-thumbnail">
                                             <Slider
                                                 className="listing-thumbnail-slider-main col-12"
@@ -252,11 +252,11 @@ const Listingwrapper = () => {
                                             {propertyDetails && propertyDetails.description ? propertyDetails.description : ''}
                                         </div>
                                         {/* Content End */}
-                                        {/* Price Range In the area Start */}
+                                        {/* Price Range In the area Start 
                                         <div className="section">
                                             <div className="acr-area-price">
 
-                                                <span style={{ left: "30%" }}>Rs. {propertyDetails && propertyDetails.price ? new Number(propertyDetails.price).toLocaleString() : ''}</span>
+                                                <span style={{ left: "30%" }}></span>
                                                 <div className="progress">
                                                     <div
                                                         className="progress-bar"
@@ -280,8 +280,8 @@ const Listingwrapper = () => {
                                                 </div>
                                             </div>
                                         </div>
-                                        {/* Price Range In the area End */}
-                                        <div className="section section-padding pt-0 acr-listing-features">
+                                       Price Range In the area End */}
+                                        <div className="section section-padding  acr-listing-features">
                                             <h4>Features</h4>
                                             <div className="row">
                                                 <div className="col-lg-6 col-md-6">
@@ -289,7 +289,7 @@ const Listingwrapper = () => {
                                                         <div className="listing-feature">
                                                             <i className="flaticon-picture" />
                                                             <h6 className="listing-feature-label">Propery Type</h6>
-                                                            <span className="listing-feature-value">{propertyDetails && propertyDetails.property_type ? propertyDetails.property_type : ''}
+                                                            <span className="listing-feature-value">{propertyDetails && propertyDetails.property_type ? uppercaseFirstLetter(propertyDetails.property_type) : ''}
                                                             </span>
                                                         </div>
                                                         <div className="listing-feature">
@@ -297,6 +297,12 @@ const Listingwrapper = () => {
                                                             <h6 className="listing-feature-label">Pet Friendly</h6>
                                                             <span className="listing-feature-value">{propertyDetails && propertyDetails.pets_considere === 0 ? 'NO' : 'YES'}</span>
                                                         </div>
+                                                        <div className="listing-feature">
+                                                            <i className="flaticon-eye" />
+                                                            <h6 className="listing-feature-label">Facing</h6>
+                                                            <span className="listing-feature-value">{propertyDetails && propertyDetails.facing ? propertyDetails.facing : ''}</span>
+                                                        </div>
+                                                        {/*
                                                         <div className="listing-feature">
                                                             <i className="flaticon-chair" />
                                                             <h6 className="listing-feature-label">Pen Furnished</h6>
@@ -307,6 +313,7 @@ const Listingwrapper = () => {
                                                             <h6 className="listing-feature-label">Pen Cooling</h6>
                                                             <span className="listing-feature-value">{propertyDetails && propertyDetails.property_type ? propertyDetails.property_type : ''}</span>
                                                         </div>
+                                                        */}
                                                     </div>
                                                 </div>
                                                 <div className="col-lg-6 col-md-6">
@@ -321,17 +328,14 @@ const Listingwrapper = () => {
                                                             <h6 className="listing-feature-label">Bed Rooms</h6>
                                                             <span className="listing-feature-value">{propertyDetails && propertyDetails.no_of_beds ? propertyDetails.no_of_beds : ''}</span>
                                                         </div>
-                                                        <div className="listing-feature">
-                                                            <i className="flaticon-mailbox" />
-                                                            <h6 className="listing-feature-label">pen Mail box</h6>
-                                                            <span className="listing-feature-value">{propertyDetails && propertyDetails.property_type ? propertyDetails.property_type : ''}</span>
-                                                        </div>
+
                                                         <div className="listing-feature">
                                                             <i className="flaticon-ruler" />
-                                                            <h6 className="listing-feature-label">pen Property Size</h6>
-                                                            <span className="listing-feature-value">{propertyDetails && propertyDetails.property_type ? propertyDetails.property_type : ''} Ropani-Aana-Paisa-Daam
+                                                            <h6 className="listing-feature-label">Property Size</h6>
+                                                            <span className="listing-feature-value">{propertyDetails && propertyDetails.area ? propertyDetails.area : ''} {propertyDetails && propertyDetails.default_area_unit ? propertyDetails.default_area_unit : ''}
                                                             </span>
                                                         </div>
+
                                                     </div>
                                                 </div>
                                             </div>
@@ -352,16 +356,7 @@ const Listingwrapper = () => {
                                             >
                                                 <div className="row">
                                                     <div className="col-lg-6 col-md-6">
-                                                        <div className="listing-feature">
-                                                            <i className="flaticon-key" />
-                                                            <h6 className="listing-feature-label">pen Property Id</h6>
-                                                            <span className="listing-feature-value">{propertyDetails && propertyDetails.property_type ? propertyDetails.property_type : ''}</span>
-                                                        </div>
-                                                        <div className="listing-feature">
-                                                            <i className="flaticon-garage" />
-                                                            <h6 className="listing-feature-label">pen Parking</h6>
-                                                            <span className="listing-feature-value">{propertyDetails && propertyDetails.property_type ? propertyDetails.property_type : ''}</span>
-                                                        </div>
+
                                                         <div className="listing-feature">
                                                             <i className="flaticon-history" />
                                                             <h6 className="listing-feature-label">Year Built</h6>
@@ -372,7 +367,7 @@ const Listingwrapper = () => {
                                                         <div className="listing-feature">
                                                             <i className="flaticon-new" />
                                                             <h6 className="listing-feature-label">Condition</h6>
-                                                            <span className="listing-feature-value">{propertyDetails && propertyDetails.property_type ? propertyDetails.property_type : ''}</span>
+                                                            <span className="listing-feature-value">{propertyDetails && propertyDetails.build_type ? uppercaseFirstLetter(propertyDetails.build_type) : ''}</span>
                                                         </div>
                                                         {/*
                                                     <div className="listing-feature">
@@ -381,34 +376,26 @@ const Listingwrapper = () => {
                                                     <span className="listing-feature-value">89 Acres</span>
                                                     </div>
                                                 */}
-                                                        <div className="listing-feature">
-                                                            <i className="flaticon-eye" />
-                                                            <h6 className="listing-feature-label">View</h6>
-                                                            <span className="listing-feature-value">{propertyDetails && propertyDetails.facing ? propertyDetails.facing : ''}</span>
-                                                        </div>
+
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
+                                        {
+                                            propertyDetails && propertyDetails.video_url ?
+                                                <div className="section pt-0">
+                                                    <h4>Property Video</h4>
 
-                                        <div className="section pt-0">
-                                            <h4>Property Video</h4>
-                                            <p>
-                                                Lorem Ipsum is simply dummy text of the printing and typesetting
-                                                industry. Lorem Ipsum has been the industry's standard dummy
-                                                text ever since the 1500s, when an unknown printer took a galley
-                                                of type and scrambled it to make a type specimen book. It has
-                                                survived not only five centuries, but also the leap
-                                            </p>
-                                            <div className="embed-responsive embed-responsive-21by9">
-                                                {/*<iframe
-                                            title="video"
-                                            className="embed-responsive-item"
-                                            src="https://www.youtube.com/embed/Sz_1tkcU0Co"
-                                        />
-                                        */}
-                                            </div>
-                                        </div>
+                                                    <div className="embed-responsive embed-responsive-21by9">
+                                                        <iframe width="560" height="315" src={`${propertyDetails.video_url}`} title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                                                    </div>
+                                                </div>
+                                                :
+
+                                                ''
+                                        }
+
+
                                         <div className="section pt-0" id="book_tour">
                                             <h4>Schedule Link tour</h4>
                                             <form onSubmit={submitFun}>
@@ -507,7 +494,7 @@ const Listingwrapper = () => {
                                             <h4>Similar Listings</h4>
                                             <div className="row">
                                                 {/* Listing Start */}
-                                                {recentProperties.slice(0, 2).map((item, i) => (
+                                                {recentProperties && recentProperties.slice(0, 2).map((item, i) => (
                                                     <div key={i} className="col-md-6">
                                                         <div className="listing">
                                                             <div className="listing-thumbnail">
@@ -672,8 +659,8 @@ const Listingwrapper = () => {
                                                 <div className="media sidebar-author listing-agent">
                                                     <Link to="#">
                                                         <img
-                                                            src={getUserToken().data.profile_image != null ? process.env.REACT_APP_CONTENT_URL + getUserToken().data.profile_image + "_small.jpg" : process.env.REACT_APP_CONTENT_URL + "/users/default.png"}
-                                                            alt={getUserToken().data.profile_image + "_small.jpg"}
+                                                            src={propertyDetails.profile_image != null ? process.env.REACT_APP_CONTENT_URL + propertyDetails.profile_image + "_small.jpg" : process.env.REACT_APP_CONTENT_URL + "/users/default.png"}
+                                                            alt={propertyDetails.profile_image + "_small.jpg"}
                                                         />
 
                                                     </Link>
@@ -724,17 +711,13 @@ const Listingwrapper = () => {
                                                 {
                                                     propertyDetails && propertyDetails.is_contact_show === 1 &&
                                                     <>
-                                                        <div className="form-group">
-                                                            <b>Name: &nbsp;&nbsp;</b>{propertyDetails && propertyDetails.name_for_contact ? propertyDetails.name_for_contact : ''}
 
-
-                                                        </div>
                                                         <div className="form-group">
                                                             <b>Phone: &nbsp;&nbsp;</b>{propertyDetails && propertyDetails.number_for_contact ? propertyDetails.number_for_contact : ''}
 
                                                         </div>
                                                         <div className="form-group">
-                                                            <b>Email: &nbsp;&nbsp;</b>{propertyDetails && propertyDetails.number_for_contact ? propertyDetails.number_for_contact : ''}
+                                                            <b>Email: &nbsp;&nbsp;</b>{propertyDetails && propertyDetails.email_for_contact ? propertyDetails.email_for_contact : ''}
                                                         </div>
                                                     </>
                                                 }
@@ -745,7 +728,7 @@ const Listingwrapper = () => {
                                             <div className="sidebar-widget">
                                                 <h5>Recent Listings</h5>
                                                 {/* Listing Start */}
-                                                {recentProperties
+                                                {recentProperties && recentProperties
                                                     .slice(0, 4)
                                                     .map((item, i) => (
                                                         <div key={i} className="listing listing-list">
@@ -784,7 +767,7 @@ const Listingwrapper = () => {
                             </div>
                         </>
             }
-        </div>
+        </div >
     );
 };
 
