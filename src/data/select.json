@@ -154,6 +154,12 @@
         "4 Beds",
         "5 Beds"
     ],
+
+    "featuresType":[
+        "Indoor Features",
+        "Outdoor Features",
+        "Climet control & energy"
+    ],
     "carspaces":[
         "1",
         "2",
@@ -163,6 +169,13 @@
     ],
     "bathroomslist":[
         "Any",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5+"
+    ],
+    "rooms":[
         "1",
         "2",
         "3",
@@ -224,7 +237,10 @@
         "Buy",
         "Rent",
         "Sold",
-        "Share"
+        "Share",
+        "Lease",
+        "Invest",
+        "Sold"
     ],
     "facing":[
         "South",
@@ -237,11 +253,15 @@
         "North-West"
     ],
     "areaUnit":[
-        "Sq Meter",
-        "Sq Feet",
-        "Acres",
-        "Bigha-Kattha-Dhur-Haat",
-        "Ropani-Aana-Paisa-Daam"
+        "sqft",
+        "sqmt",
+        "daam",
+        "paisa",
+        "aana",
+        "ropani",
+        "dhur",
+        "kattha",
+        "bigga"
     ],
     "buildType":[
         "Old",

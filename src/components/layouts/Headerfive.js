@@ -104,7 +104,7 @@ class Headerfive extends HeaderComponent {
                 <ul className="header-controls-inner d-none d-lg-flex">
                   <li>
                     <Link to="/add-property" className="btn-custom primary">
-                      Submit Listing <i className="fas fa-plus" />{" "}
+                      Add Property <i className="fas fa-plus" />{" "}
                     </Link>
                   </li>
                 </ul>

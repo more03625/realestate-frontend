@@ -7,9 +7,7 @@ import { Endpoints, Host, lowercaseFirstLetter } from '../../../helper/comman_he
 
 const Categories = () => {
     const [value, setValue] = useState();
-    const tabChange = (tabID) => {
-        alert(tabID);
-    }
+  
     const [categories, setCategories] = useState([]);
     const [subCategoriesWithCount, setSubCategoriesWithCount] = useState([]);
 
@@ -66,9 +64,6 @@ const Categories = () => {
                             </Tab>
                         ))
                     }
-
-
-
 
                 </Tabs>
 
