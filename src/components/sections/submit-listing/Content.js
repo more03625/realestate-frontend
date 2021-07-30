@@ -84,7 +84,7 @@ function Content() {
   const [categories, setCategories] = useState([]);
   const [subCategoriesWithCount, setSubCategoriesWithCount] = useState([]);
 
-    const [propertyTypes, setPropertyTypes] = useState();
+  const [propertyTypes, setPropertyTypes] = useState();
   const { getRootProps, getInputProps } = useDropzone({
     accept: "image/*",
     onDrop: (acceptedFiles) => {
@@ -117,20 +117,20 @@ function Content() {
       }
     });
   };
-    const getPropertyTypes = (categoryID = 1) => {
+  const getPropertyTypes = (categoryID = 1) => {
     var url = Host + Endpoints.getPropertyTypes + categoryID;
     Axios.get(url).then((response) => {
       if (response.data.error === true) {
         alert("There are some errors!");
       } else {
-          console.log(response.data.data);
+        console.log(response.data.data);
         setPropertyTypes(response.data.data);
       }
     });
   };
-const [indoorFeatures, setIndoorFeatures] = useState([]);
-const [outdoorFeatures, setOutdoorFeatures] = useState([]);
-const [climateControlFeatures, setClimateControlFeatures] = useState([]);
+  const [indoorFeatures, setIndoorFeatures] = useState([]);
+  const [outdoorFeatures, setOutdoorFeatures] = useState([]);
+  const [climateControlFeatures, setClimateControlFeatures] = useState([]);
 
   const getIndoorFeatures = () => {
 
@@ -139,7 +139,7 @@ const [climateControlFeatures, setClimateControlFeatures] = useState([]);
       if (response.data.error === true) {
         alert("There are some errors!");
       } else {
-          console.log(response.data.data);
+        console.log(response.data.data);
         setIndoorFeatures(response.data.data.features);
       }
     });
@@ -150,7 +150,7 @@ const [climateControlFeatures, setClimateControlFeatures] = useState([]);
       if (response.data.error === true) {
         alert("There are some errors!");
       } else {
-          console.log(response.data.data);
+        console.log(response.data.data);
         setOutdoorFeatures(response.data.data.features);
       }
     });
@@ -162,7 +162,7 @@ const [climateControlFeatures, setClimateControlFeatures] = useState([]);
       if (response.data.error === true) {
         alert("There are some errors!");
       } else {
-          console.log(response.data.data);
+        console.log(response.data.data);
         setClimateControlFeatures(response.data.data.features);
       }
     });
@@ -232,14 +232,11 @@ const [climateControlFeatures, setClimateControlFeatures] = useState([]);
   ));
 
   const getPropertyDetails = () => {
-      alert(propertyID + "OutSide if");
     if (propertyID !== undefined) {
-      alert(propertyID + "Inside if");
-
       var url = Host + Endpoints.getPropertyDetails + propertyID;
       Axios.get(url).then((response) => {
         if (response.data.error !== true) {
-            console.log(response.data.data)
+          console.log(response.data.data)
           setPropertyData(response.data.data);
 
           // if (response.data.data.features.length > 0) { // to default checked
@@ -288,7 +285,8 @@ const [climateControlFeatures, setClimateControlFeatures] = useState([]);
   };
 
   const isValid = () => {
-      setPropertyData({ ...propertyData, features: selectedM });
+
+    setPropertyData({ ...propertyData, features: selectedM });
     var emailValidator = new RegExp(
       /[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,15}/g
     ).test(propertyData.email_for_contact);
@@ -437,7 +435,14 @@ const [climateControlFeatures, setClimateControlFeatures] = useState([]);
         default_area_unit: "Please specify default area unit!",
       });
       return false;
-    } else if (
+    }
+    else if (selectedM.length === 0) {
+      errorToast("Please select some features to show");
+      document.getElementById("tab5").click();
+      are_you.current.scrollIntoView();
+      return false;
+    }
+    else if (
       propertyData.are_you === "" ||
       propertyData.are_you === null ||
       propertyData.are_you === undefined
@@ -497,8 +502,8 @@ const [climateControlFeatures, setClimateControlFeatures] = useState([]);
       });
       return false;
     } else {
-       
-       setPropertyDataError({ email_for_contact: "" });
+
+      setPropertyDataError({ email_for_contact: "" });
       return true;
     }
   };
@@ -510,11 +515,11 @@ const [climateControlFeatures, setClimateControlFeatures] = useState([]);
       const imageObject = { images: 0, image: 0 };
       Object.assign(propertyData, imageObject); // object assign is used to update the propertyData object with imagesObject
     } else {
-      
+
     }
 
     if (isValid()) {
-        
+
 
       if (propertyData.id > 0) {
         var addPropertyURL = Host + Endpoints.editProperty;
@@ -532,9 +537,9 @@ const [climateControlFeatures, setClimateControlFeatures] = useState([]);
             errorToast(response.data.title);
           } else {
             successToast(response.data.title);
-            // setTimeout(function () {
-            //     history.push("/my-listings");
-            // }, 2000);
+            setTimeout(function () {
+              history.push("/my-listings");
+            }, 2000);
           }
         })
         .catch((error) => {
@@ -1138,8 +1143,8 @@ const [climateControlFeatures, setClimateControlFeatures] = useState([]);
 
 
                       <Tab eventKey="2" title="Outdoor Features">
-                         <div className="row">
-                            {outdoorFeatures &&
+                        <div className="row">
+                          {outdoorFeatures &&
                             outdoorFeatures.map((value, index) => (
                               <div
                                 key={index}
@@ -1164,12 +1169,12 @@ const [climateControlFeatures, setClimateControlFeatures] = useState([]);
                                 </label>
                               </div>
                             ))}
-                         </div>
+                        </div>
                       </Tab>
 
                       <Tab eventKey="3" title="Climet control & energy">
                         <div className="row">
-                        {climateControlFeatures &&
+                          {climateControlFeatures &&
                             climateControlFeatures.map((value, index) => (
                               <div
                                 key={index}
@@ -1196,7 +1201,7 @@ const [climateControlFeatures, setClimateControlFeatures] = useState([]);
                             ))}
                         </div>
                       </Tab>
-                      
+
                     </Tabs>
                   </Tab.Pane>
                   <Tab.Pane eventKey="tab6">
@@ -1354,7 +1359,7 @@ const [climateControlFeatures, setClimateControlFeatures] = useState([]);
                         </select>
                       </div>
 
-          
+
 
                       <div className="col-md-6 ">
                         <label className="required">Are you</label>

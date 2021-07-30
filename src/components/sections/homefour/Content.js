@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import Banner from './Banner';
 import Categories from './Categories';
 import Findhome from './Findhome';
@@ -8,8 +8,26 @@ import Whyus from './Whyus';
 import Bluecta from '../../layouts/Bluecta';
 import Contactform from './Contactform';
 import Blockcta from '../../layouts/Blockcta';
-
+import { Host, Endpoints } from '../../../helper/comman_helper';
+import Axios from 'axios';
 const Content = () => {
+
+    const [subCategoriesWithCount, setSubCategoriesWithCount] = useState([]);
+
+    const getSubCategories = (categoryID = 1) => {
+        var url = Host + Endpoints.getPropertyCounts + categoryID;
+        Axios.get(url).then((response) => {
+            if (response.data.error === true) {
+                alert("There are some errors!")
+            } else {
+
+                setSubCategoriesWithCount(response.data.data);
+            }
+        });
+    }
+    useEffect(() => {
+        getSubCategories();
+    })
     return (
         <Fragment>
             <Banner />
@@ -18,7 +36,7 @@ const Content = () => {
             <div className="section section-padding pt-0">
                 <Blockcta />
             </div>
-            <Findhome />
+            <Findhome categories={subCategoriesWithCount} />
             <Services />
             <Recentlistings />
             <Whyus />

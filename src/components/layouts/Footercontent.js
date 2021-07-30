@@ -65,7 +65,7 @@ class Footercontent extends Component {
                 </li>
                 <li>
                   {" "}
-                  <Link to="/rent">Listings</Link>{" "}
+                  <Link to="/property-results?property_type=buy">Listings</Link>{" "}
                 </li>
                 <li>
                   {" "}
@@ -122,7 +122,7 @@ class Footercontent extends Component {
             <div className="row">
               <div className="col-lg-7">
                 <p className="m-0">
-                  © Copyright 2020 - <Link to="/home">Neprealestate</Link> All
+                  © Copyright {new Date().getFullYear()} - <Link to="/home">Neprealestate</Link> All
                   Rights Reserved.
                 </p>
               </div>

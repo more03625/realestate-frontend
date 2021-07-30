@@ -4825,6 +4825,9 @@ table img {
   overflow: hidden;
   max-height: 300px;
 }
+.linkstyle {
+  color: #004592;
+}
 .listing .listing-thumbnail img {
   border-radius: 8px;
   transition: 0.3s;

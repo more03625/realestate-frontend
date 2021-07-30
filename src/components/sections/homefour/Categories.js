@@ -7,7 +7,7 @@ import { Endpoints, Host, lowercaseFirstLetter } from '../../../helper/comman_he
 
 const Categories = () => {
     const [value, setValue] = useState();
-  
+
     const [categories, setCategories] = useState([]);
     const [subCategoriesWithCount, setSubCategoriesWithCount] = useState([]);
 
@@ -21,10 +21,6 @@ const Categories = () => {
         }
     }
 
-    useEffect(() => {
-        getCategories();
-        getSubCategories();
-    }, []);
     const getSubCategories = (categoryID = 1) => {
         var url = Host + Endpoints.getPropertyCounts + categoryID;
         Axios.get(url).then((response) => {
@@ -38,9 +34,14 @@ const Categories = () => {
     const handleSelect = (categoryID) => {
         getSubCategories(categoryID)
     }
+    useEffect(() => {
+        getCategories();
+        getSubCategories();
+    }, []);
     return (
         <div className="section section-padding">
             <div className="container">
+                <div class="section-title-wrap section-header"><h5 class="custom-primary">Categories</h5><h2 class="title">Browse By Category</h2></div>
                 <Tabs className="justify-content-center" defaultActiveKey={categories && categories[0] && categories[0].id} onSelect={(e) => handleSelect(e)} id="uncontrolled-tab-example" >
                     {categories &&
                         categories.map((value, index) => (

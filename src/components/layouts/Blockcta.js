@@ -15,7 +15,7 @@ const ctablock = [
         icon: 'sold',
         title: 'Selling a Home?',
         text: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's",
-        link: "/sold",
+        link: "/add-property",
         linkText: "Find out more"
 
 

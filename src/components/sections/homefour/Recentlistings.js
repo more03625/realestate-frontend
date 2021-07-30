@@ -35,7 +35,7 @@ const Recentlisting = () => {
             <h5 className="custom-primary">Find Your Home</h5>
             <h2 className="title">Recent Listings</h2>
           </div>
-          <Link to="/listing-map" className="btn-custom">
+          <Link to="/property-results?property_type=buy" className="btn-custom">
             View All
           </Link>
         </div>
@@ -44,11 +44,12 @@ const Recentlisting = () => {
           {recentProperties && recentProperties.slice(0, 6).map((item, i) => (
             <div key={i} className="col-lg-4">
               <div className="listing">
-                <div className="listing-thumbnail">
+                <div className="listing-thumbnail " >
                   <Link to={`property/${convertToSlug(item.title)}/${item.id}`}>
 
                     <img src={item.image != null ? process.env.REACT_APP_CONTENT_URL + item.image + "_medium.jpg" : process.env.REACT_APP_CONTENT_URL + "/users/default.png"}
                       alt={`image of ${item.title}`}
+                      style={{ width: "300px", height: "200px" }}
                     />
                   </Link>
 
@@ -77,12 +78,13 @@ const Recentlisting = () => {
                       ""
                     )}
                   </div>
+                  {/*
                   <div className="listing-controls">
                     <Link to="#" onClick={() => saveProperty(item.id)} className="favorite">
                       <i className="far fa-heart" />
                     </Link>
-
                   </div>
+                  */}
                 </div>
                 <div className="listing-body">
                   <div className="listing-author">

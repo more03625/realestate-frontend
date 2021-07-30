@@ -8,6 +8,7 @@ import classNames from "classnames";
 import Loader from "../../layouts/Loader";
 import Axios from "axios";
 import { convertToSlug, openInGmail, uppercaseFirstLetter, saveProperty } from "../../../helper/comman_helper";
+import { Noresults } from '../../layouts/Noresults';
 
 const gallerytip = <Tooltip>Gallery</Tooltip>;
 const gridtip = <Tooltip>Grid</Tooltip>;
@@ -88,11 +89,13 @@ const Content = ({ propertyType, searchQuery, searchResults, parentCallback, sub
                                 ""
                             )}
                         </div>
+                        {/*
                         <div className="listing-controls">
                             <Link to={`?search=${searchQuery}&property_type=${propertyType}`} onClick={() => saveProperty(item.id)} className="favorite">
                                 <i className="far fa-heart" />
                             </Link>
                         </div>
+                        */}
                     </div>
                     <div className="listing-body">
                         <div className="listing-author">
@@ -192,7 +195,8 @@ const Content = ({ propertyType, searchQuery, searchResults, parentCallback, sub
             );
         });
     } else {
-        var renderitems = "There are no properties!";
+
+        var renderitems = <Noresults />;
     }
     // Logic for displaying page numbers
     const pageNumbers = [];
@@ -253,11 +257,8 @@ const Content = ({ propertyType, searchQuery, searchResults, parentCallback, sub
                                             {subCategoryName ? subCategoryName : propertyType}
                                         </Link>
                                 }
-
-
                             </div>
                         </div>
-
 
                         {/* Controls End */}
                         <div className="row">

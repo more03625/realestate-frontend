@@ -32,13 +32,13 @@ export const Endpoints = {
     getProfileDetails: "/users/getProfileDetails",
     getPropertyCounts: "/property/getPropertyCounts?id=",
     getCategories: "/admin/getCategories",
-    getPropertyTypes:"/users/getPropertyTypes?id=",
-    getfeatures:"/admin/getfeatures?type="
+    getPropertyTypes: "/users/getPropertyTypes?id=",
+    getfeatures: "/admin/getfeatures?type="
 };
 
-export const openInGmail = (to, cc = null, bcc = null) => {
-    var subject = "This is subject";
-    var body = "This is body";
+export const openInGmail = (to, subject = '', body = '', cc = null, bcc = null) => {
+    // var subject = "This is subject";
+    // var body = "This is body";
     var mailLink = `https://mail.google.com/mail/?view=cm&fs=1&to=${to}&su=${subject}&body=${body}`;
     return mailLink;
 }

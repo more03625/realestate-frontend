@@ -55,14 +55,17 @@ const Propertyresults = () => {
     return (
         <Fragment>
             <MetaTags>
-                <title>Results for {search ? search : subCategoryName}</title>
+                <title>Results for {search ? search : subCategoryName || property_type ? property_type : 'properties'}</title>
                 <meta
                     name="description"
                     content="#"
                 />
             </MetaTags>
             <Header />
-            <Breadcrumb breadcrumb={{ pagename: `Results for ${search ? search : subCategoryName}` }} />
+            {
+                subCategoryName !== null ? <Breadcrumb breadcrumb={{ pagename: `Results for ${subCategoryName}` }} /> : search == null && property_type !== null ? <Breadcrumb breadcrumb={{ pagename: `Results for ${property_type}` }} /> : <Breadcrumb breadcrumb={{ pagename: `Results for ${search}` }} />
+            }
+
             <Content propertyType={property_type} searchQuery={search} searchResults={searchResults} parentCallback={handleCallback} subCategoryName={subCategoryName} subCategoryID={subCategoryID} />
             <Footer />
         </Fragment>
