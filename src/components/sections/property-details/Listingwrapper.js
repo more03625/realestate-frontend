@@ -350,7 +350,7 @@ const Listingwrapper = () => {
                                         ) : (
                                             ""
                                         )}
-                                        {propertyDetails && propertyDetails.area_in_sqft ? (
+                                        {/* {propertyDetails && propertyDetails.area_in_sqft ? (
                                             <div className="listing-feature col-lg-6 col-md-6">
                                                 <h6 className="listing-feature-label">Area in Sqft.</h6>
                                                 <span className="listing-feature-value">
@@ -359,8 +359,8 @@ const Listingwrapper = () => {
                                             </div>
                                         ) : (
                                             ""
-                                        )}
-                                        {propertyDetails && propertyDetails.area_type ? (
+                                        )} */}
+                                        {/* {propertyDetails && propertyDetails.area_type ? (
                                             <div className="listing-feature col-lg-6 col-md-6">
                                                 <h6 className="listing-feature-label">Area Type</h6>
                                                 <span className="listing-feature-value">
@@ -369,7 +369,7 @@ const Listingwrapper = () => {
                                             </div>
                                         ) : (
                                             ""
-                                        )}
+                                        )} */}
                                         {propertyDetails && propertyDetails.build_type ? (
                                             <div className="listing-feature col-lg-6 col-md-6">
                                                 <h6 className="listing-feature-label">Build Type</h6>
@@ -480,7 +480,7 @@ const Listingwrapper = () => {
                                             ""
                                         )}
 
-                                        {propertyDetails && propertyDetails.are_you ? (
+                                        {/* {propertyDetails && propertyDetails.are_you ? (
                                             <div className="listing-feature col-lg-6 col-md-6">
                                                 <h6 className="listing-feature-label">Posted By</h6>
                                                 <span className="listing-feature-value">
@@ -489,7 +489,7 @@ const Listingwrapper = () => {
                                             </div>
                                         ) : (
                                             ""
-                                        )}
+                                        )} */}
 
                                         {propertyDetails && propertyDetails.available_from ? (
                                             <div className="listing-feature col-lg-6 col-md-6">
