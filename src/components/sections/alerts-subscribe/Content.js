@@ -70,8 +70,8 @@ const Content = () => {
             setStates(response.data.data);
         });
     };
-    const getCities = () => {
-        var url = Host + Endpoints.getCities;
+    const getCities = (stateID = '') => {
+        var url = Host + Endpoints.getCities + stateID;
         Axios.get(url).then((response) => {
             setCities(response.data.data);
         });
@@ -87,6 +87,10 @@ const Content = () => {
             console.log(result.data.data);
             setSubCategories(result.data.data.categories);
         }
+    }
+    const setStateLocation = (e) => {
+        setUserData({ ...userData, state: e.target.value });
+        getCities(e.target.value);
     }
     const isValid = () => {
         var emailValidator = new RegExp(/[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,15}/g).test(userData.email);
@@ -279,7 +283,7 @@ const Content = () => {
                         <div className="col-md-6">
                             <div className="form-group">
                                 <label>State</label>
-                                <select className="form-control form-control-light" ref={state} onChange={(e) => setUserData({ ...userData, 'state': e.target.value })}>
+                                <select className="form-control form-control-light" ref={state} onChange={(e) => setStateLocation(e)}>
                                     <option>Select State</option>
                                     {states &&
                                         states.map((value, index) => (

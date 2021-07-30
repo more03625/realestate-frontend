@@ -174,14 +174,37 @@ function Content() {
     getSubCategories(e.target.value);
 
   };
+  const setStateLocation = (e) => {
+    setPropertyData({ ...propertyData, state: e.target.value });
+    getCities(e.target.value);
+  }
+  const [isContactShow, setIsContactShow] = useState(false);
+
+  const handleContactShow = (e) => {
+    setPropertyData({ ...propertyData, "is_contact_show": e.target.value });
+
+    if (e.target.value == 0) {
+
+      setIsContactShow(true);
+      setPropertyData({
+        ...propertyData, name_for_contact: "Admin", number_for_contact: "8108466415", email_for_contact: "admin@gmail.com",
+      })
+
+    } else {
+      setIsContactShow(false);
+      setPropertyData({
+        ...propertyData, name_for_contact: "", number_for_contact: "", email_for_contact: "",
+      })
+    }
+  }
   const getStates = () => {
     var url = Host + Endpoints.getStates;
     Axios.get(url).then((response) => {
       setStates(response.data.data);
     });
   };
-  const getCities = () => {
-    var url = Host + Endpoints.getCities;
+  const getCities = (stateID = '') => {
+    var url = Host + Endpoints.getCities + stateID;
     Axios.get(url).then((response) => {
       setCities(response.data.data);
     });
@@ -493,6 +516,7 @@ function Content() {
       propertyData.is_contact_show === null ||
       propertyData.is_contact_show === undefined
     ) {
+      alert(propertyData.is_contact_show);
       errorToast("Please let us know about visibility of your contact!");
       document.getElementById("tab6").click();
 
@@ -897,12 +921,7 @@ function Content() {
                           className="form-control"
                           name="state"
                           ref={state}
-                          onChange={(e) =>
-                            setPropertyData({
-                              ...propertyData,
-                              state: e.target.value,
-                            })
-                          }
+                          onChange={(e) => setStateLocation(e)}
                           value={
                             propertyData && propertyData.state
                               ? propertyData.state
@@ -1406,7 +1425,7 @@ function Content() {
                           }
                         />
                       </div>
-                      <div className="col-md-6 ">
+                      <div className="col-md-6 form-group">
                         <label>Build Type</label>
                         <select
                           className="form-control"
@@ -1429,7 +1448,7 @@ function Content() {
                             ))}
                         </select>
                       </div>
-                      <div className="col-md-6 ">
+                      <div className="col-md-6 form-group">
                         <label>Is Under offer?</label>
                         <select
                           className="form-control"
@@ -1451,6 +1470,25 @@ function Content() {
                           <option value="0">No</option>
                         </select>
                       </div>
+                      <div className="col-md-6 ">
+                        <label className="required">
+                          Show contact on website?
+                        </label>
+                        <select
+                          className="form-control"
+                          name="is_contact_show"
+                          ref={is_contact_show}
+                          onChange={(e) => handleContactShow(e)}
+
+                        >
+                          <option value="">Select</option>
+                          <option value="1">Yes</option>
+                          <option value="0">No</option>
+                        </select>
+                        <p style={errorStyle}>
+                          {propertyDataError.is_contact_show}
+                        </p>
+                      </div>
                       <div className="col-md-6 form-group">
                         <label className="required">Contact Preson Name</label>
                         <input
@@ -1470,6 +1508,7 @@ function Content() {
                               ? propertyData.name_for_contact
                               : ""
                           }
+                          disabled={isContactShow}
                         />
                         <p style={errorStyle}>
                           {propertyDataError.name_for_contact}
@@ -1496,6 +1535,7 @@ function Content() {
                               ? propertyData.number_for_contact
                               : ""
                           }
+                          disabled={isContactShow}
                         />
                         <p style={errorStyle}>
                           {propertyDataError.number_for_contact}
@@ -1520,39 +1560,13 @@ function Content() {
                               ? propertyData.email_for_contact
                               : ""
                           }
+                          disabled={isContactShow}
                         />
                         <p style={errorStyle}>
                           {propertyDataError.email_for_contact}
                         </p>
                       </div>
-                      <div className="col-md-6 ">
-                        <label className="required">
-                          Show contact on website?
-                        </label>
-                        <select
-                          className="form-control"
-                          name="is_contact_show"
-                          ref={is_contact_show}
-                          onChange={(e) =>
-                            setPropertyData({
-                              ...propertyData,
-                              is_contact_show: e.target.value,
-                            })
-                          }
-                          value={
-                            propertyData && propertyData.is_contact_show
-                              ? "1"
-                              : "0"
-                          }
-                        >
-                          <option value="">Select</option>
-                          <option value="1">Yes</option>
-                          <option value="0">No</option>
-                        </select>
-                        <p style={errorStyle}>
-                          {propertyDataError.is_contact_show}
-                        </p>
-                      </div>
+
                       <div className="col-md-6 form-group">
                         <label>Source From</label>
                         <input

@@ -25,7 +25,7 @@ export const Endpoints = {
     getProperties: "/property/getProperties",
     addProperty: "/property/addProperty",
     getSubCategories: "/admin/getSubCategories",
-    getCities: "/users/getCities",
+    getCities: "/users/getCities?id=",
     getPropertiesWithFilters: '/property/getPropertiesWithFilters',
     editProperty: "/property/editProperty",
     getUserById: "/admin/getUserById?id=",

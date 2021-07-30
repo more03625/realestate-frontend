@@ -31,7 +31,8 @@ const Shopsidebar = ({ parentCallback }) => {
 
   const [filterState, setFilterState] = useState(null);
   const [filterCategory, setFilterCategory] = useState(null);
-  const [filterPrice, setFilterPrice] = useState(null);
+  const [minFilterPrice, setMinFilterPrice] = useState(null);
+  const [maxFilterPrice, setMaxFilterPrice] = useState(null);
   const [filterBeds, setFilterBeds] = useState(null);
   const [filterBathrooms, setFilterBathrooms] = useState(null);
   const [filterSubCategories, setFilterSubCategories] = useState(null);
@@ -85,7 +86,8 @@ const Shopsidebar = ({ parentCallback }) => {
 
       "category": filterCategory,
       "state": filterState,
-      "min_price": filterPrice,
+      "min_price": minFilterPrice,
+      "max_price": maxFilterPrice,
       "min_bedroom": filterBeds,
       "min_bathrooms": filterBathrooms,
       "subcategory": filterSubCategories,
@@ -148,6 +150,7 @@ const Shopsidebar = ({ parentCallback }) => {
           <div className="acr-collapsable">
             <div className="acr-filter-form">
               <form onSubmit={filter}>
+                {/*
                 <div className="form-group">
                   <label>Select States</label>
                   <select className="form-control" name="states" onChange={(e) => setFilterState(e.target.value)}>
@@ -160,7 +163,6 @@ const Shopsidebar = ({ parentCallback }) => {
                     }
                   </select>
                 </div>
-
                 <div className="form-group">
                   <label>Select category</label>
                   <select className="form-control" name="category" onChange={(e) => setFilterCategory(e.target.value)}>
@@ -170,17 +172,8 @@ const Shopsidebar = ({ parentCallback }) => {
                     ))}
                   </select>
                 </div>
-                <div className="form-group">
-                  <label>Select Price</label>
-                  <select className="form-control" name="pricerange" onChange={(e) => setFilterPrice(e.target.value)}>
-                    <option value="">Select Price</option>
-                    {pricerangelist.map((value, index) => (
-                      <option value={value}>{value}</option>
-                    ))}
-                  </select>
-                </div>
 
-                <div className="form-group">
+ <div className="form-group">
                   <label>Select Beds</label>
 
                   <select className="form-control" name="beds" onChange={(e) => setFilterBeds(e.target.value)}>
@@ -201,10 +194,32 @@ const Shopsidebar = ({ parentCallback }) => {
                     ))}
                   </select>
                 </div>
+*/}
+
+                <div className="form-group">
+                  <label>Min Price</label>
+                  <select className="form-control" name="pricerange" onChange={(e) => setMinFilterPrice(e.target.value)}>
+                    <option value="">Select Price</option>
+                    {pricerangelist.map((value, index) => (
+                      <option value={value}>{value}</option>
+                    ))}
+                  </select>
+                </div>
+
+                <div className="form-group">
+                  <label>Max Price</label>
+                  <select className="form-control" name="pricerange" onChange={(e) => setMaxFilterPrice(e.target.value)}>
+                    <option value="">Select Price</option>
+                    {pricerangelist.map((value, index) => (
+                      <option value={value}>{value}</option>
+                    ))}
+                  </select>
+                </div>
+
+
 
                 <div className="form-group">
                   <label>Select Subcategory</label>
-
                   <select className="form-control" name="subcategory" onChange={(e) => setFilterSubCategories(e.target.value)}>
                     <option value="">Select Subcategory</option>
                     {subCategories && subCategories.map((value, index) => (
