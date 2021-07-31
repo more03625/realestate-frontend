@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import {
   pricerangelist,
   bedslist,
@@ -36,7 +36,7 @@ const Shopsidebar = ({ parentCallback }) => {
   const [filterBeds, setFilterBeds] = useState(null);
   const [filterBathrooms, setFilterBathrooms] = useState(null);
   const [filterSubCategories, setFilterSubCategories] = useState(null);
-
+  const location = useLocation();
   function handleModal() {
     setShow(!show);
   }
@@ -62,7 +62,10 @@ const Shopsidebar = ({ parentCallback }) => {
     });
   };
   const getSubCategories = async () => {
-    var url = Host + Endpoints.getSubCategories;
+    var url = Host + Endpoints.getSubCategories + '?category_id=1';
+    if(location.pathname == '/commercial'){
+      var url = Host + Endpoints.getSubCategories + '?category_id=2';
+    }
     var result = await Axios.get(url);
 
     if (result.data.error === true) {
@@ -150,7 +153,7 @@ const Shopsidebar = ({ parentCallback }) => {
           <div className="acr-collapsable">
             <div className="acr-filter-form">
               <form onSubmit={filter}>
-                {/*
+                
                 <div className="form-group">
                   <label>Select States</label>
                   <select className="form-control" name="states" onChange={(e) => setFilterState(e.target.value)}>
@@ -163,6 +166,7 @@ const Shopsidebar = ({ parentCallback }) => {
                     }
                   </select>
                 </div>
+
                 <div className="form-group">
                   <label>Select category</label>
                   <select className="form-control" name="category" onChange={(e) => setFilterCategory(e.target.value)}>
@@ -173,7 +177,8 @@ const Shopsidebar = ({ parentCallback }) => {
                   </select>
                 </div>
 
- <div className="form-group">
+                {location.pathname != '/commercial' ? (
+                <div className="form-group">
                   <label>Select Beds</label>
 
                   <select className="form-control" name="beds" onChange={(e) => setFilterBeds(e.target.value)}>
@@ -183,7 +188,9 @@ const Shopsidebar = ({ parentCallback }) => {
                     ))}
                   </select>
                 </div>
+                ) : ("")}
 
+                {location.pathname != '/commercial' ? (
                 <div className="form-group">
                   <label>Select Bathrooms</label>
 
@@ -194,7 +201,9 @@ const Shopsidebar = ({ parentCallback }) => {
                     ))}
                   </select>
                 </div>
-*/}
+                ) : ("")}
+
+
 
                 <div className="form-group">
                   <label>Min Price</label>
@@ -240,18 +249,19 @@ const Shopsidebar = ({ parentCallback }) => {
           </div>
         </Collapse>
       </div>
-
-      <div className="sidebar-widget">
-        <button
-          type="submit"
-          onClick={handleModal}
-          className="btn-block btn-custom"
-          name="button"
-        // style={{ backgroundColor: "#007bff" }}
-        >
-          <i className="fa fa-filter" /> Advanced filters{" "}
-        </button>
-      </div>
+      
+      {location.pathname != '/commercial' ? (
+          <div className="sidebar-widget">
+          <button
+            type="submit"
+            onClick={handleModal}
+            className="btn-block btn-custom"
+            name="button"
+          >
+            <i className="fa fa-filter" /> Advanced filters{" "}
+          </button>
+        </div>
+      ) : ("")}
 
       <div className="sidebar-widget">
         <div
