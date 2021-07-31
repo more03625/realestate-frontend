@@ -1,118 +1,81 @@
 import { map } from "leaflet";
-import React, { Component } from "react";
-import { pricerangelist, maxpricerangelist } from '../../../data/select.json';
+import React, { useEffect, useState } from "react";
+import { pricerangelist, maxpricerangelist } from "../../../data/select.json";
+import {
+  floorlist,
+  userTypeDrop,
+  buildType,
+  roadType,
+  bedslist,
+  bathroomslist,
+  facing,
+  carspaces,
+  areaUnit,
+  rooms,
+  featuresType,
+  areaSize,
+} from "../../../data/select.json";
+import Axios from "axios";
+import { Host, Endpoints } from "../../../helper/comman_helper";
+const Buy = ({ subCategories, handleCallback2 }) => {
+  console.log(subCategories);
+  const [selectedM, setSelectedM] = useState([]);
+  const [filterData, setFilterData] = useState([]);
 
-class Buy extends Component {
+  const [indoorFeatures, setIndoorFeatures] = useState([]);
+  const [outdoorFeatures, setOutdoorFeatures] = useState([]);
+  const [climateControlFeatures, setClimateControlFeatures] = useState([]);
 
-  render() {
-    return (
-      <>
+  const onChange = (id) => {
+    let selected = selectedM;
+    let find = selected.indexOf(id);
+
+    if (find > -1) {
+      selected.splice(find, 1);
+    } else {
+      selected.push(id);
+    }
+    setSelectedM(selectedM);
+    console.log(selectedM);
+  };
+
+  const handleChange = (e) => {
+    setFilterData({ ...filterData, [e.target.name]: e.target.value });
+    console.log(filterData)
+  };
+
+  const onSubmit = (e) => {
+    e.preventDefault();
+    console.log(filterData)
+    handleCallback2(filterData);
+  }
+  return (
+    <>
+      <form>
         <div className="col-md-12">
-
-          <div className="col-md-12">
-            <div className="row">
-              <h5>Buy Property Types</h5>
-            </div>
-            <div className="row">
-              <div className="col-md-6 form-group">
-                <div className="custom-control custom-checkbox">
-                  <input
-                    type="checkbox"
-                    className="custom-control-input"
-                    id="Apartment"
-                  />
-                  <label className="custom-control-label" htmlFor="Apartment">
-                    Apartment & Unit
-                  </label>
-                </div>
-                <div className="custom-control custom-checkbox">
-                  <input
-                    type="checkbox"
-                    className="custom-control-input"
-                    id="Villa"
-                  />
-                  <label className="custom-control-label" htmlFor="Villa">
-                    Villa
-                  </label>
-                </div>
-                <div className="custom-control custom-checkbox">
-                  <input
-                    type="checkbox"
-                    className="custom-control-input"
-                    id="Acreage"
-                  />
-                  <label className="custom-control-label" htmlFor="Acreage">
-                    Acreage
-                  </label>
-                </div>
-                <div className="custom-control custom-checkbox">
-                  <input
-                    type="checkbox"
-                    className="custom-control-input"
-                    id="Block"
-                  />
-                  <label className="custom-control-label" htmlFor="Block">
-                    Block Of Units
-                  </label>
-                </div>
-              </div>
-              <div className="col-md-6 form-group">
-                <div className="custom-control custom-checkbox">
-                  <input
-                    type="checkbox"
-                    className="custom-control-input"
-                    id="House"
-                  />
-                  <label className="custom-control-label" htmlFor="House">
-                    House
-                  </label>
-                </div>
-                <div className="custom-control custom-checkbox">
-                  <input
-                    type="checkbox"
-                    className="custom-control-input"
-                    id="Town"
-                  />
-                  <label className="custom-control-label" htmlFor="Town">
-                    Town House
-                  </label>
-                </div>
-                <div className="custom-control custom-checkbox">
-                  <input
-                    type="checkbox"
-                    className="custom-control-input"
-                    id="Rural"
-                  />
-                  <label className="custom-control-label" htmlFor="Rural">
-                    Rural
-                  </label>
-                </div>
-                <div className="custom-control custom-checkbox">
-                  <input
-                    type="checkbox"
-                    className="custom-control-input"
-                    id="Land"
-                  />
-                  <label className="custom-control-label" htmlFor="Land">
-                    Land
-                  </label>
-                </div>
-                <div className="custom-control custom-checkbox">
-                  <input
-                    type="checkbox"
-                    className="custom-control-input"
-                    id="Retirement"
-                  />
-                  <label className="custom-control-label" htmlFor="Retirement">
-                    Retirement Living
-                  </label>
-                </div>
-              </div>
-            </div>
-            {/* row ends */}
+          <div className="row">
+            <h5>Subcategory</h5>
           </div>
-          {/* COL-MD-12 ends */}
+          <div className="row">
+            {subCategories &&
+              subCategories.map((value, index) => (
+                <div class="custom-control custom-checkbox col-lg-6 col-md-6">
+                  <input
+                    type="checkbox"
+                    className="custom-control-input"
+                    id={value.name}
+                    onChange={(e) => onChange(value.id)}
+                    selected={selectedM.includes(value.id)}
+                  />
+                  <label className="custom-control-label" htmlFor={value.name}>
+                    {value.name}
+                  </label>
+                </div>
+              ))}
+          </div>
+          {/* row ends */}
         </div>
+        {/* COL-MD-12 ends */}
 
         <hr />
         <div className="col-md-12">
@@ -123,28 +86,30 @@ class Buy extends Component {
             <div className="col-md-6">
               <div className="form-group">
                 <label>Min Range</label>
-                <select className="form-control" name="min_range">
-                  <option value="">Any</option>
-                  <option value="$60k">$60k</option>
-                  <option value="$80k">$80k</option>
-                  <option value="$100k">$100k</option>
-                  <option value="$120k">$120k</option>
-                  <option value="$140k">$140k</option>
-                  <option value="$160k">$160k</option>
-                  <option value="$180k">$180k</option>
+                <select
+                  className="form-control"
+                  name="min_range"
+                  onChange={(e) => handleChange(e)}
+                >
+                  {pricerangelist &&
+                    pricerangelist.map((value, index) => (
+                      <option value={value}>{value}</option>
+                    ))}
                 </select>
               </div>
             </div>
             <div className="col-md-6">
               <div className="form-group">
                 <label>Max Range</label>
-                <select className="form-control" name="max_range">
-                  {
-                    pricerangelist.map((abc, index) => {
-
-                      <option value={abc}>{abc}</option>
-                    })
-                  }
+                <select
+                  className="form-control"
+                  name="max_range"
+                  onChange={(e) => handleChange(e)}
+                >
+                  {pricerangelist &&
+                    pricerangelist.map((value, index) => (
+                      <option value={value}>{value}</option>
+                    ))}
                 </select>
               </div>
             </div>
@@ -159,28 +124,32 @@ class Buy extends Component {
             <div className="col-md-6">
               <div className="form-group">
                 <label>Min</label>
-                <select className="form-control" name="min_beds">
-                  <option value="">Any</option>
-                  <option value="Studio">Studio</option>
-                  <option value="1">1</option>
-                  <option value="2">2</option>
-                  <option value="3">3</option>
-                  <option value="4">4</option>
-                  <option value="5">5</option>
+                <select
+                  className="form-control"
+                  name="min_beds"
+                  onChange={(e) => handleChange(e)}
+                >
+                  <option value="">Select beds</option>
+                  {bedslist &&
+                    bedslist.map((value, index) => (
+                      <option value={index}>{value}</option>
+                    ))}
                 </select>
               </div>
             </div>
             <div className="col-md-6">
               <div className="form-group">
                 <label>Max</label>
-                <select className="form-control" name="max_beds">
-                  <option value="">Any</option>
-                  <option value="Studio">Studio</option>
-                  <option value="1">1</option>
-                  <option value="2">2</option>
-                  <option value="3">3</option>
-                  <option value="4">4</option>
-                  <option value="5">5</option>
+                <select
+                  className="form-control"
+                  name="max_beds"
+                  onChange={(e) => handleChange(e)}
+                >
+                  <option value="">Select beds</option>
+                  {bedslist &&
+                    bedslist.map((value, index) => (
+                      <option value={index}>{value}</option>
+                    ))}
                 </select>
               </div>
             </div>
@@ -195,13 +164,16 @@ class Buy extends Component {
           <div className="row">
             <div className="col-md-6">
               <div className="form-group">
-                <select className="form-control" name="min_bath">
-                  <option value="">Any</option>
-                  <option value="1">1+</option>
-                  <option value="2">2+</option>
-                  <option value="3">3+</option>
-                  <option value="4">4+</option>
-                  <option value="5">5+</option>
+                <select
+                  className="form-control"
+                  name="min_bath"
+                  onChange={(e) => handleChange(e)}
+                >
+                  <option value="">Select beds</option>
+                  {bathroomslist &&
+                    bathroomslist.map((value, index) => (
+                      <option value={index}>{value}</option>
+                    ))}
                 </select>
               </div>
             </div>
@@ -216,13 +188,15 @@ class Buy extends Component {
           <div className="row">
             <div className="col-md-6">
               <div className="form-group">
-                <select className="form-control" name="min_carspaces">
-                  <option value="">Any</option>
-                  <option value="1">1+</option>
-                  <option value="2">2+</option>
-                  <option value="3">3+</option>
-                  <option value="4">4+</option>
-                  <option value="5">5+</option>
+                <select
+                  className="form-control"
+                  name="min_carspaces"
+                  onChange={(e) => handleChange(e)}
+                >
+                  {carspaces &&
+                    carspaces.map((value, index) => (
+                      <option value={index}>{value}</option>
+                    ))}
                 </select>
               </div>
             </div>
@@ -237,38 +211,16 @@ class Buy extends Component {
           <div className="row">
             <div className="col-md-6">
               <div className="form-group">
-                <select className="form-control" name="landsize">
+                <select
+                  className="form-control"
+                  name="landsize"
+                  onChange={(e) => handleChange(e)}
+                >
                   <option value="">Any</option>
-                  <option value="1">200 Ropani</option>
-                  <option value="1">300 Ropani</option>
-                  <option value="1">400 Ropani</option>
-                  <option value="1">500 Ropani</option>
-                  <option value="1">600 Ropani</option>
-                  <option value="1">700 Ropani</option>
-                  <option value="1">800 Ropani</option>
-                  <option value="1">900 Ropani</option>
-                  <option value="1">1,000 Ropani</option>
-                  <option value="1">1,200 Ropani</option>
-                  <option value="1">1,500 Ropani</option>
-                  <option value="1">1,750 Ropani</option>
-                  <option value="1">2,000 Ropani</option>
-                  <option value="1">3,000 Ropani</option>
-                  <option value="1">4,000 Ropani</option>
-                  <option value="1">5,000 Ropani</option>
-                  <option value="1">10,000 Ropani</option>
-                  <option value="1">20,000 Ropani</option>
-                  <option value="1">30,000 Ropani</option>
-                  <option value="1">40,000 Ropani</option>
-                  <option value="1">50,000 Ropani</option>
-                  <option value="1">100,000 Ropani</option>
-                  <option value="1">200,000 Ropani</option>
-                  <option value="1">300,000 Ropani</option>
-                  <option value="1">400,000 Ropani</option>
-                  <option value="1">500,000 Ropani</option>
-                  <option value="1">600,000 Ropani</option>
-                  <option value="1">700,000 Ropani</option>
-                  <option value="1">800,000 Ropani</option>
-                  <option value="1">900,000 Ropani</option>
+                  {areaSize &&
+                    areaSize.map((value, index) => (
+                      <option value={value}>{value}</option>
+                    ))}
                 </select>
               </div>
             </div>
@@ -282,27 +234,16 @@ class Buy extends Component {
           </div>
           <div className="row">
             <div className="col-md-6">
-              <div className="custom-control custom-checkbox">
-                <input
-                  type="checkbox"
-                  className="custom-control-input"
-                  id="allTypes"
-                />
-                <label className="custom-control-label" htmlFor="allTypes">
-                  New
-                </label>
-              </div>
-            </div>
-            <div className="col-md-6">
-              <div className="custom-control custom-checkbox">
-                <input
-                  type="checkbox"
-                  className="custom-control-input"
-                  id="allTypes"
-                />
-                <label className="custom-control-label" htmlFor="allTypes">
-                  Established
-                </label>
+              <div className="form-group">
+                <select
+                  className="form-control"
+                  name="build_type"
+                  onChange={(e) => handleChange(e)}
+                >
+                  <option value="">Select beds</option>
+                  <option value="Old">Old</option>
+                  <option value="New">New</option>
+                </select>
               </div>
             </div>
           </div>
@@ -313,97 +254,25 @@ class Buy extends Component {
             <h5>Indoor features</h5>
           </div>
           <div className="row">
-            <div className="col-md-6">
-              <div className="custom-control custom-checkbox">
-                <input
-                  type="checkbox"
-                  className="custom-control-input"
-                  id="Ensuite"
-                />
-                <label className="custom-control-label" htmlFor="Ensuite">
-                  Ensuite
-                </label>
-              </div>
-              <div className="custom-control custom-checkbox">
-                <input
-                  type="checkbox"
-                  className="custom-control-input"
-                  id="Dishwasher"
-                />
-                <label className="custom-control-label" htmlFor="Dishwasher">
-                  Dishwasher
-                </label>
-              </div>
-            </div>
-            <div className="col-md-6">
-              <div className="custom-control custom-checkbox">
-                <input
-                  type="checkbox"
-                  className="custom-control-input"
-                  id="Garage"
-                />
-                <label className="custom-control-label" htmlFor="Garage">
-                  Garage
-                </label>
-              </div>
-              <div className="custom-control custom-checkbox">
-                <input
-                  type="checkbox"
-                  className="custom-control-input"
-                  id="Build in robes"
-                />
-                <label
-                  className="custom-control-label"
-                  htmlFor="Build in robes"
-                >
-                  Build in robes
-                </label>
-              </div>
-            </div>
-            <div className="col-md-6">
-              <div className="custom-control custom-checkbox">
-                <input
-                  type="checkbox"
-                  className="custom-control-input"
-                  id="Gym"
-                />
-                <label className="custom-control-label" htmlFor="Gym">
-                  Gym
-                </label>
-              </div>
-              <div className="custom-control custom-checkbox">
-                <input
-                  type="checkbox"
-                  className="custom-control-input"
-                  id="Workshop"
-                />
-                <label className="custom-control-label" htmlFor="Workshop">
-                  Workshop
-                </label>
-              </div>
-            </div>
-            <div className="col-md-6">
-              <div className="custom-control custom-checkbox">
-                <input
-                  type="checkbox"
-                  className="custom-control-input"
-                  id="Alarm system"
-                />
-                <label className="custom-control-label" htmlFor="Alarm system">
-                  Alarm system
-                </label>
-              </div>
-              <div className="custom-control custom-checkbox">
-                <input
-                  type="checkbox"
-                  className="custom-control-input"
-                  id="Broadband"
-                />
-                <label className="custom-control-label" htmlFor="Broadband">
-                  Broadband
-                </label>
-              </div>
-            </div>
+            {indoorFeatures &&
+              indoorFeatures.map((value, index) => (
+                <div key={index} className="col-md-6">
+                  <div className="custom-control custom-checkbox">
+                    <input
+                      type="checkbox"
+                      className="custom-control-input"
+                      id={value.feature}
+                      onChange={(e) => handleChange(e)}
+                    />
+                    <label
+                      className="custom-control-label"
+                      htmlFor={value.feature}
+                    >
+                      {value.feature}
+                    </label>
+                  </div>
+                </div>
+              ))}
           </div>
         </div>
         <hr />
@@ -413,50 +282,25 @@ class Buy extends Component {
             <h5>Outdoor features</h5>
           </div>
           <div className="row">
-            <div className="col-md-6">
-              <div className="custom-control custom-checkbox">
-                <input
-                  type="checkbox"
-                  className="custom-control-input"
-                  id="allTypes"
-                />
-                <label className="custom-control-label" htmlFor="allTypes">
-                  Swimming pool
-                </label>
-              </div>
-              <div className="custom-control custom-checkbox">
-                <input
-                  type="checkbox"
-                  className="custom-control-input"
-                  id="allTypes"
-                />
-                <label className="custom-control-label" htmlFor="allTypes">
-                  Balcony
-                </label>
-              </div>
-            </div>
-            <div className="col-md-6">
-              <div className="custom-control custom-checkbox">
-                <input
-                  type="checkbox"
-                  className="custom-control-input"
-                  id="allTypes"
-                />
-                <label className="custom-control-label" htmlFor="allTypes">
-                  Garage
-                </label>
-              </div>
-              <div className="custom-control custom-checkbox">
-                <input
-                  type="checkbox"
-                  className="custom-control-input"
-                  id="allTypes"
-                />
-                <label className="custom-control-label" htmlFor="allTypes">
-                  Outdoor area
-                </label>
-              </div>
-            </div>
+            {outdoorFeatures &&
+              outdoorFeatures.map((value, index) => (
+                <div key={index} className="col-md-6">
+                  <div className="custom-control custom-checkbox">
+                    <input
+                      type="checkbox"
+                      className="custom-control-input"
+                      id={value.feature}
+                      onChange={(e) => handleChange(e)}
+                    />
+                    <label
+                      className="custom-control-label"
+                      htmlFor={value.feature}
+                    >
+                      {value.feature}
+                    </label>
+                  </div>
+                </div>
+              ))}
           </div>
         </div>
         <hr />
@@ -466,83 +310,25 @@ class Buy extends Component {
             <h5>Climate control & energy</h5>
           </div>
           <div className="row">
-            <div className="col-md-6">
-              <div className="custom-control custom-checkbox">
-                <input
-                  type="checkbox"
-                  className="custom-control-input"
-                  id="Air conditioning"
-                />
-                <label
-                  className="custom-control-label"
-                  htmlFor="Air conditioning"
-                >
-                  Air conditioning
-                </label>
-              </div>
-              <div className="custom-control custom-checkbox">
-                <input
-                  type="checkbox"
-                  className="custom-control-input"
-                  id="Solar panels"
-                />
-                <label className="custom-control-label" htmlFor="Solar panels">
-                  Solar panels
-                </label>
-              </div>
-            </div>
-            <div className="col-md-6">
-              <div className="custom-control custom-checkbox">
-                <input
-                  type="checkbox"
-                  className="custom-control-input"
-                  id="Heating"
-                />
-                <label className="custom-control-label" htmlFor="Heating">
-                  Heating
-                </label>
-              </div>
-              <div className="custom-control custom-checkbox">
-                <input
-                  type="checkbox"
-                  className="custom-control-input"
-                  id="High energy efficiency"
-                />
-                <label
-                  className="custom-control-label"
-                  htmlFor="High energy efficiency"
-                >
-                  High energy efficiency
-                </label>
-              </div>
-            </div>
-            <div className="col-md-6">
-              <div className="custom-control custom-checkbox">
-                <input
-                  type="checkbox"
-                  className="custom-control-input"
-                  id="Water tank"
-                />
-                <label className="custom-control-label" htmlFor="Water tank">
-                  Water tank
-                </label>
-              </div>
-            </div>
-            <div className="col-md-6">
-              <div className="custom-control custom-checkbox">
-                <input
-                  type="checkbox"
-                  className="custom-control-input"
-                  id="Solar hot water"
-                />
-                <label
-                  className="custom-control-label"
-                  htmlFor="Solar hot water"
-                >
-                  Solar hot water
-                </label>
-              </div>
-            </div>
+            {climateControlFeatures &&
+              climateControlFeatures.map((value, index) => (
+                <div key={index} className="col-md-6">
+                  <div className="custom-control custom-checkbox">
+                    <input
+                      type="checkbox"
+                      className="custom-control-input"
+                      id={value.feature}
+                      onChange={(e) => handleChange(e)}
+                    />
+                    <label
+                      className="custom-control-label"
+                      htmlFor={value.feature}
+                    >
+                      {value.feature}
+                    </label>
+                  </div>
+                </div>
+              ))}
           </div>
         </div>
         <hr />
@@ -565,9 +351,12 @@ class Buy extends Component {
             </div>
           </div>
         </div>
+
+        <button type="submit" className="btn-custom btn-sm secondary" onClick={(e) => onSubmit(e)}>Search</button>
         <hr />
-      </>
-    );
-  }
-}
+      </form>
+
+    </>
+  );
+};
 export default Buy;

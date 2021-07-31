@@ -15,7 +15,7 @@ import {
   carspaces,
   areaUnit,
   rooms,
-  featuresType,
+  featuresType, furnishing
 } from "../../../data/select.json";
 
 import {
@@ -41,6 +41,7 @@ const features = [
 ];
 
 function Content() {
+
   const title = useRef();
   const price = useRef();
   const image = useRef();
@@ -181,19 +182,18 @@ function Content() {
   const [isContactShow, setIsContactShow] = useState(false);
 
   const handleContactShow = (e) => {
-    setPropertyData({ ...propertyData, "is_contact_show": e.target.value });
-
+    alert(e.target.value)
     if (e.target.value == 0) {
 
       setIsContactShow(true);
       setPropertyData({
-        ...propertyData, name_for_contact: "Admin", number_for_contact: "8108466415", email_for_contact: "admin@gmail.com",
+        ...propertyData, name_for_contact: "Neprealestate", number_for_contact: "8108466415", email_for_contact: "admin@neprealestae.com", is_contact_show: e.target.value
       })
 
     } else {
       setIsContactShow(false);
       setPropertyData({
-        ...propertyData, name_for_contact: "", number_for_contact: "", email_for_contact: "",
+        ...propertyData, name_for_contact: "", number_for_contact: "", email_for_contact: "", is_contact_show: e.target.value
       })
     }
   }
@@ -516,7 +516,6 @@ function Content() {
       propertyData.is_contact_show === null ||
       propertyData.is_contact_show === undefined
     ) {
-      alert(propertyData.is_contact_show);
       errorToast("Please let us know about visibility of your contact!");
       document.getElementById("tab6").click();
 
@@ -531,7 +530,6 @@ function Content() {
       return true;
     }
   };
-
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -1294,7 +1292,7 @@ function Content() {
                               : ""
                           }
                         >
-                          <option>Select bathrooms</option>
+                          <option>Bathrooms</option>
                           {bathroomslist &&
                             bathroomslist.map((value, index) => (
                               <option value={index}>{value}</option>
@@ -1327,7 +1325,7 @@ function Content() {
                         </select>
                       </div>
 
-                      <div className="col-md-6 form-group">
+                      <div className="col-md-3 form-group">
                         <label>Floor</label>
 
                         <select
@@ -1345,7 +1343,7 @@ function Content() {
                               : ""
                           }
                         >
-                          <option>Select floors</option>
+                          <option>Floors</option>
                           {floorlist &&
                             floorlist.map((value, index) => (
                               <option value={value}>{value}</option>
@@ -1353,7 +1351,7 @@ function Content() {
                         </select>
                       </div>
 
-                      <div className="col-md-6 form-group">
+                      <div className="col-md-3 form-group">
                         <label>Car spcaes</label>
                         <select
                           className="form-control"
@@ -1378,8 +1376,53 @@ function Content() {
                         </select>
                       </div>
 
+                      <div className="col-md-3 form-group">
+                        <label>Pets considered?</label>
+                        <select
+                          className="form-control"
+                          name="pets_considere"
+                          onChange={(e) =>
+                            setPropertyData({
+                              ...propertyData,
+                              pets_considere: e.target.value,
+                            })
+                          }
+                          value={
+                            propertyData && propertyData.pets_considere
+                              ? propertyData.pets_considere
+                              : ""
+                          }
+                        >
+                          <option>Pets?</option>
+                          <option value="1">YES</option>
+                          <option value="0">NO</option>
 
-
+                        </select>
+                      </div>
+                      <div className="col-md-3 form-group">
+                        <label>Is Furnished?</label>
+                        <select
+                          className="form-control"
+                          name="furnishing"
+                          onChange={(e) =>
+                            setPropertyData({
+                              ...propertyData,
+                              furnishing: e.target.value,
+                            })
+                          }
+                          value={
+                            propertyData && propertyData.furnishing
+                              ? propertyData.furnishing
+                              : ""
+                          }
+                        >
+                          <option>Furnished?</option>
+                          {furnishing &&
+                            furnishing.map((value, index) => (
+                              <option value={value}>{value}</option>
+                            ))}
+                        </select>
+                      </div>
                       <div className="col-md-6 ">
                         <label className="required">Are you</label>
                         <select
@@ -1405,6 +1448,31 @@ function Content() {
                         </select>
                         <p style={errorStyle}>{propertyDataError.are_you}</p>
                       </div>
+                      <div className="col-md-6 form-group">
+                        <label>Car spcaes</label>
+                        <select
+                          className="form-control"
+                          name="car_spaces"
+                          onChange={(e) =>
+                            setPropertyData({
+                              ...propertyData,
+                              car_spaces: e.target.value,
+                            })
+                          }
+                          value={
+                            propertyData && propertyData.car_spaces
+                              ? propertyData.car_spaces
+                              : ""
+                          }
+                        >
+                          <option>Select</option>
+                          {carspaces &&
+                            carspaces.map((value, index) => (
+                              <option value={index}>{value}</option>
+                            ))}
+                        </select>
+                      </div>
+
                       <div className="col-md-6 form-group">
                         <label>Year Built</label>
                         <input

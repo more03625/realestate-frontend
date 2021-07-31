@@ -117,7 +117,7 @@ export const FindAgents = () => {
                     </div>
 
                     <div className="row">
-                        <Searchoptions />
+
                     </div>
                 </form>
             </div>

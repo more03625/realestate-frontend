@@ -44,7 +44,6 @@ const Content = ({ propertyType, searchQuery, searchResults, parentCallback, sub
 
     const currentitems = searchResults !== undefined || searchResults !== null ? searchResults.slice(indexOfFirstitem, indexOfLastitem) : [];
 
-
     var renderitems = [];
     if (currentitems.length !== 0) {
         var renderitems = currentitems && currentitems.map((item, i) => {

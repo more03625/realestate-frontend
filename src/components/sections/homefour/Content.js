@@ -27,7 +27,7 @@ const Content = () => {
     }
     useEffect(() => {
         getSubCategories();
-    })
+    }, [])
     return (
         <Fragment>
             <Banner />

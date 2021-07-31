@@ -318,13 +318,35 @@ const Listingwrapper = () => {
                                     <br />
                                     <b>Address: </b>{" "}
                                     {propertyDetails && propertyDetails.address
-                                        ? propertyDetails.address +", "
+                                        ? propertyDetails.address + ", "
                                         : ""}
-                                    {propertyDetails.city_name + ", "+ propertyDetails.state_name}
+                                    {propertyDetails.city_name + ", " + propertyDetails.state_name}
                                 </div>
                                 <div className="section section-padding  acr-listing-features">
                                     <h4>Property Details</h4>
                                     <div className="row">
+                                        {propertyDetails && propertyDetails.category_name ? (
+                                            <div className="listing-feature col-lg-6 col-md-6">
+                                                <h6 className="listing-feature-label">Category</h6>
+                                                <span className="listing-feature-value">
+                                                    {propertyDetails && propertyDetails.category_name ? propertyDetails.category_name : ''}
+                                                </span>
+                                            </div>
+                                        ) : (
+                                            ""
+                                        )}
+                                        {propertyDetails && propertyDetails.sub_category_name ? (
+                                            <div className="listing-feature col-lg-6 col-md-6">
+                                                <h6 className="listing-feature-label">Sub category</h6>
+                                                <span className="listing-feature-value">
+                                                    {propertyDetails && propertyDetails.sub_category_name
+                                                        ? propertyDetails.sub_category_name
+                                                        : ""}
+                                                </span>
+                                            </div>
+                                        ) : (
+                                            ""
+                                        )}
                                         {propertyDetails && propertyDetails.area ? (
                                             <div className="listing-feature col-lg-6 col-md-6">
                                                 <h6 className="listing-feature-label">Total Area</h6>
@@ -552,66 +574,66 @@ const Listingwrapper = () => {
                                     <h4>Features</h4>
                                     <div className="row">
 
-                                    { propertyDetails && propertyDetails.features ? 
-                                    ( 
-                                        <div className="row">
-                                            <h5 className="col-12 text-left">Outdoon Features:</h5>
-                                            {
-                                                propertyDetails.features.outdoor ? propertyDetails.features.outdoor.map((value, index) => {
+                                        {propertyDetails && propertyDetails.features ?
+                                            (
+                                                <div className="row">
+                                                    <h5 className="col-12 text-left">Outdoon Features:</h5>
                                                     {
-                                                        return <div className="listing-feature">
-                                                            <i className={`${value.icon}`} />
-                                                            <h6 className="listing-feature-label">
-                                                                {value.feature}
-                                                            </h6>
-                                                            <span className="listing-feature-value">
+                                                        propertyDetails.features.outdoor ? propertyDetails.features.outdoor.map((value, index) => {
+                                                            {
+                                                                return <div className="listing-feature">
+                                                                    <i className={`${value.icon}`} />
+                                                                    <h6 className="listing-feature-label">
+                                                                        {value.feature}
+                                                                    </h6>
+                                                                    <span className="listing-feature-value">
 
-                                                            </span>
-                                                        </div>
+                                                                    </span>
+                                                                </div>
+                                                            }
+                                                        }) : ("No Outdoon Features Mentioned")
                                                     }
-                                                }) : ("No Outdoon Features Mentioned")
-                                            }
 
-                                            <h5 className="col-12 text-left mt-3">Indoor Features:</h5>
-                                            {
-                                                propertyDetails.features.indoor ? propertyDetails.features.indoor.map((value, index) => {
+                                                    <h5 className="col-12 text-left mt-3">Indoor Features:</h5>
                                                     {
-                                                        return <div className="listing-feature">
-                                                            <i className={`${value.icon}`} />
-                                                            <h6 className="listing-feature-label">
-                                                                {value.feature}
-                                                            </h6>
-                                                            <span className="listing-feature-value">
+                                                        propertyDetails.features.indoor ? propertyDetails.features.indoor.map((value, index) => {
+                                                            {
+                                                                return <div className="listing-feature">
+                                                                    <i className={`flaticon-${value.icon}`} />
+                                                                    <h6 className="listing-feature-label">
+                                                                        {value.feature}
+                                                                    </h6>
+                                                                    <span className="listing-feature-value">
 
-                                                            </span>
-                                                        </div>
+                                                                    </span>
+                                                                </div>
+                                                            }
+                                                        }) : ("No Indoor Features Mentioned")
                                                     }
-                                                }) : ("No Indoor Features Mentioned")
-                                            }
 
-                                            <h5 className="col-12 text-left mt-3">Climate Control & Energy Features:</h5>
-                                            {
-                                                propertyDetails.features.climate ? propertyDetails.features.climate.map((value, index) => {
+                                                    <h5 className="col-12 text-left mt-3">Climate Control & Energy Features:</h5>
                                                     {
-                                                        return <div className="listing-feature">
-                                                            <i className={`${value.icon}`} />
-                                                            <h6 className="listing-feature-label">
-                                                                {value.feature}
-                                                            </h6>
-                                                            <span className="listing-feature-value">
+                                                        propertyDetails.features.climate ? propertyDetails.features.climate.map((value, index) => {
+                                                            {
+                                                                return <div className="listing-feature">
+                                                                    <i className={`flaticon-${value.icon}`} />
+                                                                    <h6 className="listing-feature-label">
+                                                                        {value.feature}
+                                                                    </h6>
+                                                                    <span className="listing-feature-value">
 
-                                                            </span>
-                                                        </div>
+                                                                    </span>
+                                                                </div>
+                                                            }
+                                                        }) : ("No Climate Control Features Mentioned")
                                                     }
-                                                }) : ("No Climate Control Features Mentioned")
-                                            }
-                                        </div>
+                                                </div>
 
-                                            
-                                        
-                                    )
-                                    : ('There are no features selected')
-                                    }
+
+
+                                            )
+                                            : ('There are no features selected')
+                                        }
                                         {/* {propertyDetails &&
                                             propertyDetails.features ? propertyDetails.features.map((value, index) => {
                                                 {
@@ -887,12 +909,7 @@ const Listingwrapper = () => {
                                         <div className="media sidebar-author listing-agent">
                                             <img
                                                 src={
-                                                    propertyDetails.profile_image != null
-                                                        ? process.env.REACT_APP_CONTENT_URL +
-                                                        propertyDetails.profile_image +
-                                                        "_small.jpg"
-                                                        : process.env.REACT_APP_CONTENT_URL +
-                                                        "/users/default.png"
+                                                    propertyDetails && propertyDetails.is_contact_show === 1 ? propertyDetails.profile_image != null ? process.env.REACT_APP_CONTENT_URL + propertyDetails.profile_image + "_small.jpg" : process.env.REACT_APP_CONTENT_URL + "/users/default.png" : process.env.REACT_APP_CONTENT_URL + "/neprealestate-logo/logo.png"
                                                 }
                                                 alt={propertyDetails.profile_image + "_small.jpg"}
                                             />
@@ -906,9 +923,9 @@ const Listingwrapper = () => {
                                                         : ""}{" "}
                                                 </h6>
                                                 <span>
-                                                    {propertyDetails && propertyDetails.are_you
-                                                        ? uppercaseFirstLetter(propertyDetails.are_you)
-                                                        : ""}
+                                                    {
+                                                        propertyDetails && propertyDetails.is_contact_show === 1 ? propertyDetails.are_you ? uppercaseFirstLetter(propertyDetails.are_you) : '' : 'Admin'
+                                                    }
                                                 </span>
                                             </div>
                                             <Dropdown className="options-dropdown">
