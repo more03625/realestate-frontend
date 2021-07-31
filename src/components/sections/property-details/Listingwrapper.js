@@ -7,6 +7,8 @@ import "magnific-popup";
 import classNames from "classnames";
 import Slider from "react-slick";
 import Axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import {
     openInGmail,
     saveProperty,
@@ -211,7 +213,7 @@ const Listingwrapper = () => {
                 fullname:fname,
                 enquiry_date:'2020-05-12'
             }
-            alert(url);
+            
             Axios.post(url, userData).then((response) => {
                 if (response.data.error === true) {
                     errorToast(response.data.error);
@@ -1038,6 +1040,7 @@ const Listingwrapper = () => {
                                             >
                                                 Send Message
                                             </button>
+                                            <ToastContainer />
                                         </form>
                                         {/* Contact End */}
                                     </div>
