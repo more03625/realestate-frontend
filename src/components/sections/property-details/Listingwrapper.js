@@ -318,8 +318,9 @@ const Listingwrapper = () => {
                                     <br />
                                     <b>Address: </b>{" "}
                                     {propertyDetails && propertyDetails.address
-                                        ? propertyDetails.address
+                                        ? propertyDetails.address +", "
                                         : ""}
+                                    {propertyDetails.city_name + ", "+ propertyDetails.state_name}
                                 </div>
                                 <div className="section section-padding  acr-listing-features">
                                     <h4>Property Details</h4>
@@ -551,8 +552,67 @@ const Listingwrapper = () => {
                                     <h4>Features</h4>
                                     <div className="row">
 
+                                    { propertyDetails && propertyDetails.features ? 
+                                    ( 
+                                        <div className="row">
+                                            <h5 className="col-12 text-left">Outdoon Features:</h5>
+                                            {
+                                                propertyDetails.features.outdoor ? propertyDetails.features.outdoor.map((value, index) => {
+                                                    {
+                                                        return <div className="listing-feature">
+                                                            <i className={`${value.icon}`} />
+                                                            <h6 className="listing-feature-label">
+                                                                {value.feature}
+                                                            </h6>
+                                                            <span className="listing-feature-value">
 
-                                        {propertyDetails &&
+                                                            </span>
+                                                        </div>
+                                                    }
+                                                }) : ("No Outdoon Features Mentioned")
+                                            }
+
+                                            <h5 className="col-12 text-left mt-3">Indoor Features:</h5>
+                                            {
+                                                propertyDetails.features.indoor ? propertyDetails.features.indoor.map((value, index) => {
+                                                    {
+                                                        return <div className="listing-feature">
+                                                            <i className={`${value.icon}`} />
+                                                            <h6 className="listing-feature-label">
+                                                                {value.feature}
+                                                            </h6>
+                                                            <span className="listing-feature-value">
+
+                                                            </span>
+                                                        </div>
+                                                    }
+                                                }) : ("No Indoor Features Mentioned")
+                                            }
+
+                                            <h5 className="col-12 text-left mt-3">Climate Control & Energy Features:</h5>
+                                            {
+                                                propertyDetails.features.climate ? propertyDetails.features.climate.map((value, index) => {
+                                                    {
+                                                        return <div className="listing-feature">
+                                                            <i className={`${value.icon}`} />
+                                                            <h6 className="listing-feature-label">
+                                                                {value.feature}
+                                                            </h6>
+                                                            <span className="listing-feature-value">
+
+                                                            </span>
+                                                        </div>
+                                                    }
+                                                }) : ("No Climate Control Features Mentioned")
+                                            }
+                                        </div>
+
+                                            
+                                        
+                                    )
+                                    : ('There are no features selected')
+                                    }
+                                        {/* {propertyDetails &&
                                             propertyDetails.features ? propertyDetails.features.map((value, index) => {
                                                 {
 
@@ -569,7 +629,7 @@ const Listingwrapper = () => {
                                                 }
 
                                             }) : ('There are no features selected')
-                                        }
+                                        } */}
 
 
                                     </div>
