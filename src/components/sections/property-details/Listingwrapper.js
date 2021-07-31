@@ -15,6 +15,8 @@ import {
     convertToSlug,
     getUserToken,
     uppercaseFirstLetter,
+    successToast,
+    errorToast
 } from "../../../helper/comman_helper";
 import Loader from "../../layouts/Loader";
 import ContentNotFound from "../../pages/ContentNotFound";
@@ -162,19 +164,19 @@ const Listingwrapper = () => {
         if (
             fname === "" &&
             phone === "" &&
-            date === "" &&
+            // date === "" &&
             comment === "" &&
             !emailValidator
         ) {
             setFnameError("Name feild should not be empty!");
             setEmailError("Please enter a valid email address!");
             setPhoneError("Please enter valid 10 digit mobile number!");
-            setDateError("Date feild in required!");
+            // setDateError("Date feild in required!");
             setCommentError("Mobile Number feild should not be empty!");
         }
-        // else if (fname === "") {
-        //     setFnameError("Name feild should not be empty!");
-        // }
+        else if (fname === "") {
+            setFnameError("Name feild should not be empty!");
+        }
         else if (!emailValidator) {
             setEmailError("Please enter a valid email address!");
         } else if (phone === "" || phone.length < 10) {
@@ -196,14 +198,28 @@ const Listingwrapper = () => {
         setFnameError("");
         setEmailError("");
         setPhoneError("");
-        setDateError("");
+        // setDateError("");
         setCommentError("");
 
         if (isValid()) {
-            console.log(email);
-            console.log(phone);
-            console.log(comment);
-            alert("All ok, evrything in console");
+            var url = Host + Endpoints.propertyEnquiry;
+            var userData = {
+                email,
+                mobile:phone,
+                message:comment,
+                property_id: propertyID,
+                fullname:fname,
+                enquiry_date:'2020-05-12'
+            }
+            alert(url);
+            Axios.post(url, userData).then((response) => {
+                if (response.data.error === true) {
+                    errorToast(response.data.error);
+                } else {
+                    e.target.reset();
+                    successToast(response.data.title);
+                }
+            });
         } else {
             console.log("In else");
         }
@@ -881,7 +897,7 @@ const Listingwrapper = () => {
                             {/* Listings End */}
                             {/* Sidebar Start */}
                             <div className="col-lg-4">
-                                <div className="sidebar sticky-sidebar sidebar-left agent-wrapper">
+                                <div style={{top:20}} className="sidebar sticky-sidebar sidebar-left agent-wrapper">
                                     <div className="sidebar-widget sidebar-widget-agent">
                                         {/* Author Start */}
                                         <div className="media sidebar-author listing-agent">
@@ -964,10 +980,22 @@ const Listingwrapper = () => {
                                         <p>
                                             Lorem Ipsum is simply dummy text of the printing and
                                             typesetting industry. Lorem Ipsum has been the industry's
-                                            standard dummy text ever since the 1500s
+                                            standard dummy text.
                                         </p>
                                         Contact Start
                                         <form onSubmit={submitFun}>
+                                            <div className="form-group">
+                                                <input
+                                                    type="text"
+                                                    className="form-control"
+                                                    placeholder="Name"
+                                                    name="fname"
+                                                    onChange={(e) => setFname(e.target.value)}
+                                                />
+                                                <p style={{ color: "red", fontSize: "14px" }}>
+                                                    {fnameError}
+                                                </p>
+                                            </div>
                                             <div className="form-group">
                                                 <input
                                                     type="email"
@@ -998,7 +1026,7 @@ const Listingwrapper = () => {
                                                     placeholder="Type your comment..."
                                                     name="comment"
                                                     onChange={(e) => setComment(e.target.value)}
-                                                    rows={3}
+                                                    rows={2}
                                                 />
                                                 <p style={{ color: "red", fontSize: "14px" }}>
                                                     {commentError}
