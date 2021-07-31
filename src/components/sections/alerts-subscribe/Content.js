@@ -1,10 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Link, Redirect } from "react-router-dom";
 import Select2 from "react-select2-wrapper";
-import {
-    category as categories,
-    subCategories,
-} from "../../../data/select.json";
 import Axios from "axios";
 import Slider from "react-slick";
 import { ToastContainer, toast } from "react-toastify";
@@ -45,6 +41,11 @@ const successStyle = {
     color: '#28a745',
     fontSize: '14px',
 };
+const categories= [
+    "Select Category",
+    "Residential", 
+    "commercial"
+];
 const Content = () => {
 
     const [userData, setUserData] = useState([]);
@@ -76,8 +77,8 @@ const Content = () => {
             setCities(response.data.data);
         });
     };
-    const getSubCategories = async () => {
-        var url = Host + Endpoints.getSubCategories;
+    const getSubCategories = async (id) => {
+        var url = Host + Endpoints.getSubCategories + "?category_id=" + id;
         var result = await Axios.get(url);
 
         if (result.data.error === true) {
@@ -91,6 +92,11 @@ const Content = () => {
     const setStateLocation = (e) => {
         setUserData({ ...userData, state: e.target.value });
         getCities(e.target.value);
+    }
+
+    const setCategory = (e) => {
+        setUserData({ ...userData, 'category': e.target.value });
+        getSubCategories(e.target.value);
     }
     const isValid = () => {
         var emailValidator = new RegExp(/[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,15}/g).test(userData.email);
@@ -106,11 +112,11 @@ const Content = () => {
             setUserDataError({ mobileError: 'Please enter valid 10 digit mobile number!' });
             mobile.current.scrollIntoView();
         }
-        else if (userData.category === '' || userData.category === null || userData.category === undefined) {
+        else if (userData.category === '' || userData.category === null || userData.category === undefined || userData.category == 0) {
             setUserDataError({ categoryError: 'Please select a category' });
             category.current.scrollIntoView();
         }
-        else if (userData.subcategory === '' || userData.subcategory === null || userData.subcategory === undefined) {
+        else if (userData.subcategory === '' || userData.subcategory === null || userData.subcategory === undefined || userData.subcategory == 0) {
             setUserDataError({ subCategoryError: 'Please select a subcategory' });
             subcategory.current.scrollIntoView();
         }
@@ -138,17 +144,23 @@ const Content = () => {
     }
     const handleSubmit = (e) => {
         e.preventDefault();
-
         if (isValid()) {
-            var url = Host + Endpoints;
+            var url = Host + Endpoints.addSubscriber;
             console.log(userData);
-            // Axios.post(url, userData);
+            Axios.post(url, userData).then((response) => {
+                if (response.data.error === true) {
+                    errorToast(response.data.error);
+                } else {
+                    e.target.reset();
+                    successToast(response.data.title);
+                }
+            });
         }
     }
     useEffect(() => {
         getStates();
         getCities();
-        getSubCategories();
+        getSubCategories(1);
     }, []);
     return (
         <div className="col-lg-12">
@@ -215,8 +227,7 @@ const Content = () => {
                         <div className="col-md-6">
                             <div className="form-group">
                                 <label>Category</label>
-                                <select className="form-control form-control-light" onChange={(e) => setUserData({ ...userData, 'category': e.target.value })} ref={category}>
-                                    <option value="">Select category</option>
+                                <select className="form-control form-control-light" onChange={(e) => setCategory(e)} ref={category}>
                                     {categories &&
                                         categories.map((value, index) => (
                                             <option value={index}>{value}</option>

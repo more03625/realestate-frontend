@@ -33,7 +33,9 @@ export const Endpoints = {
     getPropertyCounts: "/property/getPropertyCounts?id=",
     getCategories: "/admin/getCategories",
     getPropertyTypes: "/users/getPropertyTypes?id=",
-    getfeatures: "/admin/getfeatures?type="
+    getfeatures: "/admin/getfeatures?type=",
+    addSubscriber: "/users/addSubscriber",
+    propertyEnquiry: "/users/properties_enquiry"
 };
 
 export const openInGmail = (to, subject = '', body = '', cc = null, bcc = null) => {
