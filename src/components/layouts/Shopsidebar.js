@@ -167,6 +167,10 @@ const Shopsidebar = ({ parentCallback }) => {
 
   const onSubmit = () => {
 
+    Object.assign(filterData, { 'subcategory': '' }, { 'indoor_features': '' },
+      { 'outdoor_features': '' }, { 'climate_features': '' }, { 'property_type': '' }
+    );
+
     var data = Object.assign(filterData, { 'subcategory': selectedM }, { 'indoor_features': selectedIndoorFeatures },
       { 'outdoor_features': selectedOutdoorFeatures }, { 'climate_features': selectedClimateFeatures }, { 'property_type': formName }
     );
@@ -258,11 +262,11 @@ const Shopsidebar = ({ parentCallback }) => {
                           <input
                             type="checkbox"
                             className="custom-control-input"
-                            id={value.name}
+                            id={value.name + " Buy"}
                             onChange={(e) => onChangeSubcategory(value.id)}
                             selected={selectedM.includes(value.id)}
                           />
-                          <label className="custom-control-label" htmlFor={value.name}>
+                          <label className="custom-control-label" htmlFor={value.name + " Buy"}>
                             {value.name}
                           </label>
                         </div>
@@ -287,7 +291,7 @@ const Shopsidebar = ({ parentCallback }) => {
                         >
                           {pricerangelist &&
                             pricerangelist.map((value, index) => (
-                              <option value={value}>{value}</option>
+                              <option key={value.id} value={value.id}>{value.text}</option>
                             ))}
                         </select>
                       </div>
@@ -302,7 +306,7 @@ const Shopsidebar = ({ parentCallback }) => {
                         >
                           {pricerangelist &&
                             pricerangelist.map((value, index) => (
-                              <option value={value}>{value}</option>
+                              <option key={value.id} value={value.id}>{value.text}</option>
                             ))}
                         </select>
                       </div>
@@ -387,7 +391,7 @@ const Shopsidebar = ({ parentCallback }) => {
                         >
                           {carspaces &&
                             carspaces.map((value, index) => (
-                              <option value={index}>{value}</option>
+                              <option value={index + 1}>{value}</option>
                             ))}
                         </select>
                       </div>
@@ -451,12 +455,12 @@ const Shopsidebar = ({ parentCallback }) => {
                             <input
                               type="checkbox"
                               className="custom-control-input"
-                              id={value.feature}
+                              id={value.feature + " Buy"}
                               onChange={(e) => onChangeIndoorFeatures(value.id)}
                             />
                             <label
                               className="custom-control-label"
-                              htmlFor={value.feature}
+                              htmlFor={value.feature + " Buy"}
                             >
                               {value.feature}
                             </label>
@@ -478,12 +482,12 @@ const Shopsidebar = ({ parentCallback }) => {
                             <input
                               type="checkbox"
                               className="custom-control-input"
-                              id={value.feature}
+                              id={value.feature + " Buy"}
                               onChange={(e) => onChangeOutdoorFeatures(value.id)}
                             />
                             <label
                               className="custom-control-label"
-                              htmlFor={value.feature}
+                              htmlFor={value.feature + " Buy"}
                             >
                               {value.feature}
                             </label>
@@ -505,12 +509,12 @@ const Shopsidebar = ({ parentCallback }) => {
                             <input
                               type="checkbox"
                               className="custom-control-input"
-                              id={value.feature}
+                              id={value.feature + " Buy"}
                               onChange={(e) => onChangeClimetFeatures(value.id)}
                             />
                             <label
                               className="custom-control-label"
-                              htmlFor={value.feature}
+                              htmlFor={value.feature + " Buy"}
                             >
                               {value.feature}
                             </label>
@@ -527,12 +531,12 @@ const Shopsidebar = ({ parentCallback }) => {
                         <input
                           type="checkbox"
                           className="custom-control-input"
-                          id="Exclude under contract/offer"
+                          id="Exclude under contract/offer buy"
                           onChange={(e) => setFilterData({ ...filterData, 'is_under_offer': e.target.checked ? 1 : 0 })}
                         />
                         <label
                           className="custom-control-label"
-                          htmlFor="Exclude under contract/offer"
+                          htmlFor="Exclude under contract/offer buy"
                         >
                           Exclude under contract/offer
                         </label>
@@ -557,11 +561,11 @@ const Shopsidebar = ({ parentCallback }) => {
                           <input
                             type="checkbox"
                             className="custom-control-input"
-                            id={value.name}
+                            id={value.name + " rent"}
                             onChange={(e) => onChangeSubcategory(value.id)}
                             selected={selectedM.includes(value.id)}
                           />
-                          <label className="custom-control-label" htmlFor={value.name}>
+                          <label className="custom-control-label" htmlFor={value.name + " rent"}>
                             {value.name}
                           </label>
                         </div>
@@ -586,7 +590,7 @@ const Shopsidebar = ({ parentCallback }) => {
                         >
                           {pricerangelist &&
                             pricerangelist.map((value, index) => (
-                              <option value={value}>{value}</option>
+                              <option value={value.id}>{value.text}</option>
                             ))}
                         </select>
                       </div>
@@ -601,7 +605,7 @@ const Shopsidebar = ({ parentCallback }) => {
                         >
                           {pricerangelist &&
                             pricerangelist.map((value, index) => (
-                              <option value={value}>{value}</option>
+                              <option value={value.id}>{value.text}</option>
                             ))}
                         </select>
                       </div>
@@ -686,7 +690,7 @@ const Shopsidebar = ({ parentCallback }) => {
                         >
                           {carspaces &&
                             carspaces.map((value, index) => (
-                              <option value={index}>{value}</option>
+                              <option value={index + 1}>{value}</option>
                             ))}
                         </select>
                       </div>
@@ -750,12 +754,12 @@ const Shopsidebar = ({ parentCallback }) => {
                             <input
                               type="checkbox"
                               className="custom-control-input"
-                              id={value.feature}
+                              id={value.feature + " rent"}
                               onChange={(e) => onChangeIndoorFeatures(value.id)}
                             />
                             <label
                               className="custom-control-label"
-                              htmlFor={value.feature}
+                              htmlFor={value.feature + " rent"}
                             >
                               {value.feature}
                             </label>
@@ -777,12 +781,12 @@ const Shopsidebar = ({ parentCallback }) => {
                             <input
                               type="checkbox"
                               className="custom-control-input"
-                              id={value.feature}
+                              id={value.feature + " rent"}
                               onChange={(e) => onChangeOutdoorFeatures(value.id)}
                             />
                             <label
                               className="custom-control-label"
-                              htmlFor={value.feature}
+                              htmlFor={value.feature + " rent"}
                             >
                               {value.feature}
                             </label>
@@ -804,12 +808,12 @@ const Shopsidebar = ({ parentCallback }) => {
                             <input
                               type="checkbox"
                               className="custom-control-input"
-                              id={value.feature}
+                              id={value.feature + " rent"}
                               onChange={(e) => onChangeClimetFeatures(value.id)}
                             />
                             <label
                               className="custom-control-label"
-                              htmlFor={value.feature}
+                              htmlFor={value.feature + " rent"}
                             >
                               {value.feature}
                             </label>
@@ -826,12 +830,12 @@ const Shopsidebar = ({ parentCallback }) => {
                         <input
                           type="checkbox"
                           className="custom-control-input"
-                          id="Exclude under contract/offer"
+                          id="Exclude under contract/offer rent"
                           onChange={(e) => setFilterData({ ...filterData, 'is_under_offer': e.target.checked ? 1 : 0 })}
                         />
                         <label
                           className="custom-control-label"
-                          htmlFor="Exclude under contract/offer"
+                          htmlFor="Exclude under contract/offer rent"
                         >
                           Exclude under contract/offer
                         </label>
@@ -885,7 +889,7 @@ const Shopsidebar = ({ parentCallback }) => {
                         >
                           {pricerangelist &&
                             pricerangelist.map((value, index) => (
-                              <option value={value}>{value}</option>
+                              <option value={value.id}>{value.text}</option>
                             ))}
                         </select>
                       </div>
@@ -900,7 +904,7 @@ const Shopsidebar = ({ parentCallback }) => {
                         >
                           {pricerangelist &&
                             pricerangelist.map((value, index) => (
-                              <option value={value}>{value}</option>
+                              <option value={value.id}>{value.text}</option>
                             ))}
                         </select>
                       </div>
@@ -985,7 +989,7 @@ const Shopsidebar = ({ parentCallback }) => {
                         >
                           {carspaces &&
                             carspaces.map((value, index) => (
-                              <option value={index}>{value}</option>
+                              <option value={index + 1}>{value}</option>
                             ))}
                         </select>
                       </div>
@@ -1232,7 +1236,7 @@ const Shopsidebar = ({ parentCallback }) => {
                   <select className="form-control" name="pricerange" onChange={(e) => setMinFilterPrice(e.target.value)}>
                     <option value="">Select Price</option>
                     {pricerangelist.map((value, index) => (
-                      <option value={value}>{value}</option>
+                      <option value={value.id}>{value.text}</option>
                     ))}
                   </select>
                 </div>
@@ -1242,7 +1246,7 @@ const Shopsidebar = ({ parentCallback }) => {
                   <select className="form-control" name="pricerange" onChange={(e) => setMaxFilterPrice(e.target.value)}>
                     <option value="">Select Price</option>
                     {pricerangelist.map((value, index) => (
-                      <option value={value}>{value}</option>
+                      <option value={value.id}>{value.text}</option>
                     ))}
                   </select>
                 </div>

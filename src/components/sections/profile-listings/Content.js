@@ -136,10 +136,11 @@ const Content = ({ userData }) => {
                       )}
                     </div>
                     <div className="listing-controls">
+                      {/*
                       <Link to="#" className="favorite">
                         <i className="far fa-heart" />
                       </Link>
-
+                      */}
                     </div>
                   </div>
                   <div className="listing-body">

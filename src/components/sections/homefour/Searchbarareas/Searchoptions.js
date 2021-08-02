@@ -11,6 +11,7 @@ import { useEffect, useState } from "react";
 export const Searchoptions = () => {
 
     const [optionsData, setOptionsData] = useState();
+    const [suburbs, setSuburbs] = useState();
 
 
     const getSubCategories = async () => {
@@ -35,12 +36,12 @@ export const Searchoptions = () => {
     }, [])
 
     const beds = [
-        { text: "Any", id: 1 },
-        { text: "1 Bed", id: 2 },
-        { text: "2 Beds", id: 3 },
-        { text: "3 Beds", id: 4 },
-        { text: "4 Beds", id: 5 },
-        { text: "5 Beds", id: 6 },
+        { text: "Any", id: 0 },
+        { text: "1 Bed", id: 1 },
+        { text: "2 Beds", id: 2 },
+        { text: "3 Beds", id: 3 },
+        { text: "4 Beds", id: 4 },
+        { text: "5 Beds", id: 5 },
     ];
     return (
         <>
@@ -52,7 +53,7 @@ export const Searchoptions = () => {
                         options={{
                             placeholder: "Property Types",
                         }}
-                        name="subcategory"
+                        name="subcategory_id"
                     />
 
                 </div>
@@ -109,7 +110,7 @@ export const Searchoptions = () => {
                     className="form-group acr-custom-select"
                     style={{ marginTop: 20 }}
                 >
-                    <input type="checkbox" />
+                    <input type="checkbox" name="suburbs" value="1" />
                     <label style={{ marginLeft: 2, marginRight: 0 }}>
                         Surrounding suburbs
                     </label>

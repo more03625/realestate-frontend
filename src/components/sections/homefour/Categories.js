@@ -55,7 +55,7 @@ const Categories = () => {
                                                     <Link to={`/property-results?sub_category=${item.name.toLowerCase()}&subcategory_id=${item.id}`}><img src={process.env.REACT_APP_CONTENT_URL + "/categories/" + item.name.toLowerCase() + ".jpg"} alt="category" /></Link>
                                                     <div className="acr-category-body">
                                                         <h5> <Link to={`/property-results?sub_category=${item.name.toLowerCase()}&subcategory_id=${item.id}`}>{item.title}</Link> </h5>
-                                                        <span>{item.numberofitem} {item.name} Listings</span>
+                                                        <span>{item.numberofitem} {item.name} ( {item.count} Properties) </span>
                                                     </div>
                                                 </div>
                                             </div>

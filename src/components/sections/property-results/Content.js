@@ -240,21 +240,25 @@ const Content = ({ propertyType, searchQuery, searchResults, parentCallback, sub
                             <div className="acr-listing-active-filters">
                                 {
                                     subCategoryName && subCategoryID ?
-                                        <Link to={`?category=${subCategoryName}&category_id=${subCategoryID}`}>
-                                            <div className="close-btn close-dark">
-                                                <span />
-                                                <span />
-                                            </div>
-                                            {subCategoryName ? subCategoryName : propertyType}
-                                        </Link>
+                                        (
+                                            <Link to={`?sub_category=${subCategoryName}&subcategory_id=${subCategoryID}`}>
+                                                <div className="close-btn close-dark">
+                                                    <span />
+                                                    <span />
+                                                </div>
+                                                {subCategoryName ? subCategoryName : propertyType}
+                                            </Link>
+                                        )
                                         :
-                                        <Link to={`?search=${searchQuery}&property_type=${propertyType}`}>
-                                            <div className="close-btn close-dark">
-                                                <span />
-                                                <span />
-                                            </div>
-                                            {subCategoryName ? subCategoryName : propertyType}
-                                        </Link>
+                                        (
+                                            <Link to={`?search=${searchQuery}&property_type=${propertyType}`}>
+                                                <div className="close-btn close-dark">
+                                                    <span />
+                                                    <span />
+                                                </div>
+                                                {subCategoryName ? subCategoryName : propertyType}
+                                            </Link>
+                                        )
                                 }
                             </div>
                         </div>

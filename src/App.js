@@ -188,8 +188,8 @@ function App() {
 
           <Route path="/add-property">
             <Protected component={Submitlisting} />
-
           </Route>
+          <Route path="/find-agents" component={Agentarchive} />
           <Route path="/edit-property/:slug/:propertyID">
             <Protected component={Submitlisting} />
           </Route>
@@ -215,6 +215,7 @@ function App() {
             component={Profilesavedlistings}
           />
           {/* Agency */}
+          <Route path="/agent/:agentName/:agentID" component={Agentdetails} />
           <Route path="/agency-archive" component={Agencyarchive} />
           <Route path="/agency-details" component={Agencydetails} />
           <Route path="/subscribe-for-alerts" component={Alertssubscribe} />

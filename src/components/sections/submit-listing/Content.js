@@ -84,7 +84,7 @@ function Content() {
 
   const [categories, setCategories] = useState([]);
   const [subCategoriesWithCount, setSubCategoriesWithCount] = useState([]);
-
+  const [loadingButton, setLoadingButton] = useState(false);
   const [propertyTypes, setPropertyTypes] = useState();
   const { getRootProps, getInputProps } = useDropzone({
     accept: "image/*",
@@ -529,13 +529,11 @@ function Content() {
     }
   };
   const handleSubmit = (e) => {
+    setLoadingButton(true);
     e.preventDefault();
-
     if (isImageSelected.length == 0) {
       const imageObject = { images: 0, image: 0 };
       Object.assign(propertyData, imageObject); // object assign is used to update the propertyData object with imagesObject
-    } else {
-
     }
 
     Object.assign(propertyData, { 'features': selectedM });
@@ -557,6 +555,7 @@ function Content() {
         },
       })
         .then((response) => {
+          setLoadingButton(false);
           if (response.data.error === true) {
             errorToast(response.data.title);
           } else {
@@ -569,6 +568,8 @@ function Content() {
         .catch((error) => {
           errorToast();
         });
+    } else {
+      setLoadingButton(false);
     }
   };
   return (
@@ -620,6 +621,9 @@ function Content() {
                   <Tab.Pane eventKey="tab1">
                     <div className="row">
                       <div className="col-md-12 form-group">
+
+
+
                         <label className="required">Property Name</label>
                         <input
                           type="hidden"
@@ -1248,7 +1252,7 @@ function Content() {
                             bedslist.map((value, index) => (
                               <option value={index}>{value}</option>
                             ))}
-                        </select>
+                        </select>s
                       </div>
 
                       <div className="col-md-3 form-group">
@@ -1348,7 +1352,7 @@ function Content() {
                           <option>Floors</option>
                           {floorlist &&
                             floorlist.map((value, index) => (
-                              <option value={value}>{value}</option>
+                              <option value={index}>{value}</option>
                             ))}
                         </select>
                       </div>
@@ -1449,30 +1453,6 @@ function Content() {
                             ))}
                         </select>
                         <p style={errorStyle}>{propertyDataError.are_you}</p>
-                      </div>
-                      <div className="col-md-6 form-group">
-                        <label>Car spcaes</label>
-                        <select
-                          className="form-control"
-                          name="car_spaces"
-                          onChange={(e) =>
-                            setPropertyData({
-                              ...propertyData,
-                              car_spaces: e.target.value,
-                            })
-                          }
-                          value={
-                            propertyData && propertyData.car_spaces
-                              ? propertyData.car_spaces
-                              : ""
-                          }
-                        >
-                          <option>Select</option>
-                          {carspaces &&
-                            carspaces.map((value, index) => (
-                              <option value={index}>{value}</option>
-                            ))}
-                        </select>
                       </div>
 
                       <div className="col-md-6 form-group">
@@ -1706,8 +1686,13 @@ function Content() {
                                             </div>
                                         </div>
                                         */}
-                    <button type="submit" className="btn-custom" name="submit">
-                      Submit Listing
+                    <button type="submit" className="btn-custom" name="submit" disabled={loadingButton}>
+                      Add Property
+                      {loadingButton === true ?
+                        <div className="ml-1 spinner-border spinner-border-sm" role="status">
+                          <span className="sr-only">Loading...</span>
+                        </div> : ''
+                      }
                     </button>
                   </Tab.Pane>
                 </Tab.Content>

@@ -207,13 +207,13 @@ const Listingwrapper = () => {
             var url = Host + Endpoints.propertyEnquiry;
             var userData = {
                 email,
-                mobile:phone,
-                message:comment,
+                mobile: phone,
+                message: comment,
                 property_id: propertyID,
-                fullname:fname,
-                enquiry_date:'2020-05-12'
+                fullname: fname,
+                enquiry_date: '2020-05-12'
             }
-            
+
             Axios.post(url, userData).then((response) => {
                 if (response.data.error === true) {
                     errorToast(response.data.error);
@@ -600,7 +600,7 @@ const Listingwrapper = () => {
                                                         propertyDetails.features.outdoor ? propertyDetails.features.outdoor.map((value, index) => {
                                                             {
                                                                 return <div className="listing-feature">
-                                                                    <i className={`${value.icon}`} />
+                                                                    <i className={`flaticon-${value.icon}`} />
                                                                     <h6 className="listing-feature-label">
                                                                         {value.feature}
                                                                     </h6>
@@ -921,7 +921,7 @@ const Listingwrapper = () => {
                             {/* Listings End */}
                             {/* Sidebar Start */}
                             <div className="col-lg-4">
-                                <div style={{top:20}} className="sidebar sticky-sidebar sidebar-left agent-wrapper">
+                                <div style={{ top: 20 }} className="sidebar sticky-sidebar sidebar-left agent-wrapper">
                                     <div className="sidebar-widget sidebar-widget-agent">
                                         {/* Author Start */}
                                         <div className="media sidebar-author listing-agent">

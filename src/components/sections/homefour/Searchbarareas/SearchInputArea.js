@@ -104,7 +104,7 @@ export const FindAgents = () => {
     return (
         <div className="agency-content">
             <div className="sidebar-widget">
-                <form method="get" action="/property-results">
+                <form method="get" action="/find-agents">
                     <div className="search-wrapper">
                         <input
                             type="text"

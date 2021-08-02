@@ -15,9 +15,9 @@ const Propertyresults = () => {
     var maxBed = queryParams.get("max_beds");
     var minPrice = queryParams.get("min_price");
     var maxPrice = queryParams.get("max_price");
-    var subCategory = queryParams.get("subcategory");
     var subCategoryID = queryParams.get("subcategory_id");
     var subCategoryName = queryParams.get("sub_category");
+    var suburbs = queryParams.get("suburbs");
 
     const getSearchResults = () => {
         var searchURL = Host + Endpoints.getPropertiesWithFilters;
@@ -29,6 +29,7 @@ const Propertyresults = () => {
             "max_beds": maxBed,
             "min_price": minPrice,
             "max_price": maxPrice,
+            "suburbs": suburbs
         }
         Axios.post(searchURL, data)
             .then((response) => {
@@ -62,9 +63,7 @@ const Propertyresults = () => {
                 />
             </MetaTags>
             <Header />
-            {
-                subCategoryName !== null ? <Breadcrumb breadcrumb={{ pagename: `Results for ${subCategoryName}` }} /> : search == null && property_type !== null ? <Breadcrumb breadcrumb={{ pagename: `Results for ${property_type}` }} /> : <Breadcrumb breadcrumb={{ pagename: `Results for ${search}` }} />
-            }
+            <Breadcrumb breadcrumb={{ pagename: 'Results for properties' }} />
 
             <Content propertyType={property_type} searchQuery={search} searchResults={searchResults} parentCallback={handleCallback} subCategoryName={subCategoryName} subCategoryID={subCategoryID} />
             <Footer />
