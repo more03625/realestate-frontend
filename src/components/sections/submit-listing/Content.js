@@ -182,12 +182,11 @@ function Content() {
   const [isContactShow, setIsContactShow] = useState(false);
 
   const handleContactShow = (e) => {
-    alert(e.target.value)
     if (e.target.value == 0) {
 
       setIsContactShow(true);
       setPropertyData({
-        ...propertyData, name_for_contact: "Neprealestate", number_for_contact: "8108466415", email_for_contact: "admin@neprealestae.com", is_contact_show: e.target.value
+        ...propertyData, name_for_contact: "Neprealestate", number_for_contact: "9656696662", email_for_contact: "admin@neprealestae.com", is_contact_show: e.target.value
       })
 
     } else {
@@ -293,13 +292,12 @@ function Content() {
   const [selectedM, setSelectedM] = useState([]);
 
   const onChange = (id) => {
-    let selected = selectedM;
-    let find = selected.indexOf(id);
+    let find = selectedM.indexOf(id);
 
     if (find > -1) {
-      selected.splice(find, 1);
+      selectedM.splice(find, 1);
     } else {
-      selected.push(id);
+      selectedM.push(id);
     }
 
     setSelectedM(selectedM);
@@ -309,7 +307,7 @@ function Content() {
 
   const isValid = () => {
 
-    setPropertyData({ ...propertyData, features: selectedM });
+
     var emailValidator = new RegExp(
       /[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,15}/g
     ).test(propertyData.email_for_contact);
@@ -540,6 +538,10 @@ function Content() {
 
     }
 
+    Object.assign(propertyData, { 'features': selectedM });
+
+    console.log('Proper formated propertryData below!');
+    console.log(propertyData);
     if (isValid()) {
 
 
