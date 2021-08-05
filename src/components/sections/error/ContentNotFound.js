@@ -162,7 +162,7 @@ const Content = () => {
                                         </h5>
                                         <span className="listing-price">
                                             Rs. {new Number(item.price).toLocaleString()}
-                                            <span>/month</span>{" "}
+                                            <span> {item.price_on}</span>{" "}
                                         </span>
                                         <p className="listing-text">{item.text}</p>
                                         <div className="acr-listing-icons">

@@ -5387,6 +5387,11 @@ table img {
   color: #336aa8;
   width: 55px;
 }
+.propertyDetailsOtherDetails {
+  font-size: 18px;
+  color: #336aa8;
+  width: 34px;
+}
 .listing-feature h6 {
   margin: 0;
   font-size: 15px;

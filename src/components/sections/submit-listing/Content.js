@@ -15,7 +15,7 @@ import {
   carspaces,
   areaUnit,
   rooms,
-  featuresType, furnishing
+  featuresType, furnishing, priceOn
 } from "../../../data/select.json";
 
 import {
@@ -46,6 +46,7 @@ function Content() {
   const price = useRef();
   const image = useRef();
   const images = useRef();
+  const video_url = useRef();
   const address = useRef();
   const city = useRef();
   const state = useRef();
@@ -69,7 +70,37 @@ function Content() {
     color: "#28a745",
     fontSize: "14px",
   };
+  const thumbsContainer = {
+    display: 'flex',
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    marginTop: 16
+  };
 
+  const thumb = {
+    display: 'inline-flex',
+    borderRadius: 2,
+    border: '1px solid #eaeaea',
+    marginBottom: 8,
+    marginRight: 8,
+    width: 100,
+    height: 100,
+    padding: 4,
+    boxSizing: 'border-box'
+  };
+
+  const thumbInner = {
+    display: 'flex',
+    minWidth: 0,
+    overflow: 'hidden'
+  };
+
+  const img = {
+    display: 'block',
+    width: 'auto',
+    height: '100%',
+
+  };
   const history = useHistory();
   const { propertyID } = useParams();
 
@@ -82,23 +113,36 @@ function Content() {
   const [propertyDetails, setPropertyDetails] = useState([]);
   const [stepID, setStepID] = useState(1);
 
+  const [indoorFeatures, setIndoorFeatures] = useState([]);
+  const [outdoorFeatures, setOutdoorFeatures] = useState([]);
+  const [climateControlFeatures, setClimateControlFeatures] = useState([]);
+
   const [categories, setCategories] = useState([]);
   const [subCategoriesWithCount, setSubCategoriesWithCount] = useState([]);
   const [loadingButton, setLoadingButton] = useState(false);
   const [propertyTypes, setPropertyTypes] = useState();
+  const [isContactShow, setIsContactShow] = useState(false);
+
+
   const { getRootProps, getInputProps } = useDropzone({
-    accept: "image/*",
-    onDrop: (acceptedFiles) => {
-      setPropertyData(
-        ...propertyData,
-        acceptedFiles.map((file) =>
-          Object.assign(file, {
-            preview: URL.createObjectURL(file),
-          })
-        )
-      );
-    },
+    accept: 'image/*',
+    onDrop: acceptedFiles => {
+      setFiles(acceptedFiles.map(file => Object.assign(file, {
+        preview: URL.createObjectURL(file),
+        base64: convertToBase64(file),
+      })));
+    }
   });
+
+  const thumbs = files.map((file) => (
+    <div className="thumb" style={thumb} key={file.name}>
+      <div className="thumbInner" style={thumbInner}>
+        <img src={file.preview} alt="img" style={{ objectFit: 'contain' }} />
+      </div>
+    </div>
+  ));
+
+
   const getCategories = async () => {
     var url = Host + Endpoints.getCategories;
     var result = await Axios.get(url);
@@ -108,7 +152,7 @@ function Content() {
       setCategories(result.data.data.categories);
     }
   };
-  const getSubCategories = (categoryID = 1) => {
+  const getSubCategories = (categoryID = '') => {
     var url = Host + Endpoints.getPropertyCounts + categoryID;
     Axios.get(url).then((response) => {
       if (response.data.error === true) {
@@ -118,20 +162,17 @@ function Content() {
       }
     });
   };
-  const getPropertyTypes = (categoryID = 1) => {
+  const getPropertyTypes = (categoryID = '') => {
     var url = Host + Endpoints.getPropertyTypes + categoryID;
     Axios.get(url).then((response) => {
       if (response.data.error === true) {
         alert("There are some errors!");
       } else {
-        console.log(response.data.data);
         setPropertyTypes(response.data.data);
       }
     });
   };
-  const [indoorFeatures, setIndoorFeatures] = useState([]);
-  const [outdoorFeatures, setOutdoorFeatures] = useState([]);
-  const [climateControlFeatures, setClimateControlFeatures] = useState([]);
+
 
   const getIndoorFeatures = () => {
 
@@ -140,7 +181,6 @@ function Content() {
       if (response.data.error === true) {
         alert("There are some errors!");
       } else {
-        console.log(response.data.data);
         setIndoorFeatures(response.data.data.features);
       }
     });
@@ -151,7 +191,6 @@ function Content() {
       if (response.data.error === true) {
         alert("There are some errors!");
       } else {
-        console.log(response.data.data);
         setOutdoorFeatures(response.data.data.features);
       }
     });
@@ -163,7 +202,6 @@ function Content() {
       if (response.data.error === true) {
         alert("There are some errors!");
       } else {
-        console.log(response.data.data);
         setClimateControlFeatures(response.data.data.features);
       }
     });
@@ -179,7 +217,6 @@ function Content() {
     setPropertyData({ ...propertyData, state: e.target.value });
     getCities(e.target.value);
   }
-  const [isContactShow, setIsContactShow] = useState(false);
 
   const handleContactShow = (e) => {
     if (e.target.value == 0) {
@@ -217,20 +254,6 @@ function Content() {
     const base64Image = await convertToBase64(file);
     setPropertyData({ ...propertyData, image: base64Image });
   };
-  const uploadMultipleImages = async (e) => {
-    var images = e.target.files;
-
-    var base64Images = [];
-    for (var i = 0; i < images.length; i++) {
-      const multipleImages = await convertToBase64(images[i]);
-      base64Images.push(multipleImages);
-    }
-    setIsImageSelected({
-      ...isImageSelected,
-      images: `${images.length} images has been selected!`,
-    });
-    setPropertyData({ ...propertyData, images: base64Images });
-  };
   const convertToBase64 = (file) => {
     return new Promise((resolve, reject) => {
       const fileReader = new FileReader();
@@ -245,27 +268,35 @@ function Content() {
       };
     });
   };
-  const thumbs = files.map((file) => (
-    <div className="thumb" key={file.name}>
-      <div className="thumbInner">
-        <img src={file.preview} alt="img" />
-      </div>
-    </div>
-  ));
 
+  const dropZoneToBase64 = async (files) => {
+    var base64Images = [];
+    for (var i = 0; i < files.length; i++) {
+      const multipleImages = await convertToBase64(files[i]);
+
+      base64Images.push(multipleImages);
+    }
+    setIsImageSelected({
+      ...isImageSelected,
+      images: `${images.length} images has been selected!`,
+    });
+    setPropertyData({ ...propertyData, images: base64Images });
+  }
   const getPropertyDetails = () => {
     if (propertyID !== undefined) {
       var url = Host + Endpoints.getPropertyDetails + propertyID;
       Axios.get(url).then((response) => {
         if (response.data.error !== true) {
-          console.log(response.data.data)
-          setPropertyData(response.data.data);
 
-          // if (response.data.data.features.length > 0) { // to default checked
-          //     for (var i = 0; i < response.data.data.features.length; i++) {
-          //         selectedM.push(response.data.data.features[i].id);
-          //     }
-          // }
+          setPropertyData(response.data.data);
+          var abc = [];
+          if (response.data.data.features.length > 0) { // to default checked
+            for (var i = 0; i < response.data.data.features.length; i++) {
+              abc.push(response.data.data.features[i].id);
+            }
+            alert(abc)
+          }
+          console.log(response.data.data.features.length)
         }
       });
     }
@@ -275,17 +306,15 @@ function Content() {
     // Make sure to revoke the data uris to avoid memory leaks
     getStates();
     getPropertyDetails();
+    getPropertyTypes();
     getCities();
     getCategories();
     getSubCategories();
     getIndoorFeatures();
     getOutDoorFeatures();
     getClimateControlFeatures();
-    setPropertyData({
-      ...propertyData,
-      user_id: getUserToken().data.id,
-    });
-
+    setPropertyData({ ...propertyData, user_id: getUserToken().data.id, });
+    dropZoneToBase64(files)
     files.forEach((file) => URL.revokeObjectURL(file.preview));
   }, [files]);
 
@@ -304,7 +333,23 @@ function Content() {
 
     console.log(selectedM);
   };
+  function matchYoutubeUrl(e) {
+    var youtubeURL = e.target.value;
 
+    var p = /^(?:https?:\/\/)?(?:m\.|www\.)?(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))((\w|-){11})(?:\S+)?$/;
+    if (youtubeURL.match(p)) {
+      var youtubeVideoKey = youtubeURL.split("=");
+      setPropertyData({ ...propertyData, 'video_url': youtubeVideoKey[1] })
+      setPropertyDataError({ ...propertyDataError, 'video_url': '' });
+
+      return true;
+    } else {
+      setPropertyDataError({ ...propertyDataError, 'video_url': 'Only Youtube URL allowed!' });
+      return false;
+    }
+
+
+  }
   const isValid = () => {
 
 
@@ -352,7 +397,19 @@ function Content() {
       price.current.scrollIntoView();
       setPropertyDataError({ price: "Please add price!" });
       return false;
-    } else if (
+    }
+    else if (
+      propertyData.price_on === "" ||
+      propertyData.price_on === null ||
+      propertyData.price_on === undefined
+    ) {
+      errorToast("Please select price on!");
+      document.getElementById("tab1").click();
+      price.current.scrollIntoView();
+      setPropertyDataError({ price_on: "This field is required" });
+      return false;
+    }
+    else if (
       propertyData.category === "" ||
       propertyData.category === null ||
       propertyData.category === undefined
@@ -394,7 +451,9 @@ function Content() {
         images: "Please images to your property Gallary",
       });
       return false;
-    } else if (
+    }
+
+    else if (
       propertyData.state === "" ||
       propertyData.state === null ||
       propertyData.state === undefined
@@ -692,7 +751,7 @@ function Content() {
                           <option value="">category</option>
                           {categories &&
                             categories.map((value, index) => (
-                              <option value={value.id}>{value.name}</option>
+                              <option key={index} value={value.id}>{value.name}</option>
                             ))}
                         </select>
                         <p style={errorStyle}>{propertyDataError.category}</p>
@@ -719,7 +778,7 @@ function Content() {
                           <option value="">Property Type</option>
                           {propertyTypes &&
                             propertyTypes.map((value, index) => (
-                              <option value={lowercaseFirstLetter(value.name)}>
+                              <option key={index} value={lowercaseFirstLetter(value.name)}>
                                 {uppercaseFirstLetter(value.name)}
                               </option>
                             ))}
@@ -742,16 +801,12 @@ function Content() {
                               subcategory: e.target.value,
                             })
                           }
-                          value={
-                            propertyData && propertyData.subcategory
-                              ? propertyData.subcategory
-                              : ""
-                          }
+                          value={propertyData && propertyData.subcategory ? propertyData.subcategory : ""}
                         >
                           <option value="">Sub category</option>
                           {subCategoriesWithCount &&
                             subCategoriesWithCount.map((value, index) => (
-                              <option value={value.id}>{uppercaseFirstLetter(value.name)}</option>
+                              <option key={index} value={value.id}>{uppercaseFirstLetter(value.name)}</option>
                             ))}
                         </select>
                         <p style={errorStyle}>
@@ -760,7 +815,7 @@ function Content() {
                       </div>
 
                       <div className="col-md-6 form-group">
-                        <label className="required">Property Min Price</label>
+                        <label className="required">Property Price</label>
                         <div className="input-group">
                           <div className="input-group-prepend">
                             <span className="input-group-text">&#8377;</span>
@@ -793,7 +848,7 @@ function Content() {
                                                     <option>Select</option>
                                                     {
                                                         areaUnit.map((value, index) => (
-                                                            <option value={index}>{value}</option>
+                                                            <option key={index} value={index}>{value}</option>
 
                                                         ))
                                                     }
@@ -801,6 +856,31 @@ function Content() {
                                                 <p style={errorStyle}>{propertyDataError.price_per_area_unit}</p>
                                             </div>
                                             */}
+                      <div className="col-md-6 form-group">
+                        <label className="required">Price On</label>
+                        <select
+                          className="form-control"
+                          name="price_on"
+                          onChange={(e) =>
+                            setPropertyData({
+                              ...propertyData,
+                              price_on: e.target.value,
+                            })
+                          }
+                          value={propertyData && propertyData.price_on}
+                        >
+                          <option value="">Select</option>
+                          {
+                            priceOn && priceOn.map((value, index) => (
+                              <option key={index} value={value}>{value}</option>
+
+                            ))
+                          }
+                        </select>
+                        <p style={errorStyle}>{propertyDataError.price_on}</p>
+
+                      </div>
+
                       <div className="col-md-6 form-group">
                         <label>Price Negotiable?</label>
                         <select
@@ -812,11 +892,7 @@ function Content() {
                               price_negotiable: e.target.value,
                             })
                           }
-                          value={
-                            propertyData && propertyData.price_negotiable
-                              ? "1"
-                              : "0"
-                          }
+                          value={propertyData && propertyData.price_negotiable == "1" ? "1" : "0"}
                         >
                           <option value="">Select</option>
                           <option value="0">No</option>
@@ -854,19 +930,18 @@ function Content() {
                         type="text"
                         className="form-control"
                         placeholder="https://www.youtube.com/watch?v=m2Ux2PnJe6E"
-                        onChange={(e) =>
-                          setPropertyData({
-                            ...propertyData,
-                            video_url: e.target.value,
-                          })
-                        }
+                        onChange={(e) => matchYoutubeUrl(e)}
+                        ref={video_url}
                         defaultValue={
                           propertyData && propertyData.video_url
-                            ? propertyData.video_url
+                            ? "https://www.youtube.com/watch?v=" + propertyData.video_url
                             : ""
                         }
                       />
+                      <p style={errorStyle}>{propertyDataError.video_url}</p>
+
                     </div>
+                    {/*
                     <div className="form-group">
                       <label className="required">Add Image Gallary</label>
                       <div className="custom-file">
@@ -892,27 +967,24 @@ function Content() {
                       <p style={successStyle}>{isImageSelected.images}</p>
                     </div>
 
-                    {/*
-                                            Add price per unit in `Property Min Price`
-                                            Add Youtube Video URL in step 2
-                                            get State & city in step 3
-                                        <div className="form-group">
-                                            <label>Property Gallery</label>
-                                            <div {...getRootProps({ className: 'dropzone' })}>
-                                                <input {...getInputProps()} />
-                                                <div className="dropzone-msg dz-message needsclick">
-                                                    <i className="fas fa-cloud-upload-alt" />
-                                                    <h5 className="dropzone-msg-title">Drop files here or click to upload.</h5>
-                                                    <span className="dropzone-msg-desc">This is just a demo dropzone. Selected files are <strong>not</strong> actually uploaded.</span>
-                                                </div>
-                                            </div>
-                                            <aside className="thumbsContainer">
-                                                {thumbs}
-                                            </aside>
-                                            <span className="acr-form-notice">*You can upload up to 5 images for your listing</span>
-                                            <span className="acr-form-notice">*Listing images should be atleast 620x480 in dimensions</span>
-                                        </div>
-                                        */}
+*/}
+                    <div className="form-group">
+                      <label>Property Gallery</label>
+                      <div {...getRootProps({ className: 'dropzone' })}>
+                        <input {...getInputProps()} />
+                        <div className="dropzone-msg dz-message needsclick">
+                          <i className="fas fa-cloud-upload-alt" />
+                          <h5 className="dropzone-msg-title">Drop files here or click to upload.</h5>
+                          <span className="dropzone-msg-desc">This is just a demo dropzone. Selected files are <strong>not</strong> actually uploaded.</span>
+                        </div>
+                      </div>
+                      <aside className="thumbsContainer" style={thumbsContainer}>
+                        {thumbs}
+                      </aside>
+                      <span className="acr-form-notice">*You can upload up to 5 images for your listing</span>
+                      <span className="acr-form-notice">*Listing images should be atleast 620x480 in dimensions</span>
+                    </div>
+
                   </Tab.Pane>
                   <Tab.Pane eventKey="tab3">
                     {/*<Locationtab />*/}
@@ -935,7 +1007,7 @@ function Content() {
                           <option value="">Select State</option>
                           {states &&
                             states.map((value, index) => (
-                              <option value={value.id}>
+                              <option key={index} value={value.id}>
                                 {value.state_name}
                               </option>
                             ))}
@@ -964,7 +1036,7 @@ function Content() {
                           <option value="">Select City</option>
                           {cities &&
                             cities.map((value, index) => (
-                              <option value={value.id}>
+                              <option key={index} value={value.id}>
                                 {value.city_name}
                               </option>
                             ))}
@@ -1066,7 +1138,7 @@ function Content() {
                           <option>Select</option>
                           {areaUnit &&
                             areaUnit.map((value, index) => (
-                              <option value={value}>
+                              <option key={index} value={value}>
                                 {uppercaseFirstLetter(value)}
                               </option>
                             ))}
@@ -1096,7 +1168,7 @@ function Content() {
                           <option>Select Facing</option>
                           {facing &&
                             facing.map((value, index) => (
-                              <option value={value}>{value}</option>
+                              <option key={index} value={value}>{value}</option>
                             ))}
                         </select>
                       </div>
@@ -1121,7 +1193,7 @@ function Content() {
                           <option>Select Road Type</option>
                           {roadType &&
                             roadType.map((value, index) => (
-                              <option value={value}>{value}</option>
+                              <option key={index} value={value}>{value}</option>
                             ))}
                         </select>
                       </div>
@@ -1250,9 +1322,9 @@ function Content() {
                           <option value="">Select beds</option>
                           {bedslist &&
                             bedslist.map((value, index) => (
-                              <option value={index}>{value}</option>
+                              <option key={index} value={index}>{value}</option>
                             ))}
-                        </select>s
+                        </select>
                       </div>
 
                       <div className="col-md-3 form-group">
@@ -1276,7 +1348,7 @@ function Content() {
                           <option value="">Select beds</option>
                           {rooms &&
                             rooms.map((value, index) => (
-                              <option value={index}>{value}</option>
+                              <option key={index} value={index}>{value}</option>
                             ))}
                         </select>
                       </div>
@@ -1301,7 +1373,7 @@ function Content() {
                           <option>Bathrooms</option>
                           {bathroomslist &&
                             bathroomslist.map((value, index) => (
-                              <option value={index}>{value}</option>
+                              <option key={index} value={index}>{value}</option>
                             ))}
                         </select>
                       </div>
@@ -1326,7 +1398,7 @@ function Content() {
                           <option>Select garage</option>
                           {carspaces &&
                             carspaces.map((value, index) => (
-                              <option value={index}>{value}</option>
+                              <option key={index} value={index}>{value}</option>
                             ))}
                         </select>
                       </div>
@@ -1352,7 +1424,7 @@ function Content() {
                           <option>Floors</option>
                           {floorlist &&
                             floorlist.map((value, index) => (
-                              <option value={index}>{value}</option>
+                              <option key={index} value={index}>{value}</option>
                             ))}
                         </select>
                       </div>
@@ -1377,7 +1449,7 @@ function Content() {
                           <option>Select</option>
                           {carspaces &&
                             carspaces.map((value, index) => (
-                              <option value={index}>{value}</option>
+                              <option key={index} value={index}>{value}</option>
                             ))}
                         </select>
                       </div>
@@ -1393,11 +1465,7 @@ function Content() {
                               pets_considere: e.target.value,
                             })
                           }
-                          value={
-                            propertyData && propertyData.pets_considere
-                              ? propertyData.pets_considere
-                              : ""
-                          }
+                          value={propertyData && propertyData.pets_considere == "1" ? "1" : "0"}
                         >
                           <option>Pets?</option>
                           <option value="1">YES</option>
@@ -1425,7 +1493,7 @@ function Content() {
                           <option>Furnished?</option>
                           {furnishing &&
                             furnishing.map((value, index) => (
-                              <option value={value}>{value}</option>
+                              <option key={index} value={value}>{value}</option>
                             ))}
                         </select>
                       </div>
@@ -1449,7 +1517,7 @@ function Content() {
                         >
                           {userTypeDrop &&
                             userTypeDrop.map((value, index) => (
-                              <option value={value}>{value}</option>
+                              <option key={index} value={value}>{value}</option>
                             ))}
                         </select>
                         <p style={errorStyle}>{propertyDataError.are_you}</p>
@@ -1494,7 +1562,7 @@ function Content() {
                         >
                           {buildType &&
                             buildType.map((value, index) => (
-                              <option value={value}>{value}</option>
+                              <option key={index} value={value}>{value}</option>
                             ))}
                         </select>
                       </div>
@@ -1510,9 +1578,7 @@ function Content() {
                             })
                           }
                           value={
-                            propertyData && propertyData.is_under_offer
-                              ? "1"
-                              : "0"
+                            propertyData && propertyData.is_under_offer == "1" ? "1" : "0"
                           }
                         >
                           <option value="">Select</option>
@@ -1529,7 +1595,9 @@ function Content() {
                           name="is_contact_show"
                           ref={is_contact_show}
                           onChange={(e) => handleContactShow(e)}
-
+                          value={
+                            propertyData && propertyData.is_contact_show == "1" ? "1" : "0"
+                          }
                         >
                           <option value="">Select</option>
                           <option value="1">Yes</option>

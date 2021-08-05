@@ -1,15 +1,16 @@
 import Select2 from "react-select2-wrapper";
 
 import {
-    pricerangelist,
+    pricerangelist, options
 
 } from "../../../../data/select.json";
 import Axios from "axios";
 import { Endpoints, Host } from "../../../../helper/comman_helper";
 import { useEffect, useState } from "react";
+import ReactMultiSelectCheckboxes from "react-multiselect-checkboxes";
 
 export const Searchoptions = () => {
-
+    const [selectedOptions, setSelectedOptions] = useState([]);
     const [optionsData, setOptionsData] = useState();
     const [suburbs, setSuburbs] = useState();
 
@@ -30,9 +31,32 @@ export const Searchoptions = () => {
             setOptionsData({ ...optionsData, 'categories': subCategoryName });
         }
     }
-
+    function onChange(value, event) {
+        if (event.action === "select-option" && event.option.value === "*") {
+            this.setState(this.options);
+        } else if (
+            event.action === "deselect-option" &&
+            event.option.value === "*"
+        ) {
+            this.setState([]);
+        } else if (event.action === "deselect-option") {
+            this.setState(value.filter((o) => o.value !== "*"));
+        } else if (value.length === this.options.length - 1) {
+            this.setState(this.options);
+        } else {
+            this.setState(value);
+        }
+    }
+    function getDropdownButtonLabel({ placeholderButtonLabel, value }) {
+        if (value && value.some((o) => o.value === "*")) {
+            return `${placeholderButtonLabel}: All`;
+        } else {
+            return `${placeholderButtonLabel}: ${value.length} selected`;
+        }
+    }
     useEffect(() => {
         getSubCategories();
+        setSelectedOptions([{ label: "All", value: "*" }, ...options]);
     }, [])
 
     const beds = [
@@ -47,6 +71,7 @@ export const Searchoptions = () => {
         <>
             <div className="col-lg-2 col-md-6">
                 <div className="form-group acr-custom-select">
+
 
                     <Select2
                         data={optionsData && optionsData.categories}

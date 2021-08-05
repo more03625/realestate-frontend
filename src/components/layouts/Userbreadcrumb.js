@@ -14,7 +14,7 @@ const Userbreadcrumb = ({ userData }) => {
                         <h3 className="text-white">{userData.name}</h3>
                         <span className="user-email">{userData.email}</span>
                     </div>
-                    <Link to="/add-property" className="btn-custom secondary mr-0">Submit Listing <i className="fas mr-0 fa-plus" /> </Link>
+                    <Link to="/add-property" className="btn-custom secondary mr-0">Add Property <i className="fas mr-0 fa-plus" /> </Link>
                 </div>
             </div>
         </div>

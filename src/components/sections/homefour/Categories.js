@@ -41,18 +41,20 @@ const Categories = () => {
     return (
         <div className="section section-padding">
             <div className="container">
-                <div class="section-title-wrap section-header"><h5 class="custom-primary">Categories</h5><h2 class="title">Browse By Category</h2></div>
+                <div className="section-title-wrap section-header"><h5 className="custom-primary">Categories</h5><h2 className="title">Browse By Category</h2></div>
                 <Tabs className="justify-content-center" defaultActiveKey={categories && categories[0] && categories[0].id} onSelect={(e) => handleSelect(e)} id="uncontrolled-tab-example" >
                     {categories &&
                         categories.map((value, index) => (
-                            <Tab eventKey={value.id} title={value.name} >
+                            <Tab key={index} eventKey={value.id} title={value.name} >
                                 <div className="row">
                                     {subCategoriesWithCount && subCategoriesWithCount.map((item, i) => (
                                         <div key={i} className="col-lg-4 col-md-6">
                                             <div className="acr-category">
-                                                <div className="acr-category-thumb">
+                                                <div className="acr-category-thumb" >
                                                     <i className={"flaticon-company"} />
-                                                    <Link to={`/property-results?sub_category=${item.name.toLowerCase()}&subcategory_id=${item.id}`}><img src={process.env.REACT_APP_CONTENT_URL + "/categories/" + item.name.toLowerCase() + ".jpg"} alt="category" /></Link>
+                                                    <Link to={`/property-results?sub_category=${item.name.toLowerCase()}&subcategory_id=${item.id}`}>
+                                                        <img src={process.env.REACT_APP_CONTENT_URL + "/categories/" + item.name.toLowerCase() + ".jpg"} alt="category" />
+                                                    </Link>
                                                     <div className="acr-category-body">
                                                         <h5> <Link to={`/property-results?sub_category=${item.name.toLowerCase()}&subcategory_id=${item.id}`}>{item.title}</Link> </h5>
                                                         <span>{item.numberofitem} {item.name} ( {item.count} Properties) </span>

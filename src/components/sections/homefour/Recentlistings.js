@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { OverlayTrigger, Tooltip, Dropdown, NavLink } from "react-bootstrap";
 import listing from "../../../data/listings.json";
 import Axios from 'axios';
-import { openInGmail, saveProperty, Endpoints, Host, convertToSlug } from "../../../helper/comman_helper";
+import { openInGmail, saveProperty, Endpoints, Host, convertToSlug, uppercaseFirstLetter } from "../../../helper/comman_helper";
 
 const gallerytip = <Tooltip>Gallery</Tooltip>;
 const bedstip = <Tooltip>Beds</Tooltip>;
@@ -62,18 +62,33 @@ const Recentlisting = () => {
                     ) : (
                       ""
                     )}
-                    {item.sale === true ? (
-                      <span className="listing-badge sale">On Sale</span>
+                    {item.property_type === "buy" ? (
+                      <span className="listing-badge sale">{uppercaseFirstLetter(item.property_type)}</span>
                     ) : (
                       ""
                     )}
-                    {item.pending === true ? (
-                      <span className="listing-badge pending"> Pending</span>
+                    {item.property_type === "sold" ? (
+                      <span className="listing-badge pending">{uppercaseFirstLetter(item.property_type)}</span>
                     ) : (
                       ""
                     )}
-                    {item.rental === true ? (
-                      <span className="listing-badge rent"> Rental</span>
+                    {item.property_type === "rent" ? (
+                      <span className="listing-badge rent">{uppercaseFirstLetter(item.property_type)}</span>
+                    ) : (
+                      ""
+                    )}
+                    {item.property_type === "share" ? (
+                      <span className="listing-badge rent">{uppercaseFirstLetter(item.property_type)}</span>
+                    ) : (
+                      ""
+                    )}
+                    {item.property_type === "invest" ? (
+                      <span className="listing-badge sale">{uppercaseFirstLetter(item.property_type)}</span>
+                    ) : (
+                      ""
+                    )}
+                    {item.property_type === "lease" ? (
+                      <span className="listing-badge sale">{uppercaseFirstLetter(item.property_type)}</span>
                     ) : (
                       ""
                     )}
@@ -137,7 +152,7 @@ const Recentlisting = () => {
                   </h5>
                   <span className="listing-price">
                     Rs. {new Number(item.price).toLocaleString()}
-                    <span>/month</span>{" "}
+                    <span> {item.price_on}</span>{" "}
                   </span>
                   <p className="listing-text">{item.text}</p>
                   <div className="acr-listing-icons">
@@ -174,7 +189,7 @@ const Recentlisting = () => {
                       View Details
                     </Link>
                     <OverlayTrigger overlay={gallerytip}>
-                      <Link to="#" className="listing-gallery">
+                      <Link to={`property/${convertToSlug(item.title)}/${item.id}`} className="listing-gallery">
                         {" "}
                         <i className="fas fa-camera" />{" "}
                       </Link>

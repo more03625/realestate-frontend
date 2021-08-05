@@ -312,7 +312,7 @@ const Content = ({ agentData, agentProperties, similarAgents }) => {
                           </h5>
                           <span className="listing-price">
                             Rs. {new Number(item.price).toLocaleString()}
-                            <span>/month</span>{" "}
+                            <span> {item.price_on}</span>{" "}
                           </span>
                           <p className="listing-text">{item.text}</p>
                           <div className="acr-listing-icons">
@@ -384,7 +384,6 @@ const Content = ({ agentData, agentProperties, similarAgents }) => {
                     <div className="acr-dots" />
                     <Link to={`/agent/${convertToSlug(item.name) + "/" + item.id}`}>
                       <img
-
                         src={
                           item.profile_image ? process.env.REACT_APP_CONTENT_URL + item.profile_image +
                             "_small.jpg" : process.env.REACT_APP_CONTENT_URL + "/users/default.png"

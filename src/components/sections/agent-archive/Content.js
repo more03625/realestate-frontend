@@ -34,7 +34,7 @@ const Content = ({ agents, recentProperties, subCategoriesWithCount }) => {
     const indexOfLastitem = currentPage * itemsPerPage;
     const indexOfFirstitem = indexOfLastitem - itemsPerPage;
     const currentitems = agents && agents.slice(indexOfFirstitem, indexOfLastitem);
-    console.log(currentitems)
+
     const renderitems = currentitems.length > 0 ? (
         currentitems.map((item, i) => {
             var url = "agent" + "/" + convertToSlug(item.name) + "/" + item.id;
@@ -102,7 +102,7 @@ const Content = ({ agents, recentProperties, subCategoriesWithCount }) => {
                                                     {item.title}
                                                 </Link>{" "}
                                             </h6>a
-                                            <span className="listing-price">Rs. {new Number(item.price).toLocaleString()}</span>
+                                            <span className="listing-price">Rs. {new Number(item.price).toLocaleString()}  {item.price_on}</span>
                                         </div>
                                     </div>
                                 ))}

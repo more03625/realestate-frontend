@@ -65,7 +65,6 @@ const Shopsidebar = ({ parentCallback }) => {
       locationArray.push(value.state_name);
     }
     setStates(result.data.data);
-
   };
   const getRecentProperties = () => {
     var url = Host + Endpoints.getRecentProperties;
@@ -97,14 +96,13 @@ const Shopsidebar = ({ parentCallback }) => {
     e.preventDefault();
 
     var data = {
-
-      "category": filterCategory,
+      "category": filterCategory !== null ? filterCategory.toString() : filterCategory,
       "state": filterState,
       "min_price": minFilterPrice,
       "max_price": maxFilterPrice,
       "min_bedroom": filterBeds,
       "min_bathrooms": filterBathrooms,
-      "subcategory": filterSubCategories,
+      "subcategory": filterSubCategories !== null ? filterSubCategories.toString() : filterSubCategories,
     }
 
     var filterURL = Host + Endpoints.getPropertiesWithFilters;
@@ -171,8 +169,8 @@ const Shopsidebar = ({ parentCallback }) => {
       { 'outdoor_features': '' }, { 'climate_features': '' }, { 'property_type': '' }
     );
 
-    var data = Object.assign(filterData, { 'subcategory': selectedM }, { 'indoor_features': selectedIndoorFeatures },
-      { 'outdoor_features': selectedOutdoorFeatures }, { 'climate_features': selectedClimateFeatures }, { 'property_type': formName }
+    var data = Object.assign(filterData, { 'subcategory': selectedM !== null ? selectedM.toString() : selectedM }, { 'indoor_features': selectedIndoorFeatures !== null ? selectedIndoorFeatures.toString() : selectedIndoorFeatures },
+      { 'outdoor_features': selectedOutdoorFeatures.toString() }, { 'climate_features': selectedClimateFeatures !== null ? selectedClimateFeatures.toString() : selectedClimateFeatures }, { 'property_type': formName }
     );
     var url = Host + Endpoints.getPropertiesWithFilters;
     Axios.post(url, data)
@@ -258,7 +256,7 @@ const Shopsidebar = ({ parentCallback }) => {
                   <div className="row">
                     {subCategories &&
                       subCategories.map((value, index) => (
-                        <div className="custom-control custom-checkbox col-lg-6 col-md-6">
+                        <div key={index} className="custom-control custom-checkbox col-lg-6 col-md-6">
                           <input
                             type="checkbox"
                             className="custom-control-input"
@@ -330,7 +328,7 @@ const Shopsidebar = ({ parentCallback }) => {
                           <option value="">Select beds</option>
                           {bedslist &&
                             bedslist.map((value, index) => (
-                              <option value={index}>{value}</option>
+                              <option key={index} value={index}>{value}</option>
                             ))}
                         </select>
                       </div>
@@ -346,7 +344,7 @@ const Shopsidebar = ({ parentCallback }) => {
                           <option value="">Select beds</option>
                           {bedslist &&
                             bedslist.map((value, index) => (
-                              <option value={index}>{value}</option>
+                              <option key={index} value={index}>{value}</option>
                             ))}
                         </select>
                       </div>
@@ -369,7 +367,7 @@ const Shopsidebar = ({ parentCallback }) => {
                           <option value="">Select beds</option>
                           {bathroomslist &&
                             bathroomslist.map((value, index) => (
-                              <option value={index}>{value}</option>
+                              <option key={index} value={index}>{value}</option>
                             ))}
                         </select>
                       </div>
@@ -391,7 +389,7 @@ const Shopsidebar = ({ parentCallback }) => {
                         >
                           {carspaces &&
                             carspaces.map((value, index) => (
-                              <option value={index + 1}>{value}</option>
+                              <option key={index} value={index + 1}>{value}</option>
                             ))}
                         </select>
                       </div>
@@ -414,7 +412,7 @@ const Shopsidebar = ({ parentCallback }) => {
                           <option value="">Any</option>
                           {areaSize &&
                             areaSize.map((value, index) => (
-                              <option value={value}>{value}</option>
+                              <option key={index} value={value}>{value}</option>
                             ))}
                         </select>
                       </div>
@@ -557,7 +555,7 @@ const Shopsidebar = ({ parentCallback }) => {
                   <div className="row">
                     {subCategories &&
                       subCategories.map((value, index) => (
-                        <div className="custom-control custom-checkbox col-lg-6 col-md-6">
+                        <div key={index} className="custom-control custom-checkbox col-lg-6 col-md-6">
                           <input
                             type="checkbox"
                             className="custom-control-input"
@@ -590,7 +588,7 @@ const Shopsidebar = ({ parentCallback }) => {
                         >
                           {pricerangelist &&
                             pricerangelist.map((value, index) => (
-                              <option value={value.id}>{value.text}</option>
+                              <option key={index} value={value.id}>{value.text}</option>
                             ))}
                         </select>
                       </div>
@@ -605,7 +603,7 @@ const Shopsidebar = ({ parentCallback }) => {
                         >
                           {pricerangelist &&
                             pricerangelist.map((value, index) => (
-                              <option value={value.id}>{value.text}</option>
+                              <option key={index} value={value.id}>{value.text}</option>
                             ))}
                         </select>
                       </div>
@@ -629,7 +627,7 @@ const Shopsidebar = ({ parentCallback }) => {
                           <option value="">Select beds</option>
                           {bedslist &&
                             bedslist.map((value, index) => (
-                              <option value={index}>{value}</option>
+                              <option key={index} value={index}>{value}</option>
                             ))}
                         </select>
                       </div>
@@ -645,7 +643,7 @@ const Shopsidebar = ({ parentCallback }) => {
                           <option value="">Select beds</option>
                           {bedslist &&
                             bedslist.map((value, index) => (
-                              <option value={index}>{value}</option>
+                              <option key={index} value={index}>{value}</option>
                             ))}
                         </select>
                       </div>
@@ -668,7 +666,7 @@ const Shopsidebar = ({ parentCallback }) => {
                           <option value="">Select beds</option>
                           {bathroomslist &&
                             bathroomslist.map((value, index) => (
-                              <option value={index}>{value}</option>
+                              <option key={index} value={index}>{value}</option>
                             ))}
                         </select>
                       </div>
@@ -690,7 +688,7 @@ const Shopsidebar = ({ parentCallback }) => {
                         >
                           {carspaces &&
                             carspaces.map((value, index) => (
-                              <option value={index + 1}>{value}</option>
+                              <option key={index} value={index + 1}>{value}</option>
                             ))}
                         </select>
                       </div>
@@ -713,7 +711,7 @@ const Shopsidebar = ({ parentCallback }) => {
                           <option value="">Any</option>
                           {areaSize &&
                             areaSize.map((value, index) => (
-                              <option value={value}>{value}</option>
+                              <option key={index} value={value}>{value}</option>
                             ))}
                         </select>
                       </div>
@@ -856,7 +854,7 @@ const Shopsidebar = ({ parentCallback }) => {
                   <div className="row">
                     {subCategories &&
                       subCategories.map((value, index) => (
-                        <div className="custom-control custom-checkbox col-lg-6 col-md-6">
+                        <div key={index} className="custom-control custom-checkbox col-lg-6 col-md-6">
                           <input
                             type="checkbox"
                             className="custom-control-input"
@@ -889,7 +887,7 @@ const Shopsidebar = ({ parentCallback }) => {
                         >
                           {pricerangelist &&
                             pricerangelist.map((value, index) => (
-                              <option value={value.id}>{value.text}</option>
+                              <option key={index} value={value.id}>{value.text}</option>
                             ))}
                         </select>
                       </div>
@@ -904,7 +902,7 @@ const Shopsidebar = ({ parentCallback }) => {
                         >
                           {pricerangelist &&
                             pricerangelist.map((value, index) => (
-                              <option value={value.id}>{value.text}</option>
+                              <option key={index} value={value.id}>{value.text}</option>
                             ))}
                         </select>
                       </div>
@@ -928,7 +926,7 @@ const Shopsidebar = ({ parentCallback }) => {
                           <option value="">Select beds</option>
                           {bedslist &&
                             bedslist.map((value, index) => (
-                              <option value={index}>{value}</option>
+                              <option key={index} value={index}>{value}</option>
                             ))}
                         </select>
                       </div>
@@ -944,7 +942,7 @@ const Shopsidebar = ({ parentCallback }) => {
                           <option value="">Select beds</option>
                           {bedslist &&
                             bedslist.map((value, index) => (
-                              <option value={index}>{value}</option>
+                              <option key={index} value={index}>{value}</option>
                             ))}
                         </select>
                       </div>
@@ -967,7 +965,7 @@ const Shopsidebar = ({ parentCallback }) => {
                           <option value="">Select beds</option>
                           {bathroomslist &&
                             bathroomslist.map((value, index) => (
-                              <option value={index}>{value}</option>
+                              <option key={index} value={index}>{value}</option>
                             ))}
                         </select>
                       </div>
@@ -989,7 +987,7 @@ const Shopsidebar = ({ parentCallback }) => {
                         >
                           {carspaces &&
                             carspaces.map((value, index) => (
-                              <option value={index + 1}>{value}</option>
+                              <option key={index} value={index + 1}>{value}</option>
                             ))}
                         </select>
                       </div>
@@ -1012,7 +1010,7 @@ const Shopsidebar = ({ parentCallback }) => {
                           <option value="">Any</option>
                           {areaSize &&
                             areaSize.map((value, index) => (
-                              <option value={value}>{value}</option>
+                              <option key={index} value={value}>{value}</option>
                             ))}
                         </select>
                       </div>
@@ -1187,22 +1185,22 @@ const Shopsidebar = ({ parentCallback }) => {
                     <option value="Any">Any States</option>
                     {states &&
                       states.map((value, index) => (
-                        <option value={value.id}>{value.state_name}</option>
+                        <option key={index} value={value.id}>{value.state_name}</option>
                       ))
                     }
                   </select>
                 </div>
                 {/*
-                <div className="form-group">
-                  <label>Select category</label>
-                  <select className="form-control" name="category" onChange={(e) => setFilterCategory(e.target.value)}>
-                    <option value="">Select category</option>
-                    {category.map((value, index) => (
-                      <option value={index}>{value}</option>
-                    ))}
-                  </select>
-                </div>
-            */}
+                    <div className="form-group">
+                      <label>Select category</label>
+                      <select className="form-control" name="category" onChange={(e) => setFilterCategory(e.target.value)}>
+                        <option value="">Select category</option>
+                        {category.map((value, index) => (
+                          <option value={index}>{value}</option>
+                        ))}
+                      </select>
+                    </div>
+                */}
                 {location.pathname != '/commercial' ? (
                   <div className="form-group">
                     <label>Select Beds</label>
@@ -1210,7 +1208,7 @@ const Shopsidebar = ({ parentCallback }) => {
                     <select className="form-control" name="beds" onChange={(e) => setFilterBeds(e.target.value)}>
                       <option value="">Select Beds</option>
                       {bedslist.map((value, index) => (
-                        <option value={index}>{value}</option>
+                        <option key={index} value={index}>{value}</option>
                       ))}
                     </select>
                   </div>
@@ -1223,7 +1221,7 @@ const Shopsidebar = ({ parentCallback }) => {
                     <select className="form-control" name="bathrooms" onChange={(e) => setFilterBathrooms(e.target.value)}>
                       <option value="">Select Bathrooms</option>
                       {bathroomslist.map((value, index) => (
-                        <option value={index}>{value}</option>
+                        <option key={index} value={index}>{value}</option>
                       ))}
                     </select>
                   </div>
@@ -1236,7 +1234,7 @@ const Shopsidebar = ({ parentCallback }) => {
                   <select className="form-control" name="pricerange" onChange={(e) => setMinFilterPrice(e.target.value)}>
                     <option value="">Select Price</option>
                     {pricerangelist.map((value, index) => (
-                      <option value={value.id}>{value.text}</option>
+                      <option key={index} value={value.id}>{value.text}</option>
                     ))}
                   </select>
                 </div>
@@ -1246,7 +1244,7 @@ const Shopsidebar = ({ parentCallback }) => {
                   <select className="form-control" name="pricerange" onChange={(e) => setMaxFilterPrice(e.target.value)}>
                     <option value="">Select Price</option>
                     {pricerangelist.map((value, index) => (
-                      <option value={value.id}>{value.text}</option>
+                      <option key={index} value={value.id}>{value.text}</option>
                     ))}
                   </select>
                 </div>
@@ -1258,7 +1256,7 @@ const Shopsidebar = ({ parentCallback }) => {
                   <select className="form-control" name="subcategory" onChange={(e) => setFilterSubCategories(e.target.value)}>
                     <option value="">Select Subcategory</option>
                     {subCategories && subCategories.map((value, index) => (
-                      <option value={value.id}>{value.name}</option>
+                      <option key={index} value={value.id}>{value.name}</option>
                     ))}
                   </select>
                 </div>
@@ -1329,7 +1327,7 @@ const Shopsidebar = ({ parentCallback }) => {
                   </h6>
                   <span className="listing-price">
                     Rs. {new Number(item.price).toLocaleString()}
-                    <span>/month</span>{" "}
+                    <span> {item.price_on}</span>{" "}
                   </span>
                 </div>
               </div>

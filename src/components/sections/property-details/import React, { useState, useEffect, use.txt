@@ -38,7 +38,7 @@ function SampleNextArrow(props) {
     return (
         <div
             className={className}
-            style={{ ...style, display: "block", background: "#c1c4c1" }}
+            style={{ ...style, display: "block", background: "#aaa" }}
             onClick={onClick}
         />
     );
@@ -48,7 +48,7 @@ function SamplePrevArrow(props) {
     return (
         <div
             className={className}
-            style={{ ...style, display: "block", background: "#c1c4c1" }}
+            style={{ ...style, display: "block", background: "#aaa" }}
             onClick={onClick}
         />
     );
@@ -63,7 +63,8 @@ const settings = {
     slidesToScroll: 1,
     nextArrow: <SampleNextArrow />,
     prevArrow: <SamplePrevArrow />,
-
+    swipeToSlide: true,
+    focusOnSelect: true,
 };
 const settingsThumbs = {
     slidesToShow: 3,
@@ -326,7 +327,7 @@ const Listingwrapper = () => {
                                         {propertyDetails && propertyDetails.price
                                             ? new Number(propertyDetails.price).toLocaleString()
                                             : ""}
-                                        ) <span className="text-muted" style={{ fontSize: "18px" }}>{propertyDetails.price_on}</span>
+                                        )
                                     </h4>
                                     {propertyDetails && propertyDetails.description
                                         ? propertyDetails.description
@@ -337,27 +338,14 @@ const Listingwrapper = () => {
                                     {propertyDetails && propertyDetails.address
                                         ? propertyDetails.address + ", "
                                         : ""}
-                                    <b>
-                                        {propertyDetails && propertyDetails.city_name
-                                            ? propertyDetails.city_name + ", "
-                                            : ""},
-                                    </b>
-
-                                    <b>
-                                        {propertyDetails && propertyDetails.state_name
-                                            ? propertyDetails.state_name + ", "
-                                            : ""}
-                                    </b>
+                                    {propertyDetails.city_name + ", " + propertyDetails.state_name}
                                 </div>
                                 <div className="section section-padding  acr-listing-features">
                                     <h4>Property Details</h4>
                                     <div className="row">
                                         {propertyDetails && propertyDetails.category_name ? (
                                             <div className="listing-feature col-lg-6 col-md-6">
-                                                <span class="fa fa-star fa-lg propertyDetailsOtherDetails" aria-hidden="true"></span>
-                                                <h6 className="listing-feature-label">
-
-                                                    Category</h6>
+                                                <h6 className="listing-feature-label">Category</h6>
                                                 <span className="listing-feature-value">
                                                     {propertyDetails && propertyDetails.category_name ? propertyDetails.category_name : ''}
                                                 </span>
@@ -367,7 +355,6 @@ const Listingwrapper = () => {
                                         )}
                                         {propertyDetails && propertyDetails.sub_category_name ? (
                                             <div className="listing-feature col-lg-6 col-md-6">
-                                                <span class="fa fa-star fa-lg propertyDetailsOtherDetails" aria-hidden="true"></span>
                                                 <h6 className="listing-feature-label">Sub category</h6>
                                                 <span className="listing-feature-value">
                                                     {propertyDetails && propertyDetails.sub_category_name
@@ -380,7 +367,6 @@ const Listingwrapper = () => {
                                         )}
                                         {propertyDetails && propertyDetails.area ? (
                                             <div className="listing-feature col-lg-6 col-md-6">
-                                                <span class="fa fa-star fa-lg propertyDetailsOtherDetails" aria-hidden="true"></span>
                                                 <h6 className="listing-feature-label">Total Area</h6>
                                                 <span className="listing-feature-value">
                                                     {propertyDetails && propertyDetails.area
@@ -395,7 +381,6 @@ const Listingwrapper = () => {
                                         )}
                                         {propertyDetails && propertyDetails.carpet_area ? (
                                             <div className="listing-feature col-lg-6 col-md-6">
-                                                <span class="fa fa-star fa-lg propertyDetailsOtherDetails" aria-hidden="true"></span>
                                                 <h6 className="listing-feature-label">Build Up Area</h6>
                                                 <span className="listing-feature-value">
                                                     {propertyDetails.carpet_area +
@@ -408,8 +393,7 @@ const Listingwrapper = () => {
                                         )}
                                         {/* {propertyDetails && propertyDetails.area_in_sqft ? (
                                             <div className="listing-feature col-lg-6 col-md-6">
-                                            <span class="fa fa-star fa-lg propertyDetailsOtherDetails" aria-hidden="true"></i>  span 
-                                            <h6 className="listing-feature-label">Area in Sqft.</h6>
+                                                <h6 className="listing-feature-label">Area in Sqft.</h6>
                                                 <span className="listing-feature-value">
                                                     {propertyDetails.area_in_sqft + " Sqft"}
                                                 </span>
@@ -419,8 +403,7 @@ const Listingwrapper = () => {
                                         )} */}
                                         {/* {propertyDetails && propertyDetails.area_type ? (
                                             <div className="listing-feature col-lg-6 col-md-6">
-                                            <span class="fa fa-star fa-lg propertyDetailsOtherDetails" aria-hidden="true"></i>  span 
-                                            <h6 className="listing-feature-label">Area Type</h6>
+                                                <h6 className="listing-feature-label">Area Type</h6>
                                                 <span className="listing-feature-value">
                                                     {uppercaseFirstLetter(propertyDetails.area_type)}
                                                 </span>
@@ -430,7 +413,6 @@ const Listingwrapper = () => {
                                         )} */}
                                         {propertyDetails && propertyDetails.build_type ? (
                                             <div className="listing-feature col-lg-6 col-md-6">
-                                                <span class="fa fa-star fa-lg propertyDetailsOtherDetails" aria-hidden="true"></span>
                                                 <h6 className="listing-feature-label">Build Type</h6>
                                                 <span className="listing-feature-value">
                                                     {uppercaseFirstLetter(propertyDetails.build_type)}
@@ -441,12 +423,11 @@ const Listingwrapper = () => {
                                         )}
                                         {propertyDetails && propertyDetails.no_of_bathrooms ? (
                                             <div className="listing-feature col-lg-6 col-md-6">
-                                                <span class="fa fa-star fa-lg propertyDetailsOtherDetails" aria-hidden="true"></span>
                                                 <h6 className="listing-feature-label">
                                                     No of bathrooms
                                                 </h6>
                                                 <span className="listing-feature-value">
-                                                    {propertyDetails.no_of_bathrooms} Bathrooms
+                                                    {propertyDetails.no_of_bathrooms}
                                                 </span>
                                             </div>
                                         ) : (
@@ -454,7 +435,6 @@ const Listingwrapper = () => {
                                         )}
                                         {propertyDetails && propertyDetails.no_of_beds ? (
                                             <div className="listing-feature col-lg-6 col-md-6">
-                                                <span class="fa fa-star fa-lg propertyDetailsOtherDetails" aria-hidden="true"></span>
                                                 <h6 className="listing-feature-label">No of Beds</h6>
                                                 <span className="listing-feature-value">
                                                     {propertyDetails.no_of_beds + " Beds"}
@@ -466,7 +446,6 @@ const Listingwrapper = () => {
 
                                         {propertyDetails && propertyDetails.no_of_garage ? (
                                             <div className="listing-feature col-lg-6 col-md-6">
-                                                <span class="fa fa-star fa-lg propertyDetailsOtherDetails" aria-hidden="true"></span>
                                                 <h6 className="listing-feature-label">No of Garage</h6>
                                                 <span className="listing-feature-value">
                                                     {propertyDetails.no_of_garage + " Garages"}
@@ -478,7 +457,6 @@ const Listingwrapper = () => {
 
                                         {propertyDetails && propertyDetails.no_of_rooms ? (
                                             <div className="listing-feature col-lg-6 col-md-6">
-                                                <span class="fa fa-star fa-lg propertyDetailsOtherDetails" aria-hidden="true"></span>
                                                 <h6 className="listing-feature-label">No of Rooms</h6>
                                                 <span className="listing-feature-value">
                                                     {propertyDetails.no_of_rooms + " Rooms"}
@@ -490,7 +468,6 @@ const Listingwrapper = () => {
 
                                         {propertyDetails && propertyDetails.road_type ? (
                                             <div className="listing-feature col-lg-6 col-md-6">
-                                                <span class="fa fa-star fa-lg propertyDetailsOtherDetails" aria-hidden="true"></span>
                                                 <h6 className="listing-feature-label">Road Type</h6>
                                                 <span className="listing-feature-value">
                                                     {propertyDetails.road_type}
@@ -502,7 +479,6 @@ const Listingwrapper = () => {
 
                                         {propertyDetails && propertyDetails.car_spaces ? (
                                             <div className="listing-feature col-lg-6 col-md-6">
-                                                <span class="fa fa-star fa-lg propertyDetailsOtherDetails" aria-hidden="true"></span>
                                                 <h6 className="listing-feature-label">Car spaces</h6>
                                                 <span className="listing-feature-value">
                                                     {propertyDetails.car_spaces + " Car spaces"}
@@ -514,7 +490,6 @@ const Listingwrapper = () => {
 
                                         {propertyDetails && propertyDetails.facing ? (
                                             <div className="listing-feature col-lg-6 col-md-6">
-                                                <span class="fa fa-star fa-lg propertyDetailsOtherDetails" aria-hidden="true"></span>
                                                 <h6 className="listing-feature-label">Facing</h6>
                                                 <span className="listing-feature-value">
                                                     {propertyDetails.facing}
@@ -526,10 +501,9 @@ const Listingwrapper = () => {
 
                                         {propertyDetails && propertyDetails.floor ? (
                                             <div className="listing-feature col-lg-6 col-md-6">
-                                                <span class="fa fa-star fa-lg propertyDetailsOtherDetails" aria-hidden="true"></span>
                                                 <h6 className="listing-feature-label">Floor</h6>
                                                 <span className="listing-feature-value">
-                                                    {propertyDetails.floor} Floors
+                                                    {propertyDetails.floor}
                                                 </span>
                                             </div>
                                         ) : (
@@ -538,7 +512,6 @@ const Listingwrapper = () => {
 
                                         {propertyDetails && propertyDetails.furnishing ? (
                                             <div className="listing-feature col-lg-6 col-md-6">
-                                                <span class="fa fa-star fa-lg propertyDetailsOtherDetails" aria-hidden="true"></span>
                                                 <h6 className="listing-feature-label">Furnishing</h6>
                                                 <span className="listing-feature-value">
                                                     {propertyDetails.furnishing}
@@ -550,8 +523,7 @@ const Listingwrapper = () => {
 
                                         {/* {propertyDetails && propertyDetails.are_you ? (
                                             <div className="listing-feature col-lg-6 col-md-6">
-                                            <span class="fa fa-star fa-lg propertyDetailsOtherDetails" aria-hidden="true"></i>  span 
-                                            <h6 className="listing-feature-label">Posted By</h6>
+                                                <h6 className="listing-feature-label">Posted By</h6>
                                                 <span className="listing-feature-value">
                                                     {propertyDetails.are_you}
                                                 </span>
@@ -562,7 +534,6 @@ const Listingwrapper = () => {
 
                                         {propertyDetails && propertyDetails.available_from ? (
                                             <div className="listing-feature col-lg-6 col-md-6">
-                                                <span class="fa fa-star fa-lg propertyDetailsOtherDetails" aria-hidden="true"></span>
                                                 <h6 className="listing-feature-label">
                                                     Available From
                                                 </h6>
@@ -575,7 +546,6 @@ const Listingwrapper = () => {
                                         )}
                                         {propertyDetails && propertyDetails.build_year ? (
                                             <div className="listing-feature col-lg-6 col-md-6">
-                                                <span class="fa fa-star fa-lg propertyDetailsOtherDetails" aria-hidden="true"></span>
                                                 <h6 className="listing-feature-label">Build Year</h6>
                                                 <span className="listing-feature-value">
                                                     {propertyDetails.build_year}
@@ -585,7 +555,6 @@ const Listingwrapper = () => {
                                             ""
                                         )}
                                         <div className="listing-feature col-lg-6 col-md-6">
-                                            <span class="fa fa-star fa-lg propertyDetailsOtherDetails" aria-hidden="true"></span>
                                             <h6 className="listing-feature-label">Pets Considere</h6>
                                             <span className="listing-feature-value">
                                                 {propertyDetails && propertyDetails.pets_considere
@@ -595,7 +564,6 @@ const Listingwrapper = () => {
                                         </div>
 
                                         <div className="listing-feature col-lg-6 col-md-6">
-                                            <span class="fa fa-star fa-lg propertyDetailsOtherDetails" aria-hidden="true"></span>
                                             <h6 className="listing-feature-label">
                                                 Price Negotiable
                                             </h6>
@@ -608,7 +576,6 @@ const Listingwrapper = () => {
                                         </div>
                                         {propertyDetails && propertyDetails.property_type ? (
                                             <div className="listing-feature col-lg-6 col-md-6">
-                                                <span class="fa fa-star fa-lg propertyDetailsOtherDetails" aria-hidden="true"></span>
                                                 <h6 className="listing-feature-label">Property Type</h6>
                                                 <span className="listing-feature-value">
                                                     {propertyDetails.property_type}
@@ -627,59 +594,66 @@ const Listingwrapper = () => {
 
                                         {propertyDetails && propertyDetails.features ?
                                             (
-
                                                 <div className="row">
-                                                    <h5 className="col-12 text-left">Outdoon Features:</h5>
                                                     {
-                                                        propertyDetails.features.outdoor ? propertyDetails.features.outdoor.map((value, index) => {
-                                                            {
-                                                                return <div key={index} className="listing-feature">
-                                                                    <i className={`flaticon-${value.icon}`} />
+                                                        propertyDetails.features.outdoor > 0 &&
 
-                                                                    <h6 className="listing-feature-label">
-                                                                        {value.feature}
-                                                                    </h6>
-                                                                    <span className="listing-feature-value">
+                                                            propertyDetails.features.outdoor ? propertyDetails.features.outdoor.map((value, index) => (
+                                                                <>
+                                                                    <h5 className="col-12 text-left">Outdoon Features:</h5>
+                                                                    <div className="listing-feature">
+                                                                        <i className={`flaticon-${value.icon}`} />
+                                                                        <h6 className="listing-feature-label">
+                                                                            {value.feature}
+                                                                        </h6>
+                                                                        <span className="listing-feature-value">
 
-                                                                    </span>
-                                                                </div>
-                                                            }
-                                                        }) : ("No Outdoon Features Mentioned")
+                                                                        </span>
+                                                                    </div>
+                                                                </>
+
+                                                            )) : ("")
+
                                                     }
 
-                                                    <h5 className="col-12 text-left mt-3">Indoor Features:</h5>
-                                                    {
-                                                        propertyDetails.features.indoor ? propertyDetails.features.indoor.map((value, index) => {
-                                                            {
-                                                                return <div key={index} className="listing-feature">
-                                                                    <i className={`flaticon-${value.icon}`} />
 
-                                                                    <h6 className="listing-feature-label">
-                                                                        {value.feature}
-                                                                    </h6>
-                                                                    <span className="listing-feature-value">
+                                                    {   
+                                                        propertyDetails.features.indoor > 0 ?
+                                                            propertyDetails.features.indoor.map((value, index) => (
+                                                                <>
+                                                                    <h5 className="col-12 text-left mt-3">Indoor Features:</h5>
 
-                                                                    </span>
-                                                                </div>
-                                                            }
-                                                        }) : ("No Indoor Features Mentioned")
+                                                                    <div key={index} className="listing-feature">
+                                                                        <i className={`flaticon-${value.icon}`} />
+                                                                        <h6 className="listing-feature-label">
+                                                                            {value.feature}
+                                                                        </h6>
+                                                                        <span className="listing-feature-value">
+
+                                                                        </span>
+                                                                    </div>
+                                                                </>
+                                                            )) : ''
                                                     }
 
-                                                    <h5 className="col-12 text-left mt-3">Climate Control & Energy Features:</h5>
                                                     {
-                                                        propertyDetails.features.climate ? propertyDetails.features.climate.map((value, index) => (
-                                                            <div key={index} className="listing-feature">
-                                                                <i className={`flaticon-${value.icon}`} />
+                                                        propertyDetails.features.climate.length > 0 &&
+                                                            propertyDetails.features.climate ? propertyDetails.features.climate.map((value, index) => (
+                                                                <>
+                                                                    <h5 className="col-12 text-left mt-3">Climate Control & Energy Features:</h5>
+                                                                    <div key={index} className="listing-feature">
+                                                                        <i className={`flaticon-${value.icon}`} />
+                                                                        <h6 className="listing-feature-label">
+                                                                            {value.feature}
+                                                                        </h6>
+                                                                        <span className="listing-feature-value">
 
-                                                                <h6 className="listing-feature-label">
-                                                                    {value.feature}
-                                                                </h6>
-                                                                <span className="listing-feature-value">
-
-                                                                </span>
-                                                            </div>
-                                                        )) : ("No Climate Control Features Mentioned")
+                                                                        </span>
+                                                                    </div>
+                                                                </>
+                                                            )) : ("")
                                                     }
+
                                                 </div>
 
 
@@ -691,9 +665,8 @@ const Listingwrapper = () => {
                                             propertyDetails.features ? propertyDetails.features.map((value, index) => {
                                                 {
 
-                                                    return <div key={index} className="listing-feature">
+                                                    return <div className="listing-feature">
                                                         <i className={`flaticon-${value.icon}`} />
-
                                                         <h6 className="listing-feature-label">
                                                             {value.feature}
                                                         </h6>
@@ -714,11 +687,12 @@ const Listingwrapper = () => {
                                 {propertyDetails && propertyDetails.video_url ? (
                                     <div className="section pt-0">
                                         <h4>Property Video</h4>
+
                                         <div className="embed-responsive embed-responsive-21by9">
                                             <iframe
                                                 width="560"
-                                                height="515"
-                                                src={`https://www.youtube.com/embed/${propertyDetails.video_url}`}
+                                                height="315"
+                                                src={`${propertyDetails.video_url}`}
                                                 title="YouTube video player"
                                                 frameBorder="0"
                                                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
@@ -756,17 +730,23 @@ const Listingwrapper = () => {
                                         {/* Listing Start */}
                                         {recentProperties &&
                                             recentProperties.slice(0, 4).map((item, i) => (
-                                                <div key={i} className="col-lg-6">
+                                                <div key={i} className="col-md-6">
                                                     <div className="listing">
-                                                        <div className="listing-thumbnail " >
-                                                            <Link to={`/property/${convertToSlug(item.title)}/${item.id}`}>
-
-                                                                <img src={item.image != null ? process.env.REACT_APP_CONTENT_URL + item.image + "_medium.jpg" : process.env.REACT_APP_CONTENT_URL + "/users/default.png"}
-                                                                    alt={`image of ${item.title}`}
+                                                        <div className="listing-thumbnail">
+                                                            <Link
+                                                                to={`/property/${convertToSlug(item.title)}/${item.id
+                                                                    }`}
+                                                            >
+                                                                <img
+                                                                    src={
+                                                                        process.env.REACT_APP_CONTENT_URL +
+                                                                        item.image +
+                                                                        "_medium.jpg"
+                                                                    }
+                                                                    alt="listing"
                                                                     style={{ width: "300px", height: "200px" }}
                                                                 />
                                                             </Link>
-
                                                             <div className="listing-badges">
                                                                 {item.star === true ? (
                                                                     <span className="listing-badge featured">
@@ -776,56 +756,63 @@ const Listingwrapper = () => {
                                                                 ) : (
                                                                     ""
                                                                 )}
-                                                                {item.property_type === "buy" ? (
-                                                                    <span className="listing-badge sale">{uppercaseFirstLetter(item.property_type)}</span>
+                                                                {item.sale === true ? (
+                                                                    <span className="listing-badge sale">
+                                                                        On Sale
+                                                                    </span>
                                                                 ) : (
                                                                     ""
                                                                 )}
-                                                                {item.property_type === "sold" ? (
-                                                                    <span className="listing-badge pending">{uppercaseFirstLetter(item.property_type)}</span>
+                                                                {item.pending === true ? (
+                                                                    <span className="listing-badge pending">
+                                                                        {" "}
+                                                                        Pending
+                                                                    </span>
                                                                 ) : (
                                                                     ""
                                                                 )}
-                                                                {item.property_type === "rent" ? (
-                                                                    <span className="listing-badge rent">{uppercaseFirstLetter(item.property_type)}</span>
-                                                                ) : (
-                                                                    ""
-                                                                )}
-                                                                {item.property_type === "share" ? (
-                                                                    <span className="listing-badge rent">{uppercaseFirstLetter(item.property_type)}</span>
-                                                                ) : (
-                                                                    ""
-                                                                )}
-                                                                {item.property_type === "invest" ? (
-                                                                    <span className="listing-badge sale">{uppercaseFirstLetter(item.property_type)}</span>
-                                                                ) : (
-                                                                    ""
-                                                                )}
-                                                                {item.property_type === "lease" ? (
-                                                                    <span className="listing-badge sale">{uppercaseFirstLetter(item.property_type)}</span>
+                                                                {item.rental === true ? (
+                                                                    <span className="listing-badge rent">
+                                                                        {" "}
+                                                                        Rental
+                                                                    </span>
                                                                 ) : (
                                                                     ""
                                                                 )}
                                                             </div>
                                                             {/*
-                                                    <div className="listing-controls">
-                                                      <Link to="#" onClick={() => saveProperty(item.id)} className="favorite">
-                                                        <i className="far fa-heart" />
-                                                      </Link>
-                                                    </div>
-                                                    */}
+                                                            <div className="listing-controls">
+                                                                <Link
+                                                                    to="#"
+                                                                    onClick={() => saveProperty(item.id)}
+                                                                    className="favorite"
+                                                                >
+                                                                    <i className="far fa-heart" />
+                                                                </Link>
+                                                            </div>
+                                                            */}
                                                         </div>
                                                         <div className="listing-body">
                                                             <div className="listing-author">
-                                                                <img src={item.profile_image != null ? process.env.REACT_APP_CONTENT_URL + item.profile_image + "_small.jpg" : process.env.REACT_APP_CONTENT_URL + "/users/default.png"}
+                                                                <img
+                                                                    src={
+                                                                        item.profile_image != null
+                                                                            ? process.env.REACT_APP_CONTENT_URL +
+                                                                            item.profile_image +
+                                                                            "_small.jpg"
+                                                                            : process.env.REACT_APP_CONTENT_URL +
+                                                                            "/users/default.png"
+                                                                    }
                                                                     alt={item.profile_image + "_small.jpg"}
                                                                 />
                                                                 <div className="listing-author-body">
                                                                     <p>
                                                                         {" "}
-                                                                        <Link to="#">{item.name}</Link>{" "}
+                                                                        <Link to="#">Rahul More</Link>{" "}
                                                                     </p>
-                                                                    <span className="listing-date">{item.postdate}</span>
+                                                                    <span className="listing-date">
+                                                                        Mon Jul 12 2021
+                                                                    </span>
                                                                 </div>
                                                                 <Dropdown className="options-dropdown">
                                                                     <Dropdown.Toggle as={NavLink}>
@@ -835,23 +822,40 @@ const Listingwrapper = () => {
                                                                         <ul>
                                                                             <li>
                                                                                 {" "}
-                                                                                <Link to={{ pathname: `tel:${item.number_for_contact}` }}>
+                                                                                <Link
+                                                                                    to={{
+                                                                                        pathname: `tel:${item.number_for_contact}`,
+                                                                                    }}
+                                                                                >
                                                                                     {" "}
-                                                                                    <i className="fas fa-phone" /> Call Agent
+                                                                                    <i className="fas fa-phone" /> Call
+                                                                                    Agent
                                                                                 </Link>{" "}
                                                                             </li>
                                                                             <li>
                                                                                 {" "}
-                                                                                <Link to={{ pathname: `${openInGmail(item.email_for_contact)}` }}>
+                                                                                <Link
+                                                                                    to={{
+                                                                                        pathname: `${openInGmail(
+                                                                                            item.email_for_contact
+                                                                                        )}`,
+                                                                                    }}
+                                                                                >
                                                                                     {" "}
-                                                                                    <i className="fas fa-envelope" /> Send Message
+                                                                                    <i className="fas fa-envelope" /> Send
+                                                                                    Message
                                                                                 </Link>{" "}
                                                                             </li>
                                                                             <li>
                                                                                 {" "}
-                                                                                <Link to={`/property/${convertToSlug(item.title)}/${item.id}#book_tour`}>
+                                                                                <Link
+                                                                                    to={`/property/${convertToSlug(
+                                                                                        item.title
+                                                                                    )}/${item.id}`}
+                                                                                >
                                                                                     {" "}
-                                                                                    <i className="fas fa-bookmark" /> Book Tour
+                                                                                    <i className="fas fa-bookmark" /> Book
+                                                                                    Tour
                                                                                 </Link>{" "}
                                                                             </li>
                                                                         </ul>
@@ -860,13 +864,17 @@ const Listingwrapper = () => {
                                                             </div>
                                                             <h5 className="listing-title">
                                                                 {" "}
-                                                                <Link to={`/property/${convertToSlug(item.title)}/${item.id}`} title={item.title}>
+                                                                <Link
+                                                                    to={`/property/${convertToSlug(item.title)}/${item.id
+                                                                        }`}
+                                                                    title={item.title}
+                                                                >
                                                                     {item.title}
                                                                 </Link>{" "}
                                                             </h5>
                                                             <span className="listing-price">
                                                                 Rs. {new Number(item.price).toLocaleString()}
-                                                                <span> {item.price_on}</span>{" "}
+                                                                <span>/month</span>{" "}
                                                             </span>
                                                             <p className="listing-text">{item.text}</p>
                                                             <div className="acr-listing-icons">
@@ -874,7 +882,7 @@ const Listingwrapper = () => {
                                                                     <div className="acr-listing-icon">
                                                                         <i className="flaticon-bedroom" />
                                                                         <span className="acr-listing-icon-value">
-                                                                            {item.no_of_beds}
+                                                                            {item.no_of_bathrooms}
                                                                         </span>
                                                                     </div>
                                                                 </OverlayTrigger>
@@ -882,7 +890,7 @@ const Listingwrapper = () => {
                                                                     <div className="acr-listing-icon">
                                                                         <i className="flaticon-bathroom" />
                                                                         <span className="acr-listing-icon-value">
-                                                                            {item.no_of_bathrooms}
+                                                                            {item.no_of_beds}
                                                                         </span>
                                                                     </div>
                                                                 </OverlayTrigger>
@@ -897,18 +905,18 @@ const Listingwrapper = () => {
                                                             </div>
                                                             <div className="listing-gallery-wrapper">
                                                                 <Link
-                                                                    to={`/property/${convertToSlug(item.title)}/${item.id}`}
+                                                                    to={`/property/${convertToSlug(item.title)}/${item.id
+                                                                        }`}
                                                                     className="btn-custom btn-sm secondary"
                                                                 >
                                                                     View Details
                                                                 </Link>
                                                                 <OverlayTrigger overlay={gallerytip}>
-                                                                    <Link to={`/property/${convertToSlug(item.title)}/${item.id}`} className="listing-gallery">
+                                                                    <Link to="#" className="listing-gallery">
                                                                         {" "}
                                                                         <i className="fas fa-camera" />{" "}
                                                                     </Link>
                                                                 </OverlayTrigger>
-
                                                             </div>
                                                         </div>
                                                     </div>
@@ -1074,8 +1082,9 @@ const Listingwrapper = () => {
                         </div>
                     </div>
                 </>
-            )}
-        </div>
+            )
+            }
+        </div >
     );
 };
 
