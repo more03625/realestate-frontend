@@ -84,12 +84,12 @@ const Content = ({ userData }) => {
                   <h5>There are no properties to show!</h5>
                 </div>
                 <div className="row justify-content-center">
-                  <p>Start adding properties by clicking on below properties!</p>
+                  <p>Start adding properties by clicking on Add properties!</p>
 
                 </div>
 
                 <div className="row justify-content-center">
-                  <Link to="/add-property" className="btn-custom secondary mr-0">Submit Listing <i className="fas mr-0 fa-plus" /> </Link>
+                  <Link to="/add-property" className="btn-custom secondary mr-0">Add Properties <i className="fas mr-0 fa-plus" /> </Link>
 
 
                 </div>

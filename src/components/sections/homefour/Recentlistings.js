@@ -5,10 +5,7 @@ import listing from "../../../data/listings.json";
 import Axios from 'axios';
 import { openInGmail, saveProperty, Endpoints, Host, convertToSlug, uppercaseFirstLetter } from "../../../helper/comman_helper";
 
-const gallerytip = <Tooltip>Gallery</Tooltip>;
-const bedstip = <Tooltip>Beds</Tooltip>;
-const bathstip = <Tooltip>Bathrooms</Tooltip>;
-const areatip = <Tooltip>Ropani-Aana-Paisa-Daam</Tooltip>;
+
 
 const Recentlisting = () => {
   const [recentProperties, setRecentProperties] = useState([]);
@@ -23,6 +20,10 @@ const Recentlisting = () => {
       }
     });
   }
+  const gallerytip = <Tooltip>Gallery</Tooltip>;
+  const bedstip = <Tooltip>Beds</Tooltip>;
+  const bathstip = <Tooltip>Bathrooms</Tooltip>;
+  const areatip = <Tooltip>{recentProperties && recentProperties.default_area_unit}</Tooltip>;
   useEffect(() => {
     getRecentProperties();
   }, []);

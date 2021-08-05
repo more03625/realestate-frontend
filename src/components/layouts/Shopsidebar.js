@@ -22,7 +22,7 @@ import Rent from "../sections/filters/Rent.js";
 import Sold from "../sections/filters/Sold.js";
 import Keywordsearchbar from "../sections/filters/Keywordsearchbar";
 import Searchbar from "../sections/filters/Searchbar";
-import { Endpoints, Host, convertToSlug } from "./../../helper/comman_helper";
+import { Endpoints, Host, convertToSlug, uppercaseFirstLetter } from "./../../helper/comman_helper";
 import Axios from "axios";
 
 const Shopsidebar = ({ parentCallback }) => {
@@ -38,6 +38,7 @@ const Shopsidebar = ({ parentCallback }) => {
   const [subCategories, setSubCategories] = useState([]);
 
   const [filterState, setFilterState] = useState(null);
+  const [filterPropertyType, setFilterPropertyType] = useState(null);
   const [filterCategory, setFilterCategory] = useState(null);
   const [minFilterPrice, setMinFilterPrice] = useState(null);
   const [maxFilterPrice, setMaxFilterPrice] = useState(null);
@@ -91,11 +92,28 @@ const Shopsidebar = ({ parentCallback }) => {
       setSubCategories(result.data.data.categories);
     }
   }
+  const [propertyTypes, setPropertyTypes] = useState([]);
+
+  const getPropertyTypes = (categoryID = '') => {
+    var url = Host + Endpoints.getPropertyTypes + '1';
+    if (location.pathname == '/commercial') {
+      var url = Host + Endpoints.getPropertyTypes + '2';
+    }
+
+    Axios.get(url).then((response) => {
+      if (response.data.error === true) {
+        alert("There are some errors!");
+      } else {
+        setPropertyTypes(response.data.data);
+      }
+    });
+  };
 
   const filter = (e) => {
     e.preventDefault();
 
     var data = {
+      "property_type": filterPropertyType,
       "category": filterCategory !== null ? filterCategory.toString() : filterCategory,
       "state": filterState,
       "min_price": minFilterPrice,
@@ -221,6 +239,7 @@ const Shopsidebar = ({ parentCallback }) => {
     });
   };
   useEffect(() => {
+    getPropertyTypes();
     getSubCategories();
     getStates();
     getRecentProperties();
@@ -322,10 +341,10 @@ const Shopsidebar = ({ parentCallback }) => {
                         <label>Min</label>
                         <select
                           className="form-control"
-                          name="min_beds"
+                          name="min_bedroom"
                           onChange={(e) => handleChange(e)}
                         >
-                          <option value="">Select beds</option>
+                          <option value="">Select Bedrooms</option>
                           {bedslist &&
                             bedslist.map((value, index) => (
                               <option key={index} value={index}>{value}</option>
@@ -338,10 +357,10 @@ const Shopsidebar = ({ parentCallback }) => {
                         <label>Max</label>
                         <select
                           className="form-control"
-                          name="max_beds"
+                          name="max_bedroom"
                           onChange={(e) => handleChange(e)}
                         >
-                          <option value="">Select beds</option>
+                          <option value="">Select Bedrooms</option>
                           {bedslist &&
                             bedslist.map((value, index) => (
                               <option key={index} value={index}>{value}</option>
@@ -364,7 +383,7 @@ const Shopsidebar = ({ parentCallback }) => {
                           name="min_bathrooms"
                           onChange={(e) => handleChange(e)}
                         >
-                          <option value="">Select beds</option>
+                          <option value="">Select Bathrooms</option>
                           {bathroomslist &&
                             bathroomslist.map((value, index) => (
                               <option key={index} value={index}>{value}</option>
@@ -402,6 +421,7 @@ const Shopsidebar = ({ parentCallback }) => {
                     <h5>Area size</h5>
                   </div>
                   <div className="row">
+
                     <div className="col-md-6">
                       <div className="form-group">
                         <select
@@ -410,13 +430,20 @@ const Shopsidebar = ({ parentCallback }) => {
                           onChange={(e) => handleChange(e)}
                         >
                           <option value="">Any</option>
-                          {areaSize &&
-                            areaSize.map((value, index) => (
+                          {areaUnit &&
+                            areaUnit.map((value, index) => (
                               <option key={index} value={value}>{value}</option>
                             ))}
                         </select>
                       </div>
                     </div>
+
+                    <div className="col-md-6">
+                      <div className="form-group">
+                        <input className="form-control" name="landsize" placeholder="Enter area size" onChange={(e) => handleChange(e)} />
+                      </div>
+                    </div>
+
                   </div>
                 </div>
                 <hr />
@@ -432,7 +459,7 @@ const Shopsidebar = ({ parentCallback }) => {
                           name="build_type"
                           onChange={(e) => handleChange(e)}
                         >
-                          <option value="">Select beds</option>
+                          <option value="">Any</option>
                           <option value="old">Old</option>
                           <option value="new">New</option>
                         </select>
@@ -621,10 +648,10 @@ const Shopsidebar = ({ parentCallback }) => {
                         <label>Min</label>
                         <select
                           className="form-control"
-                          name="min_beds"
+                          name="min_bedroom"
                           onChange={(e) => handleChange(e)}
                         >
-                          <option value="">Select beds</option>
+                          <option value="">Select Bedrooms</option>
                           {bedslist &&
                             bedslist.map((value, index) => (
                               <option key={index} value={index}>{value}</option>
@@ -637,10 +664,10 @@ const Shopsidebar = ({ parentCallback }) => {
                         <label>Max</label>
                         <select
                           className="form-control"
-                          name="max_beds"
+                          name="max_bedroom"
                           onChange={(e) => handleChange(e)}
                         >
-                          <option value="">Select beds</option>
+                          <option value="">Select Bedrooms</option>
                           {bedslist &&
                             bedslist.map((value, index) => (
                               <option key={index} value={index}>{value}</option>
@@ -663,7 +690,7 @@ const Shopsidebar = ({ parentCallback }) => {
                           name="min_bathrooms"
                           onChange={(e) => handleChange(e)}
                         >
-                          <option value="">Select beds</option>
+                          <option value="">Select Bathrooms</option>
                           {bathroomslist &&
                             bathroomslist.map((value, index) => (
                               <option key={index} value={index}>{value}</option>
@@ -709,11 +736,17 @@ const Shopsidebar = ({ parentCallback }) => {
                           onChange={(e) => handleChange(e)}
                         >
                           <option value="">Any</option>
-                          {areaSize &&
-                            areaSize.map((value, index) => (
+                          {areaUnit &&
+                            areaUnit.map((value, index) => (
                               <option key={index} value={value}>{value}</option>
                             ))}
                         </select>
+                      </div>
+                    </div>
+
+                    <div className="col-md-6">
+                      <div className="form-group">
+                        <input className="form-control" name="landsize" placeholder="Enter area size" onChange={(e) => handleChange(e)} />
                       </div>
                     </div>
                   </div>
@@ -731,7 +764,7 @@ const Shopsidebar = ({ parentCallback }) => {
                           name="build_type"
                           onChange={(e) => handleChange(e)}
                         >
-                          <option value="">Select beds</option>
+                          <option value="">Any</option>
                           <option value="old">Old</option>
                           <option value="new">New</option>
                         </select>
@@ -920,10 +953,10 @@ const Shopsidebar = ({ parentCallback }) => {
                         <label>Min</label>
                         <select
                           className="form-control"
-                          name="min_beds"
+                          name="min_bedroom"
                           onChange={(e) => handleChange(e)}
                         >
-                          <option value="">Select beds</option>
+                          <option value="">Select Bedrooms</option>
                           {bedslist &&
                             bedslist.map((value, index) => (
                               <option key={index} value={index}>{value}</option>
@@ -936,10 +969,10 @@ const Shopsidebar = ({ parentCallback }) => {
                         <label>Max</label>
                         <select
                           className="form-control"
-                          name="max_beds"
+                          name="max_bedroom"
                           onChange={(e) => handleChange(e)}
                         >
-                          <option value="">Select beds</option>
+                          <option value="">Select Bedrooms</option>
                           {bedslist &&
                             bedslist.map((value, index) => (
                               <option key={index} value={index}>{value}</option>
@@ -962,7 +995,7 @@ const Shopsidebar = ({ parentCallback }) => {
                           name="min_bathrooms"
                           onChange={(e) => handleChange(e)}
                         >
-                          <option value="">Select beds</option>
+                          <option value="">Select Bathrooms</option>
                           {bathroomslist &&
                             bathroomslist.map((value, index) => (
                               <option key={index} value={index}>{value}</option>
@@ -1008,11 +1041,17 @@ const Shopsidebar = ({ parentCallback }) => {
                           onChange={(e) => handleChange(e)}
                         >
                           <option value="">Any</option>
-                          {areaSize &&
-                            areaSize.map((value, index) => (
+                          {areaUnit &&
+                            areaUnit.map((value, index) => (
                               <option key={index} value={value}>{value}</option>
                             ))}
                         </select>
+                      </div>
+                    </div>
+
+                    <div className="col-md-6">
+                      <div className="form-group">
+                        <input className="form-control" name="landsize" placeholder="Enter area size" onChange={(e) => handleChange(e)} />
                       </div>
                     </div>
                   </div>
@@ -1030,7 +1069,7 @@ const Shopsidebar = ({ parentCallback }) => {
                           name="build_type"
                           onChange={(e) => handleChange(e)}
                         >
-                          <option value="">Select beds</option>
+                          <option value="">Any</option>
                           <option value="old">Old</option>
                           <option value="new">New</option>
                         </select>
@@ -1177,6 +1216,18 @@ const Shopsidebar = ({ parentCallback }) => {
           <div className="acr-collapsable">
             <div className="acr-filter-form">
               <form onSubmit={filter}>
+
+                <div className="form-group">
+                  <label>Property by type</label>
+                  <select className="form-control" name="property_type" onChange={(e) => setFilterPropertyType(e.target.value)}>
+                    <option value="">Any</option>
+                    {propertyTypes &&
+                      propertyTypes.map((value, index) => (
+                        <option key={index} value={value.name}>{uppercaseFirstLetter(value.name)}</option>
+                      ))
+                    }
+                  </select>
+                </div>
 
                 <div className="form-group">
                   <label>Select States</label>

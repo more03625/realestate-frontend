@@ -58,12 +58,12 @@ class Menu extends Component {
           </li>
           <li className="menu-item menu-item-has-children">
             <NavLink exact to="/commercial">
-              Commerial
+              Commercial
             </NavLink>
           </li>
           <li className="menu-item menu-item-has-children">
             <NavLink exact to="/consultants">
-              Property Consaltant
+              Property Consultant
             </NavLink>
           </li>
           <li className="menu-item menu-item-has-children">

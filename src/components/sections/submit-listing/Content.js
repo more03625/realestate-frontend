@@ -619,9 +619,9 @@ function Content() {
             errorToast(response.data.title);
           } else {
             successToast(response.data.title);
-            setTimeout(function () {
-              history.push("/my-listings");
-            }, 2000);
+            // setTimeout(function () {
+            //   history.push("/my-listings");
+            // }, 2000);
           }
         })
         .catch((error) => {

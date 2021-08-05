@@ -97,6 +97,16 @@ const Content = ({ properties, searchResults, parentCallback }) => {
               ) : (
                 ""
               )}
+              {item.property_type === "invest" ? (
+                <span className="listing-badge sale">{uppercaseFirstLetter(item.property_type)}</span>
+              ) : (
+                ""
+              )}
+              {item.property_type === "lease" ? (
+                <span className="listing-badge sale">{uppercaseFirstLetter(item.property_type)}</span>
+              ) : (
+                ""
+              )}
             </div>
 
           </div>

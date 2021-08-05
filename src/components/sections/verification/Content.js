@@ -47,14 +47,17 @@ const Content = ({ userData }) => {
   const [otpStatus, setOtpStatus] = useState(false);
 
   const isValid = () => {
-    if (emailOTP === "" && phoneOTP === "") {
+    if (emailOTP === "") {
       setEmailOTPError("Please enter a valid email OTP!");
-      setPhoneOTPError("Please enter a valid Phone OTP!");
-    } else if (emailOTP.length < 4 || emailOTP === "") {
+      // setPhoneOTPError("Please enter a valid Phone OTP!");
+    }
+    else if (emailOTP.length < 4 || emailOTP === "") {
       setEmailOTPError("Please enter valid email OTP of 4 digit.");
-    } else if (phoneOTP.length < 4 || phoneOTP === "") {
-      setPhoneOTPError("Please enter valid phone OTP of 4 digit.");
-    } else {
+    }
+    // else if (phoneOTP.length < 4 || phoneOTP === "") {
+    //   setPhoneOTPError("Please enter valid phone OTP of 4 digit.");
+    // }
+    else {
       return true;
     }
   };
@@ -69,7 +72,7 @@ const Content = ({ userData }) => {
       let url = Host + Endpoints.verifyOtp;
       Axios.post(url, {
         email: userData.email,
-        sms_otp: emailOTP,
+        // sms_otp: emailOTP,
         email_otp: phoneOTP,
         type: "seller",
       }).then((response) => {
@@ -139,6 +142,7 @@ const Content = ({ userData }) => {
               Didn't received? mail again
             </Link>
           </div>
+          {/*
           <div className="form-group">
             <label>Enter Mobile OTP</label>
             <input
@@ -150,6 +154,7 @@ const Content = ({ userData }) => {
             />
             <p style={{ color: "red", fontSize: "14px" }}>{phoneOTPError}</p>
           </div>
+        
           <div className="form-group">
             <Link
               to="#"
@@ -160,7 +165,7 @@ const Content = ({ userData }) => {
               Didn't received? send again
             </Link>
           </div>
-
+*/}
           <ToastContainer />
           <button type="submit" className="btn-custom secondary btn-block">
             Submit

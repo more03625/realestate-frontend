@@ -7,7 +7,7 @@ import Slider from "react-slick";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Endpoints, Host, successToast, errorToast } from "../../../helper/comman_helper";
-
+import ReCaptchaV2 from "react-google-recaptcha";
 const images = [
   {
     img: "assets/img/coming-soon/1.jpg",
@@ -40,7 +40,7 @@ const Content = () => {
   const [password, setPassword] = useState("");
   const [mobileNumber, setMobileNumber] = useState("");
   const [userType, setUserType] = useState("");
-  const [tandcBox, setTandcBox] = useState("");
+  const [tandcBox, setTandcBox] = useState(false);
 
   const [nameError, setNameError] = useState("");
   const [emailError, setEmailError] = useState("");
@@ -50,25 +50,27 @@ const Content = () => {
   const [tandcBoxError, setTandcBoxError] = useState("");
 
   const [regStatus, setRegStatus] = useState("");
+  const [token, setToken] = useState("");
+  const [tokenError, setTokenError] = useState("");
+
+
+  const handleCheckBox = () => setTandcBox(!tandcBox)
 
   const isValid = () => {
     var emailValidator = new RegExp(
       /[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,15}/g
     ).test(email);
-    if (
-      name === "" &&
-      !emailValidator &&
-      password === "" &&
-      mobileNumber === "" &&
-      tandcBox === ""
-    ) {
-      setNameError("Name feild should not be empty!");
+    if (name === "" && !emailValidator && password === "" && mobileNumber === "" && tandcBox === false && token.length === 0) {
+
+      setNameError("Name field should not be empty!");
       setEmailError("Please enter a valid email address!");
-      setPasswordError("Password feild should not be empty!");
-      setMobileNumberError("Mobile Number feild should not be empty!");
+      setPasswordError("Password field should not be empty!");
+      setMobileNumberError("Mobile Number field should not be empty!");
       setTandcBoxError("You must accept T&C in order to use Neprealestate!");
+      setTokenError("Please Verify captcha!");
+
     } else if (name === "") {
-      setNameError("Name feild should not be empty!");
+      setNameError("Name field should not be empty!");
     } else if (!emailValidator) {
       setEmailError("Please enter a valid email address!");
     } else if (password === "" || password.length < 8) {
@@ -76,14 +78,24 @@ const Content = () => {
     } else if (mobileNumber === "" || mobileNumber.length < 10) {
       setMobileNumberError("Please enter valid 10 digit mobile number!");
     } else if (userType === "") {
-      setUserTypeError("User Type feild should not be empty!");
-    } else if (tandcBox === "") {
+      setUserTypeError("User Type field should not be empty!");
+    } else if (tandcBox === "" || tandcBox === false) {
       setTandcBoxError("You must accept T&C in order to use Neprealestate!");
-    } else {
+    }
+    else if (token.length === 0) {
+      setTokenError("Please Verify captcha!");
+    }
+    else {
       return true;
     }
   };
 
+  const handleToken = (captchaToken) => {
+    setToken(captchaToken);
+  };
+  const handleExpire = () => {
+    setToken(null);
+  };
   const registerFun = (e) => {
     e.preventDefault();
     setNameError("");
@@ -93,6 +105,7 @@ const Content = () => {
     setUserTypeError("");
     setTandcBoxError("");
     setRegStatus("");
+    setTokenError("");
 
     if (isValid()) {
       let url = Host + Endpoints.Register;
@@ -103,7 +116,8 @@ const Content = () => {
         password: password,
         mobile: mobileNumber,
         "user_type": userType,
-        // "tandC":tandcBox
+        token: token,
+        "tandC": tandcBox
       }).then((response) => {
         if (response.data.error === false) {
           successToast();
@@ -143,41 +157,41 @@ const Content = () => {
             </p>
           </div>
           <div className="form-group">
-            <label>Name</label>
+            <label className="required">Name</label>
             <input
               type="text"
               className="form-control form-control-light"
               onChange={(e) => setName(e.target.value)}
-              placeholder="Username"
+              placeholder="Enter your name"
               name="name"
             />
             <p style={{ color: "red", fontSize: "14px" }}>{nameError}</p>
           </div>
           <div className="form-group">
-            <label>Email Address</label>
+            <label className="required">Email Address</label>
             <input
-              type="email"
+              type="text"
               className="form-control form-control-light"
               onChange={(e) => setEmail(e.target.value)}
-              placeholder="Email Address"
+              placeholder="Enter you email"
               name="email"
             />
             <p style={{ color: "red", fontSize: "14px" }}>{emailError}</p>
           </div>
           <div className="form-group">
-            <label>Password</label>
+            <label className="required">Password</label>
             <input
               type="password"
               className="form-control form-control-light"
               onChange={(e) => setPassword(e.target.value)}
-              placeholder="Password"
+              placeholder="Enter your password"
               name="password"
               autoComplete="off"
             />
             <p style={{ color: "red", fontSize: "14px" }}>{passwordError}</p>
           </div>
           <div className="form-group">
-            <label>Mobile Number</label>
+            <label className="required">Mobile Number</label>
             <input
               type="number"
               className="form-control form-control-light"
@@ -190,7 +204,7 @@ const Content = () => {
             </p>
           </div>
           <div className="form-group">
-            <label>User Type</label>
+            <label className="required">User Type</label>
             <select
               className="form-control"
               name="userType"
@@ -213,8 +227,9 @@ const Content = () => {
                 type="checkbox"
                 className="custom-control-input"
                 id="termsAndConditions"
-                onChange={(e) => setTandcBox(e.target.value)}
+                onChange={(e) => handleCheckBox()}
                 name="tandcBox"
+                checked={tandcBox}
               />
 
               <label
@@ -227,8 +242,16 @@ const Content = () => {
               </label>
             </div>
             <p style={{ color: "red", fontSize: "14px" }}>{tandcBoxError}</p>
-            <p style={{ color: "red", fontSize: "14px" }}>{regStatus}</p>
+            <p className="text-center" style={{ color: "red", fontSize: "14px" }}>{regStatus}</p>
           </div>
+
+
+          <ReCaptchaV2
+            sitekey={process.env.REACT_APP_RECAPTCHA_SITE_KEY}
+            onChange={handleToken}
+            onExpire={handleExpire}
+          />
+          <p style={{ color: "red", fontSize: "14px" }}>{tokenError}</p>
           <button type="submit" className="btn-custom secondary btn-block">
             Register
           </button>

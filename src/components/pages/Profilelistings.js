@@ -4,7 +4,7 @@ import Header from '../layouts/Headerfive';
 import Breadcrumb from '../layouts/Userbreadcrumb';
 import Footer from '../layouts/Footerthree';
 import Content from '../sections/profile-listings/Content';
-import { openInGmail, successToast, errorToast, Endpoints, Host, convertToSlug, getUserToken, uppercaseFirstLetter } from "../../helper/comman_helper";
+import { Endpoints, Host, getUserToken } from "../../helper/comman_helper";
 import Axios from "axios";
 
 const Profilelistings = () => {

@@ -1,10 +1,13 @@
 import axios from "axios";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 import Slider from "react-slick";
-import { Endpoints, Host } from "../../../helper/comman_helper";
+import { Endpoints, Host, successToast, errorToast } from "../../../helper/comman_helper";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import ReCaptchaV2 from "react-google-recaptcha";
+
+
 const images = [
   {
     img: "assets/img/coming-soon/1.jpg",
@@ -33,6 +36,8 @@ const settings = {
 const Content = () => {
   const [email, setEmail] = useState("");
   const [emailError, setEmailError] = useState("");
+  const [token, setToken] = useState("");
+  const [tokenError, setTokenError] = useState("");
   const history = useHistory();
 
   const isValid = () => {
@@ -40,50 +45,44 @@ const Content = () => {
       /[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,15}/g
     ).test(email);
 
-    if (!emailValidator) {
+    if (!emailValidator && token && token.length === 0) {
       setEmailError("Please enter a valid email address!");
-    } else {
+      setTokenError('Please verify captcha!')
+    } else if (!emailValidator) {
+      setEmailError("Please enter a valid email address!");
+    } else if (token.length === 0) {
+      setTokenError('Please verify captcha!')
+    }
+    else {
       return true;
     }
   };
-  const successToast = () => {
-    toast.success("✅" + "Success!", {
-      position: "top-center",
-      autoClose: 1000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-    });
-  };
-  const errorToast = (message) => {
-    toast.error(message, {
-      position: "top-center",
-      autoClose: 3000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-    });
-  };
+
+
   const submit = (e) => {
     e.preventDefault();
 
     setEmailError("");
+    setTokenError('')
 
     if (isValid()) {
       var url = Host + Endpoints.forgotPassword;
-      axios.post(url, { email: email, type: 'seller' }).then((response) => {
+      axios.post(url, { email: email, type: 'seller', token: token, }).then((response) => {
         if (response.data.error === true) {
           // history.push("/forgot-password-verification");
           errorToast("❌" + response.data.title);
         } else {
-          successToast();
+          successToast('Check email to create new password!');
         }
       });
     }
+  };
+
+  const handleToken = (captchaToken) => {
+    setToken(captchaToken);
+  };
+  const handleExpire = () => {
+    setToken(null);
   };
   return (
     <div className="acr-auth-container">
@@ -97,7 +96,7 @@ const Content = () => {
             </p>
           </div>
           <div className="form-group">
-            <label>Email</label>
+            <label className="required">Email</label>
             <input
               type="text"
               onChange={(e) => setEmail(e.target.value)}
@@ -107,6 +106,14 @@ const Content = () => {
             />
             <p style={{ color: "red", fontSize: "14px" }}>{emailError}</p>
           </div>
+
+
+          <ReCaptchaV2
+            sitekey={process.env.REACT_APP_RECAPTCHA_SITE_KEY}
+            onChange={handleToken}
+            onExpire={handleExpire}
+          />
+          <p style={{ color: "red", fontSize: "14px" }}>{tokenError}</p>
 
           <div className="form-group">
             <Link to="/login" className="forgot-password">
@@ -118,7 +125,7 @@ const Content = () => {
             Don't have an account? <Link to="/register">Create One</Link>{" "}
           </p>
           <button type="submit" className="btn-custom secondary btn-block">
-            Login
+            Send Recovery Email
           </button>
         </form>
         <ToastContainer />

@@ -22,7 +22,7 @@ export const ActualSearch = () => {
                             <Nav.Link eventKey="sold">Sold</Nav.Link>
                         </Nav.Item>
                         <Nav.Item>
-                            <Nav.Link eventKey="share">share</Nav.Link>
+                            <Nav.Link eventKey="share">Share</Nav.Link>
                         </Nav.Item>
                         <Nav.Item>
                             <Nav.Link eventKey="findAgents">Find Agents</Nav.Link>

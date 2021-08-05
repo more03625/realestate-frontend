@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Link, Redirect } from "react-router-dom";
 import Slider from "react-slick";
 import Axios from "axios";
@@ -78,11 +78,12 @@ const Content = () => {
         token: token,
         type: "seller",
       }
-      Axios.post(url, data, {
-        headers: {
-          "Access-Control-Allow-Origin": "http://localhost:3000/"
-        }
-      }).then((response) => {
+      // , {
+      //   headers: {
+      //     "Access-Control-Allow-Origin": "http://localhost:3000/"
+      //   }
+      // }
+      Axios.post(url, data).then((response) => {
         if (response.data.error === true) {
           errorToast(response.data.title);
           setLoginButtonStatus(true);
@@ -100,10 +101,7 @@ const Content = () => {
       });
     }
   };
-  const loginBtnFun = () => {
-    alert("hi");
-    // setLoginButtonStatus(true);
-  };
+
   const handleToken = (captchaToken) => {
     setToken(captchaToken);
   };
@@ -122,19 +120,19 @@ const Content = () => {
             </h3>
           </div>
           <div className="form-group">
-            <label>Username</label>
+            <label className="required">Email</label>
             <input
               type="text"
               onChange={(e) => setEmail(e.target.value)}
               className="form-control form-control-light"
-              placeholder="Username"
+              placeholder="Enter your email"
               name="email"
             />
 
             <p style={{ color: "red", fontSize: "14px" }}>{emailError}</p>
           </div>
           <div className="form-group">
-            <label>Password </label>
+            <label className="required">Password </label>
             <input
               type="password"
               onChange={(e) => setPassword(e.target.value)}
