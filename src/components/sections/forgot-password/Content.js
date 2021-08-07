@@ -45,12 +45,12 @@ const Content = () => {
       /[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,15}/g
     ).test(email);
 
-    if (!emailValidator && token && token.length === 0) {
+    if (!emailValidator && token && token === null && token.length === 0) {
       setEmailError("Please enter a valid email address!");
       setTokenError('Please verify captcha!')
     } else if (!emailValidator) {
       setEmailError("Please enter a valid email address!");
-    } else if (token.length === 0) {
+    } else if (token === null || token.length === 0) {
       setTokenError('Please verify captcha!')
     }
     else {

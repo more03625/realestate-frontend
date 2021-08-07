@@ -48,8 +48,7 @@ const Content = () => {
     var emailValidator = new RegExp(
       /[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,15}/g
     ).test(email);
-
-    if (!emailValidator && password === "" && token.length === 0) {
+    if (!emailValidator && password === "" && token === null && token.length === 0) {
       setEmailError("Please enter a valid email address!");
       setPasswordError("Please enter your password!");
       setTokenError("Please Verify captcha!");
@@ -57,12 +56,13 @@ const Content = () => {
       setEmailError("Please enter a valid email address!");
     } else if (password === "") {
       setPasswordError("Please enter your password!");
-    } else if (token.length === 0) {
+    } else if (token === null || token.length === 0) {
       setTokenError("Please Verify captcha!");
     } else {
       return true;
     }
   };
+  //Rahul more
 
   const login = (e) => {
     e.preventDefault();

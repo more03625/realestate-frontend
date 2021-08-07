@@ -1,11 +1,9 @@
-import React, { Fragment, useEffect, useState } from 'react';
+import React, { Fragment } from 'react';
 import MetaTags from "react-meta-tags";
 import Header from '../layouts/Headerfive';
 import Footer from '../layouts/Footerthree';
 import Breadcrumb from '../layouts/Breadcrumb';
 import Content from '../sections/alerts-subscribe/Content';
-import Axios from 'axios';
-import { Endpoints, Host } from '../../helper/comman_helper';
 
 const Alertssubscribe = () => {
     return (

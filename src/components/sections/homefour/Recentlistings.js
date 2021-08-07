@@ -112,7 +112,7 @@ const Recentlisting = () => {
                         {" "}
                         <Link to="#">{item.name}</Link>{" "}
                       </p>
-                      <span className="listing-date">{item.postdate}</span>
+                      <span className="listing-date">{new Date(item.createdAt).toDateString()}</span>
                     </div>
                     <Dropdown className="options-dropdown">
                       <Dropdown.Toggle as={NavLink}>
@@ -129,7 +129,7 @@ const Recentlisting = () => {
                           </li>
                           <li>
                             {" "}
-                            <Link to={{ pathname: `${openInGmail(item.email_for_contact)}` }}>
+                            <Link target="_blank" to={{ pathname: `${openInGmail(item.email_for_contact)}` }}>
                               {" "}
                               <i className="fas fa-envelope" /> Send Message
                             </Link>{" "}

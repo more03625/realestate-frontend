@@ -101,7 +101,6 @@ function Content() {
     height: '100%',
 
   };
-  const history = useHistory();
   const { propertyID } = useParams();
 
   const [propertyData, setPropertyData] = useState([]);
@@ -109,13 +108,16 @@ function Content() {
   const [states, setStates] = useState([]);
   const [cities, setCities] = useState([]);
   const [files, setFiles] = useState([]);
-  const [isImageSelected, setIsImageSelected] = useState([]);
-  const [propertyDetails, setPropertyDetails] = useState([]);
+  const [isImageSelected, setIsImageSelected] = useState(false);
   const [stepID, setStepID] = useState(1);
 
   const [indoorFeatures, setIndoorFeatures] = useState([]);
   const [outdoorFeatures, setOutdoorFeatures] = useState([]);
   const [climateControlFeatures, setClimateControlFeatures] = useState([]);
+
+  // Below For edit use only
+
+  // Above For edit use only
 
   const [categories, setCategories] = useState([]);
   const [subCategoriesWithCount, setSubCategoriesWithCount] = useState([]);
@@ -127,10 +129,14 @@ function Content() {
   const { getRootProps, getInputProps } = useDropzone({
     accept: 'image/*',
     onDrop: acceptedFiles => {
-      setFiles(acceptedFiles.map(file => Object.assign(file, {
-        preview: URL.createObjectURL(file),
-        base64: convertToBase64(file),
-      })));
+      setFiles(acceptedFiles.map(file => Object.assign(file,
+        {
+          preview: URL.createObjectURL(file),
+          base64: convertToBase64(file),
+        })
+
+      )
+      );
     }
   });
 
@@ -276,47 +282,12 @@ function Content() {
 
       base64Images.push(multipleImages);
     }
-    setIsImageSelected({
-      ...isImageSelected,
-      images: `${images.length} images has been selected!`,
-    });
+    // setIsImageSelected({
+    //   ...isImageSelected,
+    //   images: `${images.length} images has been selected!`,
+    // });
     setPropertyData({ ...propertyData, images: base64Images });
   }
-  const getPropertyDetails = () => {
-    if (propertyID !== undefined) {
-      var url = Host + Endpoints.getPropertyDetails + propertyID;
-      Axios.get(url).then((response) => {
-        if (response.data.error !== true) {
-
-          setPropertyData(response.data.data);
-          var abc = [];
-          if (response.data.data.features.length > 0) { // to default checked
-            for (var i = 0; i < response.data.data.features.length; i++) {
-              abc.push(response.data.data.features[i].id);
-            }
-            alert(abc)
-          }
-          console.log(response.data.data.features.length)
-        }
-      });
-    }
-  };
-
-  useEffect(() => {
-    // Make sure to revoke the data uris to avoid memory leaks
-    getStates();
-    getPropertyDetails();
-    getPropertyTypes();
-    getCities();
-    getCategories();
-    getSubCategories();
-    getIndoorFeatures();
-    getOutDoorFeatures();
-    getClimateControlFeatures();
-    setPropertyData({ ...propertyData, user_id: getUserToken().data.id, });
-    dropZoneToBase64(files)
-    files.forEach((file) => URL.revokeObjectURL(file.preview));
-  }, [files]);
 
   const [selectedM, setSelectedM] = useState([]);
 
@@ -328,11 +299,10 @@ function Content() {
     } else {
       selectedM.push(id);
     }
-
     setSelectedM(selectedM);
-
     console.log(selectedM);
   };
+
   function matchYoutubeUrl(e) {
     var youtubeURL = e.target.value;
 
@@ -582,7 +552,6 @@ function Content() {
       });
       return false;
     } else {
-
       setPropertyDataError({ email_for_contact: "" });
       return true;
     }
@@ -590,7 +559,8 @@ function Content() {
   const handleSubmit = (e) => {
     setLoadingButton(true);
     e.preventDefault();
-    if (isImageSelected.length == 0) {
+
+    if (isImageSelected === false) {
       const imageObject = { images: 0, image: 0 };
       Object.assign(propertyData, imageObject); // object assign is used to update the propertyData object with imagesObject
     }
@@ -631,6 +601,55 @@ function Content() {
       setLoadingButton(false);
     }
   };
+
+  const getPropertyDetails = () => {
+    if (propertyID !== undefined) {
+      var url = Host + Endpoints.getPropertyDetails + propertyID;
+      Axios.get(url).then((response) => {
+        if (response.data.error !== true) {
+          setPropertyData(response.data.data);
+
+          var myObject = response.data.data.features;
+
+          let indoor = [];
+          let outdoor = [];
+          let climate = [];
+
+          const entries = Object.entries(myObject).map((value, index) => {
+            value[1].map((featureTypeName, featureTypeIndex) => {
+              if (featureTypeName.type == "Indoor Features") {
+                indoor.push(featureTypeName.id);
+              }
+              else if (featureTypeName.type == "Outdoor Features") {
+                outdoor.push(featureTypeName.id);
+              } else {
+                climate.push(featureTypeName.id);
+              }
+            });
+
+          });
+          var selectedFeaturesArray = [...indoor, ...outdoor, ...climate];
+          setSelectedM(selectedFeaturesArray);
+        }
+      });
+    }
+  };
+  useEffect(() => {
+    // Make sure to revoke the data uris to avoid memory 
+    getPropertyDetails();
+    getCategories();
+    getPropertyTypes();
+    getSubCategories();
+    getStates();
+    getCities();
+    getIndoorFeatures();
+    getOutDoorFeatures();
+    getClimateControlFeatures();
+
+    setPropertyData({ ...propertyData, user_id: getUserToken().data.id, });
+    dropZoneToBase64(files)
+    files.forEach((file) => URL.revokeObjectURL(file.preview));
+  }, [files]);
   return (
     <div className="section">
       <div className="container">
@@ -776,12 +795,13 @@ function Content() {
                           }
                         >
                           <option value="">Property Type</option>
-                          {propertyTypes &&
-                            propertyTypes.map((value, index) => (
-                              <option key={index} value={lowercaseFirstLetter(value.name)}>
-                                {uppercaseFirstLetter(value.name)}
+                          {
+                            propertyTypes && propertyTypes.filter((x) => x.name !== 'sold').map((ptype) => (
+                              <option key={ptype.id} value={lowercaseFirstLetter(ptype.name)}>
+                                {uppercaseFirstLetter(ptype.name)}
                               </option>
-                            ))}
+                            ))
+                          }
                         </select>
 
                         <p style={errorStyle}>
@@ -1217,9 +1237,11 @@ function Content() {
                                 <label className="acr-listing-feature">
                                   <input
                                     type="checkbox"
-                                    name={"feature" + value.id + ""}
+                                    name={"feature_" + value.id + ""}
+                                    value={value.id}
                                     onChange={() => onChange(value.id)}
-                                    selected={selectedM.includes(value.id)}
+                                    defaultChecked={selectedM.indexOf(value.id) > -1 ? true : false}
+                                  // selected={selectedM.includes(value.id)}
                                   />
                                   <i className="acr-feature-check fas fa-check" />
                                   <i
@@ -1248,9 +1270,10 @@ function Content() {
                                 <label className="acr-listing-feature">
                                   <input
                                     type="checkbox"
-                                    name={"feature" + value.id + ""}
+                                    name={"feature_" + value.id + ""}
                                     onChange={() => onChange(value.id)}
-                                    selected={selectedM.includes(value.id)}
+                                    defaultChecked={selectedM.indexOf(value.id) > -1 ? true : false}
+                                  // selected={selectedM.includes(value.id)}
                                   />
                                   <i className="acr-feature-check fas fa-check" />
                                   <i
@@ -1278,9 +1301,10 @@ function Content() {
                                 <label className="acr-listing-feature">
                                   <input
                                     type="checkbox"
-                                    name={"feature" + value.id + ""}
+                                    name={"feature_" + value.id + ""}
                                     onChange={() => onChange(value.id)}
-                                    selected={selectedM.includes(value.id)}
+                                    defaultChecked={selectedM.indexOf(value.id) > -1 ? true : false}
+                                  // selected={selectedM.includes(value.id)}
                                   />
                                   <i className="acr-feature-check fas fa-check" />
                                   <i
@@ -1345,7 +1369,7 @@ function Content() {
                               : ""
                           }
                         >
-                          <option value="">Select beds</option>
+                          <option value="">Select Rooms</option>
                           {rooms &&
                             rooms.map((value, index) => (
                               <option key={index} value={index}>{value}</option>

@@ -130,7 +130,7 @@ const Content = ({ properties, searchResults, parentCallback }) => {
                   <ul>
                     <li>
                       {" "}
-                      <Link to={{ pathname: `tel:${item.number_for_contact}` }}>
+                      <Link target="_blank" to={{ pathname: `tel:${item.number_for_contact}` }}>
                         {" "}
                         <i className="fas fa-phone" />
                         Call Agent

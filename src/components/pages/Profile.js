@@ -19,7 +19,7 @@ const Profile = () => {
                 token: getUserToken().token
             }
         });
-
+        console.log(result.data.data);
         setUserData(result.data.data);
 
     }

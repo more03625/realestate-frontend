@@ -8,7 +8,6 @@ import { useParams } from "react-router-dom";
 const Listingdetailsone = () => {
     const { slug } = useParams();
 
-
     return (
         <Fragment>
             <MetaTags>

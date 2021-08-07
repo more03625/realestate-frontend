@@ -7,12 +7,12 @@ const Userbreadcrumb = ({ userData }) => {
             <div className="container">
                 <div className="media">
                     <img
-                        src={userData.profile_image != null ? process.env.REACT_APP_CONTENT_URL + userData.profile_image + "_small.jpg" : process.env.REACT_APP_CONTENT_URL + "/users/default.png"}
-                        alt={userData.profile_image + "_small.jpg"}
+                        src={userData && userData.profile_image != undefined ? process.env.REACT_APP_CONTENT_URL + userData.profile_image + "_small.jpg" : process.env.REACT_APP_CONTENT_URL + "/users/default.png"}
+                        alt={userData && userData.profile_image != undefined ? process.env.REACT_APP_CONTENT_URL + userData.profile_image + "_small.jpg" : process.env.REACT_APP_CONTENT_URL + "/users/default.png"}
                     />
                     <div className="media-body">
-                        <h3 className="text-white">{userData.name}</h3>
-                        <span className="user-email">{userData.email}</span>
+                        <h3 className="text-white">{userData && userData.name !== undefined ? userData.name : ''}</h3>
+                        <span className="user-email">{userData && userData.email !== undefined ? userData.email : ''}</span>
                     </div>
                     <Link to="/add-property" className="btn-custom secondary mr-0">Add Property <i className="fas mr-0 fa-plus" /> </Link>
                 </div>

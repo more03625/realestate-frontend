@@ -22,13 +22,7 @@ import {
 } from "../../../helper/comman_helper";
 import Loader from "../../layouts/Loader";
 import ContentNotFound from "../../pages/ContentNotFound";
-// Gallery
-const listinggallery = [
-    { img: "assets/img/listing-single/2.jpg" },
-    { img: "assets/img/listing-single/3.jpg" },
-    { img: "assets/img/listing-single/4.jpg" },
-    { img: "assets/img/listing-single/5.jpg" },
-];
+
 const gallerytip = <Tooltip>Gallery</Tooltip>;
 const bedstip = <Tooltip>Beds</Tooltip>;
 const bathstip = <Tooltip>Bathrooms</Tooltip>;
@@ -53,36 +47,76 @@ function SamplePrevArrow(props) {
         />
     );
 }
+// const settings = {
+//     slidesToShow: 1,
+//     slidesToScroll: 1,
+//     arrows: false,
+//     dots: false,
+// };
 const settings = {
-    autoplay: true,
-    autoplaySpeed: 2000,
-    arrows: true,
-    fade: true,
-    infinite: true,
+    className: "center",
+    centerMode: true,
     slidesToShow: 1,
     slidesToScroll: 1,
+    arrows: false,
+    dots: false,
+
+    // fade: true,
+    // focusOnSelect: true,
+    // centerPadding: '10px',
+    // autoplay: true,
+    autoplaySpeed: 2000,
+    // infinite: true,
+
     nextArrow: <SampleNextArrow />,
     prevArrow: <SamplePrevArrow />,
 
 };
-const settingsThumbs = {
-    slidesToShow: 3,
+
+const settingsthumb = {
+    slidesToShow: 4,
     slidesToScroll: 1,
-    asNavFor: '.slider-for',
-    centerMode: true,
-    swipeToSlide: true,
+    dots: false,
     focusOnSelect: true,
-    centerPadding: '10px',
+    autoplay: true,
+
     responsive: [
         {
-            breakpoint: 768,
+            breakpoint: 1024,
+            settings: {
+                slidesToShow: 3,
+                slidesToScroll: 3,
+                infinite: true,
+                dots: true
+            }
+        },
+        {
+            breakpoint: 600,
             settings: {
                 slidesToShow: 2,
-            },
+                slidesToScroll: 2,
+                initialSlide: 2
+            }
         },
-    ],
-};
+        {
+            breakpoint: 480,
+            settings: {
+                slidesToShow: 1,
+                slidesToScroll: 1
+            }
+        }
+    ]
+}
+
 const Listingwrapper = () => {
+    const errorStyle = {
+        color: "red",
+        fontSize: "14px",
+    };
+    const successStyle = {
+        color: "#28a745",
+        fontSize: "14px",
+    };
     const ref = useRef();
     const { propertyID } = useParams();
     const slider = useRef();
@@ -90,19 +124,26 @@ const Listingwrapper = () => {
     const [propertyDetails, setPropertyDetails] = useState(null);
     const [recentProperties, setRecentProperties] = useState([]);
 
-
-    const [showmore, setShowMore] = useState(false);
-
-
     const [nav1, setNav1] = useState(null);
     const [nav2, setNav2] = useState(null);
     const [slider1, setSlider1] = useState(null);
     const [slider2, setSlider2] = useState(null);
 
+    const sliderpost = [
+        { img: "assets/img/listing-single/2.jpg" },
+        { img: "assets/img/listing-single/3.jpg" },
+        { img: "assets/img/listing-single/4.jpg" },
+        { img: "assets/img/listing-single/5.jpg" },
+    ];
 
-    var showmoretoggle = () => {
-        setShowMore(!showmore);
-    };
+    const next = () => {
+        this.slider.slickNext();
+    }
+    const previous = () => {
+        this.slider.slickPrev();
+    }
+
+
     const imageGal = {
         width: "730px",
         height: "485px",
@@ -139,10 +180,8 @@ const Listingwrapper = () => {
         ref.current.scrollIntoView();
 
         getRecentProperties();
-
         setNav1(slider1);
         setNav2(slider2);
-        // popup();
     }, [propertyID]);
 
     const [fname, setFname] = useState("");
@@ -156,6 +195,9 @@ const Listingwrapper = () => {
     const [phoneError, setPhoneError] = useState("");
     const [dateError, setDateError] = useState("");
     const [commentError, setCommentError] = useState("");
+
+    const [contactUsStatus, setContactUsStatus] = useState("");
+
 
     const isValid = () => {
         var emailValidator = new RegExp(
@@ -218,7 +260,8 @@ const Listingwrapper = () => {
                     errorToast(response.data.error);
                 } else {
                     e.target.reset();
-                    successToast(response.data.title);
+                    setContactUsStatus({ 'success': true, 'message': 'Our team will get back to you Asap!' });
+                    successToast("Thank you! Our team will get back to you!");
                 }
             });
         } else {
@@ -239,12 +282,8 @@ const Listingwrapper = () => {
     }
 
     return (
-        <div className="section listing-wrapper" ref={ref}>
-            {propertyDetails == null ? (
-                <Loader />
-            ) : propertyDetails == undefined ? (
-                <Loader />
-            ) : (
+        <div className="section listing-wrapper " ref={ref}>
+            {propertyDetails == null || propertyDetails == undefined ? (<Loader />) : (
                 <>
                     <div className="container">
                         <div className="row">
@@ -255,49 +294,21 @@ const Listingwrapper = () => {
                                         ? propertyDetails.title
                                         : ""}{" "}
                                 </h4>
-                                <div className="listing-thumbnail">
-                                    <Slider
-                                        className="listing-thumbnail-slider-main col-12"
-                                        asNavFor={nav2}
-                                        ref={slider}
-                                        {...settings}
-                                    >
-                                        {mainslider &&
-                                            mainslider.map((item, i) => (
-                                                <Link
-                                                    key={i}
-                                                    to="#"
-                                                    className="slider-thumbnail-item gallery-thumb"
-                                                >
-                                                    <img
-                                                        style={{ imageGal }}
-                                                        src={
-                                                            process.env.REACT_APP_CONTENT_URL + item + ".jpg"
-                                                        }
-                                                        alt={
-                                                            propertyDetails && propertyDetails.title
-                                                                ? propertyDetails.title
-                                                                : ""
-                                                        }
-                                                        style={{ width: "730px", height: "548px" }}
-                                                    />
-                                                </Link>
-                                            ))}
-                                    </Slider>
-                                </div>
 
-                                <div className="thumbnail-slider-wrap">
-                                    <Slider
-                                        {...settingsThumbs}
-                                        asNavFor={nav1}
-                                        ref={slider => (setSlider2(slider))}>
-
-                                        {mainslider.map((item, i) =>
-
-
-                                            <div className="slick-slide" key={i}>
-
-                                                <img className="slick-slide-image"
+                                <Slider
+                                    className="listing-thumbnail-slider-main col-12"
+                                    asNavFor={nav2}
+                                    ref={slider => (setSlider1(slider))}
+                                    {...settings}
+                                >
+                                    {mainslider &&
+                                        mainslider.map((item, i) => (
+                                            <Link
+                                                key={i}
+                                                to="#"
+                                                className="slider-thumbnail-item gallery-thumb"
+                                            >
+                                                <img className="rounded"
                                                     style={{ imageGal }}
                                                     src={
                                                         process.env.REACT_APP_CONTENT_URL + item + ".jpg"
@@ -307,17 +318,37 @@ const Listingwrapper = () => {
                                                             ? propertyDetails.title
                                                             : ""
                                                     }
-                                                    style={{ width: "70%", height: "100px" }}
+                                                    style={{ width: "730px", height: "548px" }}
                                                 />
-
-
+                                            </Link>
+                                        ))}
+                                </Slider>
+                                <div className="thumbnail-slider-wrap">
+                                    {/* Slider2 Starts */}
+                                    <Slider
+                                        asNavFor={nav1}
+                                        ref={slider => (setSlider2(slider))}
+                                        {...settingsthumb}
+                                    >
+                                        {mainslider.map((item, i) =>
+                                            <div className="slick-slide" key={i}>
+                                                <img className="rounded"
+                                                    style={{ imageGal }}
+                                                    src={
+                                                        process.env.REACT_APP_CONTENT_URL + item + ".jpg"
+                                                    }
+                                                    alt={
+                                                        propertyDetails && propertyDetails.title
+                                                            ? propertyDetails.title
+                                                            : ""
+                                                    }
+                                                    style={{ width: "100%", height: "100px", objectFit: "cover", cursor: "pointer", padding: "5px" }}
+                                                />
                                             </div>
-
                                         )}
-
                                     </Slider>
+                                    {/* Slider2 Ends */}
                                 </div>
-
 
                                 {/* Content Start */}
                                 <div className="listing-content">
@@ -354,7 +385,7 @@ const Listingwrapper = () => {
                                     <div className="row">
                                         {propertyDetails && propertyDetails.category_name ? (
                                             <div className="listing-feature col-lg-6 col-md-6">
-                                                <span class="fa fa-star fa-lg propertyDetailsOtherDetails" aria-hidden="true"></span>
+                                                <span className="fa fa-star fa-lg propertyDetailsOtherDetails" aria-hidden="true"></span>
                                                 <h6 className="listing-feature-label">
 
                                                     Category</h6>
@@ -367,7 +398,7 @@ const Listingwrapper = () => {
                                         )}
                                         {propertyDetails && propertyDetails.sub_category_name ? (
                                             <div className="listing-feature col-lg-6 col-md-6">
-                                                <span class="fa fa-star fa-lg propertyDetailsOtherDetails" aria-hidden="true"></span>
+                                                <span className="fa fa-star fa-lg propertyDetailsOtherDetails" aria-hidden="true"></span>
                                                 <h6 className="listing-feature-label">Sub category</h6>
                                                 <span className="listing-feature-value">
                                                     {propertyDetails && propertyDetails.sub_category_name
@@ -380,7 +411,7 @@ const Listingwrapper = () => {
                                         )}
                                         {propertyDetails && propertyDetails.area ? (
                                             <div className="listing-feature col-lg-6 col-md-6">
-                                                <span class="fa fa-star fa-lg propertyDetailsOtherDetails" aria-hidden="true"></span>
+                                                <span className="fa fa-star fa-lg propertyDetailsOtherDetails" aria-hidden="true"></span>
                                                 <h6 className="listing-feature-label">Total Area</h6>
                                                 <span className="listing-feature-value">
                                                     {propertyDetails && propertyDetails.area
@@ -395,7 +426,7 @@ const Listingwrapper = () => {
                                         )}
                                         {propertyDetails && propertyDetails.carpet_area ? (
                                             <div className="listing-feature col-lg-6 col-md-6">
-                                                <span class="fa fa-star fa-lg propertyDetailsOtherDetails" aria-hidden="true"></span>
+                                                <span className="fa fa-star fa-lg propertyDetailsOtherDetails" aria-hidden="true"></span>
                                                 <h6 className="listing-feature-label">Build Up Area</h6>
                                                 <span className="listing-feature-value">
                                                     {propertyDetails.carpet_area +
@@ -408,7 +439,7 @@ const Listingwrapper = () => {
                                         )}
                                         {/* {propertyDetails && propertyDetails.area_in_sqft ? (
                                             <div className="listing-feature col-lg-6 col-md-6">
-                                            <span class="fa fa-star fa-lg propertyDetailsOtherDetails" aria-hidden="true"></i>  span 
+                                            <span className="fa fa-star fa-lg propertyDetailsOtherDetails" aria-hidden="true"></i>  span 
                                             <h6 className="listing-feature-label">Area in Sqft.</h6>
                                                 <span className="listing-feature-value">
                                                     {propertyDetails.area_in_sqft + " Sqft"}
@@ -419,7 +450,7 @@ const Listingwrapper = () => {
                                         )} */}
                                         {/* {propertyDetails && propertyDetails.area_type ? (
                                             <div className="listing-feature col-lg-6 col-md-6">
-                                            <span class="fa fa-star fa-lg propertyDetailsOtherDetails" aria-hidden="true"></i>  span 
+                                            <span className="fa fa-star fa-lg propertyDetailsOtherDetails" aria-hidden="true"></i>  span 
                                             <h6 className="listing-feature-label">Area Type</h6>
                                                 <span className="listing-feature-value">
                                                     {uppercaseFirstLetter(propertyDetails.area_type)}
@@ -430,7 +461,7 @@ const Listingwrapper = () => {
                                         )} */}
                                         {propertyDetails && propertyDetails.build_type ? (
                                             <div className="listing-feature col-lg-6 col-md-6">
-                                                <span class="fa fa-star fa-lg propertyDetailsOtherDetails" aria-hidden="true"></span>
+                                                <span className="fa fa-star fa-lg propertyDetailsOtherDetails" aria-hidden="true"></span>
                                                 <h6 className="listing-feature-label">Build Type</h6>
                                                 <span className="listing-feature-value">
                                                     {uppercaseFirstLetter(propertyDetails.build_type)}
@@ -441,7 +472,7 @@ const Listingwrapper = () => {
                                         )}
                                         {propertyDetails && propertyDetails.no_of_bathrooms ? (
                                             <div className="listing-feature col-lg-6 col-md-6">
-                                                <span class="fa fa-star fa-lg propertyDetailsOtherDetails" aria-hidden="true"></span>
+                                                <span className="fa fa-star fa-lg propertyDetailsOtherDetails" aria-hidden="true"></span>
                                                 <h6 className="listing-feature-label">
                                                     No of bathrooms
                                                 </h6>
@@ -454,7 +485,7 @@ const Listingwrapper = () => {
                                         )}
                                         {propertyDetails && propertyDetails.no_of_beds ? (
                                             <div className="listing-feature col-lg-6 col-md-6">
-                                                <span class="fa fa-star fa-lg propertyDetailsOtherDetails" aria-hidden="true"></span>
+                                                <span className="fa fa-star fa-lg propertyDetailsOtherDetails" aria-hidden="true"></span>
                                                 <h6 className="listing-feature-label">No of Beds</h6>
                                                 <span className="listing-feature-value">
                                                     {propertyDetails.no_of_beds + " Beds"}
@@ -466,7 +497,7 @@ const Listingwrapper = () => {
 
                                         {propertyDetails && propertyDetails.no_of_garage ? (
                                             <div className="listing-feature col-lg-6 col-md-6">
-                                                <span class="fa fa-star fa-lg propertyDetailsOtherDetails" aria-hidden="true"></span>
+                                                <span className="fa fa-star fa-lg propertyDetailsOtherDetails" aria-hidden="true"></span>
                                                 <h6 className="listing-feature-label">No of Garage</h6>
                                                 <span className="listing-feature-value">
                                                     {propertyDetails.no_of_garage + " Garages"}
@@ -478,7 +509,7 @@ const Listingwrapper = () => {
 
                                         {propertyDetails && propertyDetails.no_of_rooms ? (
                                             <div className="listing-feature col-lg-6 col-md-6">
-                                                <span class="fa fa-star fa-lg propertyDetailsOtherDetails" aria-hidden="true"></span>
+                                                <span className="fa fa-star fa-lg propertyDetailsOtherDetails" aria-hidden="true"></span>
                                                 <h6 className="listing-feature-label">No of Rooms</h6>
                                                 <span className="listing-feature-value">
                                                     {propertyDetails.no_of_rooms + " Rooms"}
@@ -490,7 +521,7 @@ const Listingwrapper = () => {
 
                                         {propertyDetails && propertyDetails.road_type ? (
                                             <div className="listing-feature col-lg-6 col-md-6">
-                                                <span class="fa fa-star fa-lg propertyDetailsOtherDetails" aria-hidden="true"></span>
+                                                <span className="fa fa-star fa-lg propertyDetailsOtherDetails" aria-hidden="true"></span>
                                                 <h6 className="listing-feature-label">Road Type</h6>
                                                 <span className="listing-feature-value">
                                                     {propertyDetails.road_type}
@@ -502,7 +533,7 @@ const Listingwrapper = () => {
 
                                         {propertyDetails && propertyDetails.car_spaces ? (
                                             <div className="listing-feature col-lg-6 col-md-6">
-                                                <span class="fa fa-star fa-lg propertyDetailsOtherDetails" aria-hidden="true"></span>
+                                                <span className="fa fa-star fa-lg propertyDetailsOtherDetails" aria-hidden="true"></span>
                                                 <h6 className="listing-feature-label">Car spaces</h6>
                                                 <span className="listing-feature-value">
                                                     {propertyDetails.car_spaces + " Car spaces"}
@@ -514,7 +545,7 @@ const Listingwrapper = () => {
 
                                         {propertyDetails && propertyDetails.facing ? (
                                             <div className="listing-feature col-lg-6 col-md-6">
-                                                <span class="fa fa-star fa-lg propertyDetailsOtherDetails" aria-hidden="true"></span>
+                                                <span className="fa fa-star fa-lg propertyDetailsOtherDetails" aria-hidden="true"></span>
                                                 <h6 className="listing-feature-label">Facing</h6>
                                                 <span className="listing-feature-value">
                                                     {propertyDetails.facing}
@@ -526,7 +557,7 @@ const Listingwrapper = () => {
 
                                         {propertyDetails && propertyDetails.floor ? (
                                             <div className="listing-feature col-lg-6 col-md-6">
-                                                <span class="fa fa-star fa-lg propertyDetailsOtherDetails" aria-hidden="true"></span>
+                                                <span className="fa fa-star fa-lg propertyDetailsOtherDetails" aria-hidden="true"></span>
                                                 <h6 className="listing-feature-label">Floor</h6>
                                                 <span className="listing-feature-value">
                                                     {propertyDetails.floor} Floors
@@ -538,7 +569,7 @@ const Listingwrapper = () => {
 
                                         {propertyDetails && propertyDetails.furnishing ? (
                                             <div className="listing-feature col-lg-6 col-md-6">
-                                                <span class="fa fa-star fa-lg propertyDetailsOtherDetails" aria-hidden="true"></span>
+                                                <span className="fa fa-star fa-lg propertyDetailsOtherDetails" aria-hidden="true"></span>
                                                 <h6 className="listing-feature-label">Furnishing</h6>
                                                 <span className="listing-feature-value">
                                                     {propertyDetails.furnishing}
@@ -550,7 +581,7 @@ const Listingwrapper = () => {
 
                                         {/* {propertyDetails && propertyDetails.are_you ? (
                                             <div className="listing-feature col-lg-6 col-md-6">
-                                            <span class="fa fa-star fa-lg propertyDetailsOtherDetails" aria-hidden="true"></i>  span 
+                                            <span className="fa fa-star fa-lg propertyDetailsOtherDetails" aria-hidden="true"></i>  span 
                                             <h6 className="listing-feature-label">Posted By</h6>
                                                 <span className="listing-feature-value">
                                                     {propertyDetails.are_you}
@@ -562,7 +593,7 @@ const Listingwrapper = () => {
 
                                         {propertyDetails && propertyDetails.available_from ? (
                                             <div className="listing-feature col-lg-6 col-md-6">
-                                                <span class="fa fa-star fa-lg propertyDetailsOtherDetails" aria-hidden="true"></span>
+                                                <span className="fa fa-star fa-lg propertyDetailsOtherDetails" aria-hidden="true"></span>
                                                 <h6 className="listing-feature-label">
                                                     Available From
                                                 </h6>
@@ -575,7 +606,7 @@ const Listingwrapper = () => {
                                         )}
                                         {propertyDetails && propertyDetails.build_year ? (
                                             <div className="listing-feature col-lg-6 col-md-6">
-                                                <span class="fa fa-star fa-lg propertyDetailsOtherDetails" aria-hidden="true"></span>
+                                                <span className="fa fa-star fa-lg propertyDetailsOtherDetails" aria-hidden="true"></span>
                                                 <h6 className="listing-feature-label">Build Year</h6>
                                                 <span className="listing-feature-value">
                                                     {propertyDetails.build_year}
@@ -585,7 +616,7 @@ const Listingwrapper = () => {
                                             ""
                                         )}
                                         <div className="listing-feature col-lg-6 col-md-6">
-                                            <span class="fa fa-star fa-lg propertyDetailsOtherDetails" aria-hidden="true"></span>
+                                            <span className="fa fa-star fa-lg propertyDetailsOtherDetails" aria-hidden="true"></span>
                                             <h6 className="listing-feature-label">Pets Considere</h6>
                                             <span className="listing-feature-value">
                                                 {propertyDetails && propertyDetails.pets_considere
@@ -595,7 +626,7 @@ const Listingwrapper = () => {
                                         </div>
 
                                         <div className="listing-feature col-lg-6 col-md-6">
-                                            <span class="fa fa-star fa-lg propertyDetailsOtherDetails" aria-hidden="true"></span>
+                                            <span className="fa fa-star fa-lg propertyDetailsOtherDetails" aria-hidden="true"></span>
                                             <h6 className="listing-feature-label">
                                                 Price Negotiable
                                             </h6>
@@ -608,7 +639,7 @@ const Listingwrapper = () => {
                                         </div>
                                         {propertyDetails && propertyDetails.property_type ? (
                                             <div className="listing-feature col-lg-6 col-md-6">
-                                                <span class="fa fa-star fa-lg propertyDetailsOtherDetails" aria-hidden="true"></span>
+                                                <span className="fa fa-star fa-lg propertyDetailsOtherDetails" aria-hidden="true"></span>
                                                 <h6 className="listing-feature-label">Property Type</h6>
                                                 <span className="listing-feature-value">
                                                     {propertyDetails.property_type}
@@ -751,7 +782,7 @@ const Listingwrapper = () => {
                                 {/* Similar Start */}
 
                                 <div className="section section-padding">
-                                    <h4>Similar Listings</h4>
+                                    <h4>Recent Listings</h4>
                                     <div className="row">
                                         {/* Listing Start */}
                                         {recentProperties &&
@@ -760,7 +791,6 @@ const Listingwrapper = () => {
                                                     <div className="listing">
                                                         <div className="listing-thumbnail " >
                                                             <Link to={`/property/${convertToSlug(item.title)}/${item.id}`}>
-
                                                                 <img src={item.image != null ? process.env.REACT_APP_CONTENT_URL + item.image + "_medium.jpg" : process.env.REACT_APP_CONTENT_URL + "/users/default.png"}
                                                                     alt={`image of ${item.title}`}
                                                                     style={{ width: "300px", height: "200px" }}
@@ -825,7 +855,7 @@ const Listingwrapper = () => {
                                                                         {" "}
                                                                         <Link to="#">{item.name}</Link>{" "}
                                                                     </p>
-                                                                    <span className="listing-date">{item.postdate}</span>
+                                                                    <span className="listing-date">{new Date(item.createdAt).toDateString()}</span>
                                                                 </div>
                                                                 <Dropdown className="options-dropdown">
                                                                     <Dropdown.Toggle as={NavLink}>
@@ -835,14 +865,14 @@ const Listingwrapper = () => {
                                                                         <ul>
                                                                             <li>
                                                                                 {" "}
-                                                                                <Link to={{ pathname: `tel:${item.number_for_contact}` }}>
+                                                                                <Link target="_blank" to={{ pathname: `tel:${item.number_for_contact}` }}>
                                                                                     {" "}
                                                                                     <i className="fas fa-phone" /> Call Agent
                                                                                 </Link>{" "}
                                                                             </li>
                                                                             <li>
                                                                                 {" "}
-                                                                                <Link to={{ pathname: `${openInGmail(item.email_for_contact)}` }}>
+                                                                                <Link target="_blank" to={{ pathname: `${openInGmail(item.email_for_contact)}` }}>
                                                                                     {" "}
                                                                                     <i className="fas fa-envelope" /> Send Message
                                                                                 </Link>{" "}
@@ -886,7 +916,7 @@ const Listingwrapper = () => {
                                                                         </span>
                                                                     </div>
                                                                 </OverlayTrigger>
-                                                                <OverlayTrigger overlay={areatip}>
+                                                                <OverlayTrigger overlay={<Tooltip>{item.default_area_unit}</Tooltip>}>
                                                                     <div className="acr-listing-icon">
                                                                         <i className="flaticon-ruler" />
                                                                         <span className="acr-listing-icon-value">
@@ -943,7 +973,7 @@ const Listingwrapper = () => {
                                                 </h6>
                                                 <span>
                                                     {
-                                                        propertyDetails && propertyDetails.is_contact_show === 1 ? propertyDetails.are_you ? uppercaseFirstLetter(propertyDetails.are_you) : '' : 'Admin'
+                                                        propertyDetails && propertyDetails.is_contact_show === 1 ? propertyDetails.are_you ? uppercaseFirstLetter(propertyDetails.are_you) : '' : 'Customer care Team'
                                                     }
                                                 </span>
                                             </div>
@@ -997,12 +1027,7 @@ const Listingwrapper = () => {
                                             </Dropdown>
                                         </div>
                                         {/* Author End */}
-                                        <p>
-                                            Lorem Ipsum is simply dummy text of the printing and
-                                            typesetting industry. Lorem Ipsum has been the industry's
-                                            standard dummy text.
-                                        </p>
-                                        Contact Start
+                                        <div className="media-body"><h6> Request a Call back </h6></div>
                                         <form onSubmit={submitFun}>
                                             <div className="form-group">
                                                 <input
@@ -1051,6 +1076,17 @@ const Listingwrapper = () => {
                                                 <p style={{ color: "red", fontSize: "14px" }}>
                                                     {commentError}
                                                 </p>
+
+                                                {
+                                                    contactUsStatus.success === true ?
+                                                        <p className="text-center" style={successStyle}>
+                                                            {contactUsStatus.message}
+                                                        </p>
+                                                        :
+                                                        <p className="text-center" style={errorStyle}>
+                                                            {contactUsStatus.message}
+                                                        </p>
+                                                }
                                             </div>
                                             <button
                                                 type="submit"
@@ -1063,13 +1099,7 @@ const Listingwrapper = () => {
                                         {/* Contact End */}
                                     </div>
                                 </div>
-
-
-
-
-
                             </div>
-
                             {/* Sidebar End */}
                         </div>
                     </div>

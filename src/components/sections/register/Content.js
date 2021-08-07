@@ -60,7 +60,7 @@ const Content = () => {
     var emailValidator = new RegExp(
       /[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,15}/g
     ).test(email);
-    if (name === "" && !emailValidator && password === "" && mobileNumber === "" && tandcBox === false && token.length === 0) {
+    if (name === "" && !emailValidator && password === "" && mobileNumber === "" && tandcBox === false && token === null && token.length === 0) {
 
       setNameError("Name field should not be empty!");
       setEmailError("Please enter a valid email address!");
@@ -82,7 +82,7 @@ const Content = () => {
     } else if (tandcBox === "" || tandcBox === false) {
       setTandcBoxError("You must accept T&C in order to use Neprealestate!");
     }
-    else if (token.length === 0) {
+    else if (token === null || token.length === 0) {
       setTokenError("Please Verify captcha!");
     }
     else {

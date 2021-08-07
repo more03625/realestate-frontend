@@ -129,6 +129,7 @@ function App() {
           <Route path="/consultants" component={Home} />
 
           <Route path="/commercial" component={Commercial} />
+
           <Route path="/property/:slug/:propertyID" component={Propertydetails} />
           {/*<Route path="/consultants" component={Propertyconsultants} />*/}
           <Route path="/property-listing" component={Commercial} />
