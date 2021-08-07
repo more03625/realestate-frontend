@@ -30,15 +30,7 @@ import {
 } from "../../../helper/comman_helper";
 import Axios from "axios";
 import { useHistory, useParams, Link } from "react-router-dom";
-// Features
-const features = [
-  { id: 1, icon: "bone", title: "Pet Friendly" },
-  { id: 2, icon: "chair", title: "Furnished" },
-  { id: 3, icon: "fan", title: "Cooling" },
-  { id: 4, icon: "garage", title: "Parking" },
-  { id: 5, icon: "mailbox", title: "Mailbox" },
-  { id: 6, icon: "eye", title: "City View" },
-];
+
 
 function Content() {
 
@@ -95,12 +87,6 @@ function Content() {
     overflow: 'hidden'
   };
 
-  const img = {
-    display: 'block',
-    width: 'auto',
-    height: '100%',
-
-  };
   const { propertyID } = useParams();
 
   const [propertyData, setPropertyData] = useState([]);
@@ -115,10 +101,6 @@ function Content() {
   const [outdoorFeatures, setOutdoorFeatures] = useState([]);
   const [climateControlFeatures, setClimateControlFeatures] = useState([]);
 
-  // Below For edit use only
-
-  // Above For edit use only
-
   const [categories, setCategories] = useState([]);
   const [subCategoriesWithCount, setSubCategoriesWithCount] = useState([]);
   const [loadingButton, setLoadingButton] = useState(false);
@@ -129,13 +111,14 @@ function Content() {
   const { getRootProps, getInputProps } = useDropzone({
     accept: 'image/*',
     onDrop: acceptedFiles => {
-      setFiles(acceptedFiles.map(file => Object.assign(file,
-        {
-          preview: URL.createObjectURL(file),
-          base64: convertToBase64(file),
-        })
-
-      )
+      setFiles(
+        acceptedFiles.map((file) =>
+          Object.assign(file,
+            {
+              preview: URL.createObjectURL(file),
+              base64: convertToBase64(file),
+            })
+        )
       );
     }
   });
@@ -147,6 +130,7 @@ function Content() {
       </div>
     </div>
   ));
+
 
 
   const getCategories = async () => {
@@ -282,15 +266,10 @@ function Content() {
 
       base64Images.push(multipleImages);
     }
-    // setIsImageSelected({
-    //   ...isImageSelected,
-    //   images: `${images.length} images has been selected!`,
-    // });
     setPropertyData({ ...propertyData, images: base64Images });
   }
 
   const [selectedM, setSelectedM] = useState([]);
-
   const onChange = (id) => {
     let find = selectedM.indexOf(id);
 
@@ -601,7 +580,7 @@ function Content() {
       setLoadingButton(false);
     }
   };
-
+  const [imagesToPreview, setImagesToPreview] = useState([]);
   const getPropertyDetails = () => {
     if (propertyID !== undefined) {
       var url = Host + Endpoints.getPropertyDetails + propertyID;
@@ -630,6 +609,24 @@ function Content() {
           });
           var selectedFeaturesArray = [...indoor, ...outdoor, ...climate];
           setSelectedM(selectedFeaturesArray);
+          // Images
+          var gallaryImages = JSON.parse("[" + response.data.data.images + "]")[0];
+
+          for (var i = 0; i < gallaryImages.length; i++) {
+            var preImg = [];
+
+            var imgURL = process.env.REACT_APP_CONTENT_URL + gallaryImages[i] + ".jpg";
+
+            fetch(imgURL)
+              .then(res => res.blob())
+              .then((blob) => {
+                preImg.push(URL.createObjectURL(blob));
+              });
+          }
+          setImagesToPreview(preImg);
+
+
+
         }
       });
     }
@@ -645,10 +642,11 @@ function Content() {
     getIndoorFeatures();
     getOutDoorFeatures();
     getClimateControlFeatures();
-
     setPropertyData({ ...propertyData, user_id: getUserToken().data.id, });
     dropZoneToBase64(files)
-    files.forEach((file) => URL.revokeObjectURL(file.preview));
+    files.forEach((file) => {
+      URL.revokeObjectURL(file.preview)
+    });
   }, [files]);
   return (
     <div className="section">
@@ -943,6 +941,13 @@ function Content() {
                       </div>
                       <p style={errorStyle}>{propertyDataError.image}</p>
                       <p style={successStyle}>{isImageSelected.image}</p>
+                      {
+                        isImageSelected === false ?
+                          <p style={successStyle}>
+                            <Link style={successStyle} target="_blank" to={{ pathname: propertyData && propertyData.image ? process.env.REACT_APP_CONTENT_URL + propertyData.image + ".jpg" : "" }}>This image selected as a thumbnail!</Link>
+                          </p>
+                          : ''
+                      }
                     </div>
                     <div className="form-group">
                       <label>Youtube URL</label>
@@ -989,20 +994,31 @@ function Content() {
 
 */}
                     <div className="form-group">
-                      <label>Property Gallery</label>
+                      <label>Property Gallery </label>
                       <div {...getRootProps({ className: 'dropzone' })}>
                         <input {...getInputProps()} />
                         <div className="dropzone-msg dz-message needsclick">
                           <i className="fas fa-cloud-upload-alt" />
                           <h5 className="dropzone-msg-title">Drop files here or click to upload.</h5>
-                          <span className="dropzone-msg-desc">This is just a demo dropzone. Selected files are <strong>not</strong> actually uploaded.</span>
+                          <span className="dropzone-msg-desc">Add images to <strong>attract customers</strong></span>
                         </div>
                       </div>
                       <aside className="thumbsContainer" style={thumbsContainer}>
                         {thumbs}
+                        {
+                          thumbs.length == 0 && imagesToPreview != undefined ? imagesToPreview.map((value, index) => {
+                            return <div className="thumb" style={thumb} key={index}>
+                              <div className="thumbInner" style={thumbInner}>
+                                <img src={value} alt="img" style={{ objectFit: 'contain' }} />
+                              </div>
+                            </div>
+
+                          }) : ''
+                        }
+
                       </aside>
-                      <span className="acr-form-notice">*You can upload up to 5 images for your listing</span>
-                      <span className="acr-form-notice">*Listing images should be atleast 620x480 in dimensions</span>
+                      <span className="acr-form-notice">*You can upload up to 15 images for your listing</span>
+                      <span className="acr-form-notice">*Upload minimum 4-8 Images to get more calls!</span>
                     </div>
 
                   </Tab.Pane>
@@ -1794,7 +1810,7 @@ function Content() {
           {/* Tab Content End */}
         </div>
       </div>
-    </div>
+    </div >
   );
 }
 
