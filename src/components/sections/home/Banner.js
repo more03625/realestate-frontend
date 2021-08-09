@@ -58,7 +58,7 @@ class Banner extends Component {
                         <Nav.Link eventKey="sold">Sold</Nav.Link>
                       </Nav.Item>
                       <Nav.Item>
-                        <Nav.Link eventKey="findAgents">Find Agents</Nav.Link>
+                        <Nav.Link eventKey="consultants">Find Agents</Nav.Link>
                       </Nav.Item>
                     </Nav>
                   </div>
@@ -385,7 +385,7 @@ class Banner extends Component {
                       </div>
                     </div>
                   </Tab.Pane>
-                  <Tab.Pane eventKey="findAgents">
+                  <Tab.Pane eventKey="consultants">
                     <div className="agency-content">
                       <div className="sidebar-widget">
                         <form method="post">

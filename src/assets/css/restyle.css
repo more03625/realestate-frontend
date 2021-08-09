@@ -15,7 +15,9 @@
   box-shadow: none;
   border-radius: 4px 4px 0 0 !important;
 }
-
+.search-wrapper {
+  position: relative;
+}
 .search-form-container .search-wrapper .form-control {
   border-radius: 0px 0 0 0px;
   padding: 20px 65px 20px 46px;
@@ -50,7 +52,7 @@
   position: absolute;
   top: 54%;
   transform: translateY(-50%);
-  left: 30px;
+  left: 20px;
   font-size: 18px;
   color: #a2a9bf;
   font-style: normal;
@@ -134,7 +136,7 @@
     margin: 0px;
   }
   .search-form-container .search-wrapper i {
-    top: 30%;
+    top: 52%;
   }
   .search-form-container .sidebar.sidebar-left {
     margin: 0px;
@@ -149,4 +151,16 @@
     font-size: 38px;
     line-height: 46px;
   }
+  .searchContainer {
+    padding: 0px;
+  }
+}
+::placeholder {
+  color: white;
+  opacity: 1; /* Firefox */
+}
+
+.select2-container--default .select2-selection--multiple {
+  background: #0f0e14 !important;
+  border: 1px solid #0f0e14 !important;
 }

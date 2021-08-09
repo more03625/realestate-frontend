@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import { type } from '../../../data/category.json'
 
 const Findhome = ({ categories }) => {
-    console.log(categories)
     return (
         <div className="section cta-banner" style={{ backgroundImage: "url(" + process.env.PUBLIC_URL + "/assets/img/cta/1.jpg )" }}>
             <div className="container">

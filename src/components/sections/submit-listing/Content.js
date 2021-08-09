@@ -33,7 +33,7 @@ import { useHistory, useParams, Link } from "react-router-dom";
 
 
 function Content() {
-
+  const history = useHistory();
   const title = useRef();
   const price = useRef();
   const image = useRef();
@@ -107,19 +107,26 @@ function Content() {
   const [propertyTypes, setPropertyTypes] = useState();
   const [isContactShow, setIsContactShow] = useState(false);
 
+  const [isGallarySelected, setIsGallarySelected] = useState(false);
 
   const { getRootProps, getInputProps } = useDropzone({
     accept: 'image/*',
     onDrop: acceptedFiles => {
-      setFiles(
-        acceptedFiles.map((file) =>
-          Object.assign(file,
-            {
-              preview: URL.createObjectURL(file),
-              base64: convertToBase64(file),
-            })
-        )
-      );
+      if (acceptedFiles.length > 15 || acceptedFiles.length < 4) {
+        errorToast('Minimum 4 & Maximum 15 images required!')
+      } else {
+        setIsGallarySelected(true)
+        setFiles(
+          acceptedFiles.map((file) =>
+            Object.assign(file,
+              {
+                preview: URL.createObjectURL(file),
+                base64: convertToBase64(file),
+              })
+
+          )
+        );
+      }
     }
   });
 
@@ -130,8 +137,6 @@ function Content() {
       </div>
     </div>
   ));
-
-
 
   const getCategories = async () => {
     var url = Host + Endpoints.getCategories;
@@ -284,23 +289,22 @@ function Content() {
 
   function matchYoutubeUrl(e) {
     var youtubeURL = e.target.value;
-
     var p = /^(?:https?:\/\/)?(?:m\.|www\.)?(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))((\w|-){11})(?:\S+)?$/;
     if (youtubeURL.match(p)) {
       var youtubeVideoKey = youtubeURL.split("=");
       setPropertyData({ ...propertyData, 'video_url': youtubeVideoKey[1] })
       setPropertyDataError({ ...propertyDataError, 'video_url': '' });
-
       return true;
-    } else {
+    } else if (youtubeURL.length > 0) {
+      setPropertyData({ ...propertyData, 'video_url': false })
       setPropertyDataError({ ...propertyDataError, 'video_url': 'Only Youtube URL allowed!' });
       return false;
+    } else {
+      setPropertyData({ ...propertyData, 'video_url': '' })
     }
-
-
   }
-  const isValid = () => {
 
+  const isValid = () => {
 
     var emailValidator = new RegExp(
       /[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,15}/g
@@ -388,7 +392,19 @@ function Content() {
       image.current.scrollIntoView();
       setPropertyDataError({ image: "Please add your property thumbnail!" });
       return false;
-    } else if (
+    }
+    else if (
+      propertyData.video_url === false
+    ) {
+      console.log(propertyData.video_url);
+      errorToast("Please enter valid youtube URL");
+      document.getElementById("tab2").click();
+      image.current.scrollIntoView();
+      setPropertyDataError({ video_url: "Please enter valid youtube URL" });
+      return false;
+    }
+
+    else if (
       propertyData.images === "" ||
       propertyData.images === null ||
       propertyData.images === undefined
@@ -539,15 +555,21 @@ function Content() {
     setLoadingButton(true);
     e.preventDefault();
 
+    console.log(isGallarySelected)
+    console.log(propertyData)
+
     if (isImageSelected === false) {
-      const imageObject = { images: 0, image: 0 };
+      const imageObject = { image: 0 };
       Object.assign(propertyData, imageObject); // object assign is used to update the propertyData object with imagesObject
+    }
+    if (isGallarySelected === false) {
+      const gallaryObject = { images: 0 };
+      Object.assign(propertyData, gallaryObject); // object assign is used to update the propertyData object with imagesObject
     }
 
     Object.assign(propertyData, { 'features': selectedM });
 
-    console.log('Proper formated propertryData below!');
-    console.log(propertyData);
+
     if (isValid()) {
 
 
@@ -568,9 +590,9 @@ function Content() {
             errorToast(response.data.title);
           } else {
             successToast(response.data.title);
-            // setTimeout(function () {
-            //   history.push("/my-listings");
-            // }, 2000);
+            setTimeout(function () {
+              history.push("/my-listings");
+            }, 1000);
           }
         })
         .catch((error) => {
@@ -588,13 +610,13 @@ function Content() {
         if (response.data.error !== true) {
           setPropertyData(response.data.data);
 
-          var myObject = response.data.data.features;
+          var featuresObject = response.data.data.features;
 
           let indoor = [];
           let outdoor = [];
           let climate = [];
 
-          const entries = Object.entries(myObject).map((value, index) => {
+          const entries = Object.entries(featuresObject).map((value, index) => {
             value[1].map((featureTypeName, featureTypeIndex) => {
               if (featureTypeName.type == "Indoor Features") {
                 indoor.push(featureTypeName.id);
@@ -607,7 +629,7 @@ function Content() {
             });
 
           });
-          var selectedFeaturesArray = [...indoor, ...outdoor, ...climate];
+          var selectedFeaturesArray = [...indoor, ...outdoor, ...climate]; // merge three array ES6 Feature
           setSelectedM(selectedFeaturesArray);
           // Images
           var gallaryImages = JSON.parse("[" + response.data.data.images + "]")[0];
@@ -624,6 +646,10 @@ function Content() {
               });
           }
           setImagesToPreview(preImg);
+
+          //set is_contact_show disabled
+
+          response.data.data.is_contact_show == 0 ? setIsContactShow(true) : setIsContactShow(false)
 
 
 
@@ -917,6 +943,21 @@ function Content() {
                           <option value="1">Yes</option>
                         </select>
                       </div>
+                      {
+                        propertyID > 0 &&
+                        <div className="col-md-12 form-group">
+                          <button type="submit" className="btn-custom btn-block" name="submit" disabled={loadingButton}>
+                            Update Property
+                            {loadingButton === true ?
+                              <div className="ml-1 spinner-border spinner-border-sm" role="status">
+                                <span className="sr-only">Loading...</span>
+                              </div> : ''
+                            }
+                          </button>
+                        </div>
+                      }
+
+
                     </div>
                   </Tab.Pane>
                   <Tab.Pane eventKey="tab2">
@@ -1020,7 +1061,19 @@ function Content() {
                       <span className="acr-form-notice">*You can upload up to 15 images for your listing</span>
                       <span className="acr-form-notice">*Upload minimum 4-8 Images to get more calls!</span>
                     </div>
-
+                    {
+                      propertyID > 0 &&
+                      <div className="col-md-12 form-group">
+                        <button type="submit" className="btn-custom btn-block" name="submit" disabled={loadingButton}>
+                          Update Property
+                          {loadingButton === true ?
+                            <div className="ml-1 spinner-border spinner-border-sm" role="status">
+                              <span className="sr-only">Loading...</span>
+                            </div> : ''
+                          }
+                        </button>
+                      </div>
+                    }
                   </Tab.Pane>
                   <Tab.Pane eventKey="tab3">
                     {/*<Locationtab />*/}
@@ -1101,6 +1154,20 @@ function Content() {
                         />
                         <p style={errorStyle}>{propertyDataError.address}</p>
                       </div>
+
+                      {
+                        propertyID > 0 &&
+                        <div className="col-md-12 form-group">
+                          <button type="submit" className="btn-custom btn-block" name="submit" disabled={loadingButton}>
+                            Update Property
+                            {loadingButton === true ?
+                              <div className="ml-1 spinner-border spinner-border-sm" role="status">
+                                <span className="sr-only">Loading...</span>
+                              </div> : ''
+                            }
+                          </button>
+                        </div>
+                      }
                     </div>
                     {/****************************Address End****************************/}
                   </Tab.Pane>
@@ -1233,6 +1300,20 @@ function Content() {
                             ))}
                         </select>
                       </div>
+
+                      {
+                        propertyID > 0 &&
+                        <div className="col-md-12 form-group">
+                          <button type="submit" className="btn-custom btn-block" name="submit" disabled={loadingButton}>
+                            Update Property
+                            {loadingButton === true ?
+                              <div className="ml-1 spinner-border spinner-border-sm" role="status">
+                                <span className="sr-only">Loading...</span>
+                              </div> : ''
+                            }
+                          </button>
+                        </div>
+                      }
                     </div>
                   </Tab.Pane>
                   <Tab.Pane eventKey="tab5">
@@ -1338,6 +1419,19 @@ function Content() {
                       </Tab>
 
                     </Tabs>
+                    {
+                      propertyID > 0 &&
+                      <div className="col-md-12 form-group">
+                        <button type="submit" className="btn-custom btn-block" name="submit" disabled={loadingButton}>
+                          Update Property
+                          {loadingButton === true ?
+                            <div className="ml-1 spinner-border spinner-border-sm" role="status">
+                              <span className="sr-only">Loading...</span>
+                            </div> : ''
+                          }
+                        </button>
+                      </div>
+                    }
                   </Tab.Pane>
                   <Tab.Pane eventKey="tab6">
                     <div className="row">
@@ -1786,22 +1880,36 @@ function Content() {
                         />
                       </div>
                     </div>
-                    {/*
-                                        <div className="form-group">
-                                            <div className="custom-control custom-checkbox">
-                                                <input type="checkbox" className="custom-control-input" id="termsAndConditions" onChange={(e) => setPropertyData({ ...propertyData, "tandc": e.target.value })} />
-                                                <label className="custom-control-label" htmlFor="termsAndConditions">I agree to the terms &amp; conditions of property submission</label>
-                                            </div>
-                                        </div>
-                                        */}
-                    <button type="submit" className="btn-custom" name="submit" disabled={loadingButton}>
-                      Add Property
-                      {loadingButton === true ?
-                        <div className="ml-1 spinner-border spinner-border-sm" role="status">
-                          <span className="sr-only">Loading...</span>
-                        </div> : ''
-                      }
-                    </button>
+
+
+
+
+                    {
+                      propertyID > 0 &&
+
+                      <button type="submit" className="btn-custom btn-block" name="submit" disabled={loadingButton}>
+                        Update Property
+                        {loadingButton === true ?
+                          <div className="ml-1 spinner-border spinner-border-sm" role="status">
+                            <span className="sr-only">Loading...</span>
+                          </div> : ''
+                        }
+                      </button>
+                    }
+
+                    {
+                      propertyID == undefined &&
+                      <button type="submit" className="btn-custom btn-block" name="submit" disabled={loadingButton}>
+                        Add Property
+                        {loadingButton === true ?
+                          <div className="ml-1 spinner-border spinner-border-sm" role="status">
+                            <span className="sr-only">Loading...</span>
+                          </div> : ''
+                        }
+                      </button>
+                    }
+
+
                   </Tab.Pane>
                 </Tab.Content>
               </form>

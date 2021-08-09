@@ -60,7 +60,6 @@ const settings = {
     slidesToScroll: 1,
     arrows: false,
     dots: false,
-
     // fade: true,
     // focusOnSelect: true,
     // centerPadding: '10px',

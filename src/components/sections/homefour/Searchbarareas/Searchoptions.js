@@ -14,6 +14,8 @@ export const Searchoptions = () => {
     const [optionsData, setOptionsData] = useState();
     const [suburbs, setSuburbs] = useState();
 
+    var propertyType = window.location.pathname.split("/")[1];
+
 
     const getSubCategories = async () => {
         var url = Host + Endpoints.getSubCategories;
@@ -23,37 +25,21 @@ export const Searchoptions = () => {
             console.log('there are some erros');
 
         } else {
+            console.log(result.data.data.categories)
             var subCategoryName = [];
             for (var i = 0; i < result.data.data.categories.length; i++) {
-                subCategoryName.push({ 'id': result.data.data.categories[i].id, text: result.data.data.categories[i].name });
+                if (propertyType === 'sold') {
+                    subCategoryName.push({ 'id': result.data.data.categories[i].id, text: result.data.data.categories[i].name });
+                }
+                else if (propertyType === result.data.data.categories[i].type) {
+                    subCategoryName.push({ 'id': result.data.data.categories[i].id, text: result.data.data.categories[i].name });
+                }
             }
             console.log(subCategoryName);
             setOptionsData({ ...optionsData, 'categories': subCategoryName });
         }
     }
-    function onChange(value, event) {
-        if (event.action === "select-option" && event.option.value === "*") {
-            this.setState(this.options);
-        } else if (
-            event.action === "deselect-option" &&
-            event.option.value === "*"
-        ) {
-            this.setState([]);
-        } else if (event.action === "deselect-option") {
-            this.setState(value.filter((o) => o.value !== "*"));
-        } else if (value.length === this.options.length - 1) {
-            this.setState(this.options);
-        } else {
-            this.setState(value);
-        }
-    }
-    function getDropdownButtonLabel({ placeholderButtonLabel, value }) {
-        if (value && value.some((o) => o.value === "*")) {
-            return `${placeholderButtonLabel}: All`;
-        } else {
-            return `${placeholderButtonLabel}: ${value.length} selected`;
-        }
-    }
+
     useEffect(() => {
         getSubCategories();
         setSelectedOptions([{ label: "All", value: "*" }, ...options]);
@@ -69,9 +55,8 @@ export const Searchoptions = () => {
     ];
     return (
         <>
-            <div className="col-lg-2 col-md-6">
+            <div className="col-lg-2 col-md-6 col-6">
                 <div className="form-group acr-custom-select">
-
 
                     <Select2
                         data={optionsData && optionsData.categories}
@@ -79,11 +64,12 @@ export const Searchoptions = () => {
                             placeholder: "Property Types",
                         }}
                         name="subcategory_id"
+                        multiple
                     />
 
                 </div>
             </div>
-            <div className="col-lg-2 col-md-6">
+            <div className="col-lg-2 col-md-6 col-6">
                 <div className="form-group acr-custom-select">
                     <Select2
                         data={beds}
@@ -94,7 +80,7 @@ export const Searchoptions = () => {
                     />
                 </div>
             </div>
-            <div className="col-lg-2 col-md-6">
+            <div className="col-lg-2 col-md-6 col-6">
                 <div className="form-group acr-custom-select">
                     <Select2
                         data={beds}
@@ -105,7 +91,7 @@ export const Searchoptions = () => {
                     />
                 </div>
             </div>
-            <div className="col-lg-2 col-md-6">
+            <div className="col-lg-2 col-md-6 col-6">
                 <div className="form-group acr-custom-select">
                     <Select2
                         data={pricerangelist}
@@ -117,7 +103,7 @@ export const Searchoptions = () => {
                     />
                 </div>
             </div>
-            <div className="col-lg-2 col-md-6">
+            <div className="col-lg-2 col-md-6 col-6">
                 <div className="form-group acr-custom-select">
                     <Select2
                         data={pricerangelist}
@@ -129,8 +115,7 @@ export const Searchoptions = () => {
 
                 </div>
             </div>
-
-            <div className="col-lg-2 col-md-6">
+            <div className="col-lg-2 col-md-6 col-6">
                 <div
                     className="form-group acr-custom-select"
                     style={{ marginTop: 20 }}

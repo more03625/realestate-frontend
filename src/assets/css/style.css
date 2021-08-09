@@ -2806,7 +2806,7 @@ table img {
 /* Style 2 */
 .subheader.subheader-2 {
   position: relative;
-  height: 700px;
+  height: 350px;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;

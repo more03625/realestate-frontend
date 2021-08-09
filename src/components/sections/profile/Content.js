@@ -5,26 +5,13 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { successToast, errorToast, Endpoints, Host, getUserToken } from "../../../helper/comman_helper";
 
-const Content = () => {
+const Content = ({ userData, handleCallBack, runUseEffect }) => {
 
   const successStyle = {
     color: '#28a745',
     fontSize: '14px',
   };
 
-  const [userData, setUserData] = useState("");
-  const getUser = async () => {
-    //write function here & get this data from DB
-    var url = Host + Endpoints.getProfileDetails;
-    var result = await Axios.get(url, {
-      headers: {
-        token: getUserToken().token
-      }
-    });
-
-    setUserData(result.data.data);
-
-  }
   const [fullName, setFullName] = useState(
     getUserToken().data.name !== null ? getUserToken().data.name : ""
   );
@@ -159,7 +146,7 @@ const Content = () => {
         if (response.data.error === true) {
           errorToast(response.data.title);
         } else {
-          setUserData(response.data.data);
+          handleCallBack(!runUseEffect);
           successToast(response.data.title);
         }
       });
@@ -179,9 +166,9 @@ const Content = () => {
       }
     })
   }
-  useEffect(() => {
-    getUser();
-  }, []);
+  // useEffect(() => {
+
+  // }, []);
   return (
     <div className="section">
       <div className="container">
@@ -245,6 +232,7 @@ const Content = () => {
                     name="email"
                     className="form-control"
                     placeholder="Your email"
+                    readOnly
                     onChange={(e) => setEmail(e.target.value)}
                     defaultValue={userData && userData.email ? userData.email : ''}
                   />

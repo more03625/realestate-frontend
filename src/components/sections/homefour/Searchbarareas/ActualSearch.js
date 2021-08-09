@@ -6,14 +6,19 @@ import {
 import { BuyArea, RentArea, SoldArea, ShareArea, FindAgents } from "./SearchInputArea";
 
 export const ActualSearch = () => {
+    const handleSelect = (e) => {
+        if (e === 'consultants') return
+
+        window.location.href = '/' + e;
+    }
     return (
         <>
 
             <div className="sidebar sidebar-left">
                 <div className="sidebar-widget">
-                    <Nav variant="tabs" className="nav nav-tabs tab-cards">
+                    <Nav variant="tabs" defaultActiveKey="buy" className="nav nav-tabs tab-cards" onSelect={(e) => handleSelect(e)}>
                         <Nav.Item>
-                            <NavLink eventKey="buy">Buy</NavLink>
+                            <Nav.Link eventKey="buy" >Buy</Nav.Link>
                         </Nav.Item>
                         <Nav.Item>
                             <Nav.Link eventKey="rent">Rent</Nav.Link>
@@ -25,7 +30,7 @@ export const ActualSearch = () => {
                             <Nav.Link eventKey="share">Share</Nav.Link>
                         </Nav.Item>
                         <Nav.Item>
-                            <Nav.Link eventKey="findAgents">Find Agents</Nav.Link>
+                            <Nav.Link eventKey="consultants">Find Agents</Nav.Link>
                         </Nav.Item>
                     </Nav>
                 </div>
@@ -43,7 +48,7 @@ export const ActualSearch = () => {
                 <Tab.Pane eventKey="share">
                     <ShareArea />
                 </Tab.Pane>
-                <Tab.Pane eventKey="findAgents">
+                <Tab.Pane eventKey="consultants">
                     <FindAgents />
                 </Tab.Pane>
             </Tab.Content>

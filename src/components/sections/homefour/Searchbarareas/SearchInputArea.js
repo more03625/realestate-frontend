@@ -1,6 +1,7 @@
 import { Searchoptions, SearchButton } from "./Searchoptions";
 
 export const BuyArea = () => {
+    const propertyType = 'buy';
     return (
         <div className="agency-content">
             <div className="sidebar-widget">
@@ -17,7 +18,7 @@ export const BuyArea = () => {
                     </div>
 
                     <div className="row">
-                        <Searchoptions />
+                        <Searchoptions propertyType={propertyType} />
                     </div>
                 </form>
             </div>
@@ -26,6 +27,7 @@ export const BuyArea = () => {
 }
 
 export const RentArea = () => {
+    const propertyType = 'rent';
     return (
         <div className="agency-content">
             <div className="sidebar-widget">
@@ -51,31 +53,33 @@ export const RentArea = () => {
 }
 
 export const SoldArea = () => {
-    return (
-        <div className="agency-content">
-            <div className="sidebar-widget">
-                <form method="get" action="/property-results">
-                    <div className="search-wrapper">
-                        <input
-                            type="text"
-                            className="form-control"
-                            placeholder="Search for sold properties..."
-                            name="search"
-                        />
-                        <i className="flaticon-search"></i>
-                        <input type="hidden" name="property_type" value="sold" />
-                        <SearchButton />
-                    </div>
 
-                    <div className="row">
-                        <Searchoptions />
-                    </div>
-                </form>
-            </div>
+    const propertyType = 'sold';
+    return (<div className="agency-content">
+        <div className="sidebar-widget">
+            <form method="get" action="/property-results">
+                <div className="search-wrapper">
+                    <input
+                        type="text"
+                        className="form-control"
+                        placeholder="Search for sold properties..."
+                        name="search"
+                    />
+                    <i className="flaticon-search"></i>
+                    <input type="hidden" name="property_type" value="sold" />
+                    <SearchButton />
+                </div>
+
+                <div className="row">
+                    <Searchoptions />
+                </div>
+            </form>
         </div>
+    </div>
     )
 }
 export const ShareArea = () => {
+    const propertyType = 'share';
     return (
         <div className="agency-content">
             <div className="sidebar-widget">
@@ -112,13 +116,11 @@ export const FindAgents = () => {
                             placeholder="Find agents here..."
                             name="search"
                         />
-                        <input type="hidden" name="property_type" value="findagent" />
+                        <input type="hidden" name="property_type" value="consultants" />
                         <SearchButton />
                     </div>
 
-                    <div className="row">
 
-                    </div>
                 </form>
             </div>
         </div>

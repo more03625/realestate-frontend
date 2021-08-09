@@ -9,23 +9,24 @@ import Axios from 'axios';
 import { Host, Endpoints } from '../../helper/comman_helper';
 const Profile = () => {
     const [userData, setUserData] = useState([]);
+    const [runUseEffect, setRunUseEffect] = useState(false);
 
+    const handleCallBack = (childData) => {
+        setRunUseEffect(childData)
+    }
 
     const getUser = async () => {
-        //write function here & get this data from DB
         var url = Host + Endpoints.getProfileDetails;
         var result = await Axios.get(url, {
             headers: {
                 token: getUserToken().token
             }
         });
-        console.log(result.data.data);
         setUserData(result.data.data);
-
     }
     useEffect(() => {
         getUser();
-    }, []);
+    }, [runUseEffect]);
     return (
         <Fragment>
             <MetaTags>
@@ -37,10 +38,12 @@ const Profile = () => {
             </MetaTags>
             <Header />
             <Breadcrumb userData={userData} />
-            <Content />
+            <Content userData={userData} handleCallBack={handleCallBack} runUseEffect={runUseEffect} />
             <Footer />
         </Fragment>
     );
 }
 
 export default Profile;
+
+

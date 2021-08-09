@@ -47,15 +47,16 @@ class Menu extends Component {
             {/* </ul> */}
           </li>
           <li className="menu-item menu-item-has-children">
-            <NavLink className="nav-link" exact to="/sold">
-              Sold
-            </NavLink>
-          </li>
-          <li className="menu-item menu-item-has-children">
             <NavLink className="nav-link" exact to="/share">
               Share
             </NavLink>
           </li>
+          <li className="menu-item menu-item-has-children">
+            <NavLink className="nav-link" exact to="/sold">
+              Sold
+            </NavLink>
+          </li>
+
           <li className="menu-item menu-item-has-children">
             <NavLink exact to="/commercial">
               Commercial

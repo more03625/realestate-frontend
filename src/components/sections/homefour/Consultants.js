@@ -10,7 +10,7 @@ const Consultants = () => {
   return (
     <div className="container searchContainer">
       <div className="row search-form-container">
-        <Tab.Container defaultActiveKey="findAgents">
+        <Tab.Container defaultActiveKey="consultants">
           <div className="col-lg-12">
             <h5 className="text-white">Search Properties</h5>
             <ActualSearch />
