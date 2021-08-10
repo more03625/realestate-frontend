@@ -89,6 +89,10 @@ function Content() {
 
   const { propertyID } = useParams();
 
+  if (propertyID < 0) {
+    document.getElementById("property-form").reset();
+  }
+
   const [propertyData, setPropertyData] = useState([]);
   const [propertyDataError, setPropertyDataError] = useState([]);
   const [states, setStates] = useState([]);
@@ -718,7 +722,7 @@ function Content() {
             {/* Tabs End */}
             {/* Tab Content Start */}
             <div className="col-md-8">
-              <form onSubmit={handleSubmit}>
+              <form id="property-form" onSubmit={handleSubmit}>
                 <Tab.Content className="m-0">
                   <Tab.Pane eventKey="tab1">
                     <div className="row">
@@ -983,7 +987,8 @@ function Content() {
                       <p style={errorStyle}>{propertyDataError.image}</p>
                       <p style={successStyle}>{isImageSelected.image}</p>
                       {
-                        isImageSelected === false ?
+
+                        isImageSelected === false && propertyID > 0 ?
                           <p style={successStyle}>
                             <Link style={successStyle} target="_blank" to={{ pathname: propertyData && propertyData.image ? process.env.REACT_APP_CONTENT_URL + propertyData.image + ".jpg" : "" }}>This image selected as a thumbnail!</Link>
                           </p>

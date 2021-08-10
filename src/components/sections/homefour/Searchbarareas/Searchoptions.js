@@ -10,12 +10,10 @@ import { useEffect, useState } from "react";
 import ReactMultiSelectCheckboxes from "react-multiselect-checkboxes";
 
 export const Searchoptions = () => {
-    const [selectedOptions, setSelectedOptions] = useState([]);
     const [optionsData, setOptionsData] = useState();
     const [suburbs, setSuburbs] = useState();
 
     var propertyType = window.location.pathname.split("/")[1];
-
 
     const getSubCategories = async () => {
         var url = Host + Endpoints.getSubCategories;
@@ -23,9 +21,7 @@ export const Searchoptions = () => {
 
         if (result.data.error === true) {
             console.log('there are some erros');
-
         } else {
-            console.log(result.data.data.categories)
             var subCategoryName = [];
             for (var i = 0; i < result.data.data.categories.length; i++) {
                 if (propertyType === 'sold') {
@@ -35,14 +31,12 @@ export const Searchoptions = () => {
                     subCategoryName.push({ 'id': result.data.data.categories[i].id, text: result.data.data.categories[i].name });
                 }
             }
-            console.log(subCategoryName);
             setOptionsData({ ...optionsData, 'categories': subCategoryName });
         }
     }
 
     useEffect(() => {
         getSubCategories();
-        setSelectedOptions([{ label: "All", value: "*" }, ...options]);
     }, [])
 
     const beds = [

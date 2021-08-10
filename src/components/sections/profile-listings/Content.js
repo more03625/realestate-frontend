@@ -154,6 +154,7 @@ const Content = ({ userData }) => {
                           {" "}
                           <Link to="#">{getUserToken().data.name}</Link>{" "}
                         </p>
+                        {console.log(new Date(item.createdAt).toDateString())}
                         <span className="listing-date">{new Date(item.createdAt).toDateString()}</span>
                       </div>
                       <Dropdown className="options-dropdown">

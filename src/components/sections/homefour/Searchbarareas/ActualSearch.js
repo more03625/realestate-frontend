@@ -8,7 +8,6 @@ import { BuyArea, RentArea, SoldArea, ShareArea, FindAgents } from "./SearchInpu
 export const ActualSearch = () => {
     const handleSelect = (e) => {
         if (e === 'consultants') return
-
         window.location.href = '/' + e;
     }
     return (

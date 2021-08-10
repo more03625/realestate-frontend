@@ -7,8 +7,8 @@ import "magnific-popup";
 import axios from "axios";
 
 
-const Content = ({ newsData }) => {
-
+const Content = ({ newsData, recentNews }) => {
+  console.log(recentNews)
   const { slug, newsID } = useParams();
 
   return (
@@ -36,53 +36,7 @@ const Content = ({ newsData }) => {
 
             {/* Pagination Start */}
             {/* Related Posts Start */}
-            <div className="section section-padding">
-              <h4>Related Posts</h4>
-              <div className="row">
-                {blogblock.slice(0, 2).map((item, i) => (
-                  <div key={i} className="col-md-6">
-                    <article className="post single">
-                      <div className="post-thumbnail">
-                        <Link to="/blog-single">
-                          <img
-                            src={process.env.PUBLIC_URL + "/" + item.gridimg}
-                            alt="blog post"
-                          />
-                        </Link>
-                      </div>
-                      <div className="post-body">
-                        <div className="post-author">
-                          <img
-                            src={process.env.PUBLIC_URL + "/" + item.authorimg}
-                            alt="author"
-                          />
-                          <div className="post-author-body">
-                            <p>
-                              {" "}
-                              <Link to="#">{item.authorname}</Link>{" "}
-                            </p>
-                            <span className="post-date">{item.postdate}</span>
-                          </div>
-                        </div>
-                        <h5 className="post-title">
-                          {" "}
-                          <Link to="/blog-single">{item.title}</Link>{" "}
-                        </h5>
-                        <p className="post-text">{item.text.slice(0, 75)}</p>
-                        <div className="post-controls">
-                          <Link
-                            to="/blog-single"
-                            className="btn-custom secondary btn-sm"
-                          >
-                            Read More
-                          </Link>
-                        </div>
-                      </div>
-                    </article>
-                  </div>
-                ))}
-              </div>
-            </div>
+
             {/* Related Posts End */}
             {/* Comments Start */}
             {/* <div className="comments-list section pt-0">
@@ -145,9 +99,58 @@ const Content = ({ newsData }) => {
           {/* Post End */}
           {/* Sidebar Start */}
           <div className="col-lg-4">
-            <Sidebar />
+            <Sidebar recentNews={recentNews} />
           </div>
           {/* Sidebar End */}
+        </div>
+        <div className="row">
+          <div className="section section-padding">
+            <h4>Related Posts</h4>
+            <div className="row">
+              {recentNews && recentNews.slice(0, 10).map((item, i) => (
+                <div key={i} className="col-md-4">
+                  <article className="post single">
+                    <div className="post-thumbnail">
+                      <Link to="/blog-single">
+                        <img
+                          src={process.env.PUBLIC_URL + "/" + item.gridimg}
+                          alt="blog post"
+                        />
+                      </Link>
+                    </div>
+                    <div className="post-body">
+                      <div className="post-author">
+                        <img
+                          src={process.env.PUBLIC_URL + "/" + item.authorimg}
+                          alt="author"
+                        />
+                        <div className="post-author-body">
+                          <p>
+                            {" "}
+                            <Link to="#">{item.authorname}</Link>{" "}
+                          </p>
+                          <span className="post-date">{item.postdate}</span>
+                        </div>
+                      </div>
+                      <h5 className="post-title">
+                        {" "}
+                        <Link to="/blog-single">{item.title}</Link>{" "}
+                      </h5>
+                      <p className="post-text">{item.description.slice(0, 75)}</p>
+                      <div className="post-controls">
+                        <Link
+                          to="/blog-single"
+                          className="btn-custom secondary btn-sm"
+                        >
+                          Read More
+                        </Link>
+                      </div>
+                    </div>
+                  </article>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
     </div>

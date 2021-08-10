@@ -4,27 +4,7 @@ import { blogblock, blogcategory } from "../../data/blog.json";
 import Axios from "axios";
 import { Host, Endpoints, convertToSlug } from "./../../helper/comman_helper";
 
-const Blogsidebar = () => {
-  const [recentNews, setRecentNews] = useState([]);
-
-  function getRecentNews() {
-    var url = Host + Endpoints.getRecentNews;
-    Axios.get(url)
-      .then((response) => {
-        console.log(response.data);
-        if (response.data.error === false) {
-          setRecentNews(response.data.data); //object
-        } else {
-        }
-      })
-      .catch((errors) => {
-        console.log(errors);
-      });
-  }
-  useEffect(() => {
-    getRecentNews();
-  }, []);
-
+const Blogsidebar = ({ recentNews }) => {
 
   return (
     <div className="sidebar">

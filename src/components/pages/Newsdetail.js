@@ -24,9 +24,24 @@ const Newsdetail = () => {
   };
   const [detailedNewsError, setDetailedNewsError] = useState();
   const [detailedNews, setDetailedNews] = useState();
+  const [recentNews, setRecentNews] = useState([]);
 
+  function getRecentNews() {
+    var url = Host + Endpoints.getRecentNews;
+    Axios.get(url)
+      .then((response) => {
+        console.log(response.data);
+        if (response.data.error === false) {
+          setRecentNews(response.data.data); //object
+        }
+      })
+      .catch((errors) => {
+        console.log(errors);
+      });
+  }
   useEffect(() => {
     getNewsDetails();
+    getRecentNews();
   }, [newsID]);
 
 
@@ -44,7 +59,7 @@ const Newsdetail = () => {
         newsData={detailedNews}
       />
       {
-        detailedNews == '' ? <Loader /> : <Content newsData={detailedNews} ref={ref} />
+        detailedNews == '' ? <Loader /> : <Content newsData={detailedNews} recentNews={recentNews} ref={ref} />
       }
       <Footer />
     </Fragment>

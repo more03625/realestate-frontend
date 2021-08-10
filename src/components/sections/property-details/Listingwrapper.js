@@ -54,8 +54,8 @@ function SamplePrevArrow(props) {
 //     dots: false,
 // };
 const settings = {
-    className: "center",
-    centerMode: true,
+
+
     slidesToShow: 1,
     slidesToScroll: 1,
     arrows: false,
@@ -107,7 +107,7 @@ const settingsthumb = {
     ]
 }
 
-const Listingwrapper = () => {
+const Listingwrapper = ({ propertyDetails }) => {
     const errorStyle = {
         color: "red",
         fontSize: "14px",
@@ -120,7 +120,6 @@ const Listingwrapper = () => {
     const { propertyID } = useParams();
     const slider = useRef();
 
-    const [propertyDetails, setPropertyDetails] = useState(null);
     const [recentProperties, setRecentProperties] = useState([]);
 
     const [nav1, setNav1] = useState(null);
@@ -128,23 +127,9 @@ const Listingwrapper = () => {
     const [slider1, setSlider1] = useState(null);
     const [slider2, setSlider2] = useState(null);
 
-    const sliderpost = [
-        { img: "assets/img/listing-single/2.jpg" },
-        { img: "assets/img/listing-single/3.jpg" },
-        { img: "assets/img/listing-single/4.jpg" },
-        { img: "assets/img/listing-single/5.jpg" },
-    ];
-
-    const next = () => {
-        this.slider.slickNext();
-    }
-    const previous = () => {
-        this.slider.slickPrev();
-    }
-
 
     const imageGal = {
-        width: "730px",
+
         height: "485px",
     };
     function popup() {
@@ -155,14 +140,7 @@ const Listingwrapper = () => {
             },
         });
     }
-    const getPropertyDetails = () => {
-        var url = Host + Endpoints.getPropertyDetails + propertyID;
-        Axios.get(url).then((response) => {
-            if (response.data.error !== true) {
-                setPropertyDetails(response.data.data);
-            }
-        });
-    };
+
 
     const getRecentProperties = () => {
         var url = Host + Endpoints.getRecentProperties;
@@ -175,8 +153,7 @@ const Listingwrapper = () => {
         });
     };
     useEffect(() => {
-        getPropertyDetails();
-        ref.current.scrollIntoView();
+        window.scrollTo(0, 0);
 
         getRecentProperties();
         setNav1(slider1);
@@ -317,7 +294,7 @@ const Listingwrapper = () => {
                                                             ? propertyDetails.title
                                                             : ""
                                                     }
-                                                    style={{ width: "730px", height: "548px" }}
+                                                    style={{ width: "100%", height: "548px" }}
                                                 />
                                             </Link>
                                         ))}
@@ -384,7 +361,8 @@ const Listingwrapper = () => {
                                     <div className="row">
                                         {propertyDetails && propertyDetails.category_name ? (
                                             <div className="listing-feature col-lg-6 col-md-6">
-                                                <span className="fa fa-star fa-lg propertyDetailsOtherDetails" aria-hidden="true"></span>
+                                                <img className="propertyDetailsOtherDetails" src={process.env.REACT_APP_CONTENT_URL + '/features/38.jpg'} />
+
                                                 <h6 className="listing-feature-label">
 
                                                     Category</h6>
@@ -915,11 +893,11 @@ const Listingwrapper = () => {
                                                                         </span>
                                                                     </div>
                                                                 </OverlayTrigger>
-                                                                <OverlayTrigger overlay={<Tooltip>{item.default_area_unit}</Tooltip>}>
+                                                                <OverlayTrigger overlay={<Tooltip>Sqft</Tooltip>}>
                                                                     <div className="acr-listing-icon">
                                                                         <i className="flaticon-ruler" />
                                                                         <span className="acr-listing-icon-value">
-                                                                            {item.area}
+                                                                            {item.area_in_sqft}
                                                                         </span>
                                                                     </div>
                                                                 </OverlayTrigger>

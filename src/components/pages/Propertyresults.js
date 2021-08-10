@@ -42,8 +42,8 @@ const Propertyresults = () => {
             })
     }
 
-    useEffect((event) => {
-
+    useEffect(() => {
+        window.scrollTo(0, 0);
         getSearchResults();
     }, []);
 

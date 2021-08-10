@@ -53,7 +53,7 @@ const Categories = () => {
                                                 <div className="acr-category-thumb" >
                                                     <i className={"flaticon-company"} />
                                                     <Link to={`/property-results?sub_category=${item.name.toLowerCase()}&subcategory_id=${item.id}`}>
-                                                        <img src={process.env.REACT_APP_CONTENT_URL + "/categories/" + item.name.toLowerCase() + ".jpg"} alt="category" />
+                                                        <img className="rounded" src={process.env.REACT_APP_CONTENT_URL + item.image + ".jpg"} alt="category" />
                                                     </Link>
                                                     <div className="acr-category-body">
                                                         <h5> <Link to={`/property-results?sub_category=${item.name.toLowerCase()}&subcategory_id=${item.id}`}>{item.title}</Link> </h5>

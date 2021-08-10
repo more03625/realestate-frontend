@@ -2,11 +2,11 @@ import React, { Component, Fragment } from "react";
 import Banner from "./Banner";
 import Listingwrapper from "./Listingwrapper";
 
-const Content = () => {
+const Content = ({ propertyDetails }) => {
     return (
         <Fragment>
             {/* <Banner/> */}
-            <Listingwrapper />
+            <Listingwrapper propertyDetails={propertyDetails} />
         </Fragment>
     );
 }

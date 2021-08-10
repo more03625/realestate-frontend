@@ -41,9 +41,9 @@ const successStyle = {
     color: '#28a745',
     fontSize: '14px',
 };
-const categories= [
+const categories = [
     "Select Category",
-    "Residential", 
+    "Residential",
     "commercial"
 ];
 const Content = () => {
@@ -137,6 +137,11 @@ const Content = () => {
             city.current.scrollIntoView();
         }
 
+
+        else if (userData.tandc !== true) {
+            console.log(userData.tandc)
+            setUserDataError({ tandcError: 'You must accept terms & condition to recived notifications!' });
+        }
         else {
             return true;
         }
@@ -144,6 +149,7 @@ const Content = () => {
     }
     const handleSubmit = (e) => {
         e.preventDefault();
+        console.log(userData)
         if (isValid()) {
             var url = Host + Endpoints.addSubscriber;
             console.log(userData);
@@ -330,7 +336,7 @@ const Content = () => {
                                 type="checkbox"
                                 className="custom-control-input"
                                 id="termsAndConditions"
-                                onChange={(e) => setUserData({ ...userData, 'tandc': e.target.value })}
+                                onChange={(e) => setUserData({ ...userData, 'tandc': e.target.checked })}
                                 name="tandcBox"
                             />
                             <label
@@ -341,15 +347,15 @@ const Content = () => {
                                 <Link to="/terms-and-conditions"> terms &amp; Conditions </Link>{" "}
                                 of Property Submission
                             </label>
+
+                            <p style={errorStyle}>{userDataError.tandcError}</p>
+
                         </div>
 
                     </div>
                     <button type="submit" className="btn-custom secondary btn-block">
                         Get Notified!
                     </button>
-
-
-                    <ToastContainer />
                 </form>
             </div >
         </div >
