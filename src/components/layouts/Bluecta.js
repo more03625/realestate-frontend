@@ -12,8 +12,9 @@ class Bluecta extends Component {
                         </div>
                         <div className="offset-lg-1 col-lg-7">
                             <p>
-                                Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
-                                when an unknown printer took a galley of type and scrambled.
+                                Nep Real Estate is a premier online resource for finding homes for sale and rentals in Nepal. We
+                                are building a next-generation collaborative marketplace to connect buyer, seller and agents,
+                                and equip them with right tools at every step of the process.
                             </p>
                             <Link to="/contact" className="btn-custom-2 light">Find Out More</Link>
                         </div>

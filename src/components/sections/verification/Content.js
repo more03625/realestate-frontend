@@ -61,8 +61,10 @@ const Content = ({ userData }) => {
       return true;
     }
   };
-
+  const [loadingButton, setLoadingButton] = useState(false);
+  const [resendLoadingButton, setResendLoadingButton] = useState(false);
   const ValidateOpt = (e) => {
+    setLoadingButton(true);
     e.preventDefault();
 
     setEmailOTPError("");
@@ -72,11 +74,12 @@ const Content = ({ userData }) => {
       let url = Host + Endpoints.verifyOtp;
       Axios.post(url, {
         email: userData.email,
-        // sms_otp: emailOTP,
-        email_otp: phoneOTP,
+        // sms_otp: phoneOTP,
+        email_otp: emailOTP,
         type: "seller",
       }).then((response) => {
-        console.log(response.data.token);
+        setLoadingButton(false);
+
         if (response.data.error === true) {
           errorToast(response.data.title);
           setOtpStatus(false);
@@ -87,11 +90,18 @@ const Content = ({ userData }) => {
             history.push("/login");
           }, 2000);
         }
-      });
+      }).catch(() => {
+
+        setLoadingButton(false);
+
+      })
+    } else {
+      setLoadingButton(false)
     }
   };
 
   const resendOTP = (e) => {
+    setResendLoadingButton(true);
     e.preventDefault();
     console.log();
     var url = Host + Endpoints.resendOtp;
@@ -102,12 +112,18 @@ const Content = ({ userData }) => {
     }
 
     Axios.post(url, data).then((response) => {
+      setResendLoadingButton(false);
+
       if (response.data.error === true) {
         errorToast(response.data.title);
       } else {
         successToast(response.data.title);
       }
-    });
+    }).catch(() => {
+
+      setResendLoadingButton(false);
+
+    })
   };
 
   return (
@@ -140,6 +156,11 @@ const Content = ({ userData }) => {
               name="mailOTP"
             >
               Didn't received? mail again
+              {resendLoadingButton === true ?
+                <div className="ml-1 spinner-border spinner-border-sm" role="status">
+                  <span className="sr-only">Loading...</span>
+                </div> : ''
+              }
             </Link>
           </div>
           {/*
@@ -167,8 +188,13 @@ const Content = ({ userData }) => {
           </div>
 */}
           <ToastContainer />
-          <button type="submit" className="btn-custom secondary btn-block">
+          <button type="submit" className="btn-custom secondary btn-block" disabled={loadingButton}>
             Submit
+            {loadingButton === true ?
+              <div className="ml-1 spinner-border spinner-border-sm" role="status">
+                <span className="sr-only">Loading...</span>
+              </div> : ''
+            }
           </button>
         </form>
       </div>

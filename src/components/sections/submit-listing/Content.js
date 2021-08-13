@@ -1346,13 +1346,9 @@ function Content() {
                                   // selected={selectedM.includes(value.id)}
                                   />
                                   <i className="acr-feature-check fas fa-check" />
-                                  <i
-                                    className={
-                                      "acr-listing-feature-icon flaticon-" +
-                                      value.icon +
-                                      ""
-                                    }
-                                  />
+                                  <i className="acr-listing-feature-icon">
+                                    <img src={process.env.REACT_APP_CONTENT_URL + value.icon + ".jpg"} />
+                                  </i>
                                   {value.feature}
                                 </label>
                               </div>
@@ -1378,13 +1374,9 @@ function Content() {
                                   // selected={selectedM.includes(value.id)}
                                   />
                                   <i className="acr-feature-check fas fa-check" />
-                                  <i
-                                    className={
-                                      "acr-listing-feature-icon flaticon-" +
-                                      value.icon +
-                                      ""
-                                    }
-                                  />
+                                  <i className="acr-listing-feature-icon">
+                                    <img src={process.env.REACT_APP_CONTENT_URL + value.icon + ".jpg"} />
+                                  </i>
                                   {value.feature}
                                 </label>
                               </div>
@@ -1409,13 +1401,9 @@ function Content() {
                                   // selected={selectedM.includes(value.id)}
                                   />
                                   <i className="acr-feature-check fas fa-check" />
-                                  <i
-                                    className={
-                                      "acr-listing-feature-icon flaticon-" +
-                                      value.icon +
-                                      ""
-                                    }
-                                  />
+                                  <i className="acr-listing-feature-icon">
+                                    <img src={process.env.REACT_APP_CONTENT_URL + value.icon + ".jpg"} />
+                                  </i>
                                   {value.feature}
                                 </label>
                               </div>

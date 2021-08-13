@@ -47,7 +47,7 @@ const categories = [
     "commercial"
 ];
 const Content = () => {
-
+    const [loadingButton, setLoadingButton] = useState(false);
     const [userData, setUserData] = useState([]);
     const [userDataError, setUserDataError] = useState([]);
 
@@ -136,31 +136,35 @@ const Content = () => {
             setUserDataError({ cityError: 'Please select a city!' });
             city.current.scrollIntoView();
         }
-
-
         else if (userData.tandc !== true) {
-            console.log(userData.tandc)
             setUserDataError({ tandcError: 'You must accept terms & condition to recived notifications!' });
         }
         else {
             return true;
         }
-
     }
     const handleSubmit = (e) => {
+        setLoadingButton(true)
         e.preventDefault();
-        console.log(userData)
+
         if (isValid()) {
             var url = Host + Endpoints.addSubscriber;
-            console.log(userData);
             Axios.post(url, userData).then((response) => {
+                setLoadingButton(false)
+
                 if (response.data.error === true) {
                     errorToast(response.data.error);
                 } else {
                     e.target.reset();
                     successToast(response.data.title);
                 }
-            });
+            }).catch((error) => {
+
+                setLoadingButton(false);
+
+            })
+        } else {
+            setLoadingButton(false);
         }
     }
     useEffect(() => {
@@ -171,7 +175,7 @@ const Content = () => {
     return (
         <div className="col-lg-12">
             <div className="row m-5 d-flex justify-content-center">
-
+                <ToastContainer />
                 <form method="post" onSubmit={handleSubmit}>
                     <div className="auth-text">
                         <h3>
@@ -179,8 +183,7 @@ const Content = () => {
                             <span style={{ color: "#F42F2F" }}>Real Estate</span> alerts
                         </h3>
                         <p>
-                            Lorem Ipsum is simply dummy text of the printing and typesetting
-                            industry. Lorem Ipsum has been the industry's
+                            Get latest properties alerts based on your preferences.
                         </p>
                     </div>
                     <div className="form-group">
@@ -353,8 +356,13 @@ const Content = () => {
                         </div>
 
                     </div>
-                    <button type="submit" className="btn-custom secondary btn-block">
+                    <button type="submit" className="btn-custom secondary btn-block" disabled={loadingButton}>
                         Get Notified!
+                        {loadingButton === true ?
+                            <div className="ml-1 spinner-border spinner-border-sm" role="status">
+                                <span className="sr-only">Loading...</span>
+                            </div> : ''
+                        }
                     </button>
                 </form>
             </div >

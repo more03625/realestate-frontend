@@ -2931,6 +2931,9 @@ table img {
   width: 35px;
   border-radius: 50%;
   margin-right: 15px;
+  height: 35px;
+  object-fit: contain;
+  border: 1px solid #dee2e6;
 }
 .post .post-author .post-author-body {
   flex: 1;
@@ -4847,6 +4850,8 @@ table img {
   border-radius: 50%;
   margin-right: 15px;
   height: 35px;
+  object-fit: contain;
+  border: 1px solid #dee2e6;
 }
 .listing .listing-author .listing-author-body {
   flex: 1;
@@ -5274,6 +5279,11 @@ table img {
   font-weight: 400;
   line-height: 1;
 }
+.acr-listing-feature i.acr-listing-feature-icon img {
+  border-radius: 5px;
+  object-fit: contain;
+}
+
 .acr-listing-feature i.acr-feature-check {
   position: absolute;
   bottom: 5px;
@@ -5392,6 +5402,8 @@ table img {
   font-size: 18px;
   color: #336aa8;
   width: 34px;
+  height: 34px;
+  border-radius: 5px;
 }
 .listing-feature h6 {
   margin: 0;
@@ -5399,6 +5411,7 @@ table img {
 }
 .listing-feature .listing-feature-label {
   width: 160px;
+  margin-left: 5px;
 }
 .listing-feature .listing-feature-value {
   font-size: 15px;

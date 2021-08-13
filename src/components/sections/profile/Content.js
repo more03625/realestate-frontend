@@ -42,6 +42,8 @@ const Content = ({ userData, handleCallBack, runUseEffect }) => {
     null,
   ]);
   const [profileImageMessage, setProfileImageMessage] = useState();
+  const [loadingButton, setLoadingButton] = useState(false);
+  const [cpLoadingButton, setCpLoadingButton] = useState(false); // cp = change password
   const isValidChangePassword = () => {
     if (newPassword === "" && newConfirmPassword === "") {
       setNewPasswordError("Password should be minimum 8 characters");
@@ -58,6 +60,7 @@ const Content = ({ userData, handleCallBack, runUseEffect }) => {
   };
 
   function changePassword(e) {
+    setCpLoadingButton(true)
     e.preventDefault();
 
     setNewPasswordError("");
@@ -76,6 +79,7 @@ const Content = ({ userData, handleCallBack, runUseEffect }) => {
           },
         }
       ).then((response) => {
+        setCpLoadingButton(false)
         if (response.data.error === true) {
           errorToast(response.data.title);
           setChangePasswordStatus([false, response.data.title]);
@@ -83,7 +87,12 @@ const Content = ({ userData, handleCallBack, runUseEffect }) => {
           successToast(response.data.title);
           setChangePasswordStatus([true, response.data.title]);
         }
-      });
+      }).catch(() => {
+        setLoadingButton(false);
+      })
+    } else {
+      setCpLoadingButton(false)
+
     }
   }
   const isValid = () => {
@@ -122,6 +131,7 @@ const Content = ({ userData, handleCallBack, runUseEffect }) => {
     setProfileImage(base64Image);
   }
   function updateProfile(event) {
+    setLoadingButton(true);
     event.preventDefault();
 
     setEmailError("");
@@ -143,13 +153,20 @@ const Content = ({ userData, handleCallBack, runUseEffect }) => {
           token: `${getUserToken().token}`,
         },
       }).then((response) => {
+        setLoadingButton(false);
         if (response.data.error === true) {
           errorToast(response.data.title);
         } else {
           handleCallBack(!runUseEffect);
           successToast(response.data.title);
         }
-      });
+      }).catch(() => {
+
+        setLoadingButton(false);
+
+      })
+    } else {
+      setLoadingButton(false);
     }
   }
   const convertToBase64 = (file) => {
@@ -287,8 +304,14 @@ const Content = ({ userData, handleCallBack, runUseEffect }) => {
                   <p style={successStyle}>{profileImageMessage}</p>
                 </div>
               </div>
-              <button type="submit" name="submit" className="btn-custom">
+              <button type="submit" name="submit" className="btn-custom" disabled={loadingButton}>
                 Save Changes
+
+                {loadingButton === true ?
+                  <div className="ml-1 spinner-border spinner-border-sm" role="status">
+                    <span className="sr-only">Loading...</span>
+                  </div> : ''
+                }
               </button>
               <span className="ml-3">{updateProfileStatus}</span>
               <ToastContainer />
@@ -334,8 +357,13 @@ const Content = ({ userData, handleCallBack, runUseEffect }) => {
                                         </div>
                                     </div> */}
               </div>
-              <button type="submit" className="btn-custom">
+              <button type="submit" className="btn-custom" disabled={cpLoadingButton}>
                 Save Changes
+                {cpLoadingButton === true ?
+                  <div className="ml-1 spinner-border spinner-border-sm" role="status">
+                    <span className="sr-only">Loading...</span>
+                  </div> : ''
+                }
               </button>
             </form>
           </div>

@@ -34,6 +34,7 @@ const settings = {
   dotsClass: "d-flex slick-dots",
 };
 const Content = () => {
+  const [loadingButton, setLoadingButton] = useState(false);
   const [email, setEmail] = useState("");
   const [emailError, setEmailError] = useState("");
   const [token, setToken] = useState("");
@@ -60,6 +61,7 @@ const Content = () => {
 
 
   const submit = (e) => {
+    setLoadingButton(true)
     e.preventDefault();
 
     setEmailError("");
@@ -68,13 +70,21 @@ const Content = () => {
     if (isValid()) {
       var url = Host + Endpoints.forgotPassword;
       axios.post(url, { email: email, type: 'seller', token: token, }).then((response) => {
+        setLoadingButton(false)
         if (response.data.error === true) {
           // history.push("/forgot-password-verification");
           errorToast("❌" + response.data.title);
         } else {
+          e.target.reset()
           successToast('Check email to create new password!');
         }
-      });
+      }).catch(() => {
+
+        setLoadingButton(false);
+
+      })
+    } else {
+      setLoadingButton(false);
     }
   };
 
@@ -124,8 +134,14 @@ const Content = () => {
           <p className="text-center mb-0">
             Don't have an account? <Link to="/register">Create One</Link>{" "}
           </p>
-          <button type="submit" className="btn-custom secondary btn-block">
+          <button type="submit" className="btn-custom secondary btn-block" disabled={loadingButton}>
             Send Recovery Email
+
+            {loadingButton === true ?
+              <div className="ml-1 spinner-border spinner-border-sm" role="status">
+                <span className="sr-only">Loading...</span>
+              </div> : ''
+            }
           </button>
         </form>
         <ToastContainer />

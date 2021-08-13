@@ -13,7 +13,8 @@ const Findhome = ({ categories }) => {
                                 <h5 className="custom-primary">Find a Home</h5>
                                 <h2 className="title">Build Your Family</h2>
                                 <p className="subtitle">
-                                    Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+                                    Find your place with an immersive photo experience and the most listing, including things you
+                                    won’t find anywhere else.
                                 </p>
                                 <Link to="/property-results?property_type=buy" className="btn-custom">Browse Listings</Link>
                             </div>
@@ -23,11 +24,12 @@ const Findhome = ({ categories }) => {
                                 {categories && categories.slice(0, 4).map((item, i) => (
                                     <div key={i} className="col-md-6">
                                         <div className="acr-infographic-item">
-                                            <i className={"flaticon-house"} />
-                                            <div className="acr-infographic-item-body">
+                                            <i className={`flaticon-home`} />
+                                            {/*<img className="propertyDetailsOtherDetails text-center" src={process.env.REACT_APP_CONTENT_URL + item.image + ".jpg"} />*/}
 
+                                            <div className="acr-infographic-item-body">
                                                 <Link to={`property-results?sub_category=${item.name}&subcategory_id=${item.id}`}><h5 className="linkstyle">{item.name}</h5></Link>
-                                                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. </p>
+                                                <p>{item.description.slice(0, 55) + "..."}</p>
                                             </div>
                                         </div>
                                     </div>

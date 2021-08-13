@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-
 import classNames from "classnames";
 
 import BuySearch from "./BuySearch";
@@ -49,6 +48,8 @@ const Banner = () => {
       </div>
 
       {searchBar}
+
+
     </div>
   );
 };

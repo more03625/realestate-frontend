@@ -18,8 +18,7 @@ class Footercontent extends Component {
                 />
               </div>
               <p>
-                RAHUL Lorem Ipsum is simply dummy text of the printing and
-                typesetting industry. Lorem Ipsum has been the industry's{" "}
+                Connecting buyers, sellers, and agent effortlessly
               </p>
               <ul className="social-media">
                 <li>
@@ -96,14 +95,14 @@ class Footercontent extends Component {
                 <li>
                   {" "}
                   <Link to="#">
-                    <i className="fas fa-home"></i>&nbsp;&nbsp; Lorem Ipsum is
-                    simply dummy text of the printing and typesetting industry.
+                    <i className="fas fa-home"></i>&nbsp;&nbsp; 9- Madhyapur Thimi, Radhe Radhe, Bhaktapur
+
                   </Link>{" "}
                 </li>
                 <li>
                   {" "}
-                  <Link to="#">
-                    <i className="fas fa-phone"></i>&nbsp;&nbsp; 5962325620
+                  <Link target="_blank" to={{ pathname: "tel:977-1-6633484" }}>
+                    <i className="fas fa-phone"></i>&nbsp;&nbsp; 977-1-6633484
                   </Link>{" "}
                 </li>
                 <li>

@@ -15,7 +15,7 @@ const Contactform = () => {
   const [phoneNumberError, setPhoneNumberError] = useState("");
   const [emailError, setEmailError] = useState("");
   const [messageError, setMessageError] = useState("");
-
+  const [loadingButton, setLoadingButton] = useState(false);
   const isValid = () => {
     var emailValidator = new RegExp(
       /[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,15}/g
@@ -43,6 +43,7 @@ const Contactform = () => {
     }
   };
   const submitContactForm = (e) => {
+    setLoadingButton(true);
     e.preventDefault();
     setFullNameError("");
     setPhoneNumberError("");
@@ -58,12 +59,21 @@ const Contactform = () => {
         message: message,
       };
       Axios.post(url, data).then((response) => {
+        setLoadingButton(false);
+
         if (response.data.error === true) {
           errorToast(response.data.error);
         } else {
           successToast(response.data.title);
         }
-      });
+      }).catch(() => {
+
+        setLoadingButton(false);
+
+      })
+    } else {
+      setLoadingButton(false);
+
     }
   };
   return (
@@ -188,8 +198,13 @@ const Contactform = () => {
                     </p>
                   </div>
                 </div>
-                <button type="submit" className="btn-custom primary">
+                <button type="submit" className="btn-custom primary" disabled={loadingButton}>
                   Send Message
+                  {loadingButton === true ?
+                    <div className="ml-1 spinner-border spinner-border-sm" role="status">
+                      <span className="sr-only">Loading...</span>
+                    </div> : ''
+                  }
                 </button>
                 <ToastContainer />
               </form>

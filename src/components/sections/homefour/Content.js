@@ -20,7 +20,6 @@ const Content = () => {
             if (response.data.error === true) {
                 alert("There are some errors!")
             } else {
-
                 setSubCategoriesWithCount(response.data.data);
             }
         });

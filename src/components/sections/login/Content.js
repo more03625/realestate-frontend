@@ -65,6 +65,7 @@ const Content = () => {
   //Rahul more
 
   const login = (e) => {
+    setLoginButtonStatus(true);
     e.preventDefault();
 
     setEmailError("");
@@ -84,11 +85,12 @@ const Content = () => {
       //   }
       // }
       Axios.post(url, data).then((response) => {
+        setLoginButtonStatus(false);
+
         if (response.data.error === true) {
           errorToast(response.data.title);
-          setLoginButtonStatus(true);
+
           setTimeout(function () {
-            setLoginButtonStatus(false);
             setLoginStatus(response.data.title);
           }, 3000);
         } else {
@@ -99,6 +101,10 @@ const Content = () => {
           localStorage.setItem("token", JSON.stringify(response.data));
         }
       });
+    } else {
+      console.log("In else")
+      setLoginButtonStatus(false);
+
     }
   };
 
@@ -164,6 +170,11 @@ const Content = () => {
             disabled={loginButtonStatus}
           >
             Login
+            {loginButtonStatus === true ?
+              <div className="ml-1 spinner-border spinner-border-sm" role="status">
+                <span className="sr-only">Loading...</span>
+              </div> : ''
+            }
           </button>
           <ToastContainer />
         </form>

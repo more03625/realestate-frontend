@@ -15,7 +15,7 @@ class Contactinfo extends Component {
                                     <div className="acr-infographic-item-body">
                                         <h5>{item.title}</h5>
                                         <p>{item.text}</p>
-                                        <Link to={item.btnurl} className="btn-custom secondary btn-sm">{item.btntext}</Link>
+                                        <Link target={item.targetBlank} to={{ pathname: item.btnurl }} className="btn-custom secondary btn-sm">{item.btntext}</Link>
                                     </div>
                                 </div>
                             </div>

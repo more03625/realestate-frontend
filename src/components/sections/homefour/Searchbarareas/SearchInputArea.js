@@ -18,7 +18,7 @@ export const BuyArea = () => {
                     </div>
 
                     <div className="row">
-                        <Searchoptions propertyType={propertyType} />
+                        <Searchoptions />
                     </div>
                 </form>
             </div>

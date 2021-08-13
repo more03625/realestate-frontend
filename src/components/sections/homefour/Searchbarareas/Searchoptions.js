@@ -7,13 +7,15 @@ import {
 import Axios from "axios";
 import { Endpoints, Host } from "../../../../helper/comman_helper";
 import { useEffect, useState } from "react";
-import ReactMultiSelectCheckboxes from "react-multiselect-checkboxes";
 
 export const Searchoptions = () => {
     const [optionsData, setOptionsData] = useState();
     const [suburbs, setSuburbs] = useState();
 
     var propertyType = window.location.pathname.split("/")[1];
+    if (propertyType === 'home') {
+        propertyType = 'buy'
+    }
 
     const getSubCategories = async () => {
         var url = Host + Endpoints.getSubCategories;
@@ -35,6 +37,19 @@ export const Searchoptions = () => {
         }
     }
 
+
+    const hideOptions = (e) => {
+        if (e.target.value == 4) {
+            console.log(document.getElementsByClassName("hideBeds"))
+            for (var i = 0; i < 2; i++) {
+                document.getElementsByClassName("hideBeds")[i].classList.add("d-none");
+            }
+        } else {
+            for (var i = 0; i < 2; i++) {
+                document.getElementsByClassName("hideBeds")[i].classList.remove("d-none");
+            }
+        }
+    }
     useEffect(() => {
         getSubCategories();
     }, [])
@@ -51,7 +66,6 @@ export const Searchoptions = () => {
         <>
             <div className="col-lg-2 col-md-6 col-6">
                 <div className="form-group acr-custom-select">
-
                     <Select2
                         data={optionsData && optionsData.categories}
                         options={{
@@ -59,11 +73,12 @@ export const Searchoptions = () => {
                         }}
                         name="subcategory_id"
                         multiple
+                        onChange={(e) => hideOptions(e)}
                     />
 
                 </div>
             </div>
-            <div className="col-lg-2 col-md-6 col-6">
+            <div className="hideif col-lg-2 col-md-6 col-6 hideBeds">
                 <div className="form-group acr-custom-select">
                     <Select2
                         data={beds}
@@ -74,7 +89,7 @@ export const Searchoptions = () => {
                     />
                 </div>
             </div>
-            <div className="col-lg-2 col-md-6 col-6">
+            <div className=" col-lg-2 col-md-6 col-6 hideBeds">
                 <div className="form-group acr-custom-select">
                     <Select2
                         data={beds}

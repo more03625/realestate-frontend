@@ -8,7 +8,8 @@ import { Link, useParams } from "react-router-dom";
 import { Host, Endpoints } from "../../helper/comman_helper";
 import Axios from "axios";
 import Loader from "../layouts/Loader";
-
+import Error from '../pages/Error';
+import NewsNotFound from "./NewsNotFound";
 const Newsdetail = () => {
   const { slug, newsID } = useParams();
   const ref = useRef();
@@ -18,6 +19,7 @@ const Newsdetail = () => {
       if (response.data.error === false) {
         setDetailedNews(response.data.data);
       } else {
+        setDetailedNews(false);
         setDetailedNewsError(response.data.title);
       }
     });
@@ -40,12 +42,16 @@ const Newsdetail = () => {
       });
   }
   useEffect(() => {
+    window.scrollTo(0, 0);
     getNewsDetails();
     getRecentNews();
   }, [newsID]);
 
 
   return (
+
+
+
     <Fragment>
       <MetaTags>
         <title>
@@ -54,15 +60,22 @@ const Newsdetail = () => {
         <meta name="description" content="#" />
       </MetaTags>
       <Header />
+
       <Breadcrumb
         breadcrumb={{ pagename: "News details" }}
         newsData={detailedNews}
       />
       {
-        detailedNews == '' ? <Loader /> : <Content newsData={detailedNews} recentNews={recentNews} ref={ref} />
+        detailedNews === false ? <NewsNotFound recentNews={recentNews} /> :
+          <>
+
+            <Content newsData={detailedNews} recentNews={recentNews} ref={ref} />
+
+            <Footer />
+          </>
       }
-      <Footer />
     </Fragment>
+
   );
 };
 

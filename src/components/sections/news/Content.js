@@ -7,7 +7,7 @@ import Loader from "../../layouts/Loader";
 import { Host, Endpoints, convertToSlug } from "../../../helper/comman_helper";
 import Axios from "axios";
 
-const Content = () => {
+const Content = ({ recentNews }) => {
   function getNews() {
     var url = Host + Endpoints.getNews;
     Axios.post(url)
@@ -182,7 +182,7 @@ const Content = () => {
           {/* Posts End */}
           {/* Sidebar Start */}
           <div className="col-lg-4">
-            <Sidebar />
+            <Sidebar recentNews={recentNews} />
           </div>
           {/* Sidebar End */}
         </div>

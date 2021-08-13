@@ -53,7 +53,7 @@ const Content = () => {
   const [token, setToken] = useState("");
   const [tokenError, setTokenError] = useState("");
 
-
+  const [loadingButton, setLoadingButton] = useState(false);
   const handleCheckBox = () => setTandcBox(!tandcBox)
 
   const isValid = () => {
@@ -97,6 +97,7 @@ const Content = () => {
     setToken(null);
   };
   const registerFun = (e) => {
+    setLoadingButton(true);
     e.preventDefault();
     setNameError("");
     setEmailError("");
@@ -119,18 +120,27 @@ const Content = () => {
         token: token,
         "tandC": tandcBox
       }).then((response) => {
+        setLoadingButton(false);
+
         if (response.data.error === false) {
           successToast();
           setTimeout(function () {
             setRegStatus(true);
-          }, 3000);
+          }, 2000);
         } else {
           if (response.data.error === true) {
             errorToast(response.data.title);
             setRegStatus(response.data.title);
           }
         }
-      });
+      }).catch(() => {
+
+        setLoadingButton(false);
+
+      })
+    } else {
+      setLoadingButton(false);
+
     }
   };
   var verificationData = {
@@ -252,8 +262,13 @@ const Content = () => {
             onExpire={handleExpire}
           />
           <p style={{ color: "red", fontSize: "14px" }}>{tokenError}</p>
-          <button type="submit" className="btn-custom secondary btn-block">
+          <button type="submit" className="btn-custom secondary btn-block" disabled={loadingButton}>
             Register
+            {loadingButton === true ?
+              <div className="ml-1 spinner-border spinner-border-sm" role="status">
+                <span className="sr-only">Loading...</span>
+              </div> : ''
+            }
           </button>
 
           <p className="text-center mb-0">

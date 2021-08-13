@@ -23,7 +23,7 @@ const Recentlisting = () => {
   const gallerytip = <Tooltip>Gallery</Tooltip>;
   const bedstip = <Tooltip>Beds</Tooltip>;
   const bathstip = <Tooltip>Bathrooms</Tooltip>;
-  const areatip = <Tooltip>{recentProperties && recentProperties.default_area_unit}</Tooltip>;
+  const areatip = <Tooltip>Sqft</Tooltip>;
   useEffect(() => {
     getRecentProperties();
   }, []);
@@ -122,7 +122,7 @@ const Recentlisting = () => {
                         <ul>
                           <li>
                             {" "}
-                            <Link to={{ pathname: `tel:${item.number_for_contact}` }}>
+                            <Link target="_blank" to={{ pathname: `tel:${item.number_for_contact}` }}>
                               {" "}
                               <i className="fas fa-phone" /> Call Agent
                             </Link>{" "}

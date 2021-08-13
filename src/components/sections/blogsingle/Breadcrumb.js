@@ -17,7 +17,7 @@ const Breadcrumb = ({ newsData }) => {
           <h3 className="text-white">
             {newsData && newsData.title !== undefined
               ? newsData.title
-              : "Loading..."}
+              : ""}
           </h3>
           <nav aria-label="breadcrumb">
             <ol className="breadcrumb">
@@ -33,7 +33,7 @@ const Breadcrumb = ({ newsData }) => {
               <li className="breadcrumb-item active" aria-current="page">
                 {newsData && newsData.title !== undefined
                   ? newsData.title
-                  : "Loading..."}
+                  : ""}
               </li>
             </ol>
           </nav>

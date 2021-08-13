@@ -6,7 +6,7 @@ const ctablock = [
         id: 1,
         icon: 'sales-agent',
         title: 'Buying a Home?',
-        text: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's",
+        text: "Get properties related news and alerts by subscribing us",
         link: "/subscribe-for-alerts",
         linkText: "Subscribe for alerts"
     },
@@ -14,7 +14,7 @@ const ctablock = [
         id: 2,
         icon: 'sold',
         title: 'Selling a Home?',
-        text: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's",
+        text: "Advertise your properties for sell, we will find you ideal customer.",
         link: "/add-property",
         linkText: "Find out more"
 

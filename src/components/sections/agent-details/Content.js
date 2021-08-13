@@ -8,7 +8,7 @@ import { openInGmail, convertToSlug, errorToast, successToast } from "../../../h
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Axios from "axios";
-import { Host, Endpoints } from "../../../helper/comman_helper";
+import { Host, Endpoints, uppercaseFirstLetter } from "../../../helper/comman_helper";
 import { Noresults } from "../../layouts/Noresults";
 const gallerytip = <Tooltip>Gallery</Tooltip>;
 const bedstip = <Tooltip>Beds</Tooltip>;
@@ -29,7 +29,7 @@ const Content = ({ agentData, agentProperties, similarAgents }) => {
   const [dateError, setDateError] = useState("");
   const [commentError, setCommentError] = useState("");
 
-
+  const [loadingButton, setLoadingButton] = useState(false);
 
   const isValid = () => {
     var emailValidator = new RegExp(
@@ -68,6 +68,9 @@ const Content = ({ agentData, agentProperties, similarAgents }) => {
   };
 
   const submitFun = (e) => {
+
+    setLoadingButton(true);
+
     e.preventDefault();
 
     setFnameError("");
@@ -88,14 +91,20 @@ const Content = ({ agentData, agentProperties, similarAgents }) => {
       }
 
       Axios.post(url, userData).then((response) => {
+        setLoadingButton(false);
         if (response.data.error === true) {
           errorToast(response.data.error);
         } else {
           e.target.reset();
           successToast(response.data.title);
         }
-      });
+      }).catch(() => {
+
+        setLoadingButton(false);
+
+      })
     } else {
+      setLoadingButton(false);
       console.log("In else");
     }
   };
@@ -111,9 +120,8 @@ const Content = ({ agentData, agentProperties, similarAgents }) => {
               <div className="sidebar-widget sidebar-widget-agent">
                 {/* Author Start */}
                 <div className="media sidebar-author listing-agent">
-                  <img
-                    src={process.env.PUBLIC_URL + "/assets/img/agents/1.jpg"}
-                    alt="agent"
+                  <img src={agentData && agentData.profile_image != null ? process.env.REACT_APP_CONTENT_URL + agentData.profile_image + "_small.jpg" : process.env.REACT_APP_CONTENT_URL + "/users/default.png"}
+                    alt={agentData && agentData.profile_image + "_small.jpg"}
                   />
                   <div className="media-body">
                     <h6> {agentData && agentData.name} </h6>
@@ -199,8 +207,13 @@ const Content = ({ agentData, agentProperties, similarAgents }) => {
                   </div>
                   <button
                     type="submit"
-                    className="btn-custom primary light btn-block"
+                    className="btn-custom primary light btn-block" disabled={loadingButton}
                   >
+                    {loadingButton === true ?
+                      <div className="ml-1 spinner-border spinner-border-sm" role="status">
+                        <span className="sr-only">Loading...</span>
+                      </div> : ''
+                    }
                     Send Message
                   </button>
                   <ToastContainer />
@@ -216,7 +229,7 @@ const Content = ({ agentData, agentProperties, similarAgents }) => {
               {/* Listing Start */}
               {
                 agentProperties.length > 0 ? (
-                  agentProperties && agentProperties.slice(0, 4).map((item, i) => (
+                  agentProperties && agentProperties.map((item, i) => (
                     <div key={i} className="col-md-6">
                       <div className="listing">
                         <div className="listing-thumbnail " >
@@ -229,26 +242,34 @@ const Content = ({ agentData, agentProperties, similarAgents }) => {
                           </Link>
 
                           <div className="listing-badges">
-                            {item.star === true ? (
-                              <span className="listing-badge featured">
-                                {" "}
-                                <i className="fas fa-star" />{" "}
-                              </span>
+
+                            {item.property_type === "buy" ? (
+                              <span className="listing-badge sale">{uppercaseFirstLetter(item.property_type)}</span>
                             ) : (
                               ""
                             )}
-                            {item.sale === true ? (
-                              <span className="listing-badge sale">On Sale</span>
+                            {item.property_type === "sold" ? (
+                              <span className="listing-badge pending">{uppercaseFirstLetter(item.property_type)}</span>
                             ) : (
                               ""
                             )}
-                            {item.pending === true ? (
-                              <span className="listing-badge pending"> Pending</span>
+                            {item.property_type === "rent" ? (
+                              <span className="listing-badge rent">{uppercaseFirstLetter(item.property_type)}</span>
                             ) : (
                               ""
                             )}
-                            {item.rental === true ? (
-                              <span className="listing-badge rent"> Rental</span>
+                            {item.property_type === "share" ? (
+                              <span className="listing-badge rent">{uppercaseFirstLetter(item.property_type)}</span>
+                            ) : (
+                              ""
+                            )}
+                            {item.property_type === "invest" ? (
+                              <span className="listing-badge sale">{uppercaseFirstLetter(item.property_type)}</span>
+                            ) : (
+                              ""
+                            )}
+                            {item.property_type === "lease" ? (
+                              <span className="listing-badge sale">{uppercaseFirstLetter(item.property_type)}</span>
                             ) : (
                               ""
                             )}
@@ -269,9 +290,9 @@ const Content = ({ agentData, agentProperties, similarAgents }) => {
                             <div className="listing-author-body">
                               <p>
                                 {" "}
-                                <Link to="#">{item.name}</Link>{" "}
+                                <Link to="#">{item.name_for_contact}</Link>{" "}
                               </p>
-                              <span className="listing-date">{item.postdate}</span>
+                              <span className="listing-date">{new Date(item.createdAt).toDateString()}</span>
                             </div>
                             <Dropdown className="options-dropdown">
                               <Dropdown.Toggle as={NavLink}>

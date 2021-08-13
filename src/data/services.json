@@ -3,36 +3,36 @@
         "id": 1,
         "icon": "sold",
         "title": "Real Estate Services",
-        "text": "Lorem Ipsum is simply dummy text of the printing and typesetting industry."
+        "text": "Helping buyers, seller, renters and landlords reach their real estate goal"
     },
     {
         "id": 2,
         "icon": "company",
         "title": "Business Services",
-        "text": "Lorem Ipsum is simply dummy text of the printing and typesetting industry."
+        "text": "Helping individual or companies to find commercial properties"
     },
     {
         "id": 3,
         "icon": "clipboard",
         "title": "Tax Services",
-        "text": "Lorem Ipsum is simply dummy text of the printing and typesetting industry."
+        "text": "We provide tax services of properties on request"
     },
     {
         "id": 4,
         "icon": "checklist",
         "title": "Mortgage Calculation",
-        "text": "Lorem Ipsum is simply dummy text of the printing and typesetting industry."
+        "text": "See how much your monthly payment will be"
     },
     {
         "id": 5,
         "icon": "sales-agent",
         "title": "Consultation Services",
-        "text": "Lorem Ipsum is simply dummy text of the printing and typesetting industry."
+        "text": "Providing specialized investment and financial advice to buy, sell or invest in property"
     },
     {
         "id": 6,
         "icon": "user",
         "title": "Services for Individuals",
-        "text": "Lorem Ipsum is simply dummy text of the printing and typesetting industry."
+        "text": "Personalized real estate service to client"
     }
 ]

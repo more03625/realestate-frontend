@@ -108,6 +108,8 @@ const settingsthumb = {
 }
 
 const Listingwrapper = ({ propertyDetails }) => {
+    const [loadingButton, setLoadingButton] = useState(false);
+
     const errorStyle = {
         color: "red",
         fontSize: "14px",
@@ -154,7 +156,6 @@ const Listingwrapper = ({ propertyDetails }) => {
     };
     useEffect(() => {
         window.scrollTo(0, 0);
-
         getRecentProperties();
         setNav1(slider1);
         setNav2(slider2);
@@ -212,8 +213,9 @@ const Listingwrapper = ({ propertyDetails }) => {
     };
 
     const submitFun = (e) => {
+        setLoadingButton(true);
         e.preventDefault();
-
+        console.log(loadingButton)
         setFnameError("");
         setEmailError("");
         setPhoneError("");
@@ -232,6 +234,7 @@ const Listingwrapper = ({ propertyDetails }) => {
             }
 
             Axios.post(url, userData).then((response) => {
+                setLoadingButton(false);
                 if (response.data.error === true) {
                     errorToast(response.data.error);
                 } else {
@@ -240,9 +243,13 @@ const Listingwrapper = ({ propertyDetails }) => {
                     successToast("Thank you! Our team will get back to you!");
                 }
             });
+
+
         } else {
             console.log("In else");
+            setLoadingButton(false);
         }
+
     };
 
     const agentProfileImage =
@@ -259,7 +266,7 @@ const Listingwrapper = ({ propertyDetails }) => {
 
     return (
         <div className="section listing-wrapper " ref={ref}>
-            {propertyDetails == null || propertyDetails == undefined ? (<Loader />) : (
+            {propertyDetails === false ? <ContentNotFound /> : (
                 <>
                     <div className="container">
                         <div className="row">
@@ -333,7 +340,7 @@ const Listingwrapper = ({ propertyDetails }) => {
                                         {propertyDetails && propertyDetails.price
                                             ? new Number(propertyDetails.price).toLocaleString()
                                             : ""}
-                                        ) <span className="text-muted" style={{ fontSize: "18px" }}>{propertyDetails.price_on}</span>
+                                        ) <span className="text-muted" style={{ fontSize: "18px" }}>{propertyDetails && propertyDetails.price_on}</span>
                                     </h4>
                                     {propertyDetails && propertyDetails.description
                                         ? propertyDetails.description
@@ -358,10 +365,25 @@ const Listingwrapper = ({ propertyDetails }) => {
                                 </div>
                                 <div className="section section-padding  acr-listing-features">
                                     <h4>Property Details</h4>
+
                                     <div className="row">
+
+                                        {
+                                            getUserToken() !== null && getUserToken().data.id === propertyDetails && propertyDetails.user_id && propertyDetails && propertyDetails.admin_cost ? (
+
+                                                <div className="listing-feature col-lg-6 col-md-6">
+                                                    <i class="flaticon-sales-agent"></i>
+                                                    <h6 className="listing-feature-label">
+                                                        Admin Charges</h6>
+                                                    <span className="listing-feature-value">
+                                                        {propertyDetails && propertyDetails.admin_cost ? "Rs." + new Number(propertyDetails.admin_cost).toLocaleString() : ''}
+                                                    </span>
+                                                </div>
+                                            ) : ("")
+                                        }
                                         {propertyDetails && propertyDetails.category_name ? (
                                             <div className="listing-feature col-lg-6 col-md-6">
-                                                <img className="propertyDetailsOtherDetails" src={process.env.REACT_APP_CONTENT_URL + '/features/38.jpg'} />
+                                                <i className="flaticon-checklist"></i>
 
                                                 <h6 className="listing-feature-label">
 
@@ -375,7 +397,8 @@ const Listingwrapper = ({ propertyDetails }) => {
                                         )}
                                         {propertyDetails && propertyDetails.sub_category_name ? (
                                             <div className="listing-feature col-lg-6 col-md-6">
-                                                <span className="fa fa-star fa-lg propertyDetailsOtherDetails" aria-hidden="true"></span>
+                                                <i className="flaticon-list"></i>
+
                                                 <h6 className="listing-feature-label">Sub category</h6>
                                                 <span className="listing-feature-value">
                                                     {propertyDetails && propertyDetails.sub_category_name
@@ -388,7 +411,7 @@ const Listingwrapper = ({ propertyDetails }) => {
                                         )}
                                         {propertyDetails && propertyDetails.area ? (
                                             <div className="listing-feature col-lg-6 col-md-6">
-                                                <span className="fa fa-star fa-lg propertyDetailsOtherDetails" aria-hidden="true"></span>
+                                                <i class="flaticon-ruler"></i>
                                                 <h6 className="listing-feature-label">Total Area</h6>
                                                 <span className="listing-feature-value">
                                                     {propertyDetails && propertyDetails.area
@@ -403,7 +426,7 @@ const Listingwrapper = ({ propertyDetails }) => {
                                         )}
                                         {propertyDetails && propertyDetails.carpet_area ? (
                                             <div className="listing-feature col-lg-6 col-md-6">
-                                                <span className="fa fa-star fa-lg propertyDetailsOtherDetails" aria-hidden="true"></span>
+                                                <i class="flaticon-ruler"></i>
                                                 <h6 className="listing-feature-label">Build Up Area</h6>
                                                 <span className="listing-feature-value">
                                                     {propertyDetails.carpet_area +
@@ -438,7 +461,7 @@ const Listingwrapper = ({ propertyDetails }) => {
                                         )} */}
                                         {propertyDetails && propertyDetails.build_type ? (
                                             <div className="listing-feature col-lg-6 col-md-6">
-                                                <span className="fa fa-star fa-lg propertyDetailsOtherDetails" aria-hidden="true"></span>
+                                                <i class="flaticon-new"></i>
                                                 <h6 className="listing-feature-label">Build Type</h6>
                                                 <span className="listing-feature-value">
                                                     {uppercaseFirstLetter(propertyDetails.build_type)}
@@ -449,7 +472,7 @@ const Listingwrapper = ({ propertyDetails }) => {
                                         )}
                                         {propertyDetails && propertyDetails.no_of_bathrooms ? (
                                             <div className="listing-feature col-lg-6 col-md-6">
-                                                <span className="fa fa-star fa-lg propertyDetailsOtherDetails" aria-hidden="true"></span>
+                                                <i class="flaticon-bathroom"></i>
                                                 <h6 className="listing-feature-label">
                                                     No of bathrooms
                                                 </h6>
@@ -462,7 +485,7 @@ const Listingwrapper = ({ propertyDetails }) => {
                                         )}
                                         {propertyDetails && propertyDetails.no_of_beds ? (
                                             <div className="listing-feature col-lg-6 col-md-6">
-                                                <span className="fa fa-star fa-lg propertyDetailsOtherDetails" aria-hidden="true"></span>
+                                                <i class="flaticon-bedroom"></i>
                                                 <h6 className="listing-feature-label">No of Beds</h6>
                                                 <span className="listing-feature-value">
                                                     {propertyDetails.no_of_beds + " Beds"}
@@ -472,9 +495,10 @@ const Listingwrapper = ({ propertyDetails }) => {
                                             ""
                                         )}
 
+
                                         {propertyDetails && propertyDetails.no_of_garage ? (
                                             <div className="listing-feature col-lg-6 col-md-6">
-                                                <span className="fa fa-star fa-lg propertyDetailsOtherDetails" aria-hidden="true"></span>
+                                                <i className="flaticon-garage"></i>
                                                 <h6 className="listing-feature-label">No of Garage</h6>
                                                 <span className="listing-feature-value">
                                                     {propertyDetails.no_of_garage + " Garages"}
@@ -486,7 +510,7 @@ const Listingwrapper = ({ propertyDetails }) => {
 
                                         {propertyDetails && propertyDetails.no_of_rooms ? (
                                             <div className="listing-feature col-lg-6 col-md-6">
-                                                <span className="fa fa-star fa-lg propertyDetailsOtherDetails" aria-hidden="true"></span>
+                                                <i className="flaticon-company"></i>
                                                 <h6 className="listing-feature-label">No of Rooms</h6>
                                                 <span className="listing-feature-value">
                                                     {propertyDetails.no_of_rooms + " Rooms"}
@@ -498,7 +522,8 @@ const Listingwrapper = ({ propertyDetails }) => {
 
                                         {propertyDetails && propertyDetails.road_type ? (
                                             <div className="listing-feature col-lg-6 col-md-6">
-                                                <span className="fa fa-star fa-lg propertyDetailsOtherDetails" aria-hidden="true"></span>
+
+                                                <i className="flaticon-towels"></i>
                                                 <h6 className="listing-feature-label">Road Type</h6>
                                                 <span className="listing-feature-value">
                                                     {propertyDetails.road_type}
@@ -510,7 +535,8 @@ const Listingwrapper = ({ propertyDetails }) => {
 
                                         {propertyDetails && propertyDetails.car_spaces ? (
                                             <div className="listing-feature col-lg-6 col-md-6">
-                                                <span className="fa fa-star fa-lg propertyDetailsOtherDetails" aria-hidden="true"></span>
+
+                                                <i class="flaticon-garage"></i>
                                                 <h6 className="listing-feature-label">Car spaces</h6>
                                                 <span className="listing-feature-value">
                                                     {propertyDetails.car_spaces + " Car spaces"}
@@ -522,7 +548,7 @@ const Listingwrapper = ({ propertyDetails }) => {
 
                                         {propertyDetails && propertyDetails.facing ? (
                                             <div className="listing-feature col-lg-6 col-md-6">
-                                                <span className="fa fa-star fa-lg propertyDetailsOtherDetails" aria-hidden="true"></span>
+                                                <i class="flaticon-eye"></i>
                                                 <h6 className="listing-feature-label">Facing</h6>
                                                 <span className="listing-feature-value">
                                                     {propertyDetails.facing}
@@ -534,7 +560,8 @@ const Listingwrapper = ({ propertyDetails }) => {
 
                                         {propertyDetails && propertyDetails.floor ? (
                                             <div className="listing-feature col-lg-6 col-md-6">
-                                                <span className="fa fa-star fa-lg propertyDetailsOtherDetails" aria-hidden="true"></span>
+                                                <i class="flaticon-stairs"></i>
+
                                                 <h6 className="listing-feature-label">Floor</h6>
                                                 <span className="listing-feature-value">
                                                     {propertyDetails.floor} Floors
@@ -546,7 +573,7 @@ const Listingwrapper = ({ propertyDetails }) => {
 
                                         {propertyDetails && propertyDetails.furnishing ? (
                                             <div className="listing-feature col-lg-6 col-md-6">
-                                                <span className="fa fa-star fa-lg propertyDetailsOtherDetails" aria-hidden="true"></span>
+                                                <i class="flaticon-chair"></i>
                                                 <h6 className="listing-feature-label">Furnishing</h6>
                                                 <span className="listing-feature-value">
                                                     {propertyDetails.furnishing}
@@ -570,7 +597,8 @@ const Listingwrapper = ({ propertyDetails }) => {
 
                                         {propertyDetails && propertyDetails.available_from ? (
                                             <div className="listing-feature col-lg-6 col-md-6">
-                                                <span className="fa fa-star fa-lg propertyDetailsOtherDetails" aria-hidden="true"></span>
+                                                <i class="flaticon-event"></i>
+
                                                 <h6 className="listing-feature-label">
                                                     Available From
                                                 </h6>
@@ -583,7 +611,7 @@ const Listingwrapper = ({ propertyDetails }) => {
                                         )}
                                         {propertyDetails && propertyDetails.build_year ? (
                                             <div className="listing-feature col-lg-6 col-md-6">
-                                                <span className="fa fa-star fa-lg propertyDetailsOtherDetails" aria-hidden="true"></span>
+                                                <i class="flaticon-history"></i>
                                                 <h6 className="listing-feature-label">Build Year</h6>
                                                 <span className="listing-feature-value">
                                                     {propertyDetails.build_year}
@@ -593,7 +621,7 @@ const Listingwrapper = ({ propertyDetails }) => {
                                             ""
                                         )}
                                         <div className="listing-feature col-lg-6 col-md-6">
-                                            <span className="fa fa-star fa-lg propertyDetailsOtherDetails" aria-hidden="true"></span>
+                                            <i class="flaticon-bone"></i>
                                             <h6 className="listing-feature-label">Pets Considere</h6>
                                             <span className="listing-feature-value">
                                                 {propertyDetails && propertyDetails.pets_considere
@@ -603,7 +631,7 @@ const Listingwrapper = ({ propertyDetails }) => {
                                         </div>
 
                                         <div className="listing-feature col-lg-6 col-md-6">
-                                            <span className="fa fa-star fa-lg propertyDetailsOtherDetails" aria-hidden="true"></span>
+                                            <i className="flaticon-sales-agent"></i>
                                             <h6 className="listing-feature-label">
                                                 Price Negotiable
                                             </h6>
@@ -616,7 +644,7 @@ const Listingwrapper = ({ propertyDetails }) => {
                                         </div>
                                         {propertyDetails && propertyDetails.property_type ? (
                                             <div className="listing-feature col-lg-6 col-md-6">
-                                                <span className="fa fa-star fa-lg propertyDetailsOtherDetails" aria-hidden="true"></span>
+                                                <i className="flaticon-home"></i>
                                                 <h6 className="listing-feature-label">Property Type</h6>
                                                 <span className="listing-feature-value">
                                                     {propertyDetails.property_type}
@@ -637,30 +665,33 @@ const Listingwrapper = ({ propertyDetails }) => {
                                             (
 
                                                 <div className="row">
-                                                    <h5 className="col-12 text-left">Outdoon Features:</h5>
                                                     {
-                                                        propertyDetails.features.outdoor ? propertyDetails.features.outdoor.map((value, index) => {
-                                                            {
-                                                                return <div key={index} className="listing-feature">
-                                                                    <i className={`flaticon-${value.icon}`} />
+                                                        propertyDetails.features.outdoor.length > 0 && <h5 className="col-12 text-left">Outdoon Features:</h5>
+                                                    }
+                                                    {
 
-                                                                    <h6 className="listing-feature-label">
-                                                                        {value.feature}
-                                                                    </h6>
-                                                                    <span className="listing-feature-value">
+                                                        propertyDetails.features.outdoor ? propertyDetails.features.outdoor.map((value, index) => (
 
-                                                                    </span>
-                                                                </div>
-                                                            }
-                                                        }) : ("No Outdoon Features Mentioned")
+                                                            <div key={index} className="listing-feature">
+                                                                <img className="propertyDetailsOtherDetails" src={process.env.REACT_APP_CONTENT_URL + value.icon + ".jpg"} />
+                                                                <h6 className="listing-feature-label">
+                                                                    {value.feature}
+                                                                </h6>
+                                                                <span className="listing-feature-value">
+
+                                                                </span>
+                                                            </div>
+                                                        )) : ("No Outdoon Features Mentioned")
                                                     }
 
-                                                    <h5 className="col-12 text-left mt-3">Indoor Features:</h5>
+                                                    {
+                                                        propertyDetails.features.indoor.length > 0 && <h5 className="col-12 text-left">Indoor Features:</h5>
+                                                    }
                                                     {
                                                         propertyDetails.features.indoor ? propertyDetails.features.indoor.map((value, index) => {
                                                             {
                                                                 return <div key={index} className="listing-feature">
-                                                                    <i className={`flaticon-${value.icon}`} />
+                                                                    <img className="propertyDetailsOtherDetails" src={process.env.REACT_APP_CONTENT_URL + value.icon + ".jpg"} />
 
                                                                     <h6 className="listing-feature-label">
                                                                         {value.feature}
@@ -672,12 +703,14 @@ const Listingwrapper = ({ propertyDetails }) => {
                                                             }
                                                         }) : ("No Indoor Features Mentioned")
                                                     }
+                                                    {
+                                                        propertyDetails.features.climate.length > 0 && <h5 className="col-12 text-left mt-3">Climate Control & Energy Features:</h5>
+                                                    }
 
-                                                    <h5 className="col-12 text-left mt-3">Climate Control & Energy Features:</h5>
                                                     {
                                                         propertyDetails.features.climate ? propertyDetails.features.climate.map((value, index) => (
                                                             <div key={index} className="listing-feature">
-                                                                <i className={`flaticon-${value.icon}`} />
+                                                                <img className="propertyDetailsOtherDetails" src={process.env.REACT_APP_CONTENT_URL + value.icon + ".jpg"} />
 
                                                                 <h6 className="listing-feature-label">
                                                                     {value.feature}
@@ -775,14 +808,7 @@ const Listingwrapper = ({ propertyDetails }) => {
                                                             </Link>
 
                                                             <div className="listing-badges">
-                                                                {item.star === true ? (
-                                                                    <span className="listing-badge featured">
-                                                                        {" "}
-                                                                        <i className="fas fa-star" />{" "}
-                                                                    </span>
-                                                                ) : (
-                                                                    ""
-                                                                )}
+
                                                                 {item.property_type === "buy" ? (
                                                                     <span className="listing-badge sale">{uppercaseFirstLetter(item.property_type)}</span>
                                                                 ) : (
@@ -935,9 +961,9 @@ const Listingwrapper = ({ propertyDetails }) => {
                                         <div className="media sidebar-author listing-agent">
                                             <img
                                                 src={
-                                                    propertyDetails && propertyDetails.is_contact_show === 1 ? propertyDetails.profile_image != null ? process.env.REACT_APP_CONTENT_URL + propertyDetails.profile_image + "_small.jpg" : process.env.REACT_APP_CONTENT_URL + "/users/default.png" : process.env.REACT_APP_CONTENT_URL + "/neprealestate-logo/logo.png"
+                                                    propertyDetails && propertyDetails.is_contact_show === 1 ? propertyDetails && propertyDetails.profile_image != null ? process.env.REACT_APP_CONTENT_URL + propertyDetails.profile_image + "_small.jpg" : process.env.REACT_APP_CONTENT_URL + "/users/default.png" : process.env.REACT_APP_CONTENT_URL + "/neprealestate-logo/logo.png"
                                                 }
-                                                alt={propertyDetails.profile_image + "_small.jpg"}
+                                                alt={propertyDetails && propertyDetails.profile_image + "_small.jpg"}
                                             />
                                             <div className="media-body">
                                                 <h6>
@@ -1020,7 +1046,7 @@ const Listingwrapper = ({ propertyDetails }) => {
                                             </div>
                                             <div className="form-group">
                                                 <input
-                                                    type="email"
+                                                    type="text"
                                                     className="form-control"
                                                     placeholder="Email Address"
                                                     name="email"
@@ -1032,7 +1058,7 @@ const Listingwrapper = ({ propertyDetails }) => {
                                             </div>
                                             <div className="form-group">
                                                 <input
-                                                    type="text"
+                                                    type="number"
                                                     className="form-control"
                                                     placeholder="Phone Number"
                                                     name="phone"
@@ -1068,8 +1094,14 @@ const Listingwrapper = ({ propertyDetails }) => {
                                             <button
                                                 type="submit"
                                                 className="btn-custom primary light btn-block"
+                                                disabled={loadingButton}
                                             >
                                                 Send Message
+                                                {loadingButton === true ?
+                                                    <div className="ml-1 spinner-border spinner-border-sm" role="status">
+                                                        <span className="sr-only">Loading...</span>
+                                                    </div> : ''
+                                                }
                                             </button>
                                             <ToastContainer />
                                         </form>

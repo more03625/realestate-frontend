@@ -1,11 +1,9 @@
-import React, { useState, Fragment, useEffect } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
-import { blogblock, blogcategory } from "../../data/blog.json";
-import Axios from "axios";
-import { Host, Endpoints, convertToSlug } from "./../../helper/comman_helper";
+import { convertToSlug } from "./../../helper/comman_helper";
 
 const Blogsidebar = ({ recentNews }) => {
-
+  console.log(recentNews)
   return (
     <div className="sidebar">
       <div className="sidebar-widget">
@@ -31,6 +29,7 @@ const Blogsidebar = ({ recentNews }) => {
           <article key={i} className="media">
             <Link to="/blog-single">
               <img
+
                 src={process.env.PUBLIC_URL + "/assets/img/blog/" + item.image}
                 alt="post"
               />

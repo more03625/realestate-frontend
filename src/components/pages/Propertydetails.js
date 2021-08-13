@@ -22,6 +22,9 @@ const Listingdetailsone = () => {
         Axios.get(url).then((response) => {
             if (response.data.error !== true) {
                 setPropertyDetails(response.data.data);
+            } else {
+                setPropertyDetails(false);
+
             }
         });
     };

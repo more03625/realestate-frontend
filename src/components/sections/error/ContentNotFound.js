@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { openInGmail, saveProperty, Endpoints, Host, convertToSlug } from "../../../helper/comman_helper";
+import { openInGmail, saveProperty, Endpoints, Host, uppercaseFirstLetter, convertToSlug } from "../../../helper/comman_helper";
 import Axios from "axios";
 import {
     OverlayTrigger,
@@ -34,10 +34,10 @@ const Content = () => {
     return (
         <div className="section bg-norepeat bg-bottom" style={{ backgroundImage: "url(" + process.env.PUBLIC_URL + "/assets/img/misc/bldg.png)", padding: "0px" }}>
             <div className="container">
-                <div className="section-404" style={{ padding: "0px;" }}>
+                <div className="section-404" style={{ padding: "0px" }}>
                     <div className="section-404-text mb-0">
                         <h3>Sorry, this property isn't available.</h3>
-                        <p className="subtitle">The link you followed may be broken, or the page may have been removed. Go back to Nep Real Estate.</p>
+                        <p className="subtitle">The link you followed may be broken, or the property may have been removed. Go back to Nep Real Estate.</p>
                         <Link to="/home" className="btn-custom">Go back Home</Link>
                     </div>
                 </div>
@@ -71,49 +71,58 @@ const Content = () => {
                         {recentProperties && recentProperties.slice(0, 6).map((item, i) => (
                             <div key={i} className="col-lg-4">
                                 <div className="listing">
-                                    <div className="listing-thumbnail">
-                                        <Link to={`property/${convertToSlug(item.title)}/${item.id}`}>
-                                            <img
-                                                src={process.env.REACT_APP_CONTENT_URL + "properties/" + item.image + "_mediam.jpg"}
-                                                alt={item.image + "_mediam.jpg"}
+                                    <div className="listing-thumbnail " >
+                                        <Link to={`/property/${convertToSlug(item.title)}/${item.id}`}>
+                                            <img src={item.image != null ? process.env.REACT_APP_CONTENT_URL + item.image + "_medium.jpg" : process.env.REACT_APP_CONTENT_URL + "/users/default.png"}
+                                                alt={`image of ${item.title}`}
+                                                style={{ width: "300px", height: "200px" }}
                                             />
                                         </Link>
-                                        <div className="listing-badges">
-                                            {item.star === true ? (
-                                                <span className="listing-badge featured">
-                                                    {" "}
-                                                    <i className="fas fa-star" />{" "}
-                                                </span>
-                                            ) : (
-                                                ""
-                                            )}
-                                            {item.sale === true ? (
-                                                <span className="listing-badge sale">On Sale</span>
-                                            ) : (
-                                                ""
-                                            )}
-                                            {item.pending === true ? (
-                                                <span className="listing-badge pending"> Pending</span>
-                                            ) : (
-                                                ""
-                                            )}
-                                            {item.rental === true ? (
-                                                <span className="listing-badge rent"> Rental</span>
-                                            ) : (
-                                                ""
-                                            )}
-                                        </div>
-                                        <div className="listing-controls">
-                                            <Link to="#" onClick={() => saveProperty(item.id)} className="favorite">
-                                                <i className="far fa-heart" />
-                                            </Link>
 
+                                        <div className="listing-badges">
+
+                                            {item.property_type === "buy" ? (
+                                                <span className="listing-badge sale">{uppercaseFirstLetter(item.property_type)}</span>
+                                            ) : (
+                                                ""
+                                            )}
+                                            {item.property_type === "sold" ? (
+                                                <span className="listing-badge pending">{uppercaseFirstLetter(item.property_type)}</span>
+                                            ) : (
+                                                ""
+                                            )}
+                                            {item.property_type === "rent" ? (
+                                                <span className="listing-badge rent">{uppercaseFirstLetter(item.property_type)}</span>
+                                            ) : (
+                                                ""
+                                            )}
+                                            {item.property_type === "share" ? (
+                                                <span className="listing-badge rent">{uppercaseFirstLetter(item.property_type)}</span>
+                                            ) : (
+                                                ""
+                                            )}
+                                            {item.property_type === "invest" ? (
+                                                <span className="listing-badge sale">{uppercaseFirstLetter(item.property_type)}</span>
+                                            ) : (
+                                                ""
+                                            )}
+                                            {item.property_type === "lease" ? (
+                                                <span className="listing-badge sale">{uppercaseFirstLetter(item.property_type)}</span>
+                                            ) : (
+                                                ""
+                                            )}
                                         </div>
+                                        {/*
+                            <div className="listing-controls">
+                              <Link to="#" onClick={() => saveProperty(item.id)} className="favorite">
+                                <i className="far fa-heart" />
+                              </Link>
+                            </div>
+                            */}
                                     </div>
                                     <div className="listing-body">
                                         <div className="listing-author">
-                                            <img
-                                                src={process.env.REACT_APP_CONTENT_URL + item.profile_image + "_small.jpg"}
+                                            <img src={item.profile_image != null ? process.env.REACT_APP_CONTENT_URL + item.profile_image + "_small.jpg" : process.env.REACT_APP_CONTENT_URL + "/users/default.png"}
                                                 alt={item.profile_image + "_small.jpg"}
                                             />
                                             <div className="listing-author-body">
@@ -121,7 +130,7 @@ const Content = () => {
                                                     {" "}
                                                     <Link to="#">{item.name}</Link>{" "}
                                                 </p>
-                                                <span className="listing-date">{item.postdate}</span>
+                                                <span className="listing-date">{new Date(item.createdAt).toDateString()}</span>
                                             </div>
                                             <Dropdown className="options-dropdown">
                                                 <Dropdown.Toggle as={NavLink}>
@@ -131,21 +140,21 @@ const Content = () => {
                                                     <ul>
                                                         <li>
                                                             {" "}
-                                                            <Link to={{ pathname: `tel:${item.number_for_contact}` }}>
+                                                            <Link target="_blank" to={{ pathname: `tel:${item.number_for_contact}` }}>
                                                                 {" "}
                                                                 <i className="fas fa-phone" /> Call Agent
                                                             </Link>{" "}
                                                         </li>
                                                         <li>
                                                             {" "}
-                                                            <Link to={{ pathname: `${openInGmail(item.email_for_contact)}` }}>
+                                                            <Link target="_blank" to={{ pathname: `${openInGmail(item.email_for_contact)}` }}>
                                                                 {" "}
                                                                 <i className="fas fa-envelope" /> Send Message
                                                             </Link>{" "}
                                                         </li>
                                                         <li>
                                                             {" "}
-                                                            <Link to={`property/${convertToSlug(item.title)}/${item.id}#book_tour`}>
+                                                            <Link to={`/property/${convertToSlug(item.title)}/${item.id}#book_tour`}>
                                                                 {" "}
                                                                 <i className="fas fa-bookmark" /> Book Tour
                                                             </Link>{" "}
@@ -156,7 +165,7 @@ const Content = () => {
                                         </div>
                                         <h5 className="listing-title">
                                             {" "}
-                                            <Link to={`property/${convertToSlug(item.title)}/${item.id}`} title={item.title}>
+                                            <Link to={`/property/${convertToSlug(item.title)}/${item.id}`} title={item.title}>
                                                 {item.title}
                                             </Link>{" "}
                                         </h5>
@@ -182,24 +191,24 @@ const Content = () => {
                                                     </span>
                                                 </div>
                                             </OverlayTrigger>
-                                            <OverlayTrigger overlay={areatip}>
+                                            <OverlayTrigger overlay={<Tooltip>Sqft</Tooltip>}>
                                                 <div className="acr-listing-icon">
                                                     <i className="flaticon-ruler" />
                                                     <span className="acr-listing-icon-value">
-                                                        {item.area}
+                                                        {item.area_in_sqft}
                                                     </span>
                                                 </div>
                                             </OverlayTrigger>
                                         </div>
                                         <div className="listing-gallery-wrapper">
                                             <Link
-                                                to={`property/${convertToSlug(item.title)}/${item.id}`}
+                                                to={`/property/${convertToSlug(item.title)}/${item.id}`}
                                                 className="btn-custom btn-sm secondary"
                                             >
                                                 View Details
                                             </Link>
                                             <OverlayTrigger overlay={gallerytip}>
-                                                <Link to="#" className="listing-gallery">
+                                                <Link to={`/property/${convertToSlug(item.title)}/${item.id}`} className="listing-gallery">
                                                     {" "}
                                                     <i className="fas fa-camera" />{" "}
                                                 </Link>

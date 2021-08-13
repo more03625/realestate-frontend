@@ -26,7 +26,7 @@ class Content extends Component {
                     plug
                   </div>
                   <hr />
-                  <div className="flaticon-recycle" style={mystyle}>
+                  <div className="flaticon-recycle-bin" style={mystyle}>
                     recycle
                   </div>
                   <hr />
@@ -34,7 +34,7 @@ class Content extends Component {
                     stairs
                   </div>
                   <hr />
-                  <div className="flaticon-work" style={mystyle}>
+                  <div className="flaticon-work-table" style={mystyle}>
                     work
                   </div>
                   <hr />
@@ -82,7 +82,7 @@ class Content extends Component {
                     armchair
                   </div>
                   <hr />
-                  <div className="flaticon-baby" style={mystyle}>
+                  <div className="flaticon-baby-crib" style={mystyle}>
                     baby
                   </div>
                   <hr />
@@ -114,11 +114,11 @@ class Content extends Component {
                     pillow
                   </div>
                   <hr />
-                  <div className="flaticon-ceiling" style={mystyle}>
+                  <div className="flaticon-ceiling-light" style={mystyle}>
                     ceiling
                   </div>
                   <hr />
-                  <div className="flaticon-air" style={mystyle}>
+                  <div className="flaticon-air-conditioner" style={mystyle}>
                     air
                   </div>
                   <hr />
@@ -130,7 +130,7 @@ class Content extends Component {
                     iron
                   </div>
                   <hr />
-                  <div className="flaticon-ironing" style={mystyle}>
+                  <div className="flaticon-ironing-board" style={mystyle}>
                     ironing
                   </div>
                   <hr />
@@ -150,7 +150,7 @@ class Content extends Component {
                     television
                   </div>
                   <hr />
-                  <div className="flaticon-vacuum" style={mystyle}>
+                  <div className="flaticon-vacuum-cleaner" style={mystyle}>
                     vacuum
                   </div>
                   <hr />
@@ -162,11 +162,11 @@ class Content extends Component {
                     library
                   </div>
                   <hr />
-                  <div className="flaticon-dressing" style={mystyle}>
+                  <div className="flaticon-dressing-table" style={mystyle}>
                     dressing
                   </div>
                   <hr />
-                  <div className="flaticon-alarm" style={mystyle}>
+                  <div className="flaticon-alarm-clock" style={mystyle}>
                     alarm
                   </div>
                   <hr />
@@ -258,7 +258,7 @@ class Content extends Component {
                     search
                   </div>
                   <hr />
-                  <div className="flaticon-left" style={mystyle}>
+                  <div className="flaticon-left-quote" style={mystyle}>
                     left
                   </div>
                   <hr />
@@ -294,11 +294,11 @@ class Content extends Component {
                     bookmark
                   </div>
                   <hr />
-                  <div className="flaticon-shut" style={mystyle}>
+                  <div className="flaticon-shut-down-button" style={mystyle}>
                     shut
                   </div>
                   <hr />
-                  <div className="flaticon-sales" style={mystyle}>
+                  <div className="flaticon-sales-agent" style={mystyle}>
                     sales
                   </div>
                   <hr />
@@ -318,7 +318,7 @@ class Content extends Component {
                     location
                   </div>
                   <hr />
-                  <div className="flaticon-speech" style={mystyle}>
+                  <div className="flaticon-speech-bubble" style={mystyle}>
                     speech
                   </div>
                   <hr />
@@ -326,7 +326,7 @@ class Content extends Component {
                     villa
                   </div>
                   <hr />
-                  <div className="flaticon-beach" style={mystyle}>
+                  <div className="flaticon-beach-house" style={mystyle}>
                     beach
                   </div>
                   <hr />

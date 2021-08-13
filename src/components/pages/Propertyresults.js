@@ -9,6 +9,7 @@ import { Endpoints, Host } from '../../helper/comman_helper';
 
 const Propertyresults = () => {
     const queryParams = new URLSearchParams(window.location.search);
+    console.log()
     var search = queryParams.get("search");
     var property_type = queryParams.get("property_type");
     var minBed = queryParams.get("min_beds");
@@ -18,6 +19,7 @@ const Propertyresults = () => {
     var subCategoryID = queryParams.get("subcategory_id");
     var subCategoryName = queryParams.get("sub_category");
     var suburbs = queryParams.get("suburbs");
+
 
     const getSearchResults = () => {
         var searchURL = Host + Endpoints.getPropertiesWithFilters;
@@ -41,10 +43,10 @@ const Propertyresults = () => {
                 }
             })
     }
-
     useEffect(() => {
         window.scrollTo(0, 0);
         getSearchResults();
+
     }, []);
 
     const [searchResults, setSearchResults] = useState([]);

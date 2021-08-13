@@ -3,24 +3,27 @@
         "id": 1,
         "icon": "telephone",
         "title": "Reach Out",
-        "text": "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+        "text": "You can connect with us Via phone. Just click on Call us if you have any quries!",
         "btntext": "Call Us",
-        "btnurl": "tel:+123456789"
+        "btnurl": "tel:+0166",
+        "targetBlank":"_blank"
     },
     {
         "id": 2,
         "icon": "location",
         "title": "Find Us",
-        "text": "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+        "text": "Head office: 9-Madhyapur Thimi, Radhe Radhe, Bhaktapur.",
         "btntext": "Get Directions",
-        "btnurl": "#"
+        "btnurl": "https://goo.gl/maps/zvfTt2dhJavMC2438",
+        "targetBlank":"_blank"
     },
     {
         "id": 3,
         "icon": "speech-bubble",
         "title": "Get Support",
-        "text": "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+        "text": "Chat with us",
         "btntext": "Start Chat",
-        "btnurl": "#"
+        "btnurl": "#",
+        "targetBlank":""
     }
 ]

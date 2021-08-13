@@ -1,30 +1,22 @@
 import React, { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import {
-  floorlist,
-  userTypeDrop,
-  buildType,
-  roadType,
   bedslist,
   bathroomslist,
-  facing,
   carspaces,
   areaUnit,
-  rooms,
-  featuresType,
-  areaSize, pricerangelist
+  pricerangelist
 } from "../../data/select.json";
-import Select2 from "react-select2-wrapper";
-import listing from "../../data/listings.json";
 import { Collapse, Button, Modal, Tabs, Tab } from "react-bootstrap";
-import Buy from "../sections/filters/Buy.js";
-import Rent from "../sections/filters/Rent.js";
-import Sold from "../sections/filters/Sold.js";
-import Keywordsearchbar from "../sections/filters/Keywordsearchbar";
 import Searchbar from "../sections/filters/Searchbar";
 import { Endpoints, Host, convertToSlug, uppercaseFirstLetter } from "./../../helper/comman_helper";
 import Axios from "axios";
-
+// import Select2 from "react-select2-wrapper";
+// import listing from "../../data/listings.json";
+// import Buy from "../sections/filters/Buy.js";
+// import Rent from "../sections/filters/Rent.js";
+// import Sold from "../sections/filters/Sold.js";
+// import Keywordsearchbar from "../sections/filters/Keywordsearchbar";
 const Shopsidebar = ({ parentCallback }) => {
   // console.log(locationlist);
   const [open, setOpen] = useState(true);
@@ -52,6 +44,7 @@ const Shopsidebar = ({ parentCallback }) => {
   const [formData, setFormData] = useState();
   const [formName, setFormName] = useState('buy');
 
+  const [loadingButton, setLoadingButton] = useState(false);
 
   const location = useLocation();
   function handleModal() {
@@ -88,7 +81,6 @@ const Shopsidebar = ({ parentCallback }) => {
       console.log('there are some erros');
 
     } else {
-      console.log(result.data.data);
       setSubCategories(result.data.data.categories);
     }
   }
@@ -110,6 +102,7 @@ const Shopsidebar = ({ parentCallback }) => {
   };
 
   const filter = (e) => {
+    setLoadingButton(true);
     e.preventDefault();
 
     var data = {
@@ -126,13 +119,16 @@ const Shopsidebar = ({ parentCallback }) => {
     var filterURL = Host + Endpoints.getPropertiesWithFilters;
     Axios.post(filterURL, data)
       .then((response) => {
+        setLoadingButton(false);
         parentCallback(response.data.data.properties);
       })
       .catch((error) => {
         console.log(error)
+        setLoadingButton(false);
       })
 
   };
+
   const [filterData, setFilterData] = useState([]);
   const [selectedM, setSelectedM] = useState([]);
 
@@ -180,8 +176,12 @@ const Shopsidebar = ({ parentCallback }) => {
   const handleChange = (e) => {
     setFilterData({ ...filterData, [e.target.name]: e.target.value });
   };
-
-  const onSubmit = () => {
+  const clearFilters = (e) => {
+    for (var i = 0; i < document.getElementsByClassName("filter_form").length; i++) {
+      document.getElementsByClassName("filter_form")[i].reset();
+    }
+  }
+  const onSubmit = (e) => {
 
     Object.assign(filterData, { 'subcategory': '' }, { 'indoor_features': '' },
       { 'outdoor_features': '' }, { 'climate_features': '' }, { 'property_type': '' }
@@ -193,8 +193,10 @@ const Shopsidebar = ({ parentCallback }) => {
     var url = Host + Endpoints.getPropertiesWithFilters;
     Axios.post(url, data)
       .then((response) => {
+
         parentCallback(response.data.data.properties);
         handleModal();
+
       })
       .catch((error) => {
         console.log(error)
@@ -211,7 +213,6 @@ const Shopsidebar = ({ parentCallback }) => {
       if (response.data.error === true) {
         alert("There are some errors!");
       } else {
-        console.log(response.data.data);
         setIndoorFeatures(response.data.data.features);
       }
     });
@@ -222,7 +223,6 @@ const Shopsidebar = ({ parentCallback }) => {
       if (response.data.error === true) {
         alert("There are some errors!");
       } else {
-        console.log(response.data.data);
         setOutdoorFeatures(response.data.data.features);
       }
     });
@@ -233,7 +233,6 @@ const Shopsidebar = ({ parentCallback }) => {
       if (response.data.error === true) {
         alert("There are some errors!");
       } else {
-        console.log(response.data.data);
         setClimateControlFeatures(response.data.data.features);
       }
     });
@@ -267,7 +266,7 @@ const Shopsidebar = ({ parentCallback }) => {
           <Tabs defaultActiveKey="buy" onSelect={(e) => handleSelect(e)} id="uncontrolled-tab-example">
             <Tab eventKey="buy" title="Buy">
 
-              <form >
+              <form className="filter_form">
                 <div className="col-md-12">
                   <div className="row">
                     <h5>Subcategory</h5>
@@ -574,7 +573,7 @@ const Shopsidebar = ({ parentCallback }) => {
 
             </Tab>
             <Tab eventKey="rent" title="Rent">
-              <form >
+              <form className="filter_form">
                 <div className="col-md-12">
                   <div className="row">
                     <h5>Subcategory</h5>
@@ -879,7 +878,7 @@ const Shopsidebar = ({ parentCallback }) => {
 
             </Tab>
             <Tab eventKey="sold" title="Sold">
-              <form >
+              <form className="filter_form">
                 <div className="col-md-12">
                   <div className="row">
                     <h5>Subcategory</h5>
@@ -1198,7 +1197,7 @@ const Shopsidebar = ({ parentCallback }) => {
 
         <Modal.Footer>
           <button type="submit" className="btn-custom btn-sm secondary" onClick={onSubmit}>Search</button>
-          <Button variant="secondary" type="reset">
+          <Button variant="secondary" type="reset" onClick={clearFilters}>
             Clear Filters
           </Button>
         </Modal.Footer>
@@ -1318,6 +1317,12 @@ const Shopsidebar = ({ parentCallback }) => {
                   style={{ backgroundColor: "#007bff" }}
                 >
                   Apply filters
+                  {loadingButton === true ?
+                    <div className="ml-1 spinner-border spinner-border-sm" role="status">
+                      <span className="sr-only">Loading...</span>
+                    </div> : ''
+                  }
+
                 </button>
               </form>
             </div>

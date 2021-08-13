@@ -4,20 +4,20 @@ const whyusblock = [
     {
         id: 1,
         icon: "star",
-        title: "We Are Featured",
-        text: "Lorem Ipsum is simply dummy text of the printing and typesetting industry."
+        title: "Various Properties",
+        text: "We have various types of properties you can choose that from category, subcategory"
     },
     {
         id: 2,
         icon: "apartment",
         title: "Unlimited Listings",
-        text: "Lorem Ipsum is simply dummy text of the printing and typesetting industry."
+        text: "Nep Real Estate brings the real estate market to your fingertips."
     },
     {
         id: 3,
         icon: "sales-agent",
         title: "Great Support",
-        text: "Lorem Ipsum is simply dummy text of the printing and typesetting industry."
+        text: "World class support system."
     }
 ]
 
