@@ -801,7 +801,8 @@ const Listingwrapper = ({ propertyDetails }) => {
                                                     <div className="listing">
                                                         <div className="listing-thumbnail " >
                                                             <Link to={`/property/${convertToSlug(item.title)}/${item.id}`}>
-                                                                <img src={item.image != null ? process.env.REACT_APP_CONTENT_URL + item.image + "_medium.jpg" : process.env.REACT_APP_CONTENT_URL + "/users/default.png"}
+                                                                <img // thumbnail
+                                                                    src={item.image != null ? process.env.REACT_APP_CONTENT_URL + item.image + "_medium.jpg" : process.env.REACT_APP_CONTENT_URL + "/properties/default.jpg"}
                                                                     alt={`image of ${item.title}`}
                                                                     style={{ width: "300px", height: "200px" }}
                                                                 />
@@ -841,22 +842,22 @@ const Listingwrapper = ({ propertyDetails }) => {
                                                                 )}
                                                             </div>
                                                             {/*
-                                                    <div className="listing-controls">
-                                                      <Link to="#" onClick={() => saveProperty(item.id)} className="favorite">
-                                                        <i className="far fa-heart" />
-                                                      </Link>
-                                                    </div>
-                                                    */}
+                                                                <div className="listing-controls">
+                                                                <Link to="#" onClick={() => saveProperty(item.id)} className="favorite">
+                                                                    <i className="far fa-heart" />
+                                                                </Link>
+                                                                </div>
+                                                                */}
                                                         </div>
                                                         <div className="listing-body">
                                                             <div className="listing-author">
-                                                                <img src={item.profile_image != null ? process.env.REACT_APP_CONTENT_URL + item.profile_image + "_small.jpg" : process.env.REACT_APP_CONTENT_URL + "/users/default.png"}
+                                                                <img src={item && item.is_contact_show === 1 ? item && item.profile_image != null ? process.env.REACT_APP_CONTENT_URL + item.profile_image + "_small.jpg" : process.env.REACT_APP_CONTENT_URL + "/users/default.png" : process.env.REACT_APP_CONTENT_URL + "/neprealestate-logo/logo.png"}
                                                                     alt={item.profile_image + "_small.jpg"}
                                                                 />
                                                                 <div className="listing-author-body">
                                                                     <p>
                                                                         {" "}
-                                                                        <Link to="#">{item.name}</Link>{" "}
+                                                                        <Link to="#">{item.name_for_contact}</Link>{" "}
                                                                     </p>
                                                                     <span className="listing-date">{new Date(item.createdAt).toDateString()}</span>
                                                                 </div>

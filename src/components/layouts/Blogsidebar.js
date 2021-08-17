@@ -27,12 +27,11 @@ const Blogsidebar = ({ recentNews }) => {
 
         {recentNews && recentNews.slice(0, 4).map((item, i) => (
           <article key={i} className="media">
-            <Link to="/blog-single">
-              <img
-
-                src={process.env.PUBLIC_URL + "/assets/img/blog/" + item.image}
-                alt="post"
+            <Link to={`/read/news/${convertToSlug(item.title)}/${item.id}`}>
+              <img src={item.image != null ? process.env.REACT_APP_CONTENT_URL + item.image + ".jpg" : process.env.REACT_APP_CONTENT_URL + "/users/default.png"}
+                alt={`image of ${item.title}`}
               />
+
             </Link>
             <div className="media-body">
               <h6>

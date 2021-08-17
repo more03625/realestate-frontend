@@ -58,22 +58,21 @@ const Content = ({ recentNews }) => {
       <article key={i} className="post">
         <div className="post-thumbnail">
           <Link to={`/read/news/${convertToSlug(item.title)}/${item.id}`}>
-            <img
-              src={process.env.PUBLIC_URL + "/assets/img/blog/" + item.image}
-              alt="blog post"
+            <img src={item.image != null ? process.env.REACT_APP_CONTENT_URL + item.image + ".jpg" : process.env.REACT_APP_CONTENT_URL + "/users/default.png"}
+              alt={`image of ${item.title}`}
             />
           </Link>
         </div>
         <div className="post-body">
           <div className="post-author">
-            <img
-              src={process.env.PUBLIC_URL + "/assets/img/people/3.jpg"}
-              alt="author"
+            <img src={item.profile_image != null ? process.env.REACT_APP_CONTENT_URL + item.profile_image + "_small.jpg" : process.env.REACT_APP_CONTENT_URL + "/users/default.png"}
+              alt={item.profile_image + "_small.jpg"}
             />
+
             <div className="post-author-body">
               <p>
                 {" "}
-                <Link to="#">{item.authorname}</Link>{" "}
+                <Link to="#">{item.name}</Link>{" "}
               </p>
 
               <span className="post-date">{new Date(item.createdAt).toDateString()}</span>

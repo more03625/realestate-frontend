@@ -100,7 +100,8 @@ const Shopsidebar = ({ parentCallback }) => {
       }
     });
   };
-
+  const [loadMore, setLoadMore] = useState(2); // limit 
+  const [offset, setOffset] = useState(0)
   const filter = (e) => {
     setLoadingButton(true);
     e.preventDefault();
@@ -114,6 +115,8 @@ const Shopsidebar = ({ parentCallback }) => {
       "min_bedroom": filterBeds,
       "min_bathrooms": filterBathrooms,
       "subcategory": filterSubCategories !== null ? filterSubCategories.toString() : filterSubCategories,
+      "limit": loadMore,
+      "offset": offset
     }
 
     var filterURL = Host + Endpoints.getPropertiesWithFilters;

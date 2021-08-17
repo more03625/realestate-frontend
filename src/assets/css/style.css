@@ -4850,7 +4850,7 @@ table img {
   border-radius: 50%;
   margin-right: 15px;
   height: 35px;
-  object-fit: contain;
+  object-fit: cover;
   border: 1px solid #dee2e6;
 }
 .listing .listing-author .listing-author-body {
@@ -4877,6 +4877,7 @@ table img {
 .listing .listing-title {
   margin-bottom: 0;
 }
+
 .listing .listing-title a {
   display: block;
   margin-bottom: 15px;

@@ -600,6 +600,7 @@ function Content() {
           }
         })
         .catch((error) => {
+          setLoadingButton(false);
           errorToast();
         });
     } else {
@@ -727,9 +728,6 @@ function Content() {
                   <Tab.Pane eventKey="tab1">
                     <div className="row">
                       <div className="col-md-12 form-group">
-
-
-
                         <label className="required">Property Name</label>
                         <input
                           type="hidden"

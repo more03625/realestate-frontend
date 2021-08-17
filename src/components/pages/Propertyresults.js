@@ -9,7 +9,6 @@ import { Endpoints, Host } from '../../helper/comman_helper';
 
 const Propertyresults = () => {
     const queryParams = new URLSearchParams(window.location.search);
-    console.log()
     var search = queryParams.get("search");
     var property_type = queryParams.get("property_type");
     var minBed = queryParams.get("min_beds");
@@ -20,8 +19,12 @@ const Propertyresults = () => {
     var subCategoryName = queryParams.get("sub_category");
     var suburbs = queryParams.get("suburbs");
 
-
+    const [searchResults, setSearchResults] = useState([]);
+    const [totalResults, setTotalResults] = useState();
+    const [offset, setOffset] = useState(0)
+    const [loadNext, setLoadNext] = useState();
     const getSearchResults = () => {
+        console.log('getSearchResults Calling...')
         var searchURL = Host + Endpoints.getPropertiesWithFilters;
         var data = {
             "search": search,
@@ -31,14 +34,17 @@ const Propertyresults = () => {
             "max_beds": maxBed,
             "min_price": minPrice,
             "max_price": maxPrice,
-            "suburbs": suburbs
+            "suburbs": suburbs,
+            "limit": 15,
+            "offset": offset
         }
         Axios.post(searchURL, data)
             .then((response) => {
-
                 if (response.data.error === true) {
                     console.log('There are some errors!');
                 } else {
+                    console.log(response.data.data)
+                    setTotalResults(response.data.data.total)
                     setSearchResults(response.data.data.properties);
                 }
             })
@@ -46,10 +52,8 @@ const Propertyresults = () => {
     useEffect(() => {
         window.scrollTo(0, 0);
         getSearchResults();
+    }, [loadNext]);
 
-    }, []);
-
-    const [searchResults, setSearchResults] = useState([]);
 
     const handleCallback = (childData) => {
         setSearchResults(childData);
@@ -58,7 +62,7 @@ const Propertyresults = () => {
     return (
         <Fragment>
             <MetaTags>
-                <title>Results for {search ? search : subCategoryName || property_type ? property_type : 'properties'}</title>
+                <title>Results for properties</title>
                 <meta
                     name="description"
                     content="#"
@@ -67,7 +71,7 @@ const Propertyresults = () => {
             <Header />
             <Breadcrumb breadcrumb={{ pagename: 'Results for properties' }} />
 
-            <Content propertyType={property_type} searchQuery={search} searchResults={searchResults} parentCallback={handleCallback} subCategoryName={subCategoryName} subCategoryID={subCategoryID} />
+            <Content propertyType={property_type} searchQuery={search} searchResults={searchResults} parentCallback={handleCallback} subCategoryName={subCategoryName} subCategoryID={subCategoryID} totalResults={totalResults} offset={offset} setOffset={setOffset} setLoadNext={setLoadNext} />
             <Footer />
         </Fragment>
 

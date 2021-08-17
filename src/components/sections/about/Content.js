@@ -5,20 +5,19 @@ import About from '../hometwo/About';
 import Counter from './Counter';
 import Video from './Video';
 
-class Content extends Component {
-    render() {
-        return (
-            <Fragment>
-                <About />
-                <Counter />
-                <div className="section pb-0">
-                    <Agentsslider />
-                </div>
-                <Video />
-                <Testimonials />
-            </Fragment>
-        );
-    }
+const Content = ({ setting }) => {
+
+    return (
+        <Fragment>
+            <About setting={setting} />
+            <Counter />
+            <div className="section pb-0">
+                <Agentsslider />
+            </div>
+            <Video />
+            <Testimonials />
+        </Fragment>
+    );
 }
 
 export default Content;

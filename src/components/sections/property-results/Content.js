@@ -11,25 +11,23 @@ import { convertToSlug, openInGmail, uppercaseFirstLetter, saveProperty } from "
 import { Noresults } from '../../layouts/Noresults';
 
 const gallerytip = <Tooltip>Gallery</Tooltip>;
-const gridtip = <Tooltip>Grid</Tooltip>;
-const listtip = <Tooltip>List</Tooltip>;
-const maptip = <Tooltip>Map</Tooltip>;
 const bedstip = <Tooltip>Beds</Tooltip>;
 const bathstip = <Tooltip>Bathrooms</Tooltip>;
 const areatip = <Tooltip>Ropani-Aana-Paisa-Daam</Tooltip>;
 
-const Content = ({ propertyType, searchQuery, searchResults, parentCallback, subCategoryName, subCategoryID }) => {
-
+const Content = ({ propertyType, searchQuery, searchResults, parentCallback, subCategoryName, subCategoryID, totalResults, offset, setOffset, setLoadNext }) => {
     const [currentPage, setCurrentPage] = useState(1);
-    const [itemsPerPage, setItemsPerPage] = useState(10);
+    const [itemsPerPage, setItemsPerPage] = useState(2);
     const [loading, setLoading] = useState(false);
+
     const handleClick = (event) => {
+        // setOffset();
+        setLoadNext(offset + 1)
         var paginationContent = event.target.closest(".pagination-content");
 
         if (paginationContent) {
             console.log(paginationContent);
         }
-
         setLoading(true);
 
         setTimeout(() => {
@@ -39,9 +37,10 @@ const Content = ({ propertyType, searchQuery, searchResults, parentCallback, sub
     };
 
     // Logic for displaying items
-    const indexOfLastitem = currentPage * itemsPerPage;
-    const indexOfFirstitem = indexOfLastitem - itemsPerPage;
-
+    const indexOfLastitem = currentPage * itemsPerPage; //5 * 2 = 10
+    const indexOfFirstitem = indexOfLastitem - itemsPerPage; //10 - 2 = 8
+    // console.log(indexOfLastitem + " :indexOfLastitem");
+    // console.log(indexOfFirstitem + " :indexOfFirstitem");
     const currentitems = searchResults !== undefined || searchResults !== null ? searchResults.slice(indexOfFirstitem, indexOfLastitem) : [];
 
     var renderitems = [];
@@ -98,13 +97,7 @@ const Content = ({ propertyType, searchQuery, searchResults, parentCallback, sub
                                 ""
                             )}
                         </div>
-                        {/*
-                        <div className="listing-controls">
-                            <Link to={`?search=${searchQuery}&property_type=${propertyType}`} onClick={() => saveProperty(item.id)} className="favorite">
-                                <i className="far fa-heart" />
-                            </Link>
-                        </div>
-                        */}
+
                     </div>
                     <div className="listing-body">
                         <div className="listing-author">
@@ -204,14 +197,16 @@ const Content = ({ propertyType, searchQuery, searchResults, parentCallback, sub
             );
         });
     } else {
-
         var renderitems = <Noresults />;
     }
     // Logic for displaying page numbers
+
     const pageNumbers = [];
-    for (let i = 1; i <= Math.ceil(searchResults.length / itemsPerPage); i++) {
+
+    for (let i = 1; i <= Math.ceil(totalResults / itemsPerPage); i++) {
         pageNumbers.push(i);
     }
+
     const renderPagination = pageNumbers.map((number) => {
         const activeCondition = currentPage === number ? "active" : "";
         return (

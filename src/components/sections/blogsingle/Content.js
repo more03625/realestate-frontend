@@ -7,6 +7,7 @@ import "magnific-popup";
 import axios from "axios";
 import { convertToSlug } from "../../../helper/comman_helper";
 import ContentNotFound from "../../pages/ContentNotFound";
+import ReactHtmlParser, { processNodes, convertNodeToElement, htmlparser2 } from 'react-html-parser';
 
 const Content = ({ newsData, recentNews }) => {
   console.log()
@@ -23,15 +24,15 @@ const Content = ({ newsData, recentNews }) => {
               {/* Content Start */}
               <article className="post-single">
                 <div className="post-thumbnail">
-                  <img
-                    src={`/assets/img/blog/${newsData && newsData.image !== undefined ? newsData.image : ''}`}
-                    alt="post"
+                  <img src={newsData && newsData.image != null ? process.env.REACT_APP_CONTENT_URL + newsData.image + ".jpg" : process.env.REACT_APP_CONTENT_URL + "/users/default.png"}
+                    alt={`image of ${newsData && newsData.title}`}
                   />
+
                 </div>
                 <div className="post-content">
-                  {newsData && newsData.description !== undefined
+                  {ReactHtmlParser(newsData && newsData.description !== undefined
                     ? newsData.description
-                    : "Loading..."}
+                    : "Loading...")}
                 </div>
               </article>
             </div>
@@ -51,10 +52,11 @@ const Content = ({ newsData, recentNews }) => {
                     <article className="post single">
                       <div className="post-thumbnail">
                         <Link to={`/read/news/${convertToSlug(item.title)}/${item.id}`}>
-                          <img
-                            src={`/assets/img/blog/${item.image !== undefined ? item.image : ''}`}
-                            alt="blog post"
+                          <img src={item.image != null ? process.env.REACT_APP_CONTENT_URL + item.image + ".jpg" : process.env.REACT_APP_CONTENT_URL + "/users/default.png"}
+                            alt={`image of ${item.title}`}
                           />
+
+
                         </Link>
                       </div>
                       <div className="post-body">
@@ -78,7 +80,7 @@ const Content = ({ newsData, recentNews }) => {
                           {" "}
                           <Link to={`/read/news/${convertToSlug(item.title)}/${item.id}`}>{item.title.slice(0, 30) + "..."}</Link>{" "}
                         </h5>
-                        <p className="post-text">{item.description.slice(0, 75)}</p>
+                        <p className="post-text">{item.description.slice(0, 75).replace(/(<([^>]+)>)/gi, "")}</p>
                         <div className="post-controls">
                           <Link
                             to={`/read/news/${convertToSlug(item.title)}/${item.id}`}
