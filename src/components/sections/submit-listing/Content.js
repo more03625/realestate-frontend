@@ -629,9 +629,9 @@ function Content() {
             errorToast(response.data.title);
           } else {
             successToast(response.data.title);
-            // setTimeout(function () {
-            //   history.push("/my-listings");
-            // }, 1000);
+            setTimeout(function () {
+              history.push("/my-listings");
+            }, 1000);
           }
         })
         .catch((error) => {
@@ -759,7 +759,7 @@ function Content() {
             {/* Tabs End */}
             {/* Tab Content Start */}
             <div className="col-md-8">
-              <form id="property-form" onSubmit={handleSubmit}>
+              <form autoComplete="off" id="property-form" onSubmit={handleSubmit}>
                 <Tab.Content className="m-0">
                   <Tab.Pane eventKey="tab1">
                     <div className="row">
@@ -1174,7 +1174,7 @@ function Content() {
                           id="enterMapAddress"
                           ref={autoCompleteRef}
                           onChange={event => setQuery(event.target.value)}
-
+                          autoComplete="off"
 
                           // ref={address}
                           // onChange={(e) =>

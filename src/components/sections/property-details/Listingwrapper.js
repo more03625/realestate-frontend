@@ -293,19 +293,17 @@ const Listingwrapper = ({ propertyDetails }) => {
         }
     }
 
-    const mylat = propertyDetails && propertyDetails.latitude;
-    const mylang = propertyDetails && propertyDetails.longitude;
 
-    console.log(typeof (19.0478483) + " Default")
-    console.log(typeof (mylat) + " mylat")
-    console.log(typeof (mylang) + " mylang")
 
     window.onload = function () {
+        const mylat = propertyDetails && propertyDetails.latitude;
+        const mylang = propertyDetails && propertyDetails.longitude;
+
         var latlng = new window.google.maps.LatLng(mylat, mylang); //Set the default location of map
 
         var map = new window.google.maps.Map(document.getElementById("map"), {
             center: latlng,
-            zoom: 11, //The zoom value for map
+            zoom: 15, //The zoom value for map
             mapTypeId: window.google.maps.MapTypeId.ROADMAP,
         });
 
@@ -321,9 +319,6 @@ const Listingwrapper = ({ propertyDetails }) => {
 
         window.google.maps.event.addListener(marker, "dragend", function (a) {
             console.log(a);
-
-            document.getElementById("loc").value =
-                a.latLng.lat().toFixed(4) + ", " + a.latLng.lng().toFixed(4); //Place the value in input box
         });
     };
 
