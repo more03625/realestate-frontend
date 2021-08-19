@@ -699,7 +699,6 @@ function Content() {
   };
 
   useEffect(() => {
-
     handleScriptLoad(setQuery, autoCompleteRef)
     getPropertyDetails();
     getCategories();

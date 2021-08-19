@@ -44,12 +44,12 @@ function SearchLocationInput() {
     const [query, setQuery] = useState("");
     const autoCompleteRef = useRef(null);
 
-    useEffect(() => {
-        loadScript(
-            `https://maps.googleapis.com/maps/api/js?key=AIzaSyCDg7iBew6xWLZlTpe7smY5aLXTq_yYSjI&libraries=places`,
-            () => handleScriptLoad(setQuery, autoCompleteRef)
-        );
-    }, []);
+    // useEffect(() => {
+    //     loadScript(
+    //         `https://maps.googleapis.com/maps/api/js?key=${REACT_APP_GOOGLE_MAP_KEY}&libraries=places`,
+    //         () => handleScriptLoad(setQuery, autoCompleteRef)
+    //     );
+    // }, []);
 
     return (
         <div className="search-location-input">
