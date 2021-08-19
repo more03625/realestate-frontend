@@ -8,15 +8,16 @@ import {
 import { BuyArea, RentArea, SoldArea, ShareArea, FindAgents } from "./SearchInputArea";
 
 export const ActualSearch = () => {
+    const handleSelect = (e) => {
+        if (e === 'consultants') return
+        window.location.href = '/' + e;
+    }
     let autoComplete;
 
     const [query, setQuery] = useState("");
     const autoCompleteRef = useRef(null);
 
-    const handleSelect = (e) => {
-        if (e === 'consultants') return
-        window.location.href = '/' + e;
-    }
+
     autoComplete = new window.google.maps.places.Autocomplete(autoCompleteRef.current, {});
     var propertyType = window.location.pathname.split("/")[1];
 

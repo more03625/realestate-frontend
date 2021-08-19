@@ -429,7 +429,7 @@ const Listingwrapper = ({ propertyDetails }) => {
                                             : ""}
                                     </b>
                                 </div>
-                                <div className="listing-content">
+                                <div className="mt-2 listing-content">
 
                                     <div id="map"></div>
 
