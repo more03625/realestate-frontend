@@ -1176,20 +1176,11 @@ function Content() {
                           onChange={event => setQuery(event.target.value)}
                           autoComplete="off"
 
-                          // ref={address}
-                          // onChange={(e) =>
-                          //   setPropertyData({
-                          //     ...propertyData,
-                          //     address: e.target.value,
-                          //   })
-                          // }
                           defaultValue={propertyData && propertyData.address ? propertyData.address : ""
                           }
                         />
                         <p style={errorStyle}>{propertyDataError.address}</p>
                       </div>
-
-
 
                       {
                         propertyID > 0 &&
