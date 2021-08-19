@@ -4877,7 +4877,9 @@ table img {
 .listing .listing-title {
   margin-bottom: 0;
 }
-
+.ck-editor__editable_inline {
+  min-height: 400px;
+}
 .listing .listing-title a {
   display: block;
   margin-bottom: 15px;

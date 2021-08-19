@@ -8,6 +8,7 @@ import Axios from "axios";
 import { Endpoints, Host } from "../../../../helper/comman_helper";
 import { useEffect, useState } from "react";
 
+import testdata from "../../../../data/testdata.json";
 export const Searchoptions = () => {
     const [optionsData, setOptionsData] = useState();
     const [suburbs, setSuburbs] = useState();
@@ -36,7 +37,6 @@ export const Searchoptions = () => {
             setOptionsData({ ...optionsData, 'categories': subCategoryName });
         }
     }
-
 
     const hideOptions = (e) => {
         if (e.target.value == 4) {

@@ -20,9 +20,10 @@ import {
     successToast,
     errorToast
 } from "../../../helper/comman_helper";
-import Loader from "../../layouts/Loader";
 import ContentNotFound from "../../pages/ContentNotFound";
+import ReactHtmlParser, { processNodes, convertNodeToElement, htmlparser2 } from 'react-html-parser';
 
+import { GoogleMap, LoadScript } from '@react-google-maps/api';
 const gallerytip = <Tooltip>Gallery</Tooltip>;
 const bedstip = <Tooltip>Beds</Tooltip>;
 const bathstip = <Tooltip>Bathrooms</Tooltip>;
@@ -54,21 +55,40 @@ function SamplePrevArrow(props) {
 //     dots: false,
 // };
 const settings = {
-
-
     slidesToShow: 1,
     slidesToScroll: 1,
     arrows: false,
     dots: false,
-    // fade: true,
-    // focusOnSelect: true,
-    // centerPadding: '10px',
-    // autoplay: true,
+    autoplay: true,
     autoplaySpeed: 2000,
-    // infinite: true,
-
     nextArrow: <SampleNextArrow />,
     prevArrow: <SamplePrevArrow />,
+    responsive: [
+        {
+            breakpoint: 1024,
+            settings: {
+                slidesToShow: 3,
+                slidesToScroll: 3,
+                infinite: true,
+                dots: true
+            }
+        },
+        {
+            breakpoint: 600,
+            settings: {
+                slidesToShow: 1,
+                slidesToScroll: 2,
+                initialSlide: 2
+            }
+        },
+        {
+            breakpoint: 480,
+            settings: {
+                slidesToShow: 1,
+                slidesToScroll: 1
+            }
+        }
+    ]
 
 };
 
@@ -129,20 +149,45 @@ const Listingwrapper = ({ propertyDetails }) => {
     const [slider1, setSlider1] = useState(null);
     const [slider2, setSlider2] = useState(null);
 
+    const [isGallaryReady, setIsGallaryReady] = useState(false);
 
     const imageGal = {
 
         height: "485px",
     };
     function popup() {
-        $(".gallery-thumb").magnificPopup({
-            type: "image",
-            gallery: {
-                enabled: true,
-            },
-        });
+        setTimeout(function () {
+            $(".gallery-thumb").magnificPopup({
+                type: "image",
+                gallery: {
+                    enabled: true,
+                    delegate: '.gallery-thumb:not(.slick-cloned) a',
+                },
+            });
+            setIsGallaryReady(true);
+        }, 3000)
     }
+    const mapStyles = {
+        height: "40vh",
+        width: "100%"
+    };
 
+
+
+    // const googleMapFunction = () => {
+
+    //     const googleMap = <LoadScript
+    //         googleMapsApiKey='AIzaSyCDg7iBew6xWLZlTpe7smY5aLXTq_yYSjI'>
+    //         <GoogleMap
+    //             mapContainerStyle={mapStyles}
+    //             zoom={13}
+    //             center={defaultCenter}
+    //         />
+    //     </LoadScript>
+    //     return googleMap;
+
+    // }
+    // googleMapFunction();
 
     const getRecentProperties = () => {
         var url = Host + Endpoints.getRecentProperties;
@@ -159,6 +204,7 @@ const Listingwrapper = ({ propertyDetails }) => {
         getRecentProperties();
         setNav1(slider1);
         setNav2(slider2);
+        popup();
     }, [propertyID]);
 
     const [fname, setFname] = useState("");
@@ -263,6 +309,36 @@ const Listingwrapper = ({ propertyDetails }) => {
             mainslider.push(array[0][i]);
         }
     }
+    const [cordinateOne, setCordinateOne] = useState();
+    // const [cordinateTwo, setCordinateTwo] = useState();
+
+    // setCordinateOne(19.0480901);
+    // setCordinateTwo(propertyDetails && propertyDetails.longitude ? propertyDetails.longitude : "");
+
+    // setCordinate({
+    //     "lat": propertyDetails && propertyDetails.latitude ? propertyDetails.latitude : "",
+    //     "lang": propertyDetails && propertyDetails.longitude ? propertyDetails.longitude : ""
+    // });
+
+    // center={{ lat: propertyDetails && propertyDetails.latitude ? parseInt(propertyDetails.latitude) : 27.6746992, lng: propertyDetails && propertyDetails.longitude ? parseInt(propertyDetails.longitude) : 85.3955832 }}
+
+
+
+
+    const mylat = propertyDetails && propertyDetails.latitude;
+    const mylang = propertyDetails && propertyDetails.longitude;
+
+
+    const googleMapHere = <LoadScript
+        googleMapsApiKey='AIzaSyCDg7iBew6xWLZlTpe7smY5aLXTq_yYSjI'>
+        <GoogleMap
+            mapContainerStyle={mapStyles}
+            zoom={13}
+            center={{ lat: parseFloat(mylat), lng: parseFloat(mylang) }}
+        />
+    </LoadScript>
+
+
 
     return (
         <div className="section listing-wrapper " ref={ref}>
@@ -283,12 +359,13 @@ const Listingwrapper = ({ propertyDetails }) => {
                                     asNavFor={nav2}
                                     ref={slider => (setSlider1(slider))}
                                     {...settings}
+
                                 >
                                     {mainslider &&
                                         mainslider.map((item, i) => (
                                             <Link
                                                 key={i}
-                                                to="#"
+                                                to={isGallaryReady ? { pathname: process.env.REACT_APP_CONTENT_URL + item + ".jpg" } : '#'}
                                                 className="slider-thumbnail-item gallery-thumb"
                                             >
                                                 <img className="rounded"
@@ -301,7 +378,7 @@ const Listingwrapper = ({ propertyDetails }) => {
                                                             ? propertyDetails.title
                                                             : ""
                                                     }
-                                                    style={{ width: "100%", height: "548px" }}
+                                                    style={{ width: "100%", maxHeight: "548px" }}
                                                 />
                                             </Link>
                                         ))}
@@ -342,9 +419,10 @@ const Listingwrapper = ({ propertyDetails }) => {
                                             : ""}
                                         ) <span className="text-muted" style={{ fontSize: "18px" }}>{propertyDetails && propertyDetails.price_on}</span>
                                     </h4>
-                                    {propertyDetails && propertyDetails.description
+
+                                    {ReactHtmlParser(propertyDetails && propertyDetails.description
                                         ? propertyDetails.description
-                                        : ""}
+                                        : "")}
                                     <br />
                                     <br />
                                     <b>Address: </b>{" "}
@@ -363,6 +441,11 @@ const Listingwrapper = ({ propertyDetails }) => {
                                             : ""}
                                     </b>
                                 </div>
+                                <div className="listing-content">
+                                    {
+                                        googleMapHere
+                                    }
+                                </div>
                                 <div className="section section-padding  acr-listing-features">
                                     <h4>Property Details</h4>
 
@@ -372,7 +455,7 @@ const Listingwrapper = ({ propertyDetails }) => {
                                             getUserToken() !== null && getUserToken().data.id === propertyDetails && propertyDetails.user_id && propertyDetails && propertyDetails.admin_cost ? (
 
                                                 <div className="listing-feature col-lg-6 col-md-6">
-                                                    <i class="flaticon-sales-agent"></i>
+                                                    <i className="flaticon-sales-agent"></i>
                                                     <h6 className="listing-feature-label">
                                                         Admin Charges</h6>
                                                     <span className="listing-feature-value">
@@ -411,7 +494,7 @@ const Listingwrapper = ({ propertyDetails }) => {
                                         )}
                                         {propertyDetails && propertyDetails.area ? (
                                             <div className="listing-feature col-lg-6 col-md-6">
-                                                <i class="flaticon-ruler"></i>
+                                                <i className="flaticon-ruler"></i>
                                                 <h6 className="listing-feature-label">Total Area</h6>
                                                 <span className="listing-feature-value">
                                                     {propertyDetails && propertyDetails.area
@@ -426,7 +509,7 @@ const Listingwrapper = ({ propertyDetails }) => {
                                         )}
                                         {propertyDetails && propertyDetails.carpet_area ? (
                                             <div className="listing-feature col-lg-6 col-md-6">
-                                                <i class="flaticon-ruler"></i>
+                                                <i className="flaticon-ruler"></i>
                                                 <h6 className="listing-feature-label">Build Up Area</h6>
                                                 <span className="listing-feature-value">
                                                     {propertyDetails.carpet_area +
@@ -461,7 +544,7 @@ const Listingwrapper = ({ propertyDetails }) => {
                                         )} */}
                                         {propertyDetails && propertyDetails.build_type ? (
                                             <div className="listing-feature col-lg-6 col-md-6">
-                                                <i class="flaticon-new"></i>
+                                                <i className="flaticon-new"></i>
                                                 <h6 className="listing-feature-label">Build Type</h6>
                                                 <span className="listing-feature-value">
                                                     {uppercaseFirstLetter(propertyDetails.build_type)}
@@ -472,7 +555,7 @@ const Listingwrapper = ({ propertyDetails }) => {
                                         )}
                                         {propertyDetails && propertyDetails.no_of_bathrooms ? (
                                             <div className="listing-feature col-lg-6 col-md-6">
-                                                <i class="flaticon-bathroom"></i>
+                                                <i className="flaticon-bathroom"></i>
                                                 <h6 className="listing-feature-label">
                                                     No of bathrooms
                                                 </h6>
@@ -485,7 +568,7 @@ const Listingwrapper = ({ propertyDetails }) => {
                                         )}
                                         {propertyDetails && propertyDetails.no_of_beds ? (
                                             <div className="listing-feature col-lg-6 col-md-6">
-                                                <i class="flaticon-bedroom"></i>
+                                                <i className="flaticon-bedroom"></i>
                                                 <h6 className="listing-feature-label">No of Beds</h6>
                                                 <span className="listing-feature-value">
                                                     {propertyDetails.no_of_beds + " Beds"}
@@ -536,7 +619,7 @@ const Listingwrapper = ({ propertyDetails }) => {
                                         {propertyDetails && propertyDetails.car_spaces ? (
                                             <div className="listing-feature col-lg-6 col-md-6">
 
-                                                <i class="flaticon-garage"></i>
+                                                <i className="flaticon-garage"></i>
                                                 <h6 className="listing-feature-label">Car spaces</h6>
                                                 <span className="listing-feature-value">
                                                     {propertyDetails.car_spaces + " Car spaces"}
@@ -548,7 +631,7 @@ const Listingwrapper = ({ propertyDetails }) => {
 
                                         {propertyDetails && propertyDetails.facing ? (
                                             <div className="listing-feature col-lg-6 col-md-6">
-                                                <i class="flaticon-eye"></i>
+                                                <i className="flaticon-eye"></i>
                                                 <h6 className="listing-feature-label">Facing</h6>
                                                 <span className="listing-feature-value">
                                                     {propertyDetails.facing}
@@ -560,7 +643,7 @@ const Listingwrapper = ({ propertyDetails }) => {
 
                                         {propertyDetails && propertyDetails.floor ? (
                                             <div className="listing-feature col-lg-6 col-md-6">
-                                                <i class="flaticon-stairs"></i>
+                                                <i className="flaticon-stairs"></i>
 
                                                 <h6 className="listing-feature-label">Floor</h6>
                                                 <span className="listing-feature-value">
@@ -573,7 +656,7 @@ const Listingwrapper = ({ propertyDetails }) => {
 
                                         {propertyDetails && propertyDetails.furnishing ? (
                                             <div className="listing-feature col-lg-6 col-md-6">
-                                                <i class="flaticon-chair"></i>
+                                                <i className="flaticon-chair"></i>
                                                 <h6 className="listing-feature-label">Furnishing</h6>
                                                 <span className="listing-feature-value">
                                                     {propertyDetails.furnishing}
@@ -597,7 +680,7 @@ const Listingwrapper = ({ propertyDetails }) => {
 
                                         {propertyDetails && propertyDetails.available_from ? (
                                             <div className="listing-feature col-lg-6 col-md-6">
-                                                <i class="flaticon-event"></i>
+                                                <i className="flaticon-event"></i>
 
                                                 <h6 className="listing-feature-label">
                                                     Available From
@@ -611,7 +694,7 @@ const Listingwrapper = ({ propertyDetails }) => {
                                         )}
                                         {propertyDetails && propertyDetails.build_year ? (
                                             <div className="listing-feature col-lg-6 col-md-6">
-                                                <i class="flaticon-history"></i>
+                                                <i className="flaticon-history"></i>
                                                 <h6 className="listing-feature-label">Build Year</h6>
                                                 <span className="listing-feature-value">
                                                     {propertyDetails.build_year}
@@ -621,7 +704,7 @@ const Listingwrapper = ({ propertyDetails }) => {
                                             ""
                                         )}
                                         <div className="listing-feature col-lg-6 col-md-6">
-                                            <i class="flaticon-bone"></i>
+                                            <i className="flaticon-bone"></i>
                                             <h6 className="listing-feature-label">Pets Considere</h6>
                                             <span className="listing-feature-value">
                                                 {propertyDetails && propertyDetails.pets_considere
@@ -1118,5 +1201,4 @@ const Listingwrapper = ({ propertyDetails }) => {
         </div>
     );
 };
-
-export default Listingwrapper;
+export default Listingwrapper

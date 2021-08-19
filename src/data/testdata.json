@@ -1,0 +1,53 @@
+
+    [
+      {
+        "confidence": 0,
+        "name": "Unknown",
+        "value": ""
+      },
+      {
+        "confidence": 0.8374840336687425,
+        "name": "FirstName",
+        "value": "WILLEKE LISELOTTE"
+      },
+      {
+        "confidence": 0.847205724981096,
+        "name": "LastName",
+        "value": "DE BRUIJN"
+      },
+      {
+        "confidence": 0.8532053629557291,
+        "name": "IssuingStateOrOrganization",
+        "value": "NLD"
+      },
+      {
+        "confidence": 0.8608611358536614,
+        "name": "DocumentCode",
+        "value": "SPECI2014"
+      },
+      {
+        "confidence": 0.8345787723859152,
+        "name": "Nationality",
+        "value": "NLD"
+      },
+      {
+        "confidence": 0.8018338680267334,
+        "name": "DateOfBirth",
+        "value": "10.03.65"
+      },
+      {
+        "confidence": 0.8622499108314514,
+        "name": "Gender",
+        "value": "F"
+      },
+      {
+        "confidence": 0.8275940716266632,
+        "name": "DateOfExpiry",
+        "value": "09.03.24"
+      },
+      {
+        "confidence": 0.8384124636650085,
+        "name": "PersonalNumber",
+        "value": "999999990"
+      }
+    ]

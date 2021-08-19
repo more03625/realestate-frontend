@@ -3,7 +3,8 @@ import { Collapse, Button, Modal, Tabs, Tab, Nav } from "react-bootstrap";
 import { useDropzone } from "react-dropzone";
 import Locationtab from "./Locationtab";
 import { ToastContainer } from "react-toastify";
-
+import { CKEditor } from '@ckeditor/ckeditor5-react';
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import {
   floorlist,
   userTypeDrop,
@@ -30,6 +31,11 @@ import {
 } from "../../../helper/comman_helper";
 import Axios from "axios";
 import { useHistory, useParams, Link } from "react-router-dom";
+import PlacesAutocomplete, {
+  geocodeByAddress,
+  geocodeByPlaceId,
+  getLatLng,
+} from 'react-places-autocomplete';
 
 
 function Content() {
@@ -112,6 +118,19 @@ function Content() {
   const [isContactShow, setIsContactShow] = useState(false);
 
   const [isGallarySelected, setIsGallarySelected] = useState(false);
+  const [mapAddress, setMapAddress] = useState();
+  // CK EDITPRT
+  const [content, setContent] = useState();
+  const handleDescriptionChange = (e, editor) => {
+    setContent(editor.getData())
+  }
+
+  const handleAddressSelect = async (value) => {
+    const results = await geocodeByAddress(value);
+    const latlng = await getLatLng(results[0]);
+    setPropertyData({ ...propertyData, "address": value, "latitude": latlng.lat, "longitude": latlng.lng })
+    setMapAddress(value);
+  }
 
   const { getRootProps, getInputProps } = useDropzone({
     accept: 'image/*',
@@ -571,7 +590,7 @@ function Content() {
       Object.assign(propertyData, gallaryObject); // object assign is used to update the propertyData object with imagesObject
     }
 
-    Object.assign(propertyData, { 'features': selectedM });
+    Object.assign(propertyData, { 'features': selectedM, 'description': content });
 
 
     if (isValid()) {
@@ -594,9 +613,9 @@ function Content() {
             errorToast(response.data.title);
           } else {
             successToast(response.data.title);
-            setTimeout(function () {
-              history.push("/my-listings");
-            }, 1000);
+            // setTimeout(function () {
+            //   history.push("/my-listings");
+            // }, 1000);
           }
         })
         .catch((error) => {
@@ -756,24 +775,16 @@ function Content() {
                         <p style={errorStyle}>{propertyDataError.title}</p>
                       </div>
                       <div className="col-md-12 form-group">
-                        <label className="required">Property Description</label>
-                        <textarea
-                          name="content"
-                          ref={description}
-                          rows={4}
-                          className="form-control"
-                          placeholder="Property Description"
-                          onChange={(e) =>
-                            setPropertyData({
-                              ...propertyData,
-                              description: e.target.value,
-                            })
-                          }
-                          defaultValue={
+
+                        <CKEditor
+                          editor={ClassicEditor}
+                          data={
                             propertyData && propertyData.description
                               ? propertyData.description
                               : ""
                           }
+                          ref={description}
+                          onChange={handleDescriptionChange}
                         />
                         <p style={errorStyle}>
                           {propertyDataError.description}
@@ -1135,7 +1146,34 @@ function Content() {
                         </select>
                         <p style={errorStyle}>{propertyDataError.city}</p>
                       </div>
+                      <div className="col-md-12">
 
+                        <div>
+                          <PlacesAutocomplete value={propertyID > 0 ? propertyData && propertyData.address ? propertyData.address : "" : mapAddress} onChange={setMapAddress} onSelect={handleAddressSelect}>
+                            {
+                              ({ getInputProps, suggestions, getSuggestionItemProps, loading }) =>
+                                <div>
+                                  <label className="required">Address</label>
+                                  <input className="form-control" {...getInputProps({ placeholder: "Type address" })} />
+                                  <div>
+                                    {loading ? <div>...loading</div> : null}
+                                    {
+                                      suggestions.map((suggestion, index) => {
+                                        const style = {
+                                          backgroundColor: suggestion.active ? "#41b6e6" : "#fff",
+                                          border: "1px solid #efefef"
+                                        }
+                                        return <div key={index} {...getSuggestionItemProps(suggestion, { style })}>{suggestion.description}</div>
+                                      })
+                                    }
+                                    <p style={errorStyle}>{propertyDataError.address}</p>
+                                  </div>
+                                </div>
+                            }
+                          </PlacesAutocomplete>
+                        </div>
+                      </div>
+                      {/*
                       <div className="col-md-12">
                         <label className="required">Address</label>
                         <input
@@ -1150,13 +1188,13 @@ function Content() {
                             })
                           }
                           defaultValue={
-                            propertyData && propertyData.address
-                              ? propertyData.address
-                              : ""
+                            propertyData && propertyData.address ? propertyData.address : ""
                           }
                         />
                         <p style={errorStyle}>{propertyDataError.address}</p>
                       </div>
+                      */}
+
 
                       {
                         propertyID > 0 &&
@@ -1711,6 +1749,7 @@ function Content() {
                           <option value="0">No</option>
                         </select>
                       </div>
+
                       <div className="col-md-6 ">
                         <label className="required">
                           Show contact on website?
@@ -1720,8 +1759,9 @@ function Content() {
                           name="is_contact_show"
                           ref={is_contact_show}
                           onChange={(e) => handleContactShow(e)}
+
                           value={
-                            propertyData && propertyData.is_contact_show == "1" ? "1" : "0"
+                            propertyData && propertyData.is_contact_show === undefined ? '' : propertyData.is_contact_show === "1" ? "1" : "0"
                           }
                         >
                           <option value="">Select</option>
