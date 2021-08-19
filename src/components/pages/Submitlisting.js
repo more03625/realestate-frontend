@@ -5,6 +5,7 @@ import Breadcrumb from '../layouts/Breadcrumb';
 import Footer from '../layouts/Footerthree';
 import Content from '../sections/submit-listing/Content';
 import { useParams } from 'react-router-dom';
+import SearchLocationInput from "../sections/submit-listing/SearchLocationInput";
 
 const Submitlisting = () => {
     const { propertyID } = useParams();
@@ -20,6 +21,7 @@ const Submitlisting = () => {
             </MetaTags>
             <Header />
             <Breadcrumb breadcrumb={{ pagename: propertyID > 0 ? 'Edit Property' : 'Add Property' }} />
+            {/*<SearchLocationInput />*/}
             <Content />
             <Footer />
         </Fragment>

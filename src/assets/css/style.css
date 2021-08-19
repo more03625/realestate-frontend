@@ -4877,6 +4877,10 @@ table img {
 .listing .listing-title {
   margin-bottom: 0;
 }
+#map {
+  height: 300px;
+  border: 1px solid #828282;
+}
 .ck-editor__editable_inline {
   min-height: 400px;
 }

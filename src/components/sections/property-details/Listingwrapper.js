@@ -172,23 +172,6 @@ const Listingwrapper = ({ propertyDetails }) => {
         width: "100%"
     };
 
-
-
-    // const googleMapFunction = () => {
-
-    //     const googleMap = <LoadScript
-    //         googleMapsApiKey='AIzaSyCDg7iBew6xWLZlTpe7smY5aLXTq_yYSjI'>
-    //         <GoogleMap
-    //             mapContainerStyle={mapStyles}
-    //             zoom={13}
-    //             center={defaultCenter}
-    //         />
-    //     </LoadScript>
-    //     return googleMap;
-
-    // }
-    // googleMapFunction();
-
     const getRecentProperties = () => {
         var url = Host + Endpoints.getRecentProperties;
         Axios.get(url).then((response) => {
@@ -309,35 +292,40 @@ const Listingwrapper = ({ propertyDetails }) => {
             mainslider.push(array[0][i]);
         }
     }
-    const [cordinateOne, setCordinateOne] = useState();
-    // const [cordinateTwo, setCordinateTwo] = useState();
-
-    // setCordinateOne(19.0480901);
-    // setCordinateTwo(propertyDetails && propertyDetails.longitude ? propertyDetails.longitude : "");
-
-    // setCordinate({
-    //     "lat": propertyDetails && propertyDetails.latitude ? propertyDetails.latitude : "",
-    //     "lang": propertyDetails && propertyDetails.longitude ? propertyDetails.longitude : ""
-    // });
-
-    // center={{ lat: propertyDetails && propertyDetails.latitude ? parseInt(propertyDetails.latitude) : 27.6746992, lng: propertyDetails && propertyDetails.longitude ? parseInt(propertyDetails.longitude) : 85.3955832 }}
-
-
-
 
     const mylat = propertyDetails && propertyDetails.latitude;
     const mylang = propertyDetails && propertyDetails.longitude;
 
+    console.log(typeof (19.0478483) + " Default")
+    console.log(typeof (mylat) + " mylat")
+    console.log(typeof (mylang) + " mylang")
 
-    const googleMapHere = <LoadScript
-        googleMapsApiKey='AIzaSyCDg7iBew6xWLZlTpe7smY5aLXTq_yYSjI'>
-        <GoogleMap
-            mapContainerStyle={mapStyles}
-            zoom={13}
-            center={{ lat: parseFloat(mylat), lng: parseFloat(mylang) }}
-        />
-    </LoadScript>
+    window.onload = function () {
+        var latlng = new window.google.maps.LatLng(mylat, mylang); //Set the default location of map
 
+        var map = new window.google.maps.Map(document.getElementById("map"), {
+            center: latlng,
+            zoom: 11, //The zoom value for map
+            mapTypeId: window.google.maps.MapTypeId.ROADMAP,
+        });
+
+        var marker = new window.google.maps.Marker({
+            position: latlng,
+
+            map: map,
+
+            title: "Place the marker for your location!", //The title on hover to display
+
+            draggable: true, //this makes it drag and drop
+        });
+
+        window.google.maps.event.addListener(marker, "dragend", function (a) {
+            console.log(a);
+
+            document.getElementById("loc").value =
+                a.latLng.lat().toFixed(4) + ", " + a.latLng.lng().toFixed(4); //Place the value in input box
+        });
+    };
 
 
     return (
@@ -442,9 +430,9 @@ const Listingwrapper = ({ propertyDetails }) => {
                                     </b>
                                 </div>
                                 <div className="listing-content">
-                                    {
-                                        googleMapHere
-                                    }
+
+                                    <div id="map"></div>
+
                                 </div>
                                 <div className="section section-padding  acr-listing-features">
                                     <h4>Property Details</h4>

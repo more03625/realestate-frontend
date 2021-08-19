@@ -1,6 +1,7 @@
 import { Searchoptions, SearchButton } from "./Searchoptions";
+import React, { useState, useEffect, useRef } from 'react';
 
-export const BuyArea = () => {
+export const BuyArea = ({ autoRef, setQuery }) => {
     const propertyType = 'buy';
     return (
         <div className="agency-content">
@@ -8,6 +9,8 @@ export const BuyArea = () => {
                 <form method="get" action="/property-results">
                     <div className="search-wrapper">
                         <input
+                            ref={autoRef}
+                            onChange={event => setQuery(event.target.value)}
                             type="text"
                             className="form-control"
                             placeholder="Search Properties to own..."
@@ -26,7 +29,7 @@ export const BuyArea = () => {
     )
 }
 
-export const RentArea = () => {
+export const RentArea = ({ autoRef, setQuery }) => {
     const propertyType = 'rent';
     return (
         <div className="agency-content">
@@ -34,6 +37,8 @@ export const RentArea = () => {
                 <form method="get" action="/property-results">
                     <div className="search-wrapper">
                         <input
+                            ref={autoRef}
+                            onChange={event => setQuery(event.target.value)}
                             type="text"
                             className="form-control"
                             placeholder="Search properties to rent..."
@@ -52,7 +57,7 @@ export const RentArea = () => {
     )
 }
 
-export const SoldArea = () => {
+export const SoldArea = ({ autoRef, setQuery }) => {
 
     const propertyType = 'sold';
     return (<div className="agency-content">
@@ -60,6 +65,8 @@ export const SoldArea = () => {
             <form method="get" action="/property-results">
                 <div className="search-wrapper">
                     <input
+                        ref={autoRef}
+                        onChange={event => setQuery(event.target.value)}
                         type="text"
                         className="form-control"
                         placeholder="Search for sold properties..."
@@ -78,7 +85,7 @@ export const SoldArea = () => {
     </div>
     )
 }
-export const ShareArea = () => {
+export const ShareArea = ({ autoRef, setQuery }) => {
     const propertyType = 'share';
     return (
         <div className="agency-content">
@@ -86,6 +93,8 @@ export const ShareArea = () => {
                 <form method="get" action="/property-results">
                     <div className="search-wrapper">
                         <input
+                            ref={autoRef}
+                            onChange={event => setQuery(event.target.value)}
                             type="text"
                             className="form-control"
                             placeholder="Search shared properties..."

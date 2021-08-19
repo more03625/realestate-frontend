@@ -1,3 +1,5 @@
+import React, { useState, useEffect, useRef } from 'react';
+
 import {
     NavLink,
     Tab,
@@ -6,13 +8,20 @@ import {
 import { BuyArea, RentArea, SoldArea, ShareArea, FindAgents } from "./SearchInputArea";
 
 export const ActualSearch = () => {
+    let autoComplete;
+
+    const [query, setQuery] = useState("");
+    const autoCompleteRef = useRef(null);
+
     const handleSelect = (e) => {
         if (e === 'consultants') return
         window.location.href = '/' + e;
     }
+    autoComplete = new window.google.maps.places.Autocomplete(autoCompleteRef.current, {});
+    var propertyType = window.location.pathname.split("/")[1];
+
     return (
         <>
-
             <div className="sidebar sidebar-left">
                 <div className="sidebar-widget">
                     <Nav variant="tabs" defaultActiveKey="buy" className="nav nav-tabs tab-cards" onSelect={(e) => handleSelect(e)}>
@@ -36,16 +45,16 @@ export const ActualSearch = () => {
             </div>
             <Tab.Content className="m-0">
                 <Tab.Pane eventKey="buy">
-                    <BuyArea />
+                    {propertyType == 'buy' && <BuyArea autoRef={autoCompleteRef} setQuery={setQuery} />}
                 </Tab.Pane>
                 <Tab.Pane eventKey="rent">
-                    <RentArea />
+                    {propertyType == 'rent' && <RentArea autoRef={autoCompleteRef} setQuery={setQuery} />}
                 </Tab.Pane>
                 <Tab.Pane eventKey="sold">
-                    <SoldArea />
+                    {propertyType == 'sold' && <SoldArea autoRef={autoCompleteRef} setQuery={setQuery} />}
                 </Tab.Pane>
                 <Tab.Pane eventKey="share">
-                    <ShareArea />
+                    {propertyType == 'share' && <ShareArea autoRef={autoCompleteRef} setQuery={setQuery} />}
                 </Tab.Pane>
                 <Tab.Pane eventKey="consultants">
                     <FindAgents />
