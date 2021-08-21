@@ -1200,6 +1200,37 @@ function Content() {
                   </Tab.Pane>
                   <Tab.Pane eventKey="tab4">
                     <div className="row">
+
+                      <div className="col-md-6 form-group">
+                        <label className="required">Area Unit</label>
+                        <select
+                          className="form-control"
+                          name="default_area_unit"
+                          onChange={(e) =>
+                            setPropertyData({
+                              ...propertyData,
+                              default_area_unit: e.target.value,
+                            })
+                          }
+                          value={
+                            propertyData && propertyData.default_area_unit
+                              ? propertyData.default_area_unit
+                              : ""
+                          }
+                        >
+                          <option>Select</option>
+                          {areaUnit &&
+                            areaUnit.map((value, index) => (
+                              <option key={index} value={value}>
+                                {uppercaseFirstLetter(value)}
+                              </option>
+                            ))}
+                        </select>
+                        <p style={errorStyle}>
+                          {propertyDataError.default_area_unit}
+                        </p>
+                      </div>
+
                       <div className="col-md-6 form-group">
                         <label className="required">Total Area</label>
                         <input
@@ -1248,35 +1279,7 @@ function Content() {
                         </p>
                       </div>
 
-                      <div className="col-md-6 form-group">
-                        <label className="required">Area Unit</label>
-                        <select
-                          className="form-control"
-                          name="default_area_unit"
-                          onChange={(e) =>
-                            setPropertyData({
-                              ...propertyData,
-                              default_area_unit: e.target.value,
-                            })
-                          }
-                          value={
-                            propertyData && propertyData.default_area_unit
-                              ? propertyData.default_area_unit
-                              : ""
-                          }
-                        >
-                          <option>Select</option>
-                          {areaUnit &&
-                            areaUnit.map((value, index) => (
-                              <option key={index} value={value}>
-                                {uppercaseFirstLetter(value)}
-                              </option>
-                            ))}
-                        </select>
-                        <p style={errorStyle}>
-                          {propertyDataError.default_area_unit}
-                        </p>
-                      </div>
+
 
                       <div className="col-md-6 form-group">
                         <label>Facing</label>

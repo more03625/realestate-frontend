@@ -8,6 +8,12 @@ import {
 import { BuyArea, RentArea, SoldArea, ShareArea, FindAgents } from "./SearchInputArea";
 
 export const ActualSearch = () => {
+
+    const setButtonClicked = (e) => {
+        console.log(e)
+        alert(e)
+    }
+
     const handleSelect = (e) => {
         if (e === 'consultants') return
         window.location.href = '/' + e;
@@ -46,7 +52,7 @@ export const ActualSearch = () => {
             </div>
             <Tab.Content className="m-0">
                 <Tab.Pane eventKey="buy">
-                    {propertyType == 'buy' && <BuyArea autoRef={autoCompleteRef} setQuery={setQuery} />}
+                    {propertyType == 'buy' || propertyType == 'home' ? <BuyArea autoRef={autoCompleteRef} setQuery={setQuery} setButtonClicked={setButtonClicked} /> : ''}
                 </Tab.Pane>
                 <Tab.Pane eventKey="rent">
                     {propertyType == 'rent' && <RentArea autoRef={autoCompleteRef} setQuery={setQuery} />}

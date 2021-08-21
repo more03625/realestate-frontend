@@ -426,6 +426,7 @@ const Shopsidebar = ({ parentCallback }) => {
 
                     <div className="col-md-6">
                       <div className="form-group">
+                        <label>Area Unit</label>
                         <select
                           className="form-control"
                           name="landsize"
@@ -442,6 +443,8 @@ const Shopsidebar = ({ parentCallback }) => {
 
                     <div className="col-md-6">
                       <div className="form-group">
+                        <label>Area Size</label>
+
                         <input className="form-control" name="landsize" placeholder="Enter area size" onChange={(e) => handleChange(e)} />
                       </div>
                     </div>
@@ -1381,7 +1384,7 @@ const Shopsidebar = ({ parentCallback }) => {
                       to={`property/${convertToSlug(item.title)}/${item.id}`}
                       title={item.title}
                     >
-                      {item.title}
+                      {item.title.slice(0, 45) + "..."}
                     </Link>{" "}
                   </h6>
                   <span className="listing-price">

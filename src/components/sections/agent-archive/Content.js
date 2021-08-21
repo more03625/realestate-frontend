@@ -99,9 +99,9 @@ const Content = ({ agents, recentProperties, subCategoriesWithCount }) => {
                                         <div className="listing-body">
                                             <h6 className="listing-title">
                                                 <Link to={`property/${convertToSlug(item.title)}/${item.id}`} title={item.title} >
-                                                    {item.title}
+                                                    {item.title.slice(0, 45) + "..."}
                                                 </Link>{" "}
-                                            </h6>a
+                                            </h6>
                                             <span className="listing-price">Rs. {new Number(item.price).toLocaleString()}  {item.price_on}</span>
                                         </div>
                                     </div>

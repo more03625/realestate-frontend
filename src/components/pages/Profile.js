@@ -10,7 +10,8 @@ import { Host, Endpoints } from '../../helper/comman_helper';
 const Profile = () => {
     const [userData, setUserData] = useState([]);
     const [runUseEffect, setRunUseEffect] = useState(false);
-
+    const [profileImage, setProfileImage] = useState("");
+    const [isImageChanged, setIsImageChanged] = useState(false);
     const handleCallBack = (childData) => {
         setRunUseEffect(childData)
     }
@@ -37,8 +38,8 @@ const Profile = () => {
                 />
             </MetaTags>
             <Header />
-            <Breadcrumb userData={userData} />
-            <Content userData={userData} handleCallBack={handleCallBack} runUseEffect={runUseEffect} />
+            <Breadcrumb userData={userData} profileImage={profileImage} isImageChanged={isImageChanged} />
+            <Content userData={userData} handleCallBack={handleCallBack} runUseEffect={runUseEffect} profileImage={profileImage} setProfileImage={setProfileImage} setIsImageChanged={setIsImageChanged} isImageChanged={isImageChanged} />
             <Footer />
         </Fragment>
     );

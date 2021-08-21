@@ -164,3 +164,29 @@
   background: #0f0e14 !important;
   border: 1px solid #0f0e14 !important;
 }
+.searBarInput {
+  margin-top: 15px;
+  width: 154px;
+  background: #0f0b0a;
+  border: 1px solid #404040;
+  outline: none;
+  color: #fff;
+  padding: 2px;
+  border-radius: 5px;
+}
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+input[type="number"]::placeholder {
+  /* Firefox, Chrome, Opera */
+  text-align: center;
+}

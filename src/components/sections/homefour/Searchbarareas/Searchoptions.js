@@ -6,7 +6,7 @@ import {
 } from "../../../../data/select.json";
 import Axios from "axios";
 import { Endpoints, Host } from "../../../../helper/comman_helper";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import testdata from "../../../../data/testdata.json";
 export const Searchoptions = () => {
@@ -39,12 +39,16 @@ export const Searchoptions = () => {
     }
 
     const hideOptions = (e) => {
+        console.log(e.target.value)
         if (e.target.value == 4) {
-            console.log(document.getElementsByClassName("hideBeds"))
+
             for (var i = 0; i < 2; i++) {
+                console.log("In IF")
+
                 document.getElementsByClassName("hideBeds")[i].classList.add("d-none");
             }
         } else {
+            console.log("In Else")
             for (var i = 0; i < 2; i++) {
                 document.getElementsByClassName("hideBeds")[i].classList.remove("d-none");
             }
@@ -62,6 +66,7 @@ export const Searchoptions = () => {
         { text: "4 Beds", id: 4 },
         { text: "5 Beds", id: 5 },
     ];
+
     return (
         <>
             <div className="col-lg-2 col-md-6 col-6">
@@ -89,6 +94,11 @@ export const Searchoptions = () => {
                     />
                 </div>
             </div>
+            <div className="hideif col-lg-2 col-md-6 col-6 showInputArea d-none">
+                <div className="form-group acr-custom-select">
+                    <input type="number" name="area_size" tabindex="4" class="searBarInput rui-input" min="0" max="999999" placeholder="Enter Size" />
+                </div>
+            </div>
             <div className=" col-lg-2 col-md-6 col-6 hideBeds">
                 <div className="form-group acr-custom-select">
                     <Select2
@@ -97,6 +107,7 @@ export const Searchoptions = () => {
                             placeholder: "Beds (max)",
                         }}
                         name="max_beds"
+
                     />
                 </div>
             </div>
@@ -120,6 +131,7 @@ export const Searchoptions = () => {
                             placeholder: "Price (max)",
                         }}
                         name="max_price"
+
                     />
 
                 </div>
@@ -140,10 +152,15 @@ export const Searchoptions = () => {
 }
 
 export const SearchButton = () => {
+    const handleButtonClicked = (e) => {
+        e.preventDefault();
+        alert("Button Clicked")
+    }
+
     return (
         <>
             <i className="flaticon-search"></i>
-            <button type="submit" className="btn-custom">
+            <button type="submit" className="btn-custom" >
                 {" "}
                 Search
             </button>

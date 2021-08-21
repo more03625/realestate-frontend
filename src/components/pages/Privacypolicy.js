@@ -24,19 +24,20 @@ const Privacypolicy = () => {
         }
     }
     useEffect(() => {
+        window.scrollTo(0, 0);
         getSettingsBySlug();
-    }, []);
+    }, [slug]);
     return (
         <Fragment>
             <MetaTags>
-                <title>Privacy policy | Neprealestate</title>
+                <title>{setting.title} | Neprealestate</title>
                 <meta
                     name="description"
                     content="#"
                 />
             </MetaTags>
             <Header />
-            <Breadcrumb breadcrumb={{ pagename: 'Privacy policy' }} />
+            <Breadcrumb breadcrumb={{ pagename: setting.title }} />
             <Content setting={setting} />
             <Footer />
         </Fragment>

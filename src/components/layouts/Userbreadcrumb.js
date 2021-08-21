@@ -1,12 +1,14 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-const Userbreadcrumb = ({ userData }) => {
+const Userbreadcrumb = ({ userData, profileImage, isImageChanged }) => {
     return (
         <div className="subheader subheader-2 user-subheader bg-cover bg-center" style={{ backgroundImage: "url(" + process.env.PUBLIC_URL + "/assets/img/subheader-2.jpg)" }}>
             <div className="container">
                 <div className="media">
                     <img
-                        src={userData && userData.profile_image != undefined ? process.env.REACT_APP_CONTENT_URL + userData.profile_image + "_small.jpg" : process.env.REACT_APP_CONTENT_URL + "/users/default.png"}
+                        src={
+                            isImageChanged === true ? profileImage :
+                                userData && userData.profile_image != undefined ? process.env.REACT_APP_CONTENT_URL + userData.profile_image + "_small.jpg" : process.env.REACT_APP_CONTENT_URL + "/users/default.png"}
                         alt={userData && userData.profile_image != undefined ? process.env.REACT_APP_CONTENT_URL + userData.profile_image + "_small.jpg" : process.env.REACT_APP_CONTENT_URL + "/users/default.png"}
                     />
                     <div className="media-body">

@@ -1,7 +1,7 @@
 import { Searchoptions, SearchButton } from "./Searchoptions";
 import React, { useState, useEffect, useRef } from 'react';
 
-export const BuyArea = ({ autoRef, setQuery }) => {
+export const BuyArea = ({ autoRef, setQuery, setButtonClicked }) => {
     const propertyType = 'buy';
     return (
         <div className="agency-content">
@@ -128,8 +128,6 @@ export const FindAgents = () => {
                         <input type="hidden" name="property_type" value="consultants" />
                         <SearchButton />
                     </div>
-
-
                 </form>
             </div>
         </div>

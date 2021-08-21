@@ -284,7 +284,10 @@ const Content = ({ agentData, agentProperties, similarAgents }) => {
                         </div>
                         <div className="listing-body">
                           <div className="listing-author">
-                            <img src={item.profile_image != null ? process.env.REACT_APP_CONTENT_URL + item.profile_image + "_small.jpg" : process.env.REACT_APP_CONTENT_URL + "/users/default.png"}
+                            <img src={
+                              item && item.is_contact_show === 1 ? item && item.profile_image !== null ?
+                                process.env.REACT_APP_CONTENT_URL + item.profile_image + "_small.jpg" : process.env.REACT_APP_CONTENT_URL + "/users/default.png"
+                                : process.env.REACT_APP_CONTENT_URL + "/neprealestate-logo/logo.png"}
                               alt={item.profile_image + "_small.jpg"}
                             />
                             <div className="listing-author-body">
@@ -309,7 +312,7 @@ const Content = ({ agentData, agentProperties, similarAgents }) => {
                                   </li>
                                   <li>
                                     {" "}
-                                    <Link to={{ pathname: `${openInGmail(item.email_for_contact)}` }}>
+                                    <Link target="_blank" to={{ pathname: `${openInGmail(item.email_for_contact, item.title, Host + "/property/" + convertToSlug(item.title) + "/" + item.id)}` }}>
                                       {" "}
                                       <i className="fas fa-envelope" /> Send Message
                                     </Link>{" "}

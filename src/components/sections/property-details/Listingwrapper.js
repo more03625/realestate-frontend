@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Link, useParams } from "react-router-dom";
 import { OverlayTrigger, Tooltip, Dropdown, NavLink } from "react-bootstrap";
-import Calculator from "../../layouts/Calculator";
+
 import $ from "jquery";
 import "magnific-popup";
-import classNames from "classnames";
+
 import Slider from "react-slick";
 import Axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
@@ -23,11 +23,8 @@ import {
 import ContentNotFound from "../../pages/ContentNotFound";
 import ReactHtmlParser, { processNodes, convertNodeToElement, htmlparser2 } from 'react-html-parser';
 
-import { GoogleMap, LoadScript } from '@react-google-maps/api';
-const gallerytip = <Tooltip>Gallery</Tooltip>;
 const bedstip = <Tooltip>Beds</Tooltip>;
 const bathstip = <Tooltip>Bathrooms</Tooltip>;
-const areatip = <Tooltip>Ropani-Aana-Paisa-Daam</Tooltip>;
 function SampleNextArrow(props) {
     const { className, style, onClick } = props;
     return (
@@ -127,7 +124,9 @@ const settingsthumb = {
     ]
 }
 
-const Listingwrapper = ({ propertyDetails }) => {
+const Listingwrapper = ({ propertyDetails, coordinates }) => {
+
+
     const [loadingButton, setLoadingButton] = useState(false);
 
     const errorStyle = {
@@ -140,7 +139,6 @@ const Listingwrapper = ({ propertyDetails }) => {
     };
     const ref = useRef();
     const { propertyID } = useParams();
-    const slider = useRef();
 
     const [recentProperties, setRecentProperties] = useState([]);
 
@@ -156,24 +154,22 @@ const Listingwrapper = ({ propertyDetails }) => {
         height: "485px",
     };
     function popup() {
-        setTimeout(function () {
-            $(".gallery-thumb").magnificPopup({
-                type: "image",
-                gallery: {
-                    enabled: true,
-                    delegate: '.gallery-thumb:not(.slick-cloned) a',
-                },
-            });
-            setIsGallaryReady(true);
-        }, 3000)
+        if (propertyDetails !== null && window.location.pathname.split("/")[1] === 'property') {
+            setTimeout(function () {
+                $(".gallery-thumb").magnificPopup({
+                    type: "image",
+                    gallery: {
+                        enabled: true,
+                        delegate: '.gallery-thumb:not(.slick-cloned) a',
+                    },
+                });
+                setIsGallaryReady(true);
+            }, 3000)
+        }
     }
-    const mapStyles = {
-        height: "40vh",
-        width: "100%"
-    };
 
     const getRecentProperties = () => {
-        var url = Host + Endpoints.getRecentProperties;
+        var url = Host + Endpoints.getRecentProperties + "?id=" + propertyID;
         Axios.get(url).then((response) => {
             if (response.data.error === true) {
                 alert(response.data.title);
@@ -182,13 +178,7 @@ const Listingwrapper = ({ propertyDetails }) => {
             }
         });
     };
-    useEffect(() => {
-        window.scrollTo(0, 0);
-        getRecentProperties();
-        setNav1(slider1);
-        setNav2(slider2);
-        popup();
-    }, [propertyID]);
+
 
     const [fname, setFname] = useState("");
     const [email, setEmail] = useState("");
@@ -293,14 +283,9 @@ const Listingwrapper = ({ propertyDetails }) => {
         }
     }
 
+    if (coordinates.lat !== null && coordinates.lang !== null) {
 
-
-    window.onload = function () {
-        const mylat = propertyDetails && propertyDetails.latitude;
-        const mylang = propertyDetails && propertyDetails.longitude;
-
-        var latlng = new window.google.maps.LatLng(mylat, mylang); //Set the default location of map
-
+        var latlng = new window.google.maps.LatLng(coordinates.lat, coordinates.lang); //Set the default location of map
         var map = new window.google.maps.Map(document.getElementById("map"), {
             center: latlng,
             zoom: 15, //The zoom value for map
@@ -309,20 +294,26 @@ const Listingwrapper = ({ propertyDetails }) => {
 
         var marker = new window.google.maps.Marker({
             position: latlng,
-
             map: map,
-
             title: "Place the marker for your location!", //The title on hover to display
-
             draggable: true, //this makes it drag and drop
         });
 
-        window.google.maps.event.addListener(marker, "dragend", function (a) {
-            console.log(a);
-        });
-    };
+        // window.google.maps.event.addListener(marker, "dragend", function (a) {
+        //     console.log("RAHUL : " + a);
+        // });
+    } else {
+        console.log('Inside else Statement!');
+    }
 
+    useEffect(() => {
+        window.scrollTo(0, 0);
+        getRecentProperties();
+        setNav1(slider1);
+        setNav2(slider2);
+        popup();
 
+    }, [propertyID]);
     return (
         <div className="section listing-wrapper " ref={ref}>
             {propertyDetails === false ? <ContentNotFound /> : (
@@ -412,17 +403,7 @@ const Listingwrapper = ({ propertyDetails }) => {
                                     {propertyDetails && propertyDetails.address
                                         ? propertyDetails.address + ", "
                                         : ""}
-                                    <b>
-                                        {propertyDetails && propertyDetails.city_name
-                                            ? propertyDetails.city_name + ", "
-                                            : ""},
-                                    </b>
 
-                                    <b>
-                                        {propertyDetails && propertyDetails.state_name
-                                            ? propertyDetails.state_name + ", "
-                                            : ""}
-                                    </b>
                                 </div>
                                 <div className="mt-2 listing-content">
 
@@ -431,12 +412,9 @@ const Listingwrapper = ({ propertyDetails }) => {
                                 </div>
                                 <div className="section section-padding  acr-listing-features">
                                     <h4>Property Details</h4>
-
                                     <div className="row">
-
-                                        {
-                                            getUserToken() !== null && getUserToken().data.id === propertyDetails && propertyDetails.user_id && propertyDetails && propertyDetails.admin_cost ? (
-
+                                        {getUserToken() !== null && getUserToken().data !== undefined ? (
+                                            propertyDetails !== null && getUserToken().data.id == propertyDetails.user_id ? (
                                                 <div className="listing-feature col-lg-6 col-md-6">
                                                     <i className="flaticon-sales-agent"></i>
                                                     <h6 className="listing-feature-label">
@@ -446,7 +424,11 @@ const Listingwrapper = ({ propertyDetails }) => {
                                                     </span>
                                                 </div>
                                             ) : ("")
+
+                                        ) : ("")
                                         }
+
+
                                         {propertyDetails && propertyDetails.category_name ? (
                                             <div className="listing-feature col-lg-6 col-md-6">
                                                 <i className="flaticon-checklist"></i>
@@ -713,7 +695,7 @@ const Listingwrapper = ({ propertyDetails }) => {
                                                 <i className="flaticon-home"></i>
                                                 <h6 className="listing-feature-label">Property Type</h6>
                                                 <span className="listing-feature-value">
-                                                    {propertyDetails.property_type}
+                                                    {uppercaseFirstLetter(propertyDetails.property_type)}
                                                 </span>
                                             </div>
                                         ) : (
@@ -729,9 +711,9 @@ const Listingwrapper = ({ propertyDetails }) => {
 
                                         {propertyDetails && propertyDetails.features ?
                                             (
-
                                                 <div className="row">
                                                     {
+
                                                         propertyDetails.features.outdoor.length > 0 && <h5 className="col-12 text-left">Outdoon Features:</h5>
                                                     }
                                                     {
@@ -917,7 +899,10 @@ const Listingwrapper = ({ propertyDetails }) => {
                                                         </div>
                                                         <div className="listing-body">
                                                             <div className="listing-author">
-                                                                <img src={item && item.is_contact_show === 1 ? item && item.profile_image != null ? process.env.REACT_APP_CONTENT_URL + item.profile_image + "_small.jpg" : process.env.REACT_APP_CONTENT_URL + "/users/default.png" : process.env.REACT_APP_CONTENT_URL + "/neprealestate-logo/logo.png"}
+                                                                <img src={
+                                                                    item && item.is_contact_show === 1 ? item && item.profile_image !== null ?
+                                                                        process.env.REACT_APP_CONTENT_URL + item.profile_image + "_small.jpg" : process.env.REACT_APP_CONTENT_URL + "/users/default.png"
+                                                                        : process.env.REACT_APP_CONTENT_URL + "/neprealestate-logo/logo.png"}
                                                                     alt={item.profile_image + "_small.jpg"}
                                                                 />
                                                                 <div className="listing-author-body">
@@ -942,7 +927,7 @@ const Listingwrapper = ({ propertyDetails }) => {
                                                                             </li>
                                                                             <li>
                                                                                 {" "}
-                                                                                <Link target="_blank" to={{ pathname: `${openInGmail(item.email_for_contact)}` }}>
+                                                                                <Link target="_blank" to={{ pathname: `${openInGmail(item.email_for_contact, item.title, Host + "/property/" + convertToSlug(item.title) + "/" + item.id)}` }}>
                                                                                     {" "}
                                                                                     <i className="fas fa-envelope" /> Send Message
                                                                                 </Link>{" "}
@@ -1002,12 +987,14 @@ const Listingwrapper = ({ propertyDetails }) => {
                                                                 >
                                                                     View Details
                                                                 </Link>
-                                                                <OverlayTrigger overlay={gallerytip}>
-                                                                    <Link to={`/property/${convertToSlug(item.title)}/${item.id}`} className="listing-gallery">
-                                                                        {" "}
-                                                                        <i className="fas fa-camera" />{" "}
-                                                                    </Link>
-                                                                </OverlayTrigger>
+                                                                {/*
+                                                                    <OverlayTrigger overlay={gallerytip}>
+                                                                                        <Link to={`/property/${convertToSlug(item.title)}/${item.id}`} className="listing-gallery">
+                                                                                            {" "}
+                                                                                            <i className="fas fa-camera" />{" "}
+                                                                                        </Link>
+                                                                                        </OverlayTrigger>
+                                                                                    */}
 
                                                             </div>
                                                         </div>

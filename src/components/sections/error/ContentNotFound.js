@@ -147,7 +147,7 @@ const Content = () => {
                                                         </li>
                                                         <li>
                                                             {" "}
-                                                            <Link target="_blank" to={{ pathname: `${openInGmail(item.email_for_contact)}` }}>
+                                                            <Link target="_blank" to={{ pathname: `${openInGmail(item.email_for_contact, item.title, Host + "/property/" + convertToSlug(item.title) + "/" + item.id)}` }}>
                                                                 {" "}
                                                                 <i className="fas fa-envelope" /> Send Message
                                                             </Link>{" "}

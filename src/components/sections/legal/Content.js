@@ -1,5 +1,3 @@
-import React, { Component } from 'react';
-import Sidebar from '.././../layouts/Blogsidebar';
 import ReactHtmlParser, { processNodes, convertNodeToElement, htmlparser2 } from 'react-html-parser';
 
 const Content = ({ setting }) => {
@@ -8,7 +6,7 @@ const Content = ({ setting }) => {
             <div className="container">
                 <div className="row">
                     <div className="col-lg-12">
-                        <div className="post-content removeListStyleNone" style={{ listStyle: 'unset' }}>
+                        <div className="post-content removeListStyleNone">
                             {ReactHtmlParser(setting && setting.content)}
                         </div>
                     </div>

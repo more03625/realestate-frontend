@@ -46,23 +46,16 @@ const Recentlisting = () => {
             <div key={i} className="col-lg-4">
               <div className="listing">
                 <div className="listing-thumbnail " >
-                  <Link to={`property/${convertToSlug(item.title)}/${item.id}`}>
-
-                    <img src={item.image != null ? process.env.REACT_APP_CONTENT_URL + item.image + "_medium.jpg" : process.env.REACT_APP_CONTENT_URL + "/users/default.png"}
+                  <Link to={`/property/${convertToSlug(item.title)}/${item.id}`}>
+                    <img // thumbnail
+                      src={item.image != null ? process.env.REACT_APP_CONTENT_URL + item.image + "_medium.jpg" : process.env.REACT_APP_CONTENT_URL + "/properties/default.jpg"}
                       alt={`image of ${item.title}`}
                       style={{ width: "300px", height: "200px" }}
                     />
                   </Link>
 
                   <div className="listing-badges">
-                    {item.star === true ? (
-                      <span className="listing-badge featured">
-                        {" "}
-                        <i className="fas fa-star" />{" "}
-                      </span>
-                    ) : (
-                      ""
-                    )}
+
                     {item.property_type === "buy" ? (
                       <span className="listing-badge sale">{uppercaseFirstLetter(item.property_type)}</span>
                     ) : (
@@ -95,22 +88,22 @@ const Recentlisting = () => {
                     )}
                   </div>
                   {/*
-                  <div className="listing-controls">
-                    <Link to="#" onClick={() => saveProperty(item.id)} className="favorite">
-                      <i className="far fa-heart" />
-                    </Link>
-                  </div>
-                  */}
+                                                                <div className="listing-controls">
+                                                                <Link to="#" onClick={() => saveProperty(item.id)} className="favorite">
+                                                                    <i className="far fa-heart" />
+                                                                </Link>
+                                                                </div>
+                                                                */}
                 </div>
                 <div className="listing-body">
                   <div className="listing-author">
-                    <img src={item.profile_image != null ? process.env.REACT_APP_CONTENT_URL + item.profile_image + "_small.jpg" : process.env.REACT_APP_CONTENT_URL + "/users/default.png"}
+                    <img src={item && item.is_contact_show === 1 ? item && item.profile_image != null ? process.env.REACT_APP_CONTENT_URL + item.profile_image + "_small.jpg" : process.env.REACT_APP_CONTENT_URL + "/users/default.png" : process.env.REACT_APP_CONTENT_URL + "/neprealestate-logo/logo.png"}
                       alt={item.profile_image + "_small.jpg"}
                     />
                     <div className="listing-author-body">
                       <p>
                         {" "}
-                        <Link to="#">{item.name}</Link>{" "}
+                        <Link to="#">{item.name_for_contact}</Link>{" "}
                       </p>
                       <span className="listing-date">{new Date(item.createdAt).toDateString()}</span>
                     </div>
@@ -129,14 +122,14 @@ const Recentlisting = () => {
                           </li>
                           <li>
                             {" "}
-                            <Link target="_blank" to={{ pathname: `${openInGmail(item.email_for_contact)}` }}>
+                            <Link target="_blank" to={{ pathname: `${openInGmail(item.email_for_contact, item.title, Host + "/property/" + convertToSlug(item.title) + "/" + item.id)}` }}>
                               {" "}
                               <i className="fas fa-envelope" /> Send Message
                             </Link>{" "}
                           </li>
                           <li>
                             {" "}
-                            <Link to={`property/${convertToSlug(item.title)}/${item.id}#book_tour`}>
+                            <Link to={`/property/${convertToSlug(item.title)}/${item.id}#book_tour`}>
                               {" "}
                               <i className="fas fa-bookmark" /> Book Tour
                             </Link>{" "}
@@ -147,7 +140,7 @@ const Recentlisting = () => {
                   </div>
                   <h5 className="listing-title">
                     {" "}
-                    <Link to={`property/${convertToSlug(item.title)}/${item.id}`} title={item.title}>
+                    <Link to={`/property/${convertToSlug(item.title)}/${item.id}`} title={item.title}>
                       {item.title}
                     </Link>{" "}
                   </h5>
@@ -173,28 +166,30 @@ const Recentlisting = () => {
                         </span>
                       </div>
                     </OverlayTrigger>
-                    <OverlayTrigger overlay={areatip}>
+                    <OverlayTrigger overlay={<Tooltip>Sqft</Tooltip>}>
                       <div className="acr-listing-icon">
                         <i className="flaticon-ruler" />
                         <span className="acr-listing-icon-value">
-                          {item.area}
+                          {item.area_in_sqft}
                         </span>
                       </div>
                     </OverlayTrigger>
                   </div>
                   <div className="listing-gallery-wrapper">
                     <Link
-                      to={`property/${convertToSlug(item.title)}/${item.id}`}
+                      to={`/property/${convertToSlug(item.title)}/${item.id}`}
                       className="btn-custom btn-sm secondary"
                     >
                       View Details
                     </Link>
-                    <OverlayTrigger overlay={gallerytip}>
-                      <Link to={`property/${convertToSlug(item.title)}/${item.id}`} className="listing-gallery">
+                    {/*
+ <OverlayTrigger overlay={gallerytip}>
+                      <Link to={`/property/${convertToSlug(item.title)}/${item.id}`} className="listing-gallery">
                         {" "}
                         <i className="fas fa-camera" />{" "}
                       </Link>
                     </OverlayTrigger>
+                  */}
 
                   </div>
                 </div>

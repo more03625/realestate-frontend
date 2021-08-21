@@ -16,17 +16,19 @@ const Listingdetailsone = () => {
     const { slug, propertyID } = useParams();
 
     const [propertyDetails, setPropertyDetails] = useState(null);
+    const [coordinates, setCoordinates] = useState({ 'lat': null, "lang": null });
 
-    const getPropertyDetails = () => {
+
+    const getPropertyDetails = async () => {
         var url = Host + Endpoints.getPropertyDetails + propertyID;
-        Axios.get(url).then((response) => {
-            if (response.data.error !== true) {
-                setPropertyDetails(response.data.data);
-            } else {
-                setPropertyDetails(false);
+        const response = await Axios.get(url);
+        if (response.data.error !== true) {
 
-            }
-        });
+            setPropertyDetails(response.data.data);
+            setCoordinates({ 'lat': response.data.data.latitude, "lang": response.data.data.longitude });
+        } else {
+            setPropertyDetails(false);
+        }
     };
     useEffect(() => {
         getPropertyDetails();
@@ -38,7 +40,7 @@ const Listingdetailsone = () => {
                 <meta name="description" content="#" />
             </MetaTags>
             <Header />
-            <Content propertyDetails={propertyDetails} />
+            <Content propertyDetails={propertyDetails} coordinates={coordinates} />
             <Footer />
         </Fragment>
     );

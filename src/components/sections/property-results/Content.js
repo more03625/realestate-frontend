@@ -7,7 +7,7 @@ import listing from "../../../data/listings.json";
 import classNames from "classnames";
 import Loader from "../../layouts/Loader";
 import Axios from "axios";
-import { convertToSlug, openInGmail, uppercaseFirstLetter, saveProperty } from "../../../helper/comman_helper";
+import { Host, convertToSlug, openInGmail, uppercaseFirstLetter, saveProperty } from "../../../helper/comman_helper";
 import { Noresults } from '../../layouts/Noresults';
 
 const gallerytip = <Tooltip>Gallery</Tooltip>;
@@ -17,7 +17,7 @@ const areatip = <Tooltip>Ropani-Aana-Paisa-Daam</Tooltip>;
 
 const Content = ({ propertyType, searchQuery, searchResults, parentCallback, subCategoryName, subCategoryID, totalResults, offset, setOffset, setLoadNext }) => {
     const [currentPage, setCurrentPage] = useState(1);
-    const [itemsPerPage, setItemsPerPage] = useState(2);
+    const [itemsPerPage, setItemsPerPage] = useState(25);
     const [loading, setLoading] = useState(false);
 
     const handleClick = (event) => {
@@ -101,13 +101,16 @@ const Content = ({ propertyType, searchQuery, searchResults, parentCallback, sub
                     </div>
                     <div className="listing-body">
                         <div className="listing-author">
-                            <img src={item.profile_image != null ? process.env.REACT_APP_CONTENT_URL + item.profile_image + "_small.jpg" : process.env.REACT_APP_CONTENT_URL + "/users/default.png"}
+                            <img src={
+                                item && item.is_contact_show === 1 ? item && item.profile_image !== null ?
+                                    process.env.REACT_APP_CONTENT_URL + item.profile_image + "_small.jpg" : process.env.REACT_APP_CONTENT_URL + "/users/default.png"
+                                    : process.env.REACT_APP_CONTENT_URL + "/neprealestate-logo/logo.png"}
                                 alt={item.profile_image + "_small.jpg"}
                             />
                             <div className="listing-author-body">
                                 <p>
                                     {" "}
-                                    <Link to="#">{item.name}</Link>{" "}
+                                    <Link to="#">{item.name_for_contact}</Link>{" "}
                                 </p>
                                 <span className="listing-date">{new Date(item.createdAt).toDateString()}</span>
                             </div>
@@ -127,9 +130,8 @@ const Content = ({ propertyType, searchQuery, searchResults, parentCallback, sub
                                         </li>
                                         <li>
                                             {" "}
-                                            <Link target="_blank" to={{
-                                                pathname: `${openInGmail(item.email_for_contact)}`
-                                            }} >
+
+                                            <Link target="_blank" to={{ pathname: `${openInGmail(item.email_for_contact, item.title, Host + "/property/" + convertToSlug(item.title) + "/" + item.id)}` }}>
                                                 {" "}
                                                 < i className="fas fa-envelope" /> Send Message
                                             </Link>{" "}
@@ -185,12 +187,7 @@ const Content = ({ propertyType, searchQuery, searchResults, parentCallback, sub
                             >
                                 View Details
                             </Link>
-                            <OverlayTrigger overlay={gallerytip}>
-                                <Link to={propertyURL} className="listing-gallery">
-                                    {" "}
-                                    <i className="fas fa-camera" />{" "}
-                                </Link>
-                            </OverlayTrigger>
+
                         </div>
                     </div>
                 </div>

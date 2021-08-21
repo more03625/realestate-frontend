@@ -224,6 +224,11 @@ Version: 1.0.0
   justify-content: center;
   width: 100%;
 }
+.removeListStyleNone > ol,
+.removeListStyleNone > ul {
+  list-style: auto;
+}
+
 a,
 abbr,
 acronym,

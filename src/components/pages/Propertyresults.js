@@ -19,6 +19,7 @@ const Propertyresults = () => {
     var subCategoryName = queryParams.get("sub_category");
     var suburbs = queryParams.get("suburbs");
 
+
     const [searchResults, setSearchResults] = useState([]);
     const [totalResults, setTotalResults] = useState();
     const [offset, setOffset] = useState(0)

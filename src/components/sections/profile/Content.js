@@ -5,7 +5,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { successToast, errorToast, Endpoints, Host, getUserToken } from "../../../helper/comman_helper";
 
-const Content = ({ userData, handleCallBack, runUseEffect }) => {
+const Content = ({ userData, handleCallBack, runUseEffect, profileImage, setProfileImage, setIsImageChanged, isImageChanged }) => {
 
   const successStyle = {
     color: '#28a745',
@@ -24,7 +24,7 @@ const Content = ({ userData, handleCallBack, runUseEffect }) => {
   const [aboutMe, setAboutMe] = useState(
     getUserToken().data.about_me !== null ? getUserToken().data.about_me : ""
   );
-  const [profileImage, setProfileImage] = useState("");
+
   const [updateProfileStatus, setUpdateProfileStatus] = useState(false);
 
   const [fullNameError, setFullNameError] = useState("");
@@ -128,7 +128,10 @@ const Content = ({ userData, handleCallBack, runUseEffect }) => {
     const file = e.target.files[0];
     setProfileImageMessage(`${file.name} has been selected!`);
     const base64Image = await convertToBase64(file);
+    handleCallBack(!runUseEffect);
+    setIsImageChanged(!isImageChanged)
     setProfileImage(base64Image);
+
   }
   function updateProfile(event) {
     setLoadingButton(true);

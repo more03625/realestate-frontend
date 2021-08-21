@@ -24,7 +24,6 @@ const ResetPassword = React.lazy(() =>
   import("./components/pages/ResetPassword")
 );
 
-const Tandc = React.lazy(() => import("./components/pages/Tandc"));
 const Privacypolicy = React.lazy(() =>
   import("./components/pages/Privacypolicy")
 );
@@ -141,8 +140,11 @@ function App() {
             <LoggedInProtected component={ResetPassword} />
           </Route>
 
-          <Route path="/terms-and-conditions" component={Tandc} />
+          <Route path="/terms-and-conditions" component={Privacypolicy} />
           <Route path="/privacy-policy" component={Privacypolicy} />
+          <Route path="/rent-agreement" component={Privacypolicy} />
+          <Route path="/disclaimers" component={Privacypolicy} />
+          <Route path="/user-agreement" component={Privacypolicy} />
 
           {/* RAHUL */}
           {/* Homepages */}
