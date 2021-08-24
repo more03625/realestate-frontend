@@ -99,7 +99,7 @@ const Content = ({ userData }) => {
               myProperties && myProperties.slice(0, 4).map((item, i) => (
                 <div key={i} className="listing listing-list">
                   <div className="listing-thumbnail">
-                    <Link to={`/property/${convertToSlug(item.title)}/${item.id}`}>
+                    <Link to={`/property/${convertToSlug(item.title)}/${item.id}?isadmin=1`}>
                       <img
                         src={process.env.REACT_APP_CONTENT_URL + item.image + ".jpg"}
                         alt={`image of ${item.title}`}
@@ -176,7 +176,7 @@ const Content = ({ userData }) => {
                     </div>
                     <h5 className="listing-title">
                       {" "}
-                      <Link to={`/property/${convertToSlug(item.title)}/${item.id}`} title={item.title}>
+                      <Link to={`/property/${convertToSlug(item.title)}/${item.id}?isadmin=1`} title={item.title}>
                         {item.title}
                       </Link>{" "}
                     </h5>
@@ -215,13 +215,13 @@ const Content = ({ userData }) => {
                     </div>
                     <div className="listing-gallery-wrapper">
                       <Link
-                        to={`/property/${convertToSlug(item.title)}/${item.id}`}
+                        to={`/property/${convertToSlug(item.title)}/${item.id}?isadmin=1`}
                         className="btn-custom btn-sm secondary"
                       >
                         View Details
                       </Link>
                       <OverlayTrigger overlay={gallerytip}>
-                        <Link to={`/property/${convertToSlug(item.title)}/${item.id}`} className="listing-gallery">
+                        <Link to={`/property/${convertToSlug(item.title)}/${item.id}?isadmin=1`} className="listing-gallery">
                           {" "}
                           <i className="fas fa-camera" />{" "}
                         </Link>

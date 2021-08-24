@@ -6,7 +6,7 @@ const ctablock = [
         id: 1,
         icon: 'sales-agent',
         title: 'Buying a Home?',
-        text: "Get properties related news and alerts by subscribing us",
+        text: "Get properties related news and alerts Just by subscribing us",
         link: "/subscribe-for-alerts",
         linkText: "Subscribe for alerts"
     },

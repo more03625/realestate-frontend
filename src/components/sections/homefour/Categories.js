@@ -4,6 +4,7 @@ import { type } from '../../../data/category.json'
 import { Collapse, Button, Modal, Tabs, Tab } from "react-bootstrap";
 import Axios from 'axios';
 import { Endpoints, Host, lowercaseFirstLetter } from '../../../helper/comman_helper';
+import listing from "../../../data/typedata.json";
 
 const Categories = () => {
     const [value, setValue] = useState();
@@ -35,13 +36,14 @@ const Categories = () => {
         getSubCategories(categoryID)
     }
     useEffect(() => {
-        getCategories();
-        getSubCategories();
+        // getCategories();
+        // getSubCategories();
     }, []);
     return (
         <div className="section section-padding">
             <div className="container">
-                <div className="section-title-wrap section-header"><h5 className="custom-primary">Categories</h5><h2 className="title">Browse By Category</h2></div>
+                {/*
+            <div className="section-title-wrap section-header"><h5 className="custom-primary">Categories</h5><h2 className="title">Browse By Category</h2></div>
                 <Tabs className="justify-content-center" defaultActiveKey={categories && categories[0] && categories[0].id} onSelect={(e) => handleSelect(e)} id="uncontrolled-tab-example" >
                     {categories &&
                         categories.map((value, index) => (
@@ -67,9 +69,8 @@ const Categories = () => {
                             </Tab>
                         ))
                     }
-
                 </Tabs>
-
+*/}
                 {/*
                     <div className="section-title-wrap section-header">
                         <h5 className="custom-primary">Categories</h5>
@@ -92,7 +93,27 @@ const Categories = () => {
                         ))}
                     </div>
                     */}
+                <div className="row">
+                    {/* Listing Start */}
+                    {listing.slice(0, 3).map((item, i) => (
+                        <div key={i} className="col-lg-4">
+                            <div className="listing">
+                                <div className="listing-thumbnail">
+                                    <Link to="#"><img src={process.env.PUBLIC_URL + "/" + item.gridimg} alt="listing" /></Link>
+
+                                </div>
+                                <div className="listing-body text-center">
+                                    <h5 className="listing-title"> <Link to="#" title={item.title}>{item.title}</Link> </h5>
+                                    <p className="listing-text"><b>{item.description}</b></p>
+                                    <Link to={item.link}><p className="listing-text linkc">{item.linkText}</p></Link>
+                                </div>
+                            </div>
+                        </div>
+                    ))}
+                    {/* Listing End */}
+                </div>
             </div>
+
         </div>
     );
 }

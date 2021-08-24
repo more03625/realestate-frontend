@@ -18,9 +18,10 @@ const Listingdetailsone = () => {
     const [propertyDetails, setPropertyDetails] = useState(null);
     const [coordinates, setCoordinates] = useState({ 'lat': null, "lang": null });
 
-
+    const queryParams = new URLSearchParams(window.location.search);
+    var isAdmin = queryParams.get("isadmin");
     const getPropertyDetails = async () => {
-        var url = Host + Endpoints.getPropertyDetails + propertyID;
+        var url = Host + Endpoints.getPropertyDetails + propertyID + "&isadmin=" + isAdmin;
         const response = await Axios.get(url);
         if (response.data.error !== true) {
 

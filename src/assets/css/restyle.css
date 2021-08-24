@@ -175,18 +175,18 @@
   border-radius: 5px;
 }
 /* Chrome, Safari, Edge, Opera */
-input::-webkit-outer-spin-button,
+/* input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
-}
+} */
 
 /* Firefox */
-input[type="number"] {
+/* input[type="number"] {
   -moz-appearance: textfield;
-}
+} */
 
-input[type="number"]::placeholder {
+/* input[type="number"]::placeholder {
   /* Firefox, Chrome, Opera */
-  text-align: center;
-}
+/* text-align: center; */
+/* }  */

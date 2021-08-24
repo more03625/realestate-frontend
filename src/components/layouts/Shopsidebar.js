@@ -17,7 +17,8 @@ import Axios from "axios";
 // import Rent from "../sections/filters/Rent.js";
 // import Sold from "../sections/filters/Sold.js";
 // import Keywordsearchbar from "../sections/filters/Keywordsearchbar";
-const Shopsidebar = ({ parentCallback }) => {
+const Shopsidebar = ({ parentCallback, setSelectedFilters, loadingButton }) => {
+  console.log(loadingButton)
   // console.log(locationlist);
   const [open, setOpen] = useState(true);
   const [open2, setOpen2] = useState(true);
@@ -44,7 +45,7 @@ const Shopsidebar = ({ parentCallback }) => {
   const [formData, setFormData] = useState();
   const [formName, setFormName] = useState('buy');
 
-  const [loadingButton, setLoadingButton] = useState(false);
+
 
   const location = useLocation();
   function handleModal() {
@@ -101,34 +102,26 @@ const Shopsidebar = ({ parentCallback }) => {
     });
   };
   const [loadMore, setLoadMore] = useState(2); // limit 
-  const [offset, setOffset] = useState(0)
-  const filter = (e) => {
-    setLoadingButton(true);
-    e.preventDefault();
+  const [offset, setOffset] = useState(0);
+  const queryParams = new URLSearchParams(window.location.search);
+  var subCategoryID = queryParams.get("subcategory_id");
+  var property_type = queryParams.get("property_type");
 
+  const filter = (e) => { // Normal Filter
+    e.preventDefault();
     var data = {
-      "property_type": filterPropertyType,
+      "property_type": filterPropertyType === null ? property_type : filterPropertyType,
       "category": filterCategory !== null ? filterCategory.toString() : filterCategory,
       "state": filterState,
       "min_price": minFilterPrice,
       "max_price": maxFilterPrice,
       "min_bedroom": filterBeds,
       "min_bathrooms": filterBathrooms,
-      "subcategory": filterSubCategories !== null ? filterSubCategories.toString() : filterSubCategories,
-      "limit": loadMore,
+      "subcategory": filterSubCategories !== null ? filterSubCategories.toString() : filterSubCategories === null ? subCategoryID : filterSubCategories,
       "offset": offset
     }
 
-    var filterURL = Host + Endpoints.getPropertiesWithFilters;
-    Axios.post(filterURL, data)
-      .then((response) => {
-        setLoadingButton(false);
-        parentCallback(response.data.data.properties);
-      })
-      .catch((error) => {
-        console.log(error)
-        setLoadingButton(false);
-      })
+    setSelectedFilters(data);
 
   };
 
@@ -184,7 +177,7 @@ const Shopsidebar = ({ parentCallback }) => {
       document.getElementsByClassName("filter_form")[i].reset();
     }
   }
-  const onSubmit = (e) => {
+  const onSubmit = (e) => { // Advanced Filters
 
     Object.assign(filterData, { 'subcategory': '' }, { 'indoor_features': '' },
       { 'outdoor_features': '' }, { 'climate_features': '' }, { 'property_type': '' }
@@ -193,17 +186,20 @@ const Shopsidebar = ({ parentCallback }) => {
     var data = Object.assign(filterData, { 'subcategory': selectedM !== null ? selectedM.toString() : selectedM }, { 'indoor_features': selectedIndoorFeatures !== null ? selectedIndoorFeatures.toString() : selectedIndoorFeatures },
       { 'outdoor_features': selectedOutdoorFeatures.toString() }, { 'climate_features': selectedClimateFeatures !== null ? selectedClimateFeatures.toString() : selectedClimateFeatures }, { 'property_type': formName }
     );
-    var url = Host + Endpoints.getPropertiesWithFilters;
-    Axios.post(url, data)
-      .then((response) => {
+    setSelectedFilters(data);
+    handleModal();
 
-        parentCallback(response.data.data.properties);
-        handleModal();
+    // var url = Host + Endpoints.getPropertiesWithFilters;
+    // Axios.post(url, data)
+    //   .then((response) => {
 
-      })
-      .catch((error) => {
-        console.log(error)
-      })
+    //     parentCallback(response.data.data.properties);
+    //     handleModal();
+
+    //   })
+    //   .catch((error) => {
+    //     console.log(error)
+    //   })
 
   }
   const handleSelect = (e) => {
@@ -1321,6 +1317,7 @@ const Shopsidebar = ({ parentCallback }) => {
                   type="submit"
                   className="filter-btn btn-block btn-custom"
                   style={{ backgroundColor: "#007bff" }}
+                  disabled={loadingButton}
                 >
                   Apply filters
                   {loadingButton === true ?

@@ -19,12 +19,23 @@ const Propertyresults = () => {
     var subCategoryName = queryParams.get("sub_category");
     var suburbs = queryParams.get("suburbs");
 
-
     const [searchResults, setSearchResults] = useState([]);
     const [totalResults, setTotalResults] = useState();
     const [offset, setOffset] = useState(0)
     const [loadNext, setLoadNext] = useState();
-    const getSearchResults = () => {
+
+    const [selectedFilters, setSelectedFilters] = useState();
+    const [loadingButton, setLoadingButton] = useState(false);
+    const cleanObject = (obj) => {
+        for (var propName in obj) {
+            if (obj[propName] === null || obj[propName] === undefined || obj[propName] === "") {
+                delete obj[propName];
+            }
+        }
+        return obj
+    }
+    const getSearchResults = async () => {
+        setLoadingButton(true);
         console.log('getSearchResults Calling...')
         var searchURL = Host + Endpoints.getPropertiesWithFilters;
         var data = {
@@ -39,8 +50,13 @@ const Propertyresults = () => {
             "limit": 15,
             "offset": offset
         }
-        Axios.post(searchURL, data)
+        let newData = Object.assign(data, selectedFilters);
+
+        var cleanerObject = await cleanObject(newData);
+
+        Axios.post(searchURL, cleanerObject)
             .then((response) => {
+                setLoadingButton(false);
                 if (response.data.error === true) {
                     console.log('There are some errors!');
                 } else {
@@ -48,12 +64,14 @@ const Propertyresults = () => {
                     setTotalResults(response.data.data.total)
                     setSearchResults(response.data.data.properties);
                 }
+            }).catch(() => {
+                setLoadingButton(false);
             })
     }
     useEffect(() => {
-        window.scrollTo(0, 0);
+        // window.scrollTo(0, 0);
         getSearchResults();
-    }, [loadNext]);
+    }, [loadNext, selectedFilters]);
 
 
     const handleCallback = (childData) => {
@@ -72,7 +90,20 @@ const Propertyresults = () => {
             <Header />
             <Breadcrumb breadcrumb={{ pagename: 'Results for properties' }} />
 
-            <Content propertyType={property_type} searchQuery={search} searchResults={searchResults} parentCallback={handleCallback} subCategoryName={subCategoryName} subCategoryID={subCategoryID} totalResults={totalResults} offset={offset} setOffset={setOffset} setLoadNext={setLoadNext} />
+            <Content
+                propertyType={property_type}
+                searchQuery={search}
+                searchResults={searchResults}
+                parentCallback={handleCallback}
+                subCategoryName={subCategoryName}
+                subCategoryID={subCategoryID}
+                totalResults={totalResults}
+                offset={offset}
+                setOffset={setOffset}
+                setLoadNext={setLoadNext}
+                setSelectedFilters={setSelectedFilters}
+                loadingButton={loadingButton}
+            />
             <Footer />
         </Fragment>
 

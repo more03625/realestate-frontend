@@ -1224,7 +1224,9 @@ textarea {
 .btn-link i {
   margin-left: 10px;
 }
-
+.linkc {
+  color: #004592;
+}
 .btn.icon-behind i,
 .btn-link.icon-behind i {
   margin-right: 10px;

@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { OverlayTrigger, Tooltip, Dropdown, NavLink } from "react-bootstrap";
-import listing from "../../../data/listings.json";
 import Axios from 'axios';
 import { openInGmail, saveProperty, Endpoints, Host, convertToSlug, uppercaseFirstLetter } from "../../../helper/comman_helper";
 
@@ -11,7 +10,7 @@ const Recentlisting = () => {
   const [recentProperties, setRecentProperties] = useState([]);
 
   const getRecentProperties = () => {
-    var url = Host + Endpoints.getRecentProperties;
+    var url = Host + Endpoints.getRecentProperties + "?type=" + window.location.pathname.split("/")[1];;
     Axios.get(url).then((response) => {
       if (response.data.error === true) {
         alert(response.data.title);
@@ -34,7 +33,7 @@ const Recentlisting = () => {
         <div className="section-title-wrap section-header flex-header">
           <div className="section-title-text">
             <h5 className="custom-primary">Find Your Home</h5>
-            <h2 className="title">Recent Listings</h2>
+            <h2 className="title">Recent Listings in <span style={{ color: "rgb(0, 69, 146)" }}>{uppercaseFirstLetter(window.location.pathname.split("/")[1])}</span></h2>
           </div>
           <Link to="/property-results?property_type=buy" className="btn-custom">
             View All
@@ -198,6 +197,8 @@ const Recentlisting = () => {
           ))}
           {/* Listing End */}
         </div>
+
+
       </div>
     </div>
   );

@@ -10,9 +10,27 @@ import Contactform from './Contactform';
 import Blockcta from '../../layouts/Blockcta';
 import { Host, Endpoints } from '../../../helper/comman_helper';
 import Axios from 'axios';
+import Latestblog from './Latestblog';
+
 const Content = () => {
 
     const [subCategoriesWithCount, setSubCategoriesWithCount] = useState([]);
+    const [recentNews, setRecentNews] = useState([]);
+
+
+    function getRecentNews() {
+        var url = Host + Endpoints.getRecentNews + "?type=" + window.location.pathname.split("/")[1];
+        Axios.get(url)
+            .then((response) => {
+                console.log(response.data);
+                if (response.data.error === false) {
+                    setRecentNews(response.data.data); //object
+                }
+            })
+            .catch((errors) => {
+                console.log(errors);
+            });
+    }
 
     const getSubCategories = (categoryID = 1) => {
         var url = Host + Endpoints.getPropertyCounts + categoryID;
@@ -25,6 +43,7 @@ const Content = () => {
         });
     }
     useEffect(() => {
+        getRecentNews();
         getSubCategories();
     }, [])
     return (
@@ -35,13 +54,17 @@ const Content = () => {
             <div className="section section-padding pt-0">
                 <Blockcta />
             </div>
-            <Findhome categories={subCategoriesWithCount} />
-            <Services />
+            <Latestblog recentNews={recentNews} />
+            {/*<Findhome categories={subCategoriesWithCount} />*/}
+            {/*<Services />*/}
             <Recentlistings />
-            <Whyus />
+            {/* <Whyus />
             <div className="section pt-0">
                 <Bluecta />
             </div>
+            */}
+
+
             <Contactform />
         </Fragment>
     );

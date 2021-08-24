@@ -1,0 +1,26 @@
+[
+    {
+        "id": 1,
+        "gridimg": "assets/img/listings/1.jpg",
+        "title": "Need to find a tenant?",
+        "description": "Advertise your place for rent We can help you.",
+        "link" : "",
+        "linkText":"Advertise your Properties"
+    },
+    {
+        "id": 2,
+        "gridimg": "assets/img/listings/1.jpg",
+        "title": "Find a Rental",
+        "description": "Find a place on Nepal’s biggest rental website.",
+        "link" : "",
+        "linkText":"Start Searching!"
+    },
+    {
+        "id": 3,
+        "gridimg": "assets/img/listings/1.jpg",
+        "title": "Find a Flatmate",
+        "description": "Find a place on Nepal’s biggest rental website.",
+        "link" : "",
+        "linkText":"Start Searching!"
+    }
+]

@@ -15,7 +15,7 @@ const bedstip = <Tooltip>Beds</Tooltip>;
 const bathstip = <Tooltip>Bathrooms</Tooltip>;
 const areatip = <Tooltip>Ropani-Aana-Paisa-Daam</Tooltip>;
 
-const Content = ({ propertyType, searchQuery, searchResults, parentCallback, subCategoryName, subCategoryID, totalResults, offset, setOffset, setLoadNext }) => {
+const Content = ({ propertyType, searchQuery, searchResults, parentCallback, subCategoryName, subCategoryID, totalResults, offset, setOffset, setLoadNext, setSelectedFilters, loadingButton }) => {
     const [currentPage, setCurrentPage] = useState(1);
     const [itemsPerPage, setItemsPerPage] = useState(25);
     const [loading, setLoading] = useState(false);
@@ -231,7 +231,7 @@ const Content = ({ propertyType, searchQuery, searchResults, parentCallback, sub
                 <div className="row">
                     {/* Sidebar Start */}
                     <div className="col-lg-4">
-                        <Sidebar parentCallback={parentCallback} />
+                        <Sidebar parentCallback={parentCallback} setSelectedFilters={setSelectedFilters} loadingButton={loadingButton} />
                     </div>
                     {/* Sidebar End */}
                     {/* Posts Start */}
