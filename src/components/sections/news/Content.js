@@ -12,7 +12,6 @@ const Content = ({ recentNews }) => {
     var url = Host + Endpoints.getNews;
     Axios.post(url)
       .then((response) => {
-        console.log(response.data);
         if (response.data.error === false) {
           setItems(response.data.data); //object
         } else {
@@ -26,28 +25,22 @@ const Content = ({ recentNews }) => {
     getNews();
   }, []);
   const [items, setItems] = useState([]);
-  console.log(items);
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(5);
   const [loading, setLoading] = useState(false);
 
   const handleClick = (event) => {
     var paginationContent = event.target.closest(".pagination-content");
-
     if (paginationContent) {
-      console.log(paginationContent);
       paginationContent.scrollIntoView();
     }
-
     setLoading(true);
-
     setTimeout(() => {
       setCurrentPage(Number(event.target.getAttribute("data-page")));
       setLoading(false);
     }, 2000);
   };
-  //   handleClick = handleClick.bind(this);
-
+  // handleClick = handleClick.bind(this);
   // Logic for displaying items
   const indexOfLastitem = currentPage * itemsPerPage;
   const indexOfFirstitem = indexOfLastitem - itemsPerPage;

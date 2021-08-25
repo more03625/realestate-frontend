@@ -39,16 +39,14 @@ export const Searchoptions = () => {
     }
 
     const hideOptions = (e) => {
-        console.log(e.target.value)
-        if (e.target.value == 4) {
 
+        if (e.target.value == 4) {
             for (var i = 0; i < 2; i++) {
                 console.log("In IF")
 
                 document.getElementsByClassName("hideBeds")[i].classList.add("d-none");
             }
         } else {
-            console.log("In Else")
             for (var i = 0; i < 2; i++) {
                 document.getElementsByClassName("hideBeds")[i].classList.remove("d-none");
             }
@@ -96,7 +94,7 @@ export const Searchoptions = () => {
             </div>
             <div className="hideif col-lg-2 col-md-6 col-6 showInputArea d-none">
                 <div className="form-group acr-custom-select">
-                    <input type="number" name="area_size" tabindex="4" class="searBarInput rui-input" min="0" max="999999" placeholder="Enter Size" />
+                    <input type="number" name="area_size" tabIndex="4" className="searBarInput rui-input" min="0" max="999999" placeholder="Enter Size" />
                 </div>
             </div>
             <div className=" col-lg-2 col-md-6 col-6 hideBeds">

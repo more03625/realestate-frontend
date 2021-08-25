@@ -22,8 +22,8 @@ const Content = () => {
         var url = Host + Endpoints.getRecentNews + "?type=" + window.location.pathname.split("/")[1];
         Axios.get(url)
             .then((response) => {
-                console.log(response.data);
                 if (response.data.error === false) {
+
                     setRecentNews(response.data.data); //object
                 }
             })
@@ -54,7 +54,10 @@ const Content = () => {
             <div className="section section-padding pt-0">
                 <Blockcta />
             </div>
-            <Latestblog recentNews={recentNews} />
+            {
+                recentNews.length > 0 ? <Latestblog recentNews={recentNews} /> : ''
+            }
+
             {/*<Findhome categories={subCategoriesWithCount} />*/}
             {/*<Services />*/}
             <Recentlistings />

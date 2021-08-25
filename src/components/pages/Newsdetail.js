@@ -42,16 +42,16 @@ const Newsdetail = () => {
       });
   }
   useEffect(() => {
-    window.scrollTo(0, 0);
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth"
+    });
     getNewsDetails();
     getRecentNews();
   }, [newsID]);
 
 
   return (
-
-
-
     <Fragment>
       <MetaTags>
         <title>

@@ -26,6 +26,7 @@ const Propertyresults = () => {
 
     const [selectedFilters, setSelectedFilters] = useState();
     const [loadingButton, setLoadingButton] = useState(false);
+
     const cleanObject = (obj) => {
         for (var propName in obj) {
             if (obj[propName] === null || obj[propName] === undefined || obj[propName] === "") {
@@ -36,7 +37,7 @@ const Propertyresults = () => {
     }
     const getSearchResults = async () => {
         setLoadingButton(true);
-        console.log('getSearchResults Calling...')
+
         var searchURL = Host + Endpoints.getPropertiesWithFilters;
         var data = {
             "search": search,
@@ -47,10 +48,10 @@ const Propertyresults = () => {
             "min_price": minPrice,
             "max_price": maxPrice,
             "suburbs": suburbs,
-            "limit": 15,
+            "limit": 2,
             "offset": offset
         }
-        let newData = Object.assign(data, selectedFilters);
+        let newData = Object.assign(data, selectedFilters); // Merge 2 Objects
 
         var cleanerObject = await cleanObject(newData);
 
@@ -60,7 +61,6 @@ const Propertyresults = () => {
                 if (response.data.error === true) {
                     console.log('There are some errors!');
                 } else {
-                    console.log(response.data.data)
                     setTotalResults(response.data.data.total)
                     setSearchResults(response.data.data.properties);
                 }
@@ -69,9 +69,13 @@ const Propertyresults = () => {
             })
     }
     useEffect(() => {
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+        });
         // window.scrollTo(0, 0);
         getSearchResults();
-    }, [loadNext, selectedFilters]);
+    }, [offset, selectedFilters]);
 
 
     const handleCallback = (childData) => {

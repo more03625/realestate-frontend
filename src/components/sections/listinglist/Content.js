@@ -31,10 +31,6 @@ const Content = ({ properties, searchResults, parentCallback }) => {
     setStates(result.data.data);
   };
 
-  useEffect((event) => {
-    getStates();
-  }, []);
-
   const handleClick = (event) => {
     var paginationContent = event.target.closest(".pagination-content");
 
@@ -48,7 +44,9 @@ const Content = ({ properties, searchResults, parentCallback }) => {
       setLoading(false);
     }, 2000);
   };
-
+  useEffect((event) => {
+    getStates();
+  }, []);
   // Logic for displaying items
   const indexOfLastitem = currentPage * itemsPerPage;
   const indexOfFirstitem = indexOfLastitem - itemsPerPage;

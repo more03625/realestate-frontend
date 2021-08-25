@@ -20,7 +20,7 @@ const Listinglist = () => {
             setProperties(response.data.data.properties);
         }).catch((error) => {
             console.log(error);
-        })
+        });
     }
     useEffect((event) => {
         getCategories();

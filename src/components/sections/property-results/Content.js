@@ -17,12 +17,12 @@ const areatip = <Tooltip>Ropani-Aana-Paisa-Daam</Tooltip>;
 
 const Content = ({ propertyType, searchQuery, searchResults, parentCallback, subCategoryName, subCategoryID, totalResults, offset, setOffset, setLoadNext, setSelectedFilters, loadingButton }) => {
     const [currentPage, setCurrentPage] = useState(1);
-    const [itemsPerPage, setItemsPerPage] = useState(25);
+    const [itemsPerPage, setItemsPerPage] = useState(2);
     const [loading, setLoading] = useState(false);
 
     const handleClick = (event) => {
         // setOffset();
-        setLoadNext(offset + 1)
+        setOffset(offset + 1)
         var paginationContent = event.target.closest(".pagination-content");
 
         if (paginationContent) {
@@ -37,14 +37,14 @@ const Content = ({ propertyType, searchQuery, searchResults, parentCallback, sub
     };
 
     // Logic for displaying items
-    const indexOfLastitem = currentPage * itemsPerPage; //5 * 2 = 10
-    const indexOfFirstitem = indexOfLastitem - itemsPerPage; //10 - 2 = 8
-    // console.log(indexOfLastitem + " :indexOfLastitem");
-    // console.log(indexOfFirstitem + " :indexOfFirstitem");
+    const indexOfLastitem = currentPage * itemsPerPage;
+    const indexOfFirstitem = indexOfLastitem - itemsPerPage;
+
     const currentitems = searchResults !== undefined || searchResults !== null ? searchResults.slice(indexOfFirstitem, indexOfLastitem) : [];
 
     var renderitems = [];
-    if (currentitems.length !== 0) {
+    // before totalResults i have this condition: currentitems.length !== 0 
+    if (currentitems.length !== 0 && totalResults !== 0) {
         var renderitems = currentitems && currentitems.map((item, i) => {
             var propertyURL = "property" + "/" + convertToSlug(item.title) + "/" + item.id;
 
@@ -203,7 +203,7 @@ const Content = ({ propertyType, searchQuery, searchResults, parentCallback, sub
     for (let i = 1; i <= Math.ceil(totalResults / itemsPerPage); i++) {
         pageNumbers.push(i);
     }
-
+    console.log(pageNumbers);
     const renderPagination = pageNumbers.map((number) => {
         const activeCondition = currentPage === number ? "active" : "";
         return (

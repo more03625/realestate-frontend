@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import ReactHtmlParser, { processNodes, convertNodeToElement, htmlparser2 } from 'react-html-parser';
 import { convertToSlug, uppercaseFirstLetter } from '../../../helper/comman_helper';
 const Latestblog = ({ recentNews }) => {
-    console.log(recentNews)
     return (
         <div className="section section-padding light-bg">
             <div className="container">
@@ -14,7 +13,7 @@ const Latestblog = ({ recentNews }) => {
                 <div className="row">
                     {
                         recentNews.slice(0, 4).map((value, index) => (
-                            <div className="col-lg-6">
+                            <div className="col-lg-6" key={index}>
                                 <article className="post post-list">
                                     <div className="post-thumbnail" style={{ width: "186.25px", height: "186.25px" }}>
                                         <Link to={`/read/news/${convertToSlug(value.title)}/${value.id}`}><img src={process.env.REACT_APP_CONTENT_URL + value.image + ".jpg"} alt="blog post" /></Link>

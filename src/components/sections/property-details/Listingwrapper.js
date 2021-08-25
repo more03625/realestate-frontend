@@ -307,7 +307,10 @@ const Listingwrapper = ({ propertyDetails, coordinates }) => {
     }
 
     useEffect(() => {
-        window.scrollTo(0, 0);
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+        });
         getRecentProperties();
         setNav1(slider1);
         setNav2(slider2);

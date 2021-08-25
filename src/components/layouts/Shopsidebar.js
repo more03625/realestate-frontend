@@ -18,7 +18,7 @@ import Axios from "axios";
 // import Sold from "../sections/filters/Sold.js";
 // import Keywordsearchbar from "../sections/filters/Keywordsearchbar";
 const Shopsidebar = ({ parentCallback, setSelectedFilters, loadingButton }) => {
-  console.log(loadingButton)
+
   // console.log(locationlist);
   const [open, setOpen] = useState(true);
   const [open2, setOpen2] = useState(true);
@@ -182,24 +182,12 @@ const Shopsidebar = ({ parentCallback, setSelectedFilters, loadingButton }) => {
     Object.assign(filterData, { 'subcategory': '' }, { 'indoor_features': '' },
       { 'outdoor_features': '' }, { 'climate_features': '' }, { 'property_type': '' }
     );
-
-    var data = Object.assign(filterData, { 'subcategory': selectedM !== null ? selectedM.toString() : selectedM }, { 'indoor_features': selectedIndoorFeatures !== null ? selectedIndoorFeatures.toString() : selectedIndoorFeatures },
+    console.log("This is from RAHUL MORE: ")
+    var data = Object.assign(filterData, { 'subcategory': selectedM.length !== 0 ? selectedM.toString() : subCategoryID }, { 'indoor_features': selectedIndoorFeatures !== null ? selectedIndoorFeatures.toString() : selectedIndoorFeatures },
       { 'outdoor_features': selectedOutdoorFeatures.toString() }, { 'climate_features': selectedClimateFeatures !== null ? selectedClimateFeatures.toString() : selectedClimateFeatures }, { 'property_type': formName }
     );
     setSelectedFilters(data);
     handleModal();
-
-    // var url = Host + Endpoints.getPropertiesWithFilters;
-    // Axios.post(url, data)
-    //   .then((response) => {
-
-    //     parentCallback(response.data.data.properties);
-    //     handleModal();
-
-    //   })
-    //   .catch((error) => {
-    //     console.log(error)
-    //   })
 
   }
   const handleSelect = (e) => {
