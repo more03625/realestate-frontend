@@ -3,20 +3,16 @@ import React, { useState, Fragment, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { OverlayTrigger, Tooltip, Dropdown, NavLink } from "react-bootstrap";
 import Sidebar from "../../layouts/Shopsidebar";
-import listing from "../../../data/listings.json";
 import classNames from "classnames";
 import Loader from "../../layouts/Loader";
-import Axios from "axios";
 import { Host, convertToSlug, openInGmail, uppercaseFirstLetter, saveProperty } from "../../../helper/comman_helper";
 import { Noresults } from '../../layouts/Noresults';
-import { findAllInRenderedTree } from "react-dom/test-utils";
 
-const gallerytip = <Tooltip>Gallery</Tooltip>;
 const bedstip = <Tooltip>Beds</Tooltip>;
 const bathstip = <Tooltip>Bathrooms</Tooltip>;
 const areatip = <Tooltip>Ropani-Aana-Paisa-Daam</Tooltip>;
 
-const Content = ({ propertyType, searchQuery, searchResults, parentCallback, subCategoryName, subCategoryID, totalResults, offset, setOffset, setLoadNext, setSelectedFilters, loadingButton }) => {
+const Content = ({ propertyType, searchQuery, searchResults, subCategoryName, subCategoryID, totalResults, offset, setOffset, setSelectedFilters, loadingButton }) => {
     const [currentPage, setCurrentPage] = useState(1);
     const [itemsPerPage, setItemsPerPage] = useState(2);
     const [loading, setLoading] = useState(false);
@@ -46,10 +42,6 @@ const Content = ({ propertyType, searchQuery, searchResults, parentCallback, sub
         }
     };
 
-    // Logic for displaying items
-    const indexOfLastitem = currentPage * itemsPerPage;
-    const indexOfFirstitem = indexOfLastitem - itemsPerPage;
-
     let currentitems;
     if (totalResults == 0) {
         currentitems = [];
@@ -57,7 +49,6 @@ const Content = ({ propertyType, searchQuery, searchResults, parentCallback, sub
         currentitems = searchResults
     }
 
-    // console.log(totalResults + ": totalResults");
 
     var renderitems = [];
     // before totalResults i have this condition: currentitems.length !== 0
@@ -66,7 +57,6 @@ const Content = ({ propertyType, searchQuery, searchResults, parentCallback, sub
     if (currentitems.length !== 0 && totalResults !== 0) {
         var renderitems = currentitems && currentitems.map((item, i) => {
             var propertyURL = "property" + "/" + convertToSlug(item.title) + "/" + item.id;
-
             return (
                 <div key={i} className="listing listing-list">
                     <div className="listing-thumbnail">
@@ -216,9 +206,7 @@ const Content = ({ propertyType, searchQuery, searchResults, parentCallback, sub
         var renderitems = <Noresults />;
     }
 
-
     // Logic for displaying page numbers
-
     const pageNumbers = [];
 
     for (let i = 1; i <= Math.ceil(totalResults / itemsPerPage); i++) {
@@ -252,7 +240,7 @@ const Content = ({ propertyType, searchQuery, searchResults, parentCallback, sub
                 <div className="row">
                     {/* Sidebar Start */}
                     <div className="col-lg-4">
-                        <Sidebar parentCallback={parentCallback} setSelectedFilters={setSelectedFilters} loadingButton={loadingButton} />
+                        <Sidebar setSelectedFilters={setSelectedFilters} loadingButton={loadingButton} />
                     </div>
                     {/* Sidebar End */}
                     {/* Posts Start */}

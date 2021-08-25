@@ -56,7 +56,7 @@ export const lowercaseFirstLetter = (string) => {
     return string[0].toLowerCase() + string.slice(1);
 }
 export const saveProperty = (propertyID) => {
-    alert(`Ok, i will save this property if you are logged in. number is ${propertyID}`);
+    alert(`Ok, i will save this property if you are logged in. PropertyID is ${propertyID}`);
 }
 
 export const convertToSlug = (blogTitle) => {

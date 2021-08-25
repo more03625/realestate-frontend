@@ -17,9 +17,9 @@ import Axios from "axios";
 // import Rent from "../sections/filters/Rent.js";
 // import Sold from "../sections/filters/Sold.js";
 // import Keywordsearchbar from "../sections/filters/Keywordsearchbar";
-const Shopsidebar = ({ parentCallback, setSelectedFilters, loadingButton }) => {
+const Shopsidebar = ({ setSelectedFilters, loadingButton }) => {
 
-  // console.log(locationlist);
+
   const [open, setOpen] = useState(true);
   const [open2, setOpen2] = useState(true);
   const [open3, setOpen3] = useState(true);
@@ -80,7 +80,6 @@ const Shopsidebar = ({ parentCallback, setSelectedFilters, loadingButton }) => {
 
     if (result.data.error === true) {
       console.log('there are some erros');
-
     } else {
       setSubCategories(result.data.data.categories);
     }
@@ -101,7 +100,6 @@ const Shopsidebar = ({ parentCallback, setSelectedFilters, loadingButton }) => {
       }
     });
   };
-  const [loadMore, setLoadMore] = useState(2); // limit 
   const [offset, setOffset] = useState(0);
   const queryParams = new URLSearchParams(window.location.search);
   var subCategoryID = queryParams.get("subcategory_id");
@@ -120,9 +118,7 @@ const Shopsidebar = ({ parentCallback, setSelectedFilters, loadingButton }) => {
       "subcategory": filterSubCategories !== null ? filterSubCategories.toString() : filterSubCategories === null ? subCategoryID : filterSubCategories,
       "offset": offset
     }
-
     setSelectedFilters(data);
-
   };
 
   const [filterData, setFilterData] = useState([]);
@@ -178,22 +174,27 @@ const Shopsidebar = ({ parentCallback, setSelectedFilters, loadingButton }) => {
     }
   }
   const onSubmit = (e) => { // Advanced Filters
+    handleModal();
 
     Object.assign(filterData, { 'subcategory': '' }, { 'indoor_features': '' },
-      { 'outdoor_features': '' }, { 'climate_features': '' }, { 'property_type': '' }
+      { 'outdoor_features': '' }, { 'climate_features': '' }, { 'property_type': '' }, { 'max_price': '' }, { 'min_price': '' }, { 'build_type': '' }, { 'car_spaces': '' }, { 'is_under_offer': '' }, { 'keywords': '' }, { 'landsize': '' }, { 'max_bedroom': '' }, { 'min_bathrooms': '' }, { 'min_bedroom': '' }, { 'min_price': '' }
     );
-    console.log("This is from RAHUL MORE: ")
-    var data = Object.assign(filterData, { 'subcategory': selectedM.length !== 0 ? selectedM.toString() : subCategoryID }, { 'indoor_features': selectedIndoorFeatures !== null ? selectedIndoorFeatures.toString() : selectedIndoorFeatures },
-      { 'outdoor_features': selectedOutdoorFeatures.toString() }, { 'climate_features': selectedClimateFeatures !== null ? selectedClimateFeatures.toString() : selectedClimateFeatures }, { 'property_type': formName }
+
+    var data = Object.assign(
+      filterData,
+      { 'subcategory': selectedM.length !== 0 ? selectedM.toString() : subCategoryID },
+      { 'indoor_features': selectedIndoorFeatures !== null ? selectedIndoorFeatures.toString() : selectedIndoorFeatures },
+      { 'outdoor_features': selectedOutdoorFeatures.toString() },
+      { 'climate_features': selectedClimateFeatures !== null ? selectedClimateFeatures.toString() : selectedClimateFeatures },
+      { 'property_type': formName }
     );
+
     setSelectedFilters(data);
-    handleModal();
 
   }
   const handleSelect = (e) => {
     setFormName(e)
   }
-
   const getIndoorFeatures = () => {
     var url = Host + Endpoints.getfeatures + "indoor";
     Axios.get(url).then((response) => {
@@ -265,11 +266,11 @@ const Shopsidebar = ({ parentCallback, setSelectedFilters, loadingButton }) => {
                           <input
                             type="checkbox"
                             className="custom-control-input"
-                            id={value.name + " Buy"}
+                            id={value.name + index + " Buy"}
                             onChange={(e) => onChangeSubcategory(value.id)}
                             selected={selectedM.includes(value.id)}
                           />
-                          <label className="custom-control-label" htmlFor={value.name + " Buy"}>
+                          <label className="custom-control-label" htmlFor={value.name + index + " Buy"}>
                             {value.name}
                           </label>
                         </div>
@@ -575,11 +576,11 @@ const Shopsidebar = ({ parentCallback, setSelectedFilters, loadingButton }) => {
                           <input
                             type="checkbox"
                             className="custom-control-input"
-                            id={value.name + " rent"}
+                            id={value.name + index + " rent"}
                             onChange={(e) => onChangeSubcategory(value.id)}
                             selected={selectedM.includes(value.id)}
                           />
-                          <label className="custom-control-label" htmlFor={value.name + " rent"}>
+                          <label className="custom-control-label" htmlFor={value.name + index + " rent"}>
                             {value.name}
                           </label>
                         </div>
@@ -880,11 +881,11 @@ const Shopsidebar = ({ parentCallback, setSelectedFilters, loadingButton }) => {
                           <input
                             type="checkbox"
                             className="custom-control-input"
-                            id={value.name}
+                            id={value.name + index + "sold"}
                             onChange={(e) => onChangeSubcategory(value.id)}
                             selected={selectedM.includes(value.id)}
                           />
-                          <label className="custom-control-label" htmlFor={value.name}>
+                          <label className="custom-control-label" htmlFor={value.name + index + "sold"}>
                             {value.name}
                           </label>
                         </div>

@@ -26,7 +26,7 @@ const Propertyresults = () => {
 
     const [selectedFilters, setSelectedFilters] = useState();
     const [loadingButton, setLoadingButton] = useState(false);
-
+    console.log(selectedFilters)
     const cleanObject = (obj) => {
         for (var propName in obj) {
             if (obj[propName] === null || obj[propName] === undefined || obj[propName] === "") {
@@ -73,9 +73,7 @@ const Propertyresults = () => {
         getSearchResults();
     }, [offset, selectedFilters]);
 
-    const handleCallback = (childData) => {
-        setSearchResults(childData);
-    }
+
 
     return (
         <Fragment>
@@ -93,13 +91,11 @@ const Propertyresults = () => {
                 propertyType={property_type}
                 searchQuery={search}
                 searchResults={searchResults}
-                parentCallback={handleCallback}
                 subCategoryName={subCategoryName}
                 subCategoryID={subCategoryID}
                 totalResults={totalResults}
                 offset={offset}
                 setOffset={setOffset}
-                setLoadNext={setLoadNext}
                 setSelectedFilters={setSelectedFilters}
                 loadingButton={loadingButton}
             />

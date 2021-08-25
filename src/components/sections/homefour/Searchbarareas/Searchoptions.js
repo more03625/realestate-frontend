@@ -68,17 +68,6 @@ export const Searchoptions = () => {
         <>
             <div className="col-lg-2 col-md-6 col-6">
                 <div className="form-group acr-custom-select">
-                    <select className="form-control" id='testSelect1' multiple>
-                        <option type="checkbox" value='House' selected>House</option>
-                        <option type="checkbox" value='unit apartment'>Apartment & Unit</option>
-                        <option type="checkbox" value='Townhouse'>Townhouse</option>
-                        <option type="checkbox" value='Villa'>Villa</option>
-                        <option type="checkbox" value='Land'>Land</option>
-                        <option type="checkbox" value='Acreage'>Acreage</option>
-                        <option type="checkbox" value='Rural'>Rural</option>
-                        <option type="checkbox" value='unitblock'>Block of Units</option>
-                        <option type="checkbox" value='retire'>Retirement Living</option>
-                    </select>
                     <Select2
                         data={optionsData && optionsData.categories}
                         options={{
