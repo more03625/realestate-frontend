@@ -4,7 +4,6 @@ import App from "./App";
 import { BrowserRouter } from "react-router-dom";
 import reportWebVitals from "./reportWebVitals";
 // import { unregister } from './registerServiceWorker';
-
 // Css
 import "../node_modules/animate.css/animate.css"; //yes
 import "../node_modules/bootstrap/dist/css/bootstrap.min.css"; //yes

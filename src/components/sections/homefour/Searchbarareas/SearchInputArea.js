@@ -23,6 +23,7 @@ export const BuyArea = ({ autoRef, setQuery, setButtonClicked }) => {
                     <div className="row">
                         <Searchoptions />
                     </div>
+
                 </form>
             </div>
         </div>

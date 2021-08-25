@@ -23,7 +23,6 @@ export const ActualSearch = () => {
     const [query, setQuery] = useState("");
     const autoCompleteRef = useRef(null);
 
-
     autoComplete = new window.google.maps.places.Autocomplete(autoCompleteRef.current, {});
     var propertyType = window.location.pathname.split("/")[1];
 

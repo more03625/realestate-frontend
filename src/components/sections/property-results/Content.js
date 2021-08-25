@@ -9,6 +9,7 @@ import Loader from "../../layouts/Loader";
 import Axios from "axios";
 import { Host, convertToSlug, openInGmail, uppercaseFirstLetter, saveProperty } from "../../../helper/comman_helper";
 import { Noresults } from '../../layouts/Noresults';
+import { findAllInRenderedTree } from "react-dom/test-utils";
 
 const gallerytip = <Tooltip>Gallery</Tooltip>;
 const bedstip = <Tooltip>Beds</Tooltip>;
@@ -21,29 +22,47 @@ const Content = ({ propertyType, searchQuery, searchResults, parentCallback, sub
     const [loading, setLoading] = useState(false);
 
     const handleClick = (event) => {
-        // setOffset();
-        setOffset(offset + 1)
-        var paginationContent = event.target.closest(".pagination-content");
-
-        if (paginationContent) {
-            console.log(paginationContent);
+        if (event.target.getAttribute("data-action") === 'next') {
+            setOffset(offset + 1)
+            setLoading(true);
+            setTimeout(() => {
+                setCurrentPage(currentPage + 1);
+                setLoading(false);
+            }, 2000);
+        } else if (event.target.getAttribute("data-action") === 'previous') {
+            setOffset(offset - 1)
+            setLoading(true);
+            setTimeout(() => {
+                setCurrentPage(currentPage - 1);
+                setLoading(false);
+            }, 2000);
+        } else {
+            setOffset(Number(event.target.getAttribute("data-page")) - 1);
+            setLoading(true);
+            setTimeout(() => {
+                setCurrentPage(Number(event.target.getAttribute("data-page")));
+                setLoading(false);
+            }, 2000);
         }
-        setLoading(true);
-
-        setTimeout(() => {
-            setCurrentPage(Number(event.target.getAttribute("data-page")));
-            setLoading(false);
-        }, 2000);
     };
 
     // Logic for displaying items
     const indexOfLastitem = currentPage * itemsPerPage;
     const indexOfFirstitem = indexOfLastitem - itemsPerPage;
 
-    const currentitems = searchResults !== undefined || searchResults !== null ? searchResults.slice(indexOfFirstitem, indexOfLastitem) : [];
+    let currentitems;
+    if (totalResults == 0) {
+        currentitems = [];
+    } else {
+        currentitems = searchResults
+    }
+
+    // console.log(totalResults + ": totalResults");
 
     var renderitems = [];
-    // before totalResults i have this condition: currentitems.length !== 0 
+    // before totalResults i have this condition: currentitems.length !== 0
+
+    // currentitems.length !== 0 &&
     if (currentitems.length !== 0 && totalResults !== 0) {
         var renderitems = currentitems && currentitems.map((item, i) => {
             var propertyURL = "property" + "/" + convertToSlug(item.title) + "/" + item.id;
@@ -150,7 +169,7 @@ const Content = ({ propertyType, searchQuery, searchResults, parentCallback, sub
                         <h5 className="listing-title">
                             {" "}
                             <Link to={propertyURL} title={item.title}>
-                                {item.title}
+                                {item.id} ){item.title}
                             </Link>{" "}
                         </h5>
                         <span className="listing-price">
@@ -196,6 +215,8 @@ const Content = ({ propertyType, searchQuery, searchResults, parentCallback, sub
     } else {
         var renderitems = <Noresults />;
     }
+
+
     // Logic for displaying page numbers
 
     const pageNumbers = [];
@@ -203,7 +224,7 @@ const Content = ({ propertyType, searchQuery, searchResults, parentCallback, sub
     for (let i = 1; i <= Math.ceil(totalResults / itemsPerPage); i++) {
         pageNumbers.push(i);
     }
-    console.log(pageNumbers);
+
     const renderPagination = pageNumbers.map((number) => {
         const activeCondition = currentPage === number ? "active" : "";
         return (
@@ -284,20 +305,22 @@ const Content = ({ propertyType, searchQuery, searchResults, parentCallback, sub
                                                 <Link
                                                     className="page-link"
                                                     to={`?category=${subCategoryName}&category_id=${subCategoryID}`}
-                                                    data-page={currentPage - 1}
+                                                    data-page={parseInt(currentPage) - 1}
+                                                    data-action="previous"
                                                     onClick={handleClick}
                                                 >
-                                                    <i className="fas fa-chevron-left" />
+                                                    <i className="fas fa-chevron-left" data-page={parseInt(currentPage) - 1} data-action="previous" />
                                                 </Link>
                                                 :
                                                 <Link
                                                     className="page-link"
                                                     to={`?search=${searchQuery}&property_type=${propertyType}`}
-                                                    data-page={currentPage - 1}
+                                                    data-page={parseInt(currentPage) - 1}
+                                                    data-action="previous"
                                                     onClick={handleClick}
                                                 >
 
-                                                    <i className="fas fa-chevron-left" />
+                                                    <i className="fas fa-chevron-left" data-page={parseInt(currentPage) - 1} data-action="previous" />
                                                 </Link>
                                         }
 
@@ -311,14 +334,14 @@ const Content = ({ propertyType, searchQuery, searchResults, parentCallback, sub
                                 {/* to show next, we should not be on the last page */}
                                 {pageNumbers.length > 1 &&
                                     currentPage !== pageNumbers.length ? (
-                                    <li className="page-item">
+                                    <li className="page-item right-btn">
                                         <Link
                                             className="page-link"
                                             to={`?search=${searchQuery}&property_type=${propertyType}`}
-                                            data-page={parseInt(currentPage + 1)}
+                                            data-page={currentPage} data-action="next"
                                             onClick={handleClick}
                                         >
-                                            <i className="fas fa-chevron-right" />
+                                            <i className="fas fa-chevron-right" data-page={currentPage} data-action="next" />
                                         </Link>
                                     </li>
                                 ) : (

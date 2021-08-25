@@ -69,14 +69,9 @@ const Propertyresults = () => {
             })
     }
     useEffect(() => {
-        window.scrollTo({
-            top: 0,
-            behavior: "smooth"
-        });
-        // window.scrollTo(0, 0);
+        window.scrollTo({ top: 0, behavior: "smooth" });
         getSearchResults();
     }, [offset, selectedFilters]);
-
 
     const handleCallback = (childData) => {
         setSearchResults(childData);
