@@ -62,7 +62,7 @@ const Shopsidebar = ({ setSelectedFilters, loadingButton }) => {
     setStates(result.data.data);
   };
   const getRecentProperties = () => {
-    var url = Host + Endpoints.getRecentProperties;
+    var url = Host + Endpoints.getRecentProperties + `?type=${property_type}`;
     Axios.get(url).then((response) => {
       if (response.data.error === true) {
         alert(response.data.title);
@@ -1340,7 +1340,7 @@ const Shopsidebar = ({ setSelectedFilters, loadingButton }) => {
           className="acr-collapse-trigger acr-custom-chevron-wrapper"
         // onClick={setOpen2(open2)}
         >
-          <h5>Recent Listing</h5>
+          <h5>Recent Listing in <span style={{ color: "rgb(0, 69, 146)" }}>{uppercaseFirstLetter(property_type)}</span></h5>
           <div className="acr-custom-chevron">
             <span />
             <span />
