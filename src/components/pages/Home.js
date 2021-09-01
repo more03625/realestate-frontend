@@ -4,24 +4,24 @@ import Header from '../layouts/Headerfive';
 import Footer from '../layouts/Footerthree';
 import Content from '../sections/homefour/Content';
 
-class Homefour extends Component {
+const Homefour = () => {
 
-    render() {
-        return (
-            <Fragment>
-                <MetaTags>
-                    <title>Homepage | Neprealestate </title>
-                    <meta
-                        name="description"
-                        content="Neprealestate.com"
-                    />
-                </MetaTags>
-                <Header />
-                <Content />
-                <Footer />
-            </Fragment>
-        );
-    }
+
+    return (
+        <Fragment>
+            <MetaTags>
+                <title>Homepage | Neprealestate </title>
+                <meta
+                    name="description"
+                    content="Neprealestate.com"
+                />
+            </MetaTags>
+            <Header />
+            <Content />
+            <Footer />
+        </Fragment>
+    );
+
 }
 
 export default Homefour;

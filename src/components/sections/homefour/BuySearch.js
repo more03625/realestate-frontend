@@ -5,7 +5,8 @@ import {
 } from "react-bootstrap";
 
 import { ActualSearch } from "./Searchbarareas/ActualSearch";
-import "../../../assets/css/restyle.css";
+// import "../../../assets/css/search.css";
+
 const BuySearch = () => {
   return (
     <div className="container searchContainer">

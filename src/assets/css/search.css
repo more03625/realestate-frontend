@@ -1,0 +1,102 @@
+.nav-tabs.tab-cards {
+  display: flex;
+}
+.nav-tabs .nav-item {
+  margin-bottom: 0px;
+}
+.nav-tabs.tab-cards .nav-link {
+  padding: 10px;
+  text-align: center;
+  border-radius: 0px;
+  width: 145px;
+  margin-bottom: 0px;
+  box-shadow: none;
+}
+.search-wrapper .form-control {
+  border-radius: 0px 0 0 0px;
+  padding: 20px 65px 20px 46px;
+}
+.search-form-container {
+  height: 240px;
+  background-color: rgba(0, 0, 0, 0.6);
+  padding: 16px 18px;
+  box-sizing: border-box;
+  border-radius: 3px;
+}
+.nav-tabs.tab-cards .nav-item.show .nav-link,
+.nav-tabs.tab-cards .nav-link.active {
+  background-color: #e4002b;
+  color: #fff;
+}
+.search-wrapper button {
+  background: #e4002b;
+  width: 133px;
+  font-size: 1.125rem;
+  height: 60px;
+}
+.form-control {
+  height: 60px;
+}
+
+.search-wrapper i {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  left: 16px;
+  font-size: 18px;
+  color: #a2a9bf;
+  font-style: normal;
+  cursor: normal;
+  pointer-events: none;
+}
+.nav-tabs.tab-cards .nav-item.show .nav-link,
+.nav-tabs.tab-cards .nav-link.active:after {
+  bottom: -1px;
+  left: 50%;
+  border: solid transparent;
+  content: " ";
+  height: 0;
+  width: 0;
+  position: absolute;
+  pointer-events: none;
+  border-color: rgba(255, 255, 255, 0);
+  border-bottom-color: #fff;
+  border-width: 7px;
+  margin-left: -7px;
+}
+.acr-select2,
+.select2-container--default .select2-selection--single {
+  background: transparent;
+}
+.acr-select2,
+.select2-container--default .select2-selection--single:hover {
+  background-color: transparent;
+}
+.acr-custom-select > label {
+  color: #fff;
+  font-size: 12px;
+}
+.select2-container .select2-selection--single .select2-selection__rendered {
+  margin-left: 0px;
+  padding-left: 0px !important ;
+  margin: 0px;
+  color: #fff;
+}
+
+@media (min-width: 540px) and (max-width: 1024px) {
+  .search-form-container {
+    height: auto;
+  }
+}
+
+@media (min-width: 320px) and (max-width: 539px) {
+  .search-form-container {
+    height: auto;
+  }
+  .acr-select2,
+  .select2-container--default .select2-selection--single {
+    height: 0;
+  }
+}
+/* RAHUL MORE */
+/* IN USED */

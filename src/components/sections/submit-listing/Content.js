@@ -38,7 +38,7 @@ function Content() {
 
   function handleScriptLoad(updateQuery, autoCompleteRef) {
     autoComplete = new window.google.maps.places.Autocomplete(autoCompleteRef.current, {});
-    console.log(autoComplete)
+
     autoComplete.setFields(['place_id', 'geometry', 'name', 'formatted_address']);
 
 
@@ -49,14 +49,11 @@ function Content() {
   }
   const [propertyData, setPropertyData] = useState();
 
-  const [mapAddres, setMapAddress] = useState({ address: propertyData && propertyData.address ? propertyData.address : "", lat: propertyData && propertyData.latitude ? propertyData.latitude : "", lng: propertyData && propertyData.longitude ? propertyData.longitude : "" });
-
   async function handlePlaceSelect(updateQuery) {
     const addressObject = autoComplete.getPlace();
-    console.log(addressObject)
     const query = addressObject.formatted_address;
     updateQuery(query);
-    setMapAddress({ address: addressObject.formatted_address, latitude: addressObject.geometry.location.lat(), longitude: addressObject.geometry.location.lng() })
+    setPropertyData({ address: addressObject.formatted_address, latitude: addressObject.geometry.location.lat(), longitude: addressObject.geometry.location.lng() })
   }
 
   const [query, setQuery] = useState("");
@@ -324,7 +321,7 @@ function Content() {
       selectedM.push(id);
     }
     setSelectedM(selectedM);
-    console.log(selectedM);
+
   };
 
   function matchYoutubeUrl(e) {
@@ -436,7 +433,7 @@ function Content() {
     else if (
       propertyData.video_url === false
     ) {
-      console.log(propertyData.video_url);
+
       errorToast("Please enter valid youtube URL");
       document.getElementById("tab2").click();
       image.current.scrollIntoView();
@@ -479,9 +476,9 @@ function Content() {
       setPropertyDataError({ city: "Please specify city!" });
       return false;
     } else if (
-      mapAddres.address === "" ||
-      mapAddres.address === null ||
-      mapAddres.address === undefined
+      propertyData.address === "" ||
+      propertyData.address === null ||
+      propertyData.address === undefined
     ) {
       errorToast("address is required feild");
       document.getElementById("tab3").click();
@@ -595,9 +592,8 @@ function Content() {
     setLoadingButton(true);
     e.preventDefault();
 
-    console.log(mapAddres.address);
-    console.log(isGallarySelected);
-    console.log(propertyData);
+
+
 
     if (isImageSelected === false) {
       const imageObject = { image: 0 };
@@ -607,8 +603,7 @@ function Content() {
       const gallaryObject = { images: 0 };
       Object.assign(propertyData, gallaryObject); // object assign is used to update the propertyData object with imagesObject
     }
-
-    Object.assign(propertyData, { 'features': selectedM, 'description': content, 'address': mapAddres.address, 'latitude': mapAddres.latitude, 'longitude': mapAddres.longitude });
+    Object.assign(propertyData, { 'features': selectedM, 'description': content });
 
 
     if (isValid()) {
@@ -850,11 +845,18 @@ function Content() {
                         >
                           <option value="">Property Type</option>
                           {
-                            propertyTypes && propertyTypes.filter((x) => x.name !== 'sold').map((ptype) => (
-                              <option key={ptype.id} value={lowercaseFirstLetter(ptype.name)}>
-                                {uppercaseFirstLetter(ptype.name)}
-                              </option>
-                            ))
+                            propertyID > 0 ?
+                              propertyTypes && propertyTypes.map((ptype) => (
+                                <option key={ptype.id} value={lowercaseFirstLetter(ptype.name)}>
+                                  {uppercaseFirstLetter(ptype.name)}
+                                </option>
+                              ))
+                              :
+                              propertyTypes && propertyTypes.filter((x) => x.name !== 'sold').map((ptype) => (
+                                <option key={ptype.id} value={lowercaseFirstLetter(ptype.name)}>
+                                  {uppercaseFirstLetter(ptype.name)}
+                                </option>
+                              ))
                           }
                         </select>
 

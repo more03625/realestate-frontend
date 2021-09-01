@@ -14,7 +14,7 @@ const areatip = <Tooltip>Ropani-Aana-Paisa-Daam</Tooltip>;
 
 const Content = ({ propertyType, searchQuery, searchResults, subCategoryName, subCategoryID, totalResults, offset, setOffset, setSelectedFilters, loadingButton }) => {
     const [currentPage, setCurrentPage] = useState(1);
-    const [itemsPerPage, setItemsPerPage] = useState(2);
+    const [itemsPerPage, setItemsPerPage] = useState(15);
     const [loading, setLoading] = useState(false);
 
     const handleClick = (event) => {
@@ -51,10 +51,15 @@ const Content = ({ propertyType, searchQuery, searchResults, subCategoryName, su
 
 
     var renderitems = [];
-    // before totalResults i have this condition: currentitems.length !== 0
 
     // currentitems.length !== 0 &&
-    if (currentitems.length !== 0 && totalResults !== 0) {
+    if (totalResults === undefined) {
+        var renderitems = <Loader />
+    }
+    else if (totalResults == 0) {
+        var renderitems = <Noresults />;
+    }
+    else {
         var renderitems = currentitems && currentitems.map((item, i) => {
             var propertyURL = "property" + "/" + convertToSlug(item.title) + "/" + item.id;
             return (
@@ -142,7 +147,7 @@ const Content = ({ propertyType, searchQuery, searchResults, subCategoryName, su
 
                                             <Link target="_blank" to={{ pathname: `${openInGmail(item.email_for_contact, item.title, Host + "/property/" + convertToSlug(item.title) + "/" + item.id)}` }}>
                                                 {" "}
-                                                < i className="fas fa-envelope" /> Send Message
+                                                <i className="fas fa-envelope" /> Send Message
                                             </Link>{" "}
                                         </li>
                                         <li>
@@ -159,7 +164,7 @@ const Content = ({ propertyType, searchQuery, searchResults, subCategoryName, su
                         <h5 className="listing-title">
                             {" "}
                             <Link to={propertyURL} title={item.title}>
-                                {item.id} ){item.title}
+                                {item.title}
                             </Link>{" "}
                         </h5>
                         <span className="listing-price">
@@ -202,10 +207,7 @@ const Content = ({ propertyType, searchQuery, searchResults, subCategoryName, su
                 </div>
             );
         });
-    } else {
-        var renderitems = <Noresults />;
     }
-
     // Logic for displaying page numbers
     const pageNumbers = [];
 
@@ -221,7 +223,8 @@ const Content = ({ propertyType, searchQuery, searchResults, subCategoryName, su
                     <li className={classNames("page-item", { active: activeCondition })}>
                         <Link
                             className="page-link"
-                            to={`?search=${searchQuery}&property_type=${propertyType}`}
+
+                            to={window.location.href.split("property-results")[1]}
                             data-page={number}
                             onClick={handleClick}
                         >
@@ -249,28 +252,15 @@ const Content = ({ propertyType, searchQuery, searchResults, subCategoryName, su
 
                         <div className="acr-global-listing-controls">
                             <div className="acr-listing-active-filters">
-                                {
-                                    subCategoryName && subCategoryID ?
-                                        (
-                                            <Link to={`?sub_category=${subCategoryName}&subcategory_id=${subCategoryID}`}>
-                                                <div className="close-btn close-dark">
-                                                    <span />
-                                                    <span />
-                                                </div>
-                                                {subCategoryName ? subCategoryName : propertyType}
-                                            </Link>
-                                        )
-                                        :
-                                        (
-                                            <Link to={`?search=${searchQuery}&property_type=${propertyType}`}>
-                                                <div className="close-btn close-dark">
-                                                    <span />
-                                                    <span />
-                                                </div>
-                                                {subCategoryName ? subCategoryName : propertyType}
-                                            </Link>
-                                        )
-                                }
+
+
+                                <Link to={window.location.href.split("property-results")[1]}>
+                                    <div className="close-btn close-dark">
+                                        <span />
+                                        <span />
+                                    </div>
+                                    {subCategoryName ? subCategoryName : propertyType}
+                                </Link>
                             </div>
                         </div>
 

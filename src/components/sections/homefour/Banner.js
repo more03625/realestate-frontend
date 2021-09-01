@@ -6,7 +6,6 @@ import RentSearch from "./RentSearch";
 import SoldSearch from "./SoldSearch";
 import ShareSearch from "./ShareSearch";
 import Consultants from "./Consultants";
-// import 'C:/xampp/htdocs/neprealestate/src/assets/css/restyle.css';
 
 const Banner = () => {
   const [advancesearch, setAdvancesearch] = useState(false);

@@ -124,9 +124,8 @@ const settingsthumb = {
     ]
 }
 
-const Listingwrapper = ({ propertyDetails, coordinates }) => {
-
-
+const Listingwrapper = ({ propertyDetails, coordinates, recentProperties }) => {
+    var propertyType = propertyDetails && propertyDetails.property_type;
     const [loadingButton, setLoadingButton] = useState(false);
 
     const errorStyle = {
@@ -139,8 +138,6 @@ const Listingwrapper = ({ propertyDetails, coordinates }) => {
     };
     const ref = useRef();
     const { propertyID } = useParams();
-
-    const [recentProperties, setRecentProperties] = useState([]);
 
     const [nav1, setNav1] = useState(null);
     const [nav2, setNav2] = useState(null);
@@ -167,18 +164,6 @@ const Listingwrapper = ({ propertyDetails, coordinates }) => {
             }, 3000)
         }
     }
-
-    const getRecentProperties = () => {
-        var url = Host + Endpoints.getRecentProperties + "?id=" + propertyID;
-        Axios.get(url).then((response) => {
-            if (response.data.error === true) {
-                alert(response.data.title);
-            } else {
-                setRecentProperties(response.data.data);
-            }
-        });
-    };
-
 
     const [fname, setFname] = useState("");
     const [email, setEmail] = useState("");
@@ -311,7 +296,6 @@ const Listingwrapper = ({ propertyDetails, coordinates }) => {
             top: 0,
             behavior: "smooth"
         });
-        getRecentProperties();
         setNav1(slider1);
         setNav2(slider2);
         popup();
@@ -423,7 +407,7 @@ const Listingwrapper = ({ propertyDetails, coordinates }) => {
                                                     <h6 className="listing-feature-label">
                                                         Admin Charges</h6>
                                                     <span className="listing-feature-value">
-                                                        {propertyDetails && propertyDetails.admin_cost ? "Rs." + new Number(propertyDetails.admin_cost).toLocaleString() : ''}
+                                                        {propertyDetails && propertyDetails.admin_cost ? "Rs." + new Number(propertyDetails.admin_cost).toLocaleString() : 'Not specified yet'}
                                                     </span>
                                                 </div>
                                             ) : ("")

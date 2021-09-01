@@ -13,41 +13,37 @@ import NewsNotFound from "./NewsNotFound";
 const Newsdetail = () => {
   const { slug, newsID } = useParams();
   const ref = useRef();
-  const getNewsDetails = () => {
+  const getNewsDetails = async () => {
     var url = Host + Endpoints.getNewsDetails + newsID;
-    Axios.get(url).then((response) => {
-      if (response.data.error === false) {
-        setDetailedNews(response.data.data);
-      } else {
-        setDetailedNews(false);
-        setDetailedNewsError(response.data.title);
+    const response = await Axios.get(url);
+
+    if (response.data.error === false) {
+      setDetailedNews(response.data.data);
+
+      var recentNewsURL = Host + Endpoints.getRecentNews + "?id=" + newsID + "&type=" + response.data.data.type;
+      const result = await Axios.get(recentNewsURL)
+      if (result.data.error === false) {
+        setRecentNews(result.data.data); //object
       }
-    });
+
+
+    } else {
+      setDetailedNews(false);
+      setDetailedNewsError(response.data.title);
+    }
+
   };
   const [detailedNewsError, setDetailedNewsError] = useState();
   const [detailedNews, setDetailedNews] = useState();
   const [recentNews, setRecentNews] = useState([]);
 
-  function getRecentNews() {
-    var url = Host + Endpoints.getRecentNews;
-    Axios.get(url)
-      .then((response) => {
-        console.log(response.data);
-        if (response.data.error === false) {
-          setRecentNews(response.data.data); //object
-        }
-      })
-      .catch((errors) => {
-        console.log(errors);
-      });
-  }
+
   useEffect(() => {
     window.scrollTo({
       top: 0,
       behavior: "smooth"
     });
     getNewsDetails();
-    getRecentNews();
   }, [newsID]);
 
 

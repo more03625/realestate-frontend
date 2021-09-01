@@ -414,7 +414,7 @@ const Shopsidebar = ({ setSelectedFilters, loadingButton }) => {
                         <label>Area Unit</label>
                         <select
                           className="form-control"
-                          name="landsize"
+                          name="default_area_unit"
                           onChange={(e) => handleChange(e)}
                         >
                           <option value="">Any</option>
@@ -430,7 +430,7 @@ const Shopsidebar = ({ setSelectedFilters, loadingButton }) => {
                       <div className="form-group">
                         <label>Area Size</label>
 
-                        <input className="form-control" name="landsize" placeholder="Enter area size" onChange={(e) => handleChange(e)} />
+                        <input className="form-control" name="area" placeholder="Enter area size" onChange={(e) => handleChange(e)} />
                       </div>
                     </div>
 
@@ -722,7 +722,7 @@ const Shopsidebar = ({ setSelectedFilters, loadingButton }) => {
                       <div className="form-group">
                         <select
                           className="form-control"
-                          name="landsize"
+                          name="default_area_unit"
                           onChange={(e) => handleChange(e)}
                         >
                           <option value="">Any</option>
@@ -736,7 +736,7 @@ const Shopsidebar = ({ setSelectedFilters, loadingButton }) => {
 
                     <div className="col-md-6">
                       <div className="form-group">
-                        <input className="form-control" name="landsize" placeholder="Enter area size" onChange={(e) => handleChange(e)} />
+                        <input className="form-control" name="area" placeholder="Enter area size" onChange={(e) => handleChange(e)} />
                       </div>
                     </div>
                   </div>
@@ -1027,7 +1027,7 @@ const Shopsidebar = ({ setSelectedFilters, loadingButton }) => {
                       <div className="form-group">
                         <select
                           className="form-control"
-                          name="landsize"
+                          name="default_area_unit"
                           onChange={(e) => handleChange(e)}
                         >
                           <option value="">Any</option>
@@ -1041,7 +1041,7 @@ const Shopsidebar = ({ setSelectedFilters, loadingButton }) => {
 
                     <div className="col-md-6">
                       <div className="form-group">
-                        <input className="form-control" name="landsize" placeholder="Enter area size" onChange={(e) => handleChange(e)} />
+                        <input className="form-control" name="area" placeholder="Enter area size" onChange={(e) => handleChange(e)} />
                       </div>
                     </div>
                   </div>

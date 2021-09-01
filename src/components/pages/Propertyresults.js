@@ -19,6 +19,9 @@ const Propertyresults = () => {
     var subCategoryName = queryParams.get("sub_category");
     var suburbs = queryParams.get("suburbs");
 
+    var defaultAreaUnit = queryParams.get("default_area_unit");
+    var area = queryParams.get("area");
+
     const [searchResults, setSearchResults] = useState([]);
     const [totalResults, setTotalResults] = useState();
     const [offset, setOffset] = useState(0)
@@ -26,7 +29,7 @@ const Propertyresults = () => {
 
     const [selectedFilters, setSelectedFilters] = useState();
     const [loadingButton, setLoadingButton] = useState(false);
-    console.log(selectedFilters)
+
     const cleanObject = (obj) => {
         for (var propName in obj) {
             if (obj[propName] === null || obj[propName] === undefined || obj[propName] === "") {
@@ -48,7 +51,9 @@ const Propertyresults = () => {
             "min_price": minPrice,
             "max_price": maxPrice,
             "suburbs": suburbs,
-            "limit": 2,
+            "default_area_unit": defaultAreaUnit,
+            "area": area,
+            "limit": 15,
             "offset": offset
         }
         let newData = Object.assign(data, selectedFilters); // Merge 2 Objects
@@ -68,6 +73,7 @@ const Propertyresults = () => {
                 setLoadingButton(false);
             })
     }
+    console.log(totalResults)
     useEffect(() => {
         window.scrollTo({ top: 0, behavior: "smooth" });
         getSearchResults();

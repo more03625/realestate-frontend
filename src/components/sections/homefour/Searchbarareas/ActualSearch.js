@@ -6,6 +6,7 @@ import {
     Nav,
 } from "react-bootstrap";
 import { BuyArea, RentArea, SoldArea, ShareArea, FindAgents } from "./SearchInputArea";
+import "../../../../assets/css/restyle.css";
 
 export const ActualSearch = () => {
 

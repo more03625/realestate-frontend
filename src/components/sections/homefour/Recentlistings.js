@@ -6,26 +6,10 @@ import { openInGmail, saveProperty, Endpoints, Host, convertToSlug, uppercaseFir
 
 
 
-const Recentlisting = () => {
-  const [recentProperties, setRecentProperties] = useState([]);
+const Recentlisting = ({ recentProperties }) => {
 
-  const getRecentProperties = () => {
-    var url = Host + Endpoints.getRecentProperties + "?type=" + window.location.pathname.split("/")[1];;
-    Axios.get(url).then((response) => {
-      if (response.data.error === true) {
-        alert(response.data.title);
-      } else {
-        setRecentProperties(response.data.data);
-      }
-    });
-  }
-  const gallerytip = <Tooltip>Gallery</Tooltip>;
   const bedstip = <Tooltip>Beds</Tooltip>;
   const bathstip = <Tooltip>Bathrooms</Tooltip>;
-  const areatip = <Tooltip>Sqft</Tooltip>;
-  useEffect(() => {
-    getRecentProperties();
-  }, []);
 
   return (
     <div className="section section-padding">
@@ -35,7 +19,7 @@ const Recentlisting = () => {
             <h5 className="custom-primary">Find Your Home</h5>
             <h2 className="title">Recent Listings in <span style={{ color: "rgb(0, 69, 146)" }}>{uppercaseFirstLetter(window.location.pathname.split("/")[1])}</span></h2>
           </div>
-          <Link to="/property-results?property_type=buy" className="btn-custom">
+          <Link to={`/property-results?property_type=${window.location.pathname.split("/")[1]}`} className="btn-custom">
             View All
           </Link>
         </div>

@@ -106,31 +106,34 @@ const Content = ({ userData }) => {
                       />
                     </Link>
                     <div className="listing-badges">
-                      {item.star === true ? (
-                        <span className="listing-badge featured">
-                          {" "}
-                          <i className="fas fa-star" />{" "}
-                        </span>
-                      ) : (
-                        ""
-                      )}
+
                       {item.property_type === "buy" ? (
                         <span className="listing-badge sale">{uppercaseFirstLetter(item.property_type)}</span>
                       ) : (
                         ""
                       )}
-                      {item.property_type === "rent" ? (
+                      {item.property_type === "sold" ? (
                         <span className="listing-badge pending">{uppercaseFirstLetter(item.property_type)}</span>
                       ) : (
                         ""
                       )}
-                      {item.property_type === "sold" ? (
+                      {item.property_type === "rent" ? (
                         <span className="listing-badge rent">{uppercaseFirstLetter(item.property_type)}</span>
                       ) : (
                         ""
                       )}
                       {item.property_type === "share" ? (
                         <span className="listing-badge rent">{uppercaseFirstLetter(item.property_type)}</span>
+                      ) : (
+                        ""
+                      )}
+                      {item.property_type === "invest" ? (
+                        <span className="listing-badge sale">{uppercaseFirstLetter(item.property_type)}</span>
+                      ) : (
+                        ""
+                      )}
+                      {item.property_type === "lease" ? (
+                        <span className="listing-badge sale">{uppercaseFirstLetter(item.property_type)}</span>
                       ) : (
                         ""
                       )}
@@ -154,7 +157,7 @@ const Content = ({ userData }) => {
                           {" "}
                           <Link to="#">{getUserToken().data.name}</Link>{" "}
                         </p>
-                        {console.log(new Date(item.createdAt).toDateString())}
+
                         <span className="listing-date">{new Date(item.createdAt).toDateString()}</span>
                       </div>
                       <Dropdown className="options-dropdown">

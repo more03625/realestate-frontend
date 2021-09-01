@@ -14,16 +14,19 @@ import Latestblog from './Latestblog';
 
 const Content = () => {
 
+    var propertyType = window.location.pathname.split("/")[1];
     const [subCategoriesWithCount, setSubCategoriesWithCount] = useState([]);
     const [recentNews, setRecentNews] = useState([]);
+    const [recentProperties, setRecentProperties] = useState([]);
 
 
     function getRecentNews() {
-        var url = Host + Endpoints.getRecentNews + "?type=" + window.location.pathname.split("/")[1];
+        var type = propertyType === 'home' ? 'buy' : propertyType;
+
+        var url = Host + Endpoints.getRecentNews + "?type=" + type;
         Axios.get(url)
             .then((response) => {
                 if (response.data.error === false) {
-
                     setRecentNews(response.data.data); //object
                 }
             })
@@ -42,25 +45,40 @@ const Content = () => {
             }
         });
     }
+    const getRecentProperties = () => {
+        var type = propertyType === 'home' ? 'buy' : propertyType;
+        var url = Host + Endpoints.getRecentProperties + "?type=" + type;
+        Axios.get(url).then((response) => {
+            if (response.data.error === true) {
+                alert(response.data.title);
+            } else {
+                setRecentProperties(response.data.data);
+            }
+        });
+    }
     useEffect(() => {
         getRecentNews();
         getSubCategories();
-    }, [])
+        getRecentProperties();
+    }, [propertyType])
     return (
         <Fragment>
             <Banner />
             <Categories />
-            {/* {console.log(setLoginStatus())} */}
-            <div className="section section-padding pt-0">
-                <Blockcta />
-            </div>
+            {
+                propertyType === 'buy' ?
+                    <div className="section section-padding pt-0">
+                        <Blockcta />
+                    </div>
+                    : ''
+            }
             {
                 recentNews.length > 0 ? <Latestblog recentNews={recentNews} /> : ''
             }
 
             {/*<Findhome categories={subCategoriesWithCount} />*/}
             {/*<Services />*/}
-            <Recentlistings />
+            <Recentlistings recentProperties={recentProperties} />
             {/* <Whyus />
             <div className="section pt-0">
                 <Bluecta />

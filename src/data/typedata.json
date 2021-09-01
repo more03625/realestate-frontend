@@ -31,7 +31,7 @@
             "gridimg": "assets/img/listings/1.jpg",
             "title": "Need to find a tenant?",
             "description": "Advertise your place for rent We can help you.",
-            "link" : "",
+            "link" : "/add-property",
             "linkText":"Advertise your Properties"
         },
         {
@@ -39,7 +39,7 @@
             "gridimg": "assets/img/listings/1.jpg",
             "title": "Find a Rental",
             "description": "Find a place on Nepal’s biggest rental website.",
-            "link" : "",
+            "link" : "/property-results?property_type=rent",
             "linkText":"Start Searching!"
         },
         {
@@ -47,7 +47,7 @@
             "gridimg": "assets/img/listings/1.jpg",
             "title": "Find a Flatmate",
             "description": "Find a place on Nepal’s biggest rental website.",
-            "link" : "",
+            "link" : "/property-results?property_type=share",
             "linkText":"Start Searching!"
         }
     ],
@@ -64,9 +64,35 @@
             "id": 2,
             "gridimg": "assets/img/listings/1.jpg",
             "title": "I Need a room",
-            "description": "Create a listing for people filling a room to find you!",
-            "link" : "",
-            "linkText":"Find a place"
+            "description": "Want to share room? search millions of shared on Neprealestate",
+            "link" : "/property-results?property_type=share",
+            "linkText":"Room Sharing"
+        }
+    ],
+    "sold":[
+        {
+            "id": 1,
+            "gridimg": "assets/img/listings/1.jpg",
+            "title": "Decide if it is time to sell",
+            "description": "Want to sell your property? get latest news about market!",
+            "link" : "/add-property",
+            "linkText":"Check News"
+        },
+        {
+            "id": 2,
+            "gridimg": "assets/img/listings/1.jpg",
+            "title": "Find the sold properties",
+            "description": "Find all the sold properties at your finger tips! with advanced filters!",
+            "link" : "/property-results?property_type=sold",
+            "linkText":"Check Now"
+        },
+        {
+            "id": 3,
+            "gridimg": "assets/img/listings/1.jpg",
+            "title": "Properties buing guid",
+            "description": "Find a place on Nepal’s biggest rental website! check our comprehensive buying guid",
+            "link" : "/property-results?property_type=sold",
+            "linkText":"Check News"
         }
     ]
     

@@ -15,6 +15,8 @@ import {
 const Listingdetailsone = () => {
     const { slug, propertyID } = useParams();
 
+    const [recentProperties, setRecentProperties] = useState([]);
+
     const [propertyDetails, setPropertyDetails] = useState(null);
     const [coordinates, setCoordinates] = useState({ 'lat': null, "lang": null });
 
@@ -27,6 +29,15 @@ const Listingdetailsone = () => {
 
             setPropertyDetails(response.data.data);
             setCoordinates({ 'lat': response.data.data.latitude, "lang": response.data.data.longitude });
+
+            var recentPropertiesURL = Host + Endpoints.getRecentProperties + "?id=" + propertyID + "&type=" + response.data.data.property_type;
+            const result = await Axios.get(recentPropertiesURL);
+            if (result.data.error === true) {
+                alert(result.data.title);
+            } else {
+                setRecentProperties(result.data.data);
+            }
+
         } else {
             setPropertyDetails(false);
         }
@@ -41,7 +52,7 @@ const Listingdetailsone = () => {
                 <meta name="description" content="#" />
             </MetaTags>
             <Header />
-            <Content propertyDetails={propertyDetails} coordinates={coordinates} />
+            <Content propertyDetails={propertyDetails} coordinates={coordinates} recentProperties={recentProperties} />
             <Footer />
         </Fragment>
     );

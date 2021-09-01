@@ -1,17 +1,17 @@
 import Select2 from "react-select2-wrapper";
 
 import {
-    pricerangelist, options
+    pricerangelist
 
 } from "../../../../data/select.json";
 import Axios from "axios";
 import { Endpoints, Host } from "../../../../helper/comman_helper";
 import { useEffect, useRef, useState } from "react";
+import { MultiSelect } from "react-multi-select-component";
 
-import testdata from "../../../../data/testdata.json";
 export const Searchoptions = () => {
     const [optionsData, setOptionsData] = useState();
-    const [suburbs, setSuburbs] = useState();
+    const [selected, setSelected] = useState([]);
 
     var propertyType = window.location.pathname.split("/")[1];
     if (propertyType === 'home') {
@@ -27,11 +27,14 @@ export const Searchoptions = () => {
         } else {
             var subCategoryName = [];
             for (var i = 0; i < result.data.data.categories.length; i++) {
+                console.log("propertyType ===> ", propertyType, " datacategories ===> ", result.data.data.categories[i].type)
+
                 if (propertyType === 'sold') {
-                    subCategoryName.push({ 'id': result.data.data.categories[i].id, text: result.data.data.categories[i].name });
+                    subCategoryName.push({ 'value': result.data.data.categories[i].id, label: result.data.data.categories[i].name });
                 }
+
                 else if (propertyType === result.data.data.categories[i].type) {
-                    subCategoryName.push({ 'id': result.data.data.categories[i].id, text: result.data.data.categories[i].name });
+                    subCategoryName.push({ 'value': result.data.data.categories[i].id, label: result.data.data.categories[i].name });
                 }
             }
             setOptionsData({ ...optionsData, 'categories': subCategoryName });
@@ -39,11 +42,8 @@ export const Searchoptions = () => {
     }
 
     const hideOptions = (e) => {
-
         if (e.target.value == 4) {
             for (var i = 0; i < 2; i++) {
-                console.log("In IF")
-
                 document.getElementsByClassName("hideBeds")[i].classList.add("d-none");
             }
         } else {
@@ -54,8 +54,21 @@ export const Searchoptions = () => {
     }
     useEffect(() => {
         getSubCategories();
-    }, [])
+    }, []);
 
+    selected.map((value, index) => {
+        if (value.label.toLocaleLowerCase() === 'land') {
+            for (var i = 0; i < document.getElementsByClassName("beds-section").length; i++) {
+                document.getElementsByClassName("beds-section")[i].classList.add("d-none");
+                document.getElementsByClassName("area-section")[i].classList.remove("d-none");
+            }
+        } else {
+            for (var i = 0; i < document.getElementsByClassName("beds-section").length; i++) {
+                document.getElementsByClassName("beds-section")[i].classList.remove("d-none");
+                document.getElementsByClassName("area-section")[i].classList.add("d-none");
+            }
+        }
+    })
     const beds = [
         { text: "Any", id: 0 },
         { text: "1 Bed", id: 1 },
@@ -64,23 +77,36 @@ export const Searchoptions = () => {
         { text: "4 Beds", id: 4 },
         { text: "5 Beds", id: 5 },
     ];
+    const areaUnits = [
+        { text: "sqft", id: "sqft" },
+        { text: "sqmt", id: "sqmt" },
+        { text: "daam", id: "daam" },
+        { text: "paisa", id: "paisa" },
+        { text: "aana", id: "aana" },
+        { text: "ropani", id: "ropani" },
+        { text: "dhur", id: "dhur" },
+        { text: "kattha", id: "kattha" },
+        { text: "bigga", id: "bigga" }
+    ]
     return (
         <>
-            <div className="col-lg-2 col-md-6 col-6">
+            <div className="col-lg-2 col-md-6">
                 <div className="form-group acr-custom-select">
-                    <Select2
-                        data={optionsData && optionsData.categories}
-                        options={{
-                            placeholder: "Property Types",
-                        }}
-                        name="subcategory_id"
-                        multiple
-                        onChange={(e) => hideOptions(e)}
-                    />
+                    {
+                        optionsData && optionsData.categories !== undefined ?
 
+                            <MultiSelect
+                                options={optionsData.categories}
+                                value={selected}
+                                onChange={setSelected}
+                                labelledBy={"Select"}
+                            />
+                            : ''
+                    }
                 </div>
             </div>
-            <div className="hideif col-lg-2 col-md-6 col-6 hideBeds">
+
+            <div className="col-lg-2 col-md-6 col-6 beds-section">
                 <div className="form-group acr-custom-select">
                     <Select2
                         data={beds}
@@ -91,12 +117,8 @@ export const Searchoptions = () => {
                     />
                 </div>
             </div>
-            <div className="hideif col-lg-2 col-md-6 col-6 showInputArea d-none">
-                <div className="form-group acr-custom-select">
-                    <input type="number" name="area_size" tabIndex="4" className="searBarInput rui-input" min="0" max="999999" placeholder="Enter Size" />
-                </div>
-            </div>
-            <div className=" col-lg-2 col-md-6 col-6 hideBeds">
+
+            <div className=" col-lg-2 col-md-6 col-6 beds-section">
                 <div className="form-group acr-custom-select">
                     <Select2
                         data={beds}
@@ -108,6 +130,25 @@ export const Searchoptions = () => {
                     />
                 </div>
             </div>
+
+            <div className=" col-lg-2 col-md-6 col-6 area-section d-none">
+                <div className="form-group acr-custom-select">
+                    <Select2
+                        data={areaUnits}
+                        options={{
+                            placeholder: "Area Unit",
+                        }}
+                        name="default_area_unit"
+
+                    />
+                </div>
+            </div>
+            <div className="col-lg-2 col-md-6 col-6 area-section d-none">
+                <div className="form-group acr-custom-select">
+                    <input type="number" name="area" tabIndex="4" className="searBarInput rui-input" min="0" max="999999" placeholder="Enter Size" />
+                </div>
+            </div>
+
             <div className="col-lg-2 col-md-6 col-6">
                 <div className="form-group acr-custom-select">
                     <Select2

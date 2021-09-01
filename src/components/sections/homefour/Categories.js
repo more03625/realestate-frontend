@@ -11,7 +11,7 @@ const Categories = () => {
 
     const [categories, setCategories] = useState([]);
     const [subCategoriesWithCount, setSubCategoriesWithCount] = useState([]);
-    var services = window.location.pathname.split("/")[1];
+    var services = window.location.pathname.split("/")[1] === 'home' ? 'buy' : window.location.pathname.split("/")[1];
 
     const getCategories = async () => {
         var url = Host + Endpoints.getCategories;
@@ -77,7 +77,7 @@ const Categories = () => {
                     ) : (
                         <>
                             {
-                                services === 'buy' || services === 'ren=t' || services === 'share' ? (
+                                services === 'buy' || services === 'rent' || services === 'share' || services === 'sold' ? (
                                     <div className="row">
                                         {listing[services].slice(0, 3).map((item, i) => (
                                             <div key={i} className="col-lg-4">
