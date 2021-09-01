@@ -315,3 +315,7 @@
 .searBarInput {
   -moz-appearance: textfield !important;
 }
+.dropdown-heading-value span {
+  font-size: 14px;
+  color: #fff;
+}

@@ -33,7 +33,7 @@ const Recentlisting = ({ recentProperties }) => {
                     <img // thumbnail
                       src={item.image != null ? process.env.REACT_APP_CONTENT_URL + item.image + "_medium.jpg" : process.env.REACT_APP_CONTENT_URL + "/properties/default.jpg"}
                       alt={`image of ${item.title}`}
-                      style={{ width: "300px", height: "200px" }}
+                      className="custom-images"
                     />
                   </Link>
 

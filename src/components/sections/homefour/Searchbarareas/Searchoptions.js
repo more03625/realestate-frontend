@@ -100,6 +100,7 @@ export const Searchoptions = () => {
                                 value={selected}
                                 onChange={setSelected}
                                 labelledBy={"Select"}
+                                name="property_type"
                             />
                             : ''
                     }

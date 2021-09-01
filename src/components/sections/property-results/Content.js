@@ -69,6 +69,7 @@ const Content = ({ propertyType, searchQuery, searchResults, subCategoryName, su
                             <img
                                 src={process.env.REACT_APP_CONTENT_URL + item.image + "_medium.jpg"}
                                 alt={item.image + ".jpg"}
+                                className="custom-images"
                             />
                         </Link>
                         <div className="listing-badges">
