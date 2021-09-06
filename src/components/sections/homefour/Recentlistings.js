@@ -136,7 +136,7 @@ const Recentlisting = ({ recentProperties }) => {
                       {item.title}
                     </Link>{" "}
                   </h5>
-                  <p class="listing-text"><Link to={'#'} > <span><i class="fas fa-map-marker-alt"></i></span> {item.title.slice(0, 44) + "..."}</Link></p>
+                  <p className="listing-text"><Link to={'#'} > <span><i className="fas fa-map-marker-alt"></i></span> {item.title.slice(0, 44) + "..."}</Link></p>
                   <span className="listing-price">
                     Rs. {new Number(item.price).toLocaleString()}
                     <span> {item.price_on}</span>{" "}

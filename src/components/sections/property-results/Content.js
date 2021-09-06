@@ -241,6 +241,7 @@ const Content = ({ propertyType, searchQuery, searchResults, subCategoryName, su
     return (
         <div className="section pagination-content">
             <div className="container">
+
                 <div className="row">
                     {/* Sidebar Start */}
                     <div className="col-lg-4">

@@ -79,8 +79,6 @@ const Propertyresults = () => {
         getSearchResults();
     }, [offset, selectedFilters]);
 
-
-
     return (
         <Fragment>
             <MetaTags>

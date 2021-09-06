@@ -4,7 +4,7 @@ import Mobilemenu from '../layouts/Mobilemenu';
 import HeaderComponent from '../../helper/Navigationhelper';
 import { Link } from 'react-router-dom';
 import classNames from 'classnames';
-
+import IsUserAuthenticated from '../sections/login/IsUserAuthenticated';
 class Header extends HeaderComponent {
     render() {
         const stickyheader = this.state.isTop ? 'sticky' : '';
@@ -36,9 +36,32 @@ class Header extends HeaderComponent {
                                 <li> <Link to="#"> <i className="fab fa-twitter" /> </Link> </li>
                             </ul>
                             <ul className="top-header-nav">
-                                <li> <Link to="/login"> Login</Link> </li>
-                                <li>or</li>
-                                <li> <Link to="/register"> Signup</Link> </li>
+                                <ul className="top-header-nav">
+                                    {!IsUserAuthenticated() ? (
+                                        <>
+                                            <li>
+                                                {" "}
+                                                <Link to="/login"> Login</Link>{" "}
+                                            </li>
+                                            <li>or</li>
+                                            <li>
+                                                {" "}
+                                                <Link to="/register"> Signup</Link>{" "}
+                                            </li>
+                                        </>
+                                    ) : (
+                                        <>
+                                            <li>
+                                                {" "}
+                                                <Link to="/profile"> Profile</Link>{" "}
+                                            </li>
+                                            <li>
+                                                {" "}
+                                                <Link to="/logout"> Logout</Link>{" "}
+                                            </li>
+                                        </>
+                                    )}
+                                </ul>
                             </ul>
                         </div>
                     </div>

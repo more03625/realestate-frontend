@@ -3,7 +3,9 @@ import MetaTags from "react-meta-tags";
 import Header from '../layouts/Headerfive';
 import Breadcrumb from '../layouts/Breadcrumb';
 import Footer from '../layouts/Footerthree';
-import Content from '../sections/listinglist/Content';
+// import Content from '../sections/listinglist/Content';
+import Content from '../sections/property-results/Content';
+
 import Axios from "axios";
 import { Endpoints, Host, uppercaseFirstLetter, openInGmail, convertToSlug } from "../../helper/comman_helper";
 const Listinglist = () => {
@@ -27,6 +29,7 @@ const Listinglist = () => {
     }, []);
 
     const handleCallback = (childData) => {
+
         setProperties(childData);
     }
     return (

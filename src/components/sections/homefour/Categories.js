@@ -78,22 +78,28 @@ const Categories = () => {
                         <>
                             {
                                 services === 'buy' || services === 'rent' || services === 'share' || services === 'sold' ? (
-                                    <div className="row">
-                                        {listing[services].slice(0, 3).map((item, i) => (
-                                            <div key={i} className="col-lg-4">
-                                                <div className="listing">
-                                                    <div className="listing-thumbnail">
-                                                        <Link to="#"><img src={process.env.PUBLIC_URL + "/" + item.gridimg} alt="listing" /></Link>
-                                                    </div>
-                                                    <div className="listing-body text-center">
-                                                        <h5 className="listing-title"> <Link to="#" title={item.title}>{item.title}</Link> </h5>
-                                                        <p className="listing-text"><b>{item.description}</b></p>
-                                                        <Link className="btn-custom btn-sm secondary" to={item.link}>{item.linkText}</Link>
-                                                    </div>
+
+                                    <>
+                                        <div className="row infographics-5">
+                                            {listing[services].slice(0, 3).map((item, i) => (
+                                                <div key={i} className="col-lg-4">
+                                                    <Link target={item.targetBlank} to={{ pathname: item.link }}>
+                                                        <div className="acr-infographic-item" style={{ backgroundColor: "#fff" }}>
+                                                            <img className="services" alt="test" src="https://www.realestate.com.au/assets/img/rent/1511759973236.33754e25192e84aafe6fa68843001e6e.png" />
+                                                            <div className="acr-infographic-item-body">
+                                                                <h5>{item.title}</h5>
+                                                                <p>{item.description}</p>
+                                                                <h6 className="listing-text"><Link target={item.targetBlank} to={{ pathname: item.link }}>{item.linkText}</Link></h6>
+                                                            </div>
+                                                        </div>
+                                                    </Link>
                                                 </div>
-                                            </div>
-                                        ))}
-                                    </div>
+                                            ))}
+                                        </div>
+
+                                    </>
+
+
                                 ) : ("")
                             }
                         </>

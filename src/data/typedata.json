@@ -74,9 +74,11 @@
             "id": 1,
             "gridimg": "assets/img/listings/1.jpg",
             "title": "Decide if it is time to sell",
-            "description": "Want to sell your property? get latest news about market!",
+            "description": "Want to sell your property? Know the best rated & get latest news about market!",
             "link" : "/add-property",
-            "linkText":"Check News"
+            "linkText":"Check News",
+            "icon": "telephone"
+
         },
         {
             "id": 2,
@@ -84,7 +86,9 @@
             "title": "Find the sold properties",
             "description": "Find all the sold properties at your finger tips! with advanced filters!",
             "link" : "/property-results?property_type=sold",
-            "linkText":"Check Now"
+            "linkText":"Check Now",
+            "icon": "location"
+
         },
         {
             "id": 3,
@@ -92,7 +96,9 @@
             "title": "Properties buing guid",
             "description": "Find a place on Nepal’s biggest rental website! check our comprehensive buying guid",
             "link" : "/property-results?property_type=sold",
-            "linkText":"Check News"
+            "linkText":"Check News",
+        "icon": "speech-bubble"
+
         }
     ]
     
