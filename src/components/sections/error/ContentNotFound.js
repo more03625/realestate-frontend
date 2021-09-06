@@ -18,7 +18,7 @@ const Content = () => {
     const [recentProperties, setRecentProperties] = useState([]);
 
     const getRecentProperties = () => {
-        var url = Host + Endpoints.getRecentProperties;
+        var url = Host + Endpoints.getRecentProperties + "?type=rent";
         Axios.get(url).then((response) => {
             if (response.data.error === true) {
                 alert(response.data.title);

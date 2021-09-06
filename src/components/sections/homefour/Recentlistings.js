@@ -7,7 +7,16 @@ import { openInGmail, saveProperty, Endpoints, Host, convertToSlug, uppercaseFir
 
 
 const Recentlisting = ({ recentProperties }) => {
-
+  const listingThumbnail = {
+    borderRadius: "0px"
+  }
+  const listing = {
+    padding: "0px"
+  }
+  const listingBody = {
+    margin: "10px",
+    padding: "7px"
+  }
   const bedstip = <Tooltip>Beds</Tooltip>;
   const bathstip = <Tooltip>Bathrooms</Tooltip>;
 
@@ -17,7 +26,7 @@ const Recentlisting = ({ recentProperties }) => {
         <div className="section-title-wrap section-header flex-header">
           <div className="section-title-text">
             <h5 className="custom-primary">Find Your Home</h5>
-            <h2 className="title">Recent Listings in <span style={{ color: "rgb(0, 69, 146)" }}>{uppercaseFirstLetter(window.location.pathname.split("/")[1])}</span></h2>
+            <h2 className="title">Recent Listings</h2>
           </div>
           <Link to={`/property-results?property_type=${window.location.pathname.split("/")[1]}`} className="btn-custom">
             View All
@@ -25,22 +34,22 @@ const Recentlisting = ({ recentProperties }) => {
         </div>
         <div className="row">
           {/* Listing Start */}
-          {recentProperties && recentProperties.slice(0, 6).map((item, i) => (
+          {recentProperties && recentProperties.slice(0, 4).map((item, i) => (
             <div key={i} className="col-lg-4">
-              <div className="listing">
-                <div className="listing-thumbnail " >
+              <div className="listing" style={listing}>
+                <div className="listing-thumbnail" style={listingThumbnail}>
                   <Link to={`/property/${convertToSlug(item.title)}/${item.id}`}>
                     <img // thumbnail
                       src={item.image != null ? process.env.REACT_APP_CONTENT_URL + item.image + "_medium.jpg" : process.env.REACT_APP_CONTENT_URL + "/properties/default.jpg"}
                       alt={`image of ${item.title}`}
                       className="custom-images"
+                      style={listingThumbnail}
                     />
                   </Link>
 
                   <div className="listing-badges">
-
                     {item.property_type === "buy" ? (
-                      <span className="listing-badge sale">{uppercaseFirstLetter(item.property_type)}</span>
+                      <span className="listing-badge sale">Sell</span>
                     ) : (
                       ""
                     )}
@@ -78,7 +87,7 @@ const Recentlisting = ({ recentProperties }) => {
                                                                 </div>
                                                                 */}
                 </div>
-                <div className="listing-body">
+                <div className="listing-body" style={listingBody}>
                   <div className="listing-author">
                     <img src={item && item.is_contact_show === 1 ? item && item.profile_image != null ? process.env.REACT_APP_CONTENT_URL + item.profile_image + "_small.jpg" : process.env.REACT_APP_CONTENT_URL + "/users/default.png" : process.env.REACT_APP_CONTENT_URL + "/neprealestate-logo/logo.png"}
                       alt={item.profile_image + "_small.jpg"}
@@ -127,10 +136,12 @@ const Recentlisting = ({ recentProperties }) => {
                       {item.title}
                     </Link>{" "}
                   </h5>
+                  <p class="listing-text"><Link to={'#'} > <span><i class="fas fa-map-marker-alt"></i></span> {item.title.slice(0, 44) + "..."}</Link></p>
                   <span className="listing-price">
                     Rs. {new Number(item.price).toLocaleString()}
                     <span> {item.price_on}</span>{" "}
                   </span>
+
                   <p className="listing-text">{item.text}</p>
                   <div className="acr-listing-icons">
                     <OverlayTrigger overlay={bedstip}>

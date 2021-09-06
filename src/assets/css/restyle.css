@@ -289,7 +289,7 @@
 }
 /* RAHUL MORE */
 /* IN USED */
-.tab-content > .active {
+.row.search-form-container .tab-content > .active {
   height: 300px;
 }
 .rmsc.multi-select .dropdown-container {

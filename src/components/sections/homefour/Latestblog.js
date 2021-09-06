@@ -9,7 +9,7 @@ const Latestblog = ({ recentNews }) => {
             <div className="container">
                 <div className="section-title-wrap section-header">
                     <h5 className="custom-primary">Latest News</h5>
-                    <h2 className="title">Latest News in <span style={{ color: "rgb(0, 69, 146)" }}>{uppercaseFirstLetter(window.location.pathname.split("/")[1])}</span></h2>
+                    <h2 className="title">Latest News</h2>
                 </div>
                 <div className="row">
                     {

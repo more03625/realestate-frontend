@@ -133,6 +133,17 @@ Version: 1.0.0
   height: 100%;
   object-fit: cover;
 }
+
+@media (min-width: 1200px) {
+  .container,
+  .container-lg,
+  .container-md,
+  .container-sm,
+  .container-xl {
+    max-width: 1250px;
+  }
+}
+
 .acr-preloader {
   position: fixed;
   top: 0;

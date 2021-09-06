@@ -73,7 +73,7 @@ const Propertyresults = () => {
                 setLoadingButton(false);
             })
     }
-    console.log(totalResults)
+
     useEffect(() => {
         window.scrollTo({ top: 0, behavior: "smooth" });
         getSearchResults();
