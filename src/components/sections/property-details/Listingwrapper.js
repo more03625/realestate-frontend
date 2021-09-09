@@ -23,6 +23,9 @@ import {
 import ContentNotFound from "../../pages/ContentNotFound";
 import ReactHtmlParser, { processNodes, convertNodeToElement, htmlparser2 } from 'react-html-parser';
 
+
+import Recentlistings from './../homefour/Recentlistings';
+
 const bedstip = <Tooltip>Beds</Tooltip>;
 const bathstip = <Tooltip>Bathrooms</Tooltip>;
 function SampleNextArrow(props) {
@@ -45,12 +48,16 @@ function SamplePrevArrow(props) {
         />
     );
 }
-// const settings = {
-//     slidesToShow: 1,
-//     slidesToScroll: 1,
-//     arrows: false,
-//     dots: false,
-// };
+const listingThumbnail = {
+    borderRadius: "0px"
+}
+const listing = {
+    padding: "0px"
+}
+const listingBody = {
+    margin: "10px",
+    padding: "7px"
+}
 const settings = {
     slidesToShow: 1,
     slidesToScroll: 1,
@@ -326,13 +333,13 @@ const Listingwrapper = ({ propertyDetails, coordinates, recentProperties }) => {
                                         mainslider.map((item, i) => (
                                             <Link
                                                 key={i}
-                                                to={isGallaryReady ? { pathname: process.env.REACT_APP_CONTENT_URL + item + ".jpg" } : '#'}
+                                                to={isGallaryReady ? { pathname: Host + item + ".jpg" } : '#'}
                                                 className="slider-thumbnail-item gallery-thumb"
                                             >
                                                 <img className="rounded"
                                                     style={{ imageGal }}
                                                     src={
-                                                        process.env.REACT_APP_CONTENT_URL + item + ".jpg"
+                                                        Host + item + ".jpg"
                                                     }
                                                     alt={
                                                         propertyDetails && propertyDetails.title
@@ -356,7 +363,7 @@ const Listingwrapper = ({ propertyDetails, coordinates, recentProperties }) => {
                                                 <img className="rounded"
                                                     style={{ imageGal }}
                                                     src={
-                                                        process.env.REACT_APP_CONTENT_URL + item + ".jpg"
+                                                        Host + item + ".jpg"
                                                     }
                                                     alt={
                                                         propertyDetails && propertyDetails.title
@@ -708,7 +715,7 @@ const Listingwrapper = ({ propertyDetails, coordinates, recentProperties }) => {
                                                         propertyDetails.features.outdoor ? propertyDetails.features.outdoor.map((value, index) => (
 
                                                             <div key={index} className="listing-feature">
-                                                                <img className="propertyDetailsOtherDetails" src={process.env.REACT_APP_CONTENT_URL + value.icon + ".jpg"} />
+                                                                <img className="propertyDetailsOtherDetails" src={Host + value.icon + ".jpg"} />
                                                                 <h6 className="listing-feature-label">
                                                                     {value.feature}
                                                                 </h6>
@@ -726,7 +733,7 @@ const Listingwrapper = ({ propertyDetails, coordinates, recentProperties }) => {
                                                         propertyDetails.features.indoor ? propertyDetails.features.indoor.map((value, index) => {
                                                             {
                                                                 return <div key={index} className="listing-feature">
-                                                                    <img className="propertyDetailsOtherDetails" src={process.env.REACT_APP_CONTENT_URL + value.icon + ".jpg"} />
+                                                                    <img className="propertyDetailsOtherDetails" src={Host + value.icon + ".jpg"} />
 
                                                                     <h6 className="listing-feature-label">
                                                                         {value.feature}
@@ -745,7 +752,7 @@ const Listingwrapper = ({ propertyDetails, coordinates, recentProperties }) => {
                                                     {
                                                         propertyDetails.features.climate ? propertyDetails.features.climate.map((value, index) => (
                                                             <div key={index} className="listing-feature">
-                                                                <img className="propertyDetailsOtherDetails" src={process.env.REACT_APP_CONTENT_URL + value.icon + ".jpg"} />
+                                                                <img className="propertyDetailsOtherDetails" src={Host + value.icon + ".jpg"} />
 
                                                                 <h6 className="listing-feature-label">
                                                                     {value.feature}
@@ -826,171 +833,7 @@ const Listingwrapper = ({ propertyDetails, coordinates, recentProperties }) => {
                                         */}
                                 {/* Similar Start */}
 
-                                <div className="section section-padding">
-                                    <h4>Recent Listings</h4>
-                                    <div className="row">
-                                        {/* Listing Start */}
-                                        {recentProperties &&
-                                            recentProperties.slice(0, 4).map((item, i) => (
-                                                <div key={i} className="col-lg-6">
-                                                    <div className="listing">
-                                                        <div className="listing-thumbnail " >
-                                                            <Link to={`/property/${convertToSlug(item.title)}/${item.id}`}>
-                                                                <img // thumbnail
-                                                                    src={item.image != null ? process.env.REACT_APP_CONTENT_URL + item.image + "_medium.jpg" : process.env.REACT_APP_CONTENT_URL + "/properties/default.jpg"}
-                                                                    alt={`image of ${item.title}`}
-                                                                    style={{ width: "300px", height: "200px" }}
-                                                                />
-                                                            </Link>
-
-                                                            <div className="listing-badges">
-
-                                                                {item.property_type === "buy" ? (
-                                                                    <span className="listing-badge sale">{uppercaseFirstLetter(item.property_type)}</span>
-                                                                ) : (
-                                                                    ""
-                                                                )}
-                                                                {item.property_type === "sold" ? (
-                                                                    <span className="listing-badge pending">{uppercaseFirstLetter(item.property_type)}</span>
-                                                                ) : (
-                                                                    ""
-                                                                )}
-                                                                {item.property_type === "rent" ? (
-                                                                    <span className="listing-badge rent">{uppercaseFirstLetter(item.property_type)}</span>
-                                                                ) : (
-                                                                    ""
-                                                                )}
-                                                                {item.property_type === "share" ? (
-                                                                    <span className="listing-badge rent">{uppercaseFirstLetter(item.property_type)}</span>
-                                                                ) : (
-                                                                    ""
-                                                                )}
-                                                                {item.property_type === "invest" ? (
-                                                                    <span className="listing-badge sale">{uppercaseFirstLetter(item.property_type)}</span>
-                                                                ) : (
-                                                                    ""
-                                                                )}
-                                                                {item.property_type === "lease" ? (
-                                                                    <span className="listing-badge sale">{uppercaseFirstLetter(item.property_type)}</span>
-                                                                ) : (
-                                                                    ""
-                                                                )}
-                                                            </div>
-                                                            {/*
-                                                                <div className="listing-controls">
-                                                                <Link to="#" onClick={() => saveProperty(item.id)} className="favorite">
-                                                                    <i className="far fa-heart" />
-                                                                </Link>
-                                                                </div>
-                                                                */}
-                                                        </div>
-                                                        <div className="listing-body">
-                                                            <div className="listing-author">
-                                                                <img src={
-                                                                    item && item.is_contact_show === 1 ? item && item.profile_image !== null ?
-                                                                        process.env.REACT_APP_CONTENT_URL + item.profile_image + "_small.jpg" : process.env.REACT_APP_CONTENT_URL + "/users/default.png"
-                                                                        : process.env.REACT_APP_CONTENT_URL + "/neprealestate-logo/logo.png"}
-                                                                    alt={item.profile_image + "_small.jpg"}
-                                                                />
-                                                                <div className="listing-author-body">
-                                                                    <p>
-                                                                        {" "}
-                                                                        <Link to="#">{item.name_for_contact}</Link>{" "}
-                                                                    </p>
-                                                                    <span className="listing-date">{new Date(item.createdAt).toDateString()}</span>
-                                                                </div>
-                                                                <Dropdown className="options-dropdown">
-                                                                    <Dropdown.Toggle as={NavLink}>
-                                                                        <i className="fas fa-ellipsis-v" />
-                                                                    </Dropdown.Toggle>
-                                                                    <Dropdown.Menu className="dropdown-menu-right">
-                                                                        <ul>
-                                                                            <li>
-                                                                                {" "}
-                                                                                <Link target="_blank" to={{ pathname: `tel:${item.number_for_contact}` }}>
-                                                                                    {" "}
-                                                                                    <i className="fas fa-phone" /> Call Agent
-                                                                                </Link>{" "}
-                                                                            </li>
-                                                                            <li>
-                                                                                {" "}
-                                                                                <Link target="_blank" to={{ pathname: `${openInGmail(item.email_for_contact, item.title, Host + "/property/" + convertToSlug(item.title) + "/" + item.id)}` }}>
-                                                                                    {" "}
-                                                                                    <i className="fas fa-envelope" /> Send Message
-                                                                                </Link>{" "}
-                                                                            </li>
-                                                                            <li>
-                                                                                {" "}
-                                                                                <Link to={`/property/${convertToSlug(item.title)}/${item.id}#book_tour`}>
-                                                                                    {" "}
-                                                                                    <i className="fas fa-bookmark" /> Book Tour
-                                                                                </Link>{" "}
-                                                                            </li>
-                                                                        </ul>
-                                                                    </Dropdown.Menu>
-                                                                </Dropdown>
-                                                            </div>
-                                                            <h5 className="listing-title">
-                                                                {" "}
-                                                                <Link to={`/property/${convertToSlug(item.title)}/${item.id}`} title={item.title}>
-                                                                    {item.title}
-                                                                </Link>{" "}
-                                                            </h5>
-                                                            <span className="listing-price">
-                                                                Rs. {new Number(item.price).toLocaleString()}
-                                                                <span> {item.price_on}</span>{" "}
-                                                            </span>
-                                                            <p className="listing-text">{item.text}</p>
-                                                            <div className="acr-listing-icons">
-                                                                <OverlayTrigger overlay={bedstip}>
-                                                                    <div className="acr-listing-icon">
-                                                                        <i className="flaticon-bedroom" />
-                                                                        <span className="acr-listing-icon-value">
-                                                                            {item.no_of_beds}
-                                                                        </span>
-                                                                    </div>
-                                                                </OverlayTrigger>
-                                                                <OverlayTrigger overlay={bathstip}>
-                                                                    <div className="acr-listing-icon">
-                                                                        <i className="flaticon-bathroom" />
-                                                                        <span className="acr-listing-icon-value">
-                                                                            {item.no_of_bathrooms}
-                                                                        </span>
-                                                                    </div>
-                                                                </OverlayTrigger>
-                                                                <OverlayTrigger overlay={<Tooltip>Sqft</Tooltip>}>
-                                                                    <div className="acr-listing-icon">
-                                                                        <i className="flaticon-ruler" />
-                                                                        <span className="acr-listing-icon-value">
-                                                                            {item.area_in_sqft}
-                                                                        </span>
-                                                                    </div>
-                                                                </OverlayTrigger>
-                                                            </div>
-                                                            <div className="listing-gallery-wrapper">
-                                                                <Link
-                                                                    to={`/property/${convertToSlug(item.title)}/${item.id}`}
-                                                                    className="btn-custom btn-sm secondary"
-                                                                >
-                                                                    View Details
-                                                                </Link>
-                                                                {/*
-                                                                    <OverlayTrigger overlay={gallerytip}>
-                                                                                        <Link to={`/property/${convertToSlug(item.title)}/${item.id}`} className="listing-gallery">
-                                                                                            {" "}
-                                                                                            <i className="fas fa-camera" />{" "}
-                                                                                        </Link>
-                                                                                        </OverlayTrigger>
-                                                                                    */}
-
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            ))}
-                                        {/* Listing End */}
-                                    </div>
-                                </div>
+                                <Recentlistings recentProperties={recentProperties} col={6} />
                                 {/* Similar End */}
                             </div>
                             {/* Listings End */}
@@ -1002,7 +845,7 @@ const Listingwrapper = ({ propertyDetails, coordinates, recentProperties }) => {
                                         <div className="media sidebar-author listing-agent">
                                             <img
                                                 src={
-                                                    propertyDetails && propertyDetails.is_contact_show === 1 ? propertyDetails && propertyDetails.profile_image != null ? process.env.REACT_APP_CONTENT_URL + propertyDetails.profile_image + "_small.jpg" : process.env.REACT_APP_CONTENT_URL + "/users/default.png" : process.env.REACT_APP_CONTENT_URL + "/neprealestate-logo/logo.png"
+                                                    propertyDetails && propertyDetails.is_contact_show === 1 ? propertyDetails && propertyDetails.profile_image != null ? Host + propertyDetails.profile_image + "_small.jpg" : Host + "/users/default.png" : Host + "/neprealestate-logo/logo.png"
                                                 }
                                                 alt={propertyDetails && propertyDetails.profile_image + "_small.jpg"}
                                             />

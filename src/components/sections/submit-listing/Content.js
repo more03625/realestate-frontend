@@ -23,7 +23,6 @@ import {
   Endpoints,
   successToast,
   errorToast,
-  errorStyle,
   getUserToken,
   uppercaseFirstLetter,
   lowercaseFirstLetter,
@@ -37,7 +36,10 @@ function Content() {
 
 
   function handleScriptLoad(updateQuery, autoCompleteRef) {
-    autoComplete = new window.google.maps.places.Autocomplete(autoCompleteRef.current, {});
+    const options = {
+      componentRestrictions: { country: "np" },
+    };
+    autoComplete = new window.google.maps.places.Autocomplete(autoCompleteRef.current, options);
 
     autoComplete.setFields(['place_id', 'geometry', 'name', 'formatted_address']);
 
@@ -48,12 +50,15 @@ function Content() {
     );
   }
   const [propertyData, setPropertyData] = useState();
+  const [mapAddress, setMapAddress] = useState();
+
 
   async function handlePlaceSelect(updateQuery) {
     const addressObject = autoComplete.getPlace();
     const query = addressObject.formatted_address;
     updateQuery(query);
-    setPropertyData({ address: addressObject.formatted_address, latitude: addressObject.geometry.location.lat(), longitude: addressObject.geometry.location.lng() })
+    console.log(propertyData)
+    setMapAddress({ address: addressObject.formatted_address, latitude: addressObject.geometry.location.lat(), longitude: addressObject.geometry.location.lng() })
   }
 
   const [query, setQuery] = useState("");
@@ -470,26 +475,31 @@ function Content() {
       propertyData.city === null ||
       propertyData.city === undefined
     ) {
+
+
       errorToast("city is required feild");
       document.getElementById("tab3").click();
       city.current.scrollIntoView();
       setPropertyDataError({ city: "Please specify city!" });
       return false;
-    } else if (
-      propertyData.address === "" ||
-      propertyData.address === null ||
-      propertyData.address === undefined
-    ) {
+    } else if (mapAddress === undefined && propertyData.address === '') {
+      console.log("mapAddress ===> ", mapAddress);
+      console.log("propertyData.address ===> ", propertyData.address);
+
       errorToast("address is required feild");
       document.getElementById("tab3").click();
       city.current.scrollIntoView();
       setPropertyDataError({ address: "Please provide address!" });
       return false;
-    } else if (
+
+    }
+    else if (
       propertyData.area === "" ||
       propertyData.area === null ||
       propertyData.area === undefined
     ) {
+      console.log('I am not here')
+
       errorToast("area is required feild");
       document.getElementById("tab4").click();
       area.current.scrollIntoView();
@@ -612,6 +622,7 @@ function Content() {
       } else {
         var addPropertyURL = Host + Endpoints.addProperty;
       }
+      Object.assign(propertyData, mapAddress);
 
       Axios.post(addPropertyURL, propertyData, {
         headers: {
@@ -624,9 +635,9 @@ function Content() {
             errorToast(response.data.title);
           } else {
             successToast(response.data.title);
-            setTimeout(function () {
-              history.push("/my-listings");
-            }, 1000);
+            // setTimeout(function () {
+            //   history.push("/my-listings");
+            // }, 1000);
           }
         })
         .catch((error) => {
@@ -637,10 +648,12 @@ function Content() {
       setLoadingButton(false);
     }
   };
+  const queryParams = new URLSearchParams(window.location.search);
+  var isAdmin = queryParams.get("isadmin");
   const [imagesToPreview, setImagesToPreview] = useState([]);
   const getPropertyDetails = () => {
     if (propertyID !== undefined) {
-      var url = Host + Endpoints.getPropertyDetails + propertyID;
+      var url = Host + Endpoints.getPropertyDetails + propertyID + "?isadmin=" + isAdmin;
       Axios.get(url).then((response) => {
         if (response.data.error !== true) {
           setPropertyData(response.data.data);
@@ -672,7 +685,7 @@ function Content() {
           for (var i = 0; i < gallaryImages.length; i++) {
             var preImg = [];
 
-            var imgURL = process.env.REACT_APP_CONTENT_URL + gallaryImages[i] + ".jpg";
+            var imgURL = Host + gallaryImages[i] + ".jpg";
 
             fetch(imgURL)
               .then(res => res.blob())
@@ -694,7 +707,7 @@ function Content() {
   };
 
   useEffect(() => {
-    handleScriptLoad(setQuery, autoCompleteRef)
+    handleScriptLoad(setQuery, autoCompleteRef);
     getPropertyDetails();
     getCategories();
     getPropertyTypes();
@@ -826,7 +839,7 @@ function Content() {
                       </div>
 
                       <div className="col-md-6 form-group">
-                        <label className="required">Property Type</label>
+                        <label className="required">Service</label>
                         <select
                           className="form-control"
                           name="propertyType"
@@ -881,7 +894,7 @@ function Content() {
                         >
                           <option value="">Sub category</option>
                           {subCategoriesWithCount &&
-                            subCategoriesWithCount.map((value, index) => (
+                            subCategoriesWithCount.filter((x) => (x.name !== 'All property types')).map((value, index) => (
                               <option key={index} value={value.id}>{uppercaseFirstLetter(value.name)}</option>
                             ))}
                         </select>
@@ -1004,6 +1017,7 @@ function Content() {
                           onChange={(e) => {
                             uploadImage(e);
                           }}
+                          accept="image/jpeg, image/jpg, image/png, image/webp"
                         />
                         <label
                           className="custom-file-label"
@@ -1018,7 +1032,7 @@ function Content() {
 
                         isImageSelected === false && propertyID > 0 ?
                           <p style={successStyle}>
-                            <Link style={successStyle} target="_blank" to={{ pathname: propertyData && propertyData.image ? process.env.REACT_APP_CONTENT_URL + propertyData.image + ".jpg" : "" }}>This image selected as a thumbnail!</Link>
+                            <Link style={successStyle} target="_blank" to={{ pathname: propertyData && propertyData.image ? Host + propertyData.image + ".jpg" : "" }}>This image selected as a thumbnail!</Link>
                           </p>
                           : ''
                       }
@@ -1040,33 +1054,6 @@ function Content() {
                       <p style={errorStyle}>{propertyDataError.video_url}</p>
 
                     </div>
-                    {/*
-                    <div className="form-group">
-                      <label className="required">Add Image Gallary</label>
-                      <div className="custom-file">
-                        <input
-                          type="file"
-                          className="custom-file-input"
-                          ref={images}
-                          id="propertyGallery"
-                          multiple
-                          onChange={(e) => {
-                            uploadMultipleImages(e);
-                          }}
-                          accept="image/*"
-                        />
-                        <label
-                          className="custom-file-label"
-                          htmlFor="propertyGallery"
-                        >
-                          Choose file
-                        </label>
-                      </div>
-                      <p style={errorStyle}>{propertyDataError.images}</p>
-                      <p style={successStyle}>{isImageSelected.images}</p>
-                    </div>
-
-*/}
                     <div className="form-group">
                       <label>Property Gallery </label>
                       <div {...getRootProps({ className: 'dropzone' })}>
@@ -1086,10 +1073,8 @@ function Content() {
                                 <img src={value} alt="img" style={{ objectFit: 'contain' }} />
                               </div>
                             </div>
-
                           }) : ''
                         }
-
                       </aside>
                       <span className="acr-form-notice">*You can upload up to 15 images for your listing</span>
                       <span className="acr-form-notice">*Upload minimum 4-8 Images to get more calls!</span>
@@ -1374,7 +1359,7 @@ function Content() {
                                   />
                                   <i className="acr-feature-check fas fa-check" />
                                   <i className="acr-listing-feature-icon">
-                                    <img src={process.env.REACT_APP_CONTENT_URL + value.icon + ".jpg"} />
+                                    <img src={Host + value.icon + ".jpg"} />
                                   </i>
                                   {value.feature}
                                 </label>
@@ -1402,7 +1387,7 @@ function Content() {
                                   />
                                   <i className="acr-feature-check fas fa-check" />
                                   <i className="acr-listing-feature-icon">
-                                    <img src={process.env.REACT_APP_CONTENT_URL + value.icon + ".jpg"} />
+                                    <img src={Host + value.icon + ".jpg"} />
                                   </i>
                                   {value.feature}
                                 </label>
@@ -1429,7 +1414,7 @@ function Content() {
                                   />
                                   <i className="acr-feature-check fas fa-check" />
                                   <i className="acr-listing-feature-icon">
-                                    <img src={process.env.REACT_APP_CONTENT_URL + value.icon + ".jpg"} />
+                                    <img src={Host + value.icon + ".jpg"} />
                                   </i>
                                   {value.feature}
                                 </label>

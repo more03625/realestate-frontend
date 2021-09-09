@@ -60,7 +60,7 @@ const Content = () => {
         getRecentNews();
         getSubCategories();
         getRecentProperties();
-    }, [propertyType])
+    }, [propertyType]);
     return (
         <Fragment>
             <Banner />
@@ -78,7 +78,7 @@ const Content = () => {
 
             {/*<Findhome categories={subCategoriesWithCount} />*/}
             {/*<Services />*/}
-            <Recentlistings recentProperties={recentProperties} />
+            <Recentlistings recentProperties={recentProperties} col={4} />
             {/* <Whyus />
             <div className="section pt-0">
                 <Bluecta />

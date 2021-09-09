@@ -51,14 +51,14 @@ const Content = ({ recentNews }) => {
       <article key={i} className="post">
         <div className="post-thumbnail">
           <Link to={`/read/news/${convertToSlug(item.title)}/${item.id}`}>
-            <img src={item.image != null ? process.env.REACT_APP_CONTENT_URL + item.image + ".jpg" : process.env.REACT_APP_CONTENT_URL + "/users/default.png"}
+            <img src={item.image != null ? Host + item.image + ".jpg" : Host + "/users/default.png"}
               alt={`image of ${item.title}`}
             />
           </Link>
         </div>
         <div className="post-body">
           <div className="post-author">
-            <img src={item.profile_image != null ? process.env.REACT_APP_CONTENT_URL + item.profile_image + "_small.jpg" : process.env.REACT_APP_CONTENT_URL + "/users/default.png"}
+            <img src={item.profile_image != null ? Host + item.profile_image + "_small.jpg" : Host + "/users/default.png"}
               alt={item.profile_image + "_small.jpg"}
             />
 

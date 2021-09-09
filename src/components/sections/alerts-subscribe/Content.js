@@ -183,7 +183,9 @@ const Content = () => {
                             <span style={{ color: "#F42F2F" }}>Real Estate</span> alerts
                         </h3>
                         <p>
-                            Get latest properties alerts based on your preferences.
+                            With thousands of properties for sale available on website Neprealestate can match you with the property that you want to call yours.
+                            <br />Receive an email for new properties that match your search options.
+
                         </p>
                     </div>
                     <div className="form-group">

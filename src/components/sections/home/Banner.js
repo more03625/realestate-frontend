@@ -7,7 +7,6 @@ import {
 } from "../../../data/select.json";
 import Select2 from "react-select2-wrapper";
 import { Tab, Nav } from "react-bootstrap";
-import "../../../assets/css/restyle.css";
 
 class Banner extends Component {
   constructor(props) {

@@ -8,7 +8,6 @@ import {
 } from "react-bootstrap";
 
 import Select2 from "react-select2-wrapper";
-import "../../../assets/css/restyle.css";
 import { ActualSearch } from "./Searchbarareas/ActualSearch";
 
 

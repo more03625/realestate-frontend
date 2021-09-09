@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { Host } from '../../helper/comman_helper';
 const Userbreadcrumb = ({ userData, profileImage, isImageChanged }) => {
     return (
         <div className="subheader subheader-2 user-subheader bg-cover bg-center" style={{ backgroundImage: "url(" + process.env.PUBLIC_URL + "/assets/img/subheader-2.jpg)" }}>
@@ -8,8 +9,8 @@ const Userbreadcrumb = ({ userData, profileImage, isImageChanged }) => {
                     <img
                         src={
                             isImageChanged === true ? profileImage :
-                                userData && userData.profile_image != undefined ? process.env.REACT_APP_CONTENT_URL + userData.profile_image + "_small.jpg" : process.env.REACT_APP_CONTENT_URL + "/users/default.png"}
-                        alt={userData && userData.profile_image != undefined ? process.env.REACT_APP_CONTENT_URL + userData.profile_image + "_small.jpg" : process.env.REACT_APP_CONTENT_URL + "/users/default.png"}
+                                userData && userData.profile_image != undefined ? Host + userData.profile_image + "_small.jpg" : Host + "/users/default.png"}
+                        alt={userData && userData.profile_image != undefined ? Host + userData.profile_image + "_small.jpg" : Host + "/users/default.png"}
                     />
                     <div className="media-body">
                         <h3 className="text-white">{userData && userData.name !== undefined ? userData.name : ''}</h3>

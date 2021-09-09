@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import MetaTags from "react-meta-tags";
-import Header from '../layouts/Headerfive';
+import Header from '../layouts/Header';
 import Content from '../sections/register/Content';
 
 class Register extends Component {
@@ -14,8 +14,8 @@ class Register extends Component {
                         content="#"
                     />
                 </MetaTags>
-                <Header/>
-                <Content/>
+                <Header />
+                <Content />
             </Fragment>
         );
     }

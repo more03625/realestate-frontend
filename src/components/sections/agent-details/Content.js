@@ -120,7 +120,7 @@ const Content = ({ agentData, agentProperties, similarAgents }) => {
               <div className="sidebar-widget sidebar-widget-agent">
                 {/* Author Start */}
                 <div className="media sidebar-author listing-agent">
-                  <img src={agentData && agentData.profile_image != null ? process.env.REACT_APP_CONTENT_URL + agentData.profile_image + "_small.jpg" : process.env.REACT_APP_CONTENT_URL + "/users/default.png"}
+                  <img src={agentData && agentData.profile_image != null ? Host + agentData.profile_image + "_small.jpg" : Host + "/users/default.png"}
                     alt={agentData && agentData.profile_image + "_small.jpg"}
                   />
                   <div className="media-body">
@@ -235,16 +235,15 @@ const Content = ({ agentData, agentProperties, similarAgents }) => {
                         <div className="listing-thumbnail " >
                           <Link to={`/property/${convertToSlug(item.title)}/${item.id}`}>
 
-                            <img src={item.image != null ? process.env.REACT_APP_CONTENT_URL + item.image + "_medium.jpg" : process.env.REACT_APP_CONTENT_URL + "/users/default.png"}
+                            <img src={item.image != null ? Host + item.image + "_medium.jpg" : Host + "/users/default.png"}
                               alt={`image of ${item.title}`}
                               style={{ width: "300px", height: "200px" }}
                             />
                           </Link>
 
                           <div className="listing-badges">
-
                             {item.property_type === "buy" ? (
-                              <span className="listing-badge sale">{uppercaseFirstLetter(item.property_type)}</span>
+                              <span className="listing-badge sale">For Sell</span>
                             ) : (
                               ""
                             )}
@@ -254,22 +253,22 @@ const Content = ({ agentData, agentProperties, similarAgents }) => {
                               ""
                             )}
                             {item.property_type === "rent" ? (
-                              <span className="listing-badge rent">{uppercaseFirstLetter(item.property_type)}</span>
+                              <span className="listing-badge rent">For {uppercaseFirstLetter(item.property_type)}</span>
                             ) : (
                               ""
                             )}
                             {item.property_type === "share" ? (
-                              <span className="listing-badge rent">{uppercaseFirstLetter(item.property_type)}</span>
+                              <span className="listing-badge rent">For {uppercaseFirstLetter(item.property_type)}</span>
                             ) : (
                               ""
                             )}
                             {item.property_type === "invest" ? (
-                              <span className="listing-badge sale">{uppercaseFirstLetter(item.property_type)}</span>
+                              <span className="listing-badge sale">To {uppercaseFirstLetter(item.property_type)}</span>
                             ) : (
                               ""
                             )}
                             {item.property_type === "lease" ? (
-                              <span className="listing-badge sale">{uppercaseFirstLetter(item.property_type)}</span>
+                              <span className="listing-badge sale">To {uppercaseFirstLetter(item.property_type)}</span>
                             ) : (
                               ""
                             )}
@@ -286,8 +285,8 @@ const Content = ({ agentData, agentProperties, similarAgents }) => {
                           <div className="listing-author">
                             <img src={
                               item && item.is_contact_show === 1 ? item && item.profile_image !== null ?
-                                process.env.REACT_APP_CONTENT_URL + item.profile_image + "_small.jpg" : process.env.REACT_APP_CONTENT_URL + "/users/default.png"
-                                : process.env.REACT_APP_CONTENT_URL + "/neprealestate-logo/logo.png"}
+                                Host + item.profile_image + "_small.jpg" : Host + "/users/default.png"
+                                : Host + "/neprealestate-logo/logo.png"}
                               alt={item.profile_image + "_small.jpg"}
                             />
                             <div className="listing-author-body">
@@ -409,8 +408,8 @@ const Content = ({ agentData, agentProperties, similarAgents }) => {
                     <Link to={`/agent/${convertToSlug(item.name) + "/" + item.id}`}>
                       <img
                         src={
-                          item.profile_image ? process.env.REACT_APP_CONTENT_URL + item.profile_image +
-                            "_small.jpg" : process.env.REACT_APP_CONTENT_URL + "/users/default.png"
+                          item.profile_image ? Host + item.profile_image +
+                            "_small.jpg" : Host + "/users/default.png"
                         }
                         className="agentsProfileArea"
                         alt={item && item.profile_image}

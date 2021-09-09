@@ -2,7 +2,8 @@ import { red } from "chalk";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-export const Host = process.env.REACT_APP_CONTENT_URL;
+export const Host =
+    window.location.host === "neprealestate.com" ? "http://neprealestate.com:5254" : "http://localhost:5254"; //Node URL
 
 export const Endpoints = {
     Login: "/users/login",

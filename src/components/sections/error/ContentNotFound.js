@@ -73,7 +73,7 @@ const Content = () => {
                                 <div className="listing">
                                     <div className="listing-thumbnail " >
                                         <Link to={`/property/${convertToSlug(item.title)}/${item.id}`}>
-                                            <img src={item.image != null ? process.env.REACT_APP_CONTENT_URL + item.image + "_medium.jpg" : process.env.REACT_APP_CONTENT_URL + "/users/default.png"}
+                                            <img src={item.image != null ? Host + item.image + "_medium.jpg" : Host + "/users/default.png"}
                                                 alt={`image of ${item.title}`}
                                                 style={{ width: "300px", height: "200px" }}
                                             />
@@ -122,7 +122,7 @@ const Content = () => {
                                     </div>
                                     <div className="listing-body">
                                         <div className="listing-author">
-                                            <img src={item.profile_image != null ? process.env.REACT_APP_CONTENT_URL + item.profile_image + "_small.jpg" : process.env.REACT_APP_CONTENT_URL + "/users/default.png"}
+                                            <img src={item.profile_image != null ? Host + item.profile_image + "_small.jpg" : Host + "/users/default.png"}
                                                 alt={item.profile_image + "_small.jpg"}
                                             />
                                             <div className="listing-author-body">

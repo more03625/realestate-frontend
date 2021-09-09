@@ -6,7 +6,6 @@ import RentSearch from "./RentSearch";
 import SoldSearch from "./SoldSearch";
 import ShareSearch from "./ShareSearch";
 import Consultants from "./Consultants";
-
 const Banner = () => {
   const [advancesearch, setAdvancesearch] = useState(false);
   // this.advancetoggle = this.advancetoggle.bind(this);

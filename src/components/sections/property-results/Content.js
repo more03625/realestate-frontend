@@ -51,7 +51,7 @@ const Content = ({ propertyType, searchQuery, searchResults, subCategoryName, su
 
 
     var renderitems = [];
-
+    console.log(totalResults)
     // currentitems.length !== 0 &&
     if (totalResults === undefined) {
         var renderitems = <Loader />
@@ -67,22 +67,14 @@ const Content = ({ propertyType, searchQuery, searchResults, subCategoryName, su
                     <div className="listing-thumbnail">
                         <Link to={propertyURL}>
                             <img
-                                src={process.env.REACT_APP_CONTENT_URL + item.image + "_medium.jpg"}
+                                src={Host + item.image + "_medium.jpg"}
                                 alt={item.image + ".jpg"}
                                 className="custom-images"
                             />
                         </Link>
                         <div className="listing-badges">
-                            {item.star === true ? (
-                                <span className="listing-badge featured">
-                                    {" "}
-                                    <i className="fas fa-star" />{" "}
-                                </span>
-                            ) : (
-                                ""
-                            )}
                             {item.property_type === "buy" ? (
-                                <span className="listing-badge sale">{uppercaseFirstLetter(item.property_type)}</span>
+                                <span className="listing-badge sale">For Sell</span>
                             ) : (
                                 ""
                             )}
@@ -92,22 +84,22 @@ const Content = ({ propertyType, searchQuery, searchResults, subCategoryName, su
                                 ""
                             )}
                             {item.property_type === "rent" ? (
-                                <span className="listing-badge rent">{uppercaseFirstLetter(item.property_type)}</span>
+                                <span className="listing-badge rent">For {uppercaseFirstLetter(item.property_type)}</span>
                             ) : (
                                 ""
                             )}
                             {item.property_type === "share" ? (
-                                <span className="listing-badge rent">{uppercaseFirstLetter(item.property_type)}</span>
+                                <span className="listing-badge rent">For {uppercaseFirstLetter(item.property_type)}</span>
                             ) : (
                                 ""
                             )}
                             {item.property_type === "invest" ? (
-                                <span className="listing-badge sale">{uppercaseFirstLetter(item.property_type)}</span>
+                                <span className="listing-badge sale">To {uppercaseFirstLetter(item.property_type)}</span>
                             ) : (
                                 ""
                             )}
                             {item.property_type === "lease" ? (
-                                <span className="listing-badge sale">{uppercaseFirstLetter(item.property_type)}</span>
+                                <span className="listing-badge sale">To {uppercaseFirstLetter(item.property_type)}</span>
                             ) : (
                                 ""
                             )}
@@ -118,8 +110,8 @@ const Content = ({ propertyType, searchQuery, searchResults, subCategoryName, su
                         <div className="listing-author">
                             <img src={
                                 item && item.is_contact_show === 1 ? item && item.profile_image !== null ?
-                                    process.env.REACT_APP_CONTENT_URL + item.profile_image + "_small.jpg" : process.env.REACT_APP_CONTENT_URL + "/users/default.png"
-                                    : process.env.REACT_APP_CONTENT_URL + "/neprealestate-logo/logo.png"}
+                                    Host + item.profile_image + "_small.jpg" : Host + "/users/default.png"
+                                    : Host + "/neprealestate-logo/logo.png"}
                                 alt={item.profile_image + "_small.jpg"}
                             />
                             <div className="listing-author-body">

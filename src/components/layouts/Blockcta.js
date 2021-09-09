@@ -5,20 +5,18 @@ const ctablock = [
     {
         id: 1,
         icon: 'sales-agent',
-        title: 'Buying a Home?',
-        text: "Get properties related news and alerts Just by subscribing us",
+        title: 'Get property alert',
+        text: "With thousands of properties for sale available on website Neprealestate can match you with the property that you want to call yours. Recive an email for new properties that match your search criteria",
         link: "/subscribe-for-alerts",
         linkText: "Subscribe for alerts"
     },
     {
         id: 2,
         icon: 'sold',
-        title: 'Selling a Home?',
-        text: "Advertise your properties for sell, we will find you ideal customer.",
+        title: 'Sell your property with confidence',
+        text: "No listing fees, you get more when you list with Neprealestate. We will make your properties shine online to attract buyers. We are making it simpler to sell.",
         link: "/add-property",
-        linkText: "Find out more"
-
-
+        linkText: "Add property"
     }
 ]
 
@@ -32,8 +30,10 @@ const Blockcta = () => {
                             <i className={"flaticon-" + item.icon + ""} />
                             <div className="cta-body">
                                 <h4>{item.title}</h4>
-                                <p>{item.text}</p>
-                                <Link to={item.link} className="btn-link">{item.linkText}<i className="fas fa-arrow-right" /> </Link>
+                                <p className="block-text">{item.text}</p>
+                                <Link to={item.link} className="btn-custom btn-sm secondary" style={{ color: "#fff" }}>{item.linkText}
+                                    <i className="fas fa-arrow-right" />
+                                </Link>
                             </div>
                         </div>
                     </div>

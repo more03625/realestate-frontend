@@ -3,7 +3,6 @@ import React from "react";
 import {
   Tab,
 } from "react-bootstrap";
-import "../../../assets/css/restyle.css";
 import { ActualSearch } from "./Searchbarareas/ActualSearch";
 
 const RentSearch = () => {

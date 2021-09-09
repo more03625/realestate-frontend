@@ -5,7 +5,7 @@ import {
 } from "react-bootstrap";
 
 import { ActualSearch } from "./Searchbarareas/ActualSearch";
-// import "../../../assets/css/search.css";
+
 
 const BuySearch = () => {
   return (

@@ -62,7 +62,7 @@ const Content = ({ properties, searchResults, parentCallback }) => {
           <div className="listing-thumbnail">
             <Link to={propertyURL}>
               <img
-                src={process.env.REACT_APP_CONTENT_URL + item.image + "_medium.jpg"}
+                src={Host + item.image + "_medium.jpg"}
                 alt={item.image + ".jpg"}
               />
             </Link>
@@ -110,7 +110,7 @@ const Content = ({ properties, searchResults, parentCallback }) => {
           </div>
           <div className="listing-body">
             <div className="listing-author">
-              <img src={item.profile_image != null ? process.env.REACT_APP_CONTENT_URL + item.profile_image + "_small.jpg" : process.env.REACT_APP_CONTENT_URL + "/users/default.png"}
+              <img src={item.profile_image != null ? Host + item.profile_image + "_small.jpg" : Host + "/users/default.png"}
                 alt={item.profile_image + "_small.jpg"}
               />
               <div className="listing-author-body">

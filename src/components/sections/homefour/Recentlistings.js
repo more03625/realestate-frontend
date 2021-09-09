@@ -6,7 +6,7 @@ import { openInGmail, saveProperty, Endpoints, Host, convertToSlug, uppercaseFir
 
 
 
-const Recentlisting = ({ recentProperties }) => {
+const Recentlisting = ({ recentProperties, col }) => {
   const listingThumbnail = {
     borderRadius: "0px"
   }
@@ -35,12 +35,12 @@ const Recentlisting = ({ recentProperties }) => {
         <div className="row">
           {/* Listing Start */}
           {recentProperties && recentProperties.slice(0, 4).map((item, i) => (
-            <div key={i} className="col-lg-4">
+            <div key={i} className={`col-lg-${col}`}>
               <div className="listing" style={listing}>
                 <div className="listing-thumbnail" style={listingThumbnail}>
                   <Link to={`/property/${convertToSlug(item.title)}/${item.id}`}>
                     <img // thumbnail
-                      src={item.image != null ? process.env.REACT_APP_CONTENT_URL + item.image + "_medium.jpg" : process.env.REACT_APP_CONTENT_URL + "/properties/default.jpg"}
+                      src={item.image != null ? Host + item.image + "_medium.jpg" : Host + "/properties/default.jpg"}
                       alt={`image of ${item.title}`}
                       className="custom-images"
                       style={listingThumbnail}
@@ -89,7 +89,7 @@ const Recentlisting = ({ recentProperties }) => {
                 </div>
                 <div className="listing-body" style={listingBody}>
                   <div className="listing-author">
-                    <img src={item && item.is_contact_show === 1 ? item && item.profile_image != null ? process.env.REACT_APP_CONTENT_URL + item.profile_image + "_small.jpg" : process.env.REACT_APP_CONTENT_URL + "/users/default.png" : process.env.REACT_APP_CONTENT_URL + "/neprealestate-logo/logo.png"}
+                    <img src={item && item.is_contact_show === 1 ? item && item.profile_image != null ? Host + item.profile_image + "_small.jpg" : Host + "/users/default.png" : Host + "/neprealestate-logo/logo.png"}
                       alt={item.profile_image + "_small.jpg"}
                     />
                     <div className="listing-author-body">

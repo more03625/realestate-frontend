@@ -4964,8 +4964,8 @@ table img {
   font-size: 12px;
   font-weight: 600;
   color: #fff;
-  border-radius: 8px;
-  padding: 9px 6px;
+  border-radius: 2px;
+  padding: 5px 8px;
   margin-right: 5px;
 }
 .listing-badge.featured {
@@ -6772,4 +6772,8 @@ table img {
 /* RAHUL */
 .services {
   width: 100px;
+}
+.block-text {
+  font-size: 15px;
+  font-weight: 500;
 }

@@ -127,7 +127,9 @@ function App() {
           <Route path="/share" component={Home} />
           <Route path="/consultants" component={Home} />
 
-          <Route path="/commercial" component={Commercial} />
+          {/*<Route path="/commercial" component={Commercial} />*/}
+          <Route path="/commercial" component={Propertyresults} />
+
 
           <Route path="/property/:slug/:propertyID" component={Propertydetails} />
           {/*<Route path="/consultants" component={Propertyconsultants} />*/}

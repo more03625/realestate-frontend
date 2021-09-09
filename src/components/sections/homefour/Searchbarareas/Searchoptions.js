@@ -27,12 +27,10 @@ export const Searchoptions = () => {
         } else {
             var subCategoryName = [];
             for (var i = 0; i < result.data.data.categories.length; i++) {
-                console.log("propertyType ===> ", propertyType, " datacategories ===> ", result.data.data.categories[i].type)
 
                 if (propertyType === 'sold') {
                     subCategoryName.push({ 'value': result.data.data.categories[i].id, label: result.data.data.categories[i].name });
                 }
-
                 else if (propertyType === result.data.data.categories[i].type) {
                     subCategoryName.push({ 'value': result.data.data.categories[i].id, label: result.data.data.categories[i].name });
                 }
@@ -41,17 +39,6 @@ export const Searchoptions = () => {
         }
     }
 
-    const hideOptions = (e) => {
-        if (e.target.value == 4) {
-            for (var i = 0; i < 2; i++) {
-                document.getElementsByClassName("hideBeds")[i].classList.add("d-none");
-            }
-        } else {
-            for (var i = 0; i < 2; i++) {
-                document.getElementsByClassName("hideBeds")[i].classList.remove("d-none");
-            }
-        }
-    }
     useEffect(() => {
         getSubCategories();
     }, []);

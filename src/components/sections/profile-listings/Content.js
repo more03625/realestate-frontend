@@ -101,14 +101,13 @@ const Content = ({ userData }) => {
                   <div className="listing-thumbnail">
                     <Link to={`/property/${convertToSlug(item.title)}/${item.id}?isadmin=1`}>
                       <img
-                        src={process.env.REACT_APP_CONTENT_URL + item.image + ".jpg"}
+                        src={Host + item.image + ".jpg"}
                         alt={`image of ${item.title}`}
                       />
                     </Link>
                     <div className="listing-badges">
-
                       {item.property_type === "buy" ? (
-                        <span className="listing-badge sale">{uppercaseFirstLetter(item.property_type)}</span>
+                        <span className="listing-badge sale">For Sell</span>
                       ) : (
                         ""
                       )}
@@ -118,22 +117,22 @@ const Content = ({ userData }) => {
                         ""
                       )}
                       {item.property_type === "rent" ? (
-                        <span className="listing-badge rent">{uppercaseFirstLetter(item.property_type)}</span>
+                        <span className="listing-badge rent">For {uppercaseFirstLetter(item.property_type)}</span>
                       ) : (
                         ""
                       )}
                       {item.property_type === "share" ? (
-                        <span className="listing-badge rent">{uppercaseFirstLetter(item.property_type)}</span>
+                        <span className="listing-badge rent">For {uppercaseFirstLetter(item.property_type)}</span>
                       ) : (
                         ""
                       )}
                       {item.property_type === "invest" ? (
-                        <span className="listing-badge sale">{uppercaseFirstLetter(item.property_type)}</span>
+                        <span className="listing-badge sale">To {uppercaseFirstLetter(item.property_type)}</span>
                       ) : (
                         ""
                       )}
                       {item.property_type === "lease" ? (
-                        <span className="listing-badge sale">{uppercaseFirstLetter(item.property_type)}</span>
+                        <span className="listing-badge sale">To {uppercaseFirstLetter(item.property_type)}</span>
                       ) : (
                         ""
                       )}
@@ -146,10 +145,11 @@ const Content = ({ userData }) => {
                       */}
                     </div>
                   </div>
+
                   <div className="listing-body">
                     <div className="listing-author">
                       <img
-                        src={userData.profile_image != null ? process.env.REACT_APP_CONTENT_URL + userData.profile_image + "_small.jpg" : process.env.REACT_APP_CONTENT_URL + "/users/default.png"}
+                        src={userData.profile_image != null ? Host + userData.profile_image + "_small.jpg" : Host + "/users/default.png"}
                         alt={userData.profile_image + "_small.jpg"}
                       />
                       <div className="listing-author-body">
@@ -168,7 +168,7 @@ const Content = ({ userData }) => {
                           <ul>
                             <li>
                               {" "}
-                              <Link to={{ pathname: `edit-property/${convertToSlug(item.title)}/${item.id}` }}>
+                              <Link to={{ pathname: `edit-property/${convertToSlug(item.title)}/${item.id}?isadmin=1` }}>
                                 {" "}
                                 <i className="fas fa-pen" /> Edit Property
                               </Link>{" "}

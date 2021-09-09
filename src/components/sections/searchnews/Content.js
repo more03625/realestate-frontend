@@ -30,7 +30,7 @@ const Content = ({ resultsData }) => {
                     <article className="post single">
                       <div className="post-thumbnail">
                         <Link to={`/read/news/${convertToSlug(item.title)}/${item.id}`}>
-                          <img src={item.image != null ? process.env.REACT_APP_CONTENT_URL + item.image + ".jpg" : process.env.REACT_APP_CONTENT_URL + "/users/default.png"}
+                          <img src={item.image != null ? Host + item.image + ".jpg" : Host + "/users/default.png"}
                             alt={`image of ${item.title}`}
                           />
 
@@ -40,7 +40,7 @@ const Content = ({ resultsData }) => {
                         <div className="post-author">
                           <img
                             src={
-                              process.env.REACT_APP_CONTENT_URL + item.profile_image +
+                              Host + item.profile_image +
                               "_small.jpg"
                             }
                             alt={item.profile_image + "_small.jpg"}

@@ -30,10 +30,10 @@ const Content = ({ newsData, recentNews }) => {
                   <img
                     src={
                       newsData && newsData.image != null
-                        ? process.env.REACT_APP_CONTENT_URL +
+                        ? Host +
                         newsData.image +
                         ".jpg"
-                        : process.env.REACT_APP_CONTENT_URL +
+                        : Host +
                         "/users/default.png"
                     }
                     alt={`image of ${newsData && newsData.title}`}
@@ -62,10 +62,10 @@ const Content = ({ newsData, recentNews }) => {
                               <img
                                 src={
                                   item.image != null
-                                    ? process.env.REACT_APP_CONTENT_URL +
+                                    ? Host +
                                     item.image +
                                     ".jpg"
-                                    : process.env.REACT_APP_CONTENT_URL +
+                                    : Host +
                                     "/users/default.png"
                                 }
                                 alt={`image of ${item.title}`}
@@ -76,7 +76,7 @@ const Content = ({ newsData, recentNews }) => {
                             <div className="post-author">
                               <img
                                 src={
-                                  process.env.REACT_APP_CONTENT_URL +
+                                  Host +
                                   item.profile_image +
                                   "_small.jpg"
                                 }

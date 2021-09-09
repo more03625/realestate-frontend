@@ -6,8 +6,7 @@ import {
     Nav,
 } from "react-bootstrap";
 import { BuyArea, RentArea, SoldArea, ShareArea, FindAgents } from "./SearchInputArea";
-import "../../../../assets/css/restyle.css";
-
+import '../../../../assets/css/restyle.css';
 export const ActualSearch = () => {
 
     const setButtonClicked = (e) => {
@@ -23,8 +22,10 @@ export const ActualSearch = () => {
 
     const [query, setQuery] = useState("");
     const autoCompleteRef = useRef(null);
-
-    autoComplete = new window.google.maps.places.Autocomplete(autoCompleteRef.current, {});
+    const options = {
+        componentRestrictions: { country: "np" },
+    };
+    autoComplete = new window.google.maps.places.Autocomplete(autoCompleteRef.current, options);
     var propertyType = window.location.pathname.split("/")[1];
 
     return (

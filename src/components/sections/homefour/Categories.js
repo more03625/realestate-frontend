@@ -47,32 +47,44 @@ const Categories = () => {
                     services == 'buy' ? (
                         <>
                             <div className="section-title-wrap section-header"><h5 className="custom-primary">Categories</h5><h2 className="title">Browse By Category</h2></div>
-                            <Tabs className="justify-content-center" defaultActiveKey={categories && categories[0] && categories[0].id} onSelect={(e) => handleSelect(e)} id="uncontrolled-tab-example" >
-                                {categories &&
-                                    categories.map((value, index) => (
-                                        <Tab key={index} eventKey={value.id} title={value.name} >
-                                            <div className="row">
-                                                {subCategoriesWithCount && subCategoriesWithCount.map((item, i) => (
-                                                    <div key={i} className="col-lg-4 col-md-6">
-                                                        <div className="acr-category">
-                                                            <div className="acr-category-thumb" >
-                                                                <i className={"flaticon-company"} />
-                                                                <Link to={`/property-results?sub_category=${item.name.toLowerCase()}&subcategory_id=${item.id}`}>
-                                                                    <img className="rounded" src={process.env.REACT_APP_CONTENT_URL + item.image + ".jpg"} alt="category" />
-                                                                </Link>
-                                                                <div className="acr-category-body">
-                                                                    <h5> <Link to={`/property-results?sub_category=${item.name.toLowerCase()}&subcategory_id=${item.id}`}>{item.title}</Link> </h5>
-                                                                    <span>{item.numberofitem} {item.name} ( {item.count} Properties) </span>
-                                                                </div>
-                                                            </div>
-                                                        </div>
+                            {
+                                <div className="row">
+                                    {subCategoriesWithCount && subCategoriesWithCount.filter((x) => (x.name !== 'All property types')).slice(0, 6).map((item, i) => (
+                                        <div key={i} className="col-lg-4 col-md-6">
+                                            <div className="acr-category">
+                                                <div className="acr-category-thumb">
+                                                    <i className={"flaticon-house"} />
+                                                    <Link to={`/property-results?sub_category=${item.name.toLowerCase()}&subcategory_id=${item.id}`}>
+
+                                                        <img src={Host + item.image + ".jpg"} alt="category" />
+                                                    </Link>
+                                                    <div className="acr-category-body">
+                                                        <h5>
+                                                            <Link to={`/property-results?sub_category=${item.name.toLowerCase()}&subcategory_id=${item.id}`}>{item.name}
+                                                            </Link>
+                                                        </h5>
+                                                        <span>{item.count} Listings</span>
                                                     </div>
-                                                ))}
+                                                </div>
                                             </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            }
+
+
+                            {/*
+                            
+<Tabs className="justify-content-center" defaultActiveKey={categories && categories[0] && categories[0].id} onSelect={(e) => handleSelect(e)} id="uncontrolled-tab-example" >
+                                {categories &&
+                                    categories.slice(0, 6).map((value, index) => (
+                                        <Tab key={index} eventKey={value.id} title={value.name} >
+                                            
                                         </Tab>
                                     ))
                                 }
                             </Tabs>
+                            */}
                         </>
                     ) : (
                         <>
@@ -85,7 +97,7 @@ const Categories = () => {
                                                 <div key={i} className="col-lg-4">
                                                     <Link target={item.targetBlank} to={{ pathname: item.link }}>
                                                         <div className="acr-infographic-item" style={{ backgroundColor: "#fff" }}>
-                                                            <img className="services" alt="test" src="https://www.realestate.com.au/assets/img/rent/1511759973236.33754e25192e84aafe6fa68843001e6e.png" />
+                                                            <img className="services" alt="test" src={Host + item.gridimg} />
                                                             <div className="acr-infographic-item-body">
                                                                 <h5>{item.title}</h5>
                                                                 <p>{item.description}</p>

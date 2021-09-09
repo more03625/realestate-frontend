@@ -25,16 +25,11 @@ class Header extends HeaderComponent {
                 </aside>
                 <div className="aside-overlay aside-trigger" onClick={this.navtoggleClass} />
                 {/* Header Start */}
-                <header className={`main-header header-fw can-sticky header-1 ${stickyheader}`}>
+                <header className={`main-header header-fw can-sticky  ${stickyheader}`}>
                     {/* Top Header Start */}
                     <div className="top-header">
                         <div className="top-header-inner">
-                            <ul className="social-media">
-                                <li> <Link to="https://www.facebook.com/NeprealestateNR/"> <i className="fab fa-facebook-f" /> </Link> </li>
-                                <li> <Link to="#"> <i className="fab fa-pinterest-p" /> </Link> </li>
-                                <li> <Link to="#"> <i className="fab fa-linkedin-in" /> </Link> </li>
-                                <li> <Link to="#"> <i className="fab fa-twitter" /> </Link> </li>
-                            </ul>
+
                             <ul className="top-header-nav">
                                 <ul className="top-header-nav">
                                     {!IsUserAuthenticated() ? (

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import ReactHtmlParser, { processNodes, convertNodeToElement, htmlparser2 } from 'react-html-parser';
-import { convertToSlug, uppercaseFirstLetter } from '../../../helper/comman_helper';
+import { convertToSlug, uppercaseFirstLetter, Host } from '../../../helper/comman_helper';
 const Latestblog = ({ recentNews }) => {
 
     return (
@@ -18,7 +18,7 @@ const Latestblog = ({ recentNews }) => {
                                 <article className="post post-list">
                                     <div className="post-thumbnail" style={{ width: "100%", height: "186.25px" }}>
                                         <Link to={`/read/news/${convertToSlug(value.title)}/${value.id}`}>
-                                            <img className="custom-images" src={process.env.REACT_APP_CONTENT_URL + value.image + ".jpg"} alt="blog post" />
+                                            <img className="custom-images" src={Host + value.image + ".jpg"} alt="blog post" />
                                         </Link>
                                     </div>
 

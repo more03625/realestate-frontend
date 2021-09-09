@@ -28,7 +28,7 @@
     "rent":[
         {
             "id": 1,
-            "gridimg": "assets/img/listings/1.jpg",
+            "gridimg": "/services/tenant-profile.png",
             "title": "Need to find a tenant?",
             "description": "Advertise your place for rent We can help you.",
             "link" : "/add-property",
@@ -36,7 +36,7 @@
         },
         {
             "id": 2,
-            "gridimg": "assets/img/listings/1.jpg",
+            "gridimg": "/services/for-rent.png",
             "title": "Find a Rental",
             "description": "Find a place on Nepal’s biggest rental website.",
             "link" : "/property-results?property_type=rent",
@@ -44,7 +44,7 @@
         },
         {
             "id": 3,
-            "gridimg": "assets/img/listings/1.jpg",
+            "gridimg": "/services/find-flatmets.png",
             "title": "Find a Flatmate",
             "description": "Find a place on Nepal’s biggest rental website.",
             "link" : "/property-results?property_type=share",
@@ -54,15 +54,15 @@
     "share":[
         {
             "id": 1,
-            "gridimg": "assets/img/listings/1.jpg",
+            "gridimg": "/services/find-flatmets.png",
             "title": "I Need a Flatmate",
-            "description": "Create a listings for potential flatmates to find you!",
+            "description": "Create a listings for potential flatmates to find you on just your finger tips!",
             "link" : "/add-property",
             "linkText":"List my place"
         },
         {
             "id": 2,
-            "gridimg": "assets/img/listings/1.jpg",
+            "gridimg": "/services/find-flatmets.png",
             "title": "I Need a room",
             "description": "Want to share room? search millions of shared on Neprealestate",
             "link" : "/property-results?property_type=share",
@@ -72,33 +72,30 @@
     "sold":[
         {
             "id": 1,
-            "gridimg": "assets/img/listings/1.jpg",
+            "gridimg": "/services/find-flatmets.png",
             "title": "Decide if it is time to sell",
             "description": "Want to sell your property? Know the best rated & get latest news about market!",
             "link" : "/add-property",
             "linkText":"Check News",
             "icon": "telephone"
-
         },
         {
             "id": 2,
-            "gridimg": "assets/img/listings/1.jpg",
+            "gridimg": "/services/for-rent.png",
             "title": "Find the sold properties",
             "description": "Find all the sold properties at your finger tips! with advanced filters!",
             "link" : "/property-results?property_type=sold",
             "linkText":"Check Now",
             "icon": "location"
-
         },
         {
             "id": 3,
-            "gridimg": "assets/img/listings/1.jpg",
-            "title": "Properties buing guid",
+            "gridimg": "/services/expert-tips.png",
+            "title": "Properties buying guid",
             "description": "Find a place on Nepal’s biggest rental website! check our comprehensive buying guid",
             "link" : "/property-results?property_type=sold",
             "linkText":"Check News",
-        "icon": "speech-bubble"
-
+            "icon": "speech-bubble"
         }
     ]
     

@@ -25,7 +25,7 @@ const Findhome = ({ categories }) => {
                                     <div key={i} className="col-md-6">
                                         <div className="acr-infographic-item">
                                             <i className={`flaticon-home`} />
-                                            {/*<img className="propertyDetailsOtherDetails text-center" src={process.env.REACT_APP_CONTENT_URL + item.image + ".jpg"} />*/}
+                                            {/*<img className="propertyDetailsOtherDetails text-center" src={Host + item.image + ".jpg"} />*/}
 
                                             <div className="acr-infographic-item-body">
                                                 <Link to={`property-results?sub_category=${item.name}&subcategory_id=${item.id}`}><h5 className="linkstyle">{item.name}</h5></Link>

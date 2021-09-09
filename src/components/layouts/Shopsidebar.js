@@ -1355,7 +1355,7 @@ const Shopsidebar = ({ setSelectedFilters, loadingButton }) => {
                   <Link to={`property/${convertToSlug(item.title)}/${item.id}`}>
                     <img
                       src={
-                        process.env.REACT_APP_CONTENT_URL + item.image +
+                        Host + item.image +
                         "_small.jpg"
                       }
                       alt={item.image + "_small.jpg"}

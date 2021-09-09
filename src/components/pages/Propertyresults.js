@@ -1,6 +1,6 @@
 import React, { Fragment, useEffect, useState } from 'react';
 import MetaTags from "react-meta-tags";
-import Header from '../layouts/Headerfive';
+import Header from '../layouts/Header';
 import Footer from '../layouts/Footerthree';
 import Breadcrumb from '../layouts/Breadcrumb';
 import Content from '../sections/property-results/Content';
@@ -30,6 +30,8 @@ const Propertyresults = () => {
     const [selectedFilters, setSelectedFilters] = useState();
     const [loadingButton, setLoadingButton] = useState(false);
 
+    var currentPath = window.location.pathname;
+
     const cleanObject = (obj) => {
         for (var propName in obj) {
             if (obj[propName] === null || obj[propName] === undefined || obj[propName] === "") {
@@ -57,7 +59,9 @@ const Propertyresults = () => {
             "offset": offset
         }
         let newData = Object.assign(data, selectedFilters); // Merge 2 Objects
-
+        if (currentPath === '/commercial') {
+            Object.assign(data, { category: 2 });
+        }
         var cleanerObject = await cleanObject(newData);
 
         Axios.post(searchURL, cleanerObject)
@@ -89,7 +93,7 @@ const Propertyresults = () => {
                 />
             </MetaTags>
             <Header />
-            <Breadcrumb breadcrumb={{ pagename: 'Results for properties' }} />
+            <Breadcrumb breadcrumb={{ pagename: currentPath === '/commercial' ? 'Commercial Properties' : 'Results for properties' }} />
 
             <Content
                 propertyType={property_type}

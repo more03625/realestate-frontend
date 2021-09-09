@@ -5,7 +5,7 @@ import listing from '../../../data/listings.json';
 import { blogcategory } from '../../../data/blog.json';
 import classNames from 'classnames';
 import Loader from '../../layouts/Loader';
-import { convertToSlug } from '../../../helper/comman_helper';
+import { convertToSlug, Host } from '../../../helper/comman_helper';
 import { Noresults } from '../../layouts/Noresults';
 const Content = ({ agents, recentProperties, subCategoriesWithCount }) => {
     const [items, setItems] = useState();
@@ -43,7 +43,7 @@ const Content = ({ agents, recentProperties, subCategoriesWithCount }) => {
                 <div className="acr-agent">
                     <div className="acr-dots-wrapper acr-agent-thumb">
                         <div className="acr-dots" />
-                        <Link to={{ pathname: url }}><img className="agentsProfileArea" src={item && item.profile_image ? process.env.REACT_APP_CONTENT_URL + item.profile_image + ".jpg" : process.env.REACT_APP_CONTENT_URL + "/users/default.png"} alt="agent" /></Link>
+                        <Link to={{ pathname: url }}><img className="agentsProfileArea" src={item && item.profile_image ? Host + item.profile_image + ".jpg" : Host + "/users/default.png"} alt="agent" /></Link>
                     </div>
                     <div className="acr-agent-body">
                         <h6> <Link to={{ pathname: url }}>{item.name}</Link> </h6>
@@ -88,7 +88,7 @@ const Content = ({ agents, recentProperties, subCategoriesWithCount }) => {
                                             <Link to={`property/${convertToSlug(item.title)}/${item.id}`}>
                                                 <img
                                                     src={
-                                                        process.env.REACT_APP_CONTENT_URL + item.image +
+                                                        Host + item.image +
                                                         "_small.jpg"
                                                     }
                                                     alt={item.image + "_small.jpg"}

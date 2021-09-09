@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { convertToSlug } from "./../../helper/comman_helper";
-
+import { Host } from "./../../helper/comman_helper";
 const Blogsidebar = ({ recentNews }) => {
   console.log(recentNews)
   return (
@@ -28,7 +28,7 @@ const Blogsidebar = ({ recentNews }) => {
         {recentNews && recentNews.slice(0, 4).map((item, i) => (
           <article key={i} className="media">
             <Link to={`/read/news/${convertToSlug(item.title)}/${item.id}`}>
-              <img src={item.image != null ? process.env.REACT_APP_CONTENT_URL + item.image + ".jpg" : process.env.REACT_APP_CONTENT_URL + "/users/default.png"}
+              <img src={item.image != null ? Host + item.image + ".jpg" : Host + "/users/default.png"}
                 alt={`image of ${item.title}`}
               />
 
