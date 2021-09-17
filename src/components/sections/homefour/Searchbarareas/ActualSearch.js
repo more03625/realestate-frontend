@@ -6,8 +6,8 @@ import {
     Nav,
 } from "react-bootstrap";
 import { BuyArea, RentArea, SoldArea, ShareArea, FindAgents } from "./SearchInputArea";
-import '../../../../assets/css/restyle.css';
 export const ActualSearch = () => {
+    var propertyType = window.location.pathname.split("/")[1];
 
     const setButtonClicked = (e) => {
         console.log(e)
@@ -18,6 +18,7 @@ export const ActualSearch = () => {
         if (e === 'consultants') return
         window.location.href = '/' + e;
     }
+
     let autoComplete;
 
     const [query, setQuery] = useState("");
@@ -26,7 +27,6 @@ export const ActualSearch = () => {
         componentRestrictions: { country: "np" },
     };
     autoComplete = new window.google.maps.places.Autocomplete(autoCompleteRef.current, options);
-    var propertyType = window.location.pathname.split("/")[1];
 
     return (
         <>

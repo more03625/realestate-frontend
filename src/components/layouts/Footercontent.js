@@ -152,7 +152,7 @@ const Footercontent = () => {
                     to={{ pathname: "https://worldindia.com" }}
                     target="_blank"
                   >
-                    Desgined & Developed by Dotcom Services India Pvt. Ltd.
+                    {/*Desgined & Developed by Dotcom Services India Pvt. Ltd.*/}
                   </Link>{" "}
                 </li>
               </ul>

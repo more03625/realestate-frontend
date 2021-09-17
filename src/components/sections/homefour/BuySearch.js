@@ -6,6 +6,7 @@ import {
 
 import { ActualSearch } from "./Searchbarareas/ActualSearch";
 
+import '../../../assets/css/restyle.css';
 
 const BuySearch = () => {
   return (

@@ -11,10 +11,8 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import {
     openInGmail,
-    saveProperty,
     Endpoints,
     Host,
-    convertToSlug,
     getUserToken,
     uppercaseFirstLetter,
     successToast,
@@ -395,7 +393,7 @@ const Listingwrapper = ({ propertyDetails, coordinates, recentProperties }) => {
                                     <br />
                                     <b>Address: </b>{" "}
                                     {propertyDetails && propertyDetails.address
-                                        ? propertyDetails.address + ", "
+                                        ? propertyDetails.address
                                         : ""}
 
                                 </div>
@@ -707,11 +705,9 @@ const Listingwrapper = ({ propertyDetails, coordinates, recentProperties }) => {
                                             (
                                                 <div className="row">
                                                     {
-
                                                         propertyDetails.features.outdoor.length > 0 && <h5 className="col-12 text-left">Outdoon Features:</h5>
                                                     }
                                                     {
-
                                                         propertyDetails.features.outdoor ? propertyDetails.features.outdoor.map((value, index) => (
 
                                                             <div key={index} className="listing-feature">
@@ -748,7 +744,6 @@ const Listingwrapper = ({ propertyDetails, coordinates, recentProperties }) => {
                                                     {
                                                         propertyDetails.features.climate.length > 0 && <h5 className="col-12 text-left mt-3">Climate Control & Energy Features:</h5>
                                                     }
-
                                                     {
                                                         propertyDetails.features.climate ? propertyDetails.features.climate.map((value, index) => (
                                                             <div key={index} className="listing-feature">
@@ -764,35 +759,10 @@ const Listingwrapper = ({ propertyDetails, coordinates, recentProperties }) => {
                                                         )) : ("No Climate Control Features Mentioned")
                                                     }
                                                 </div>
-
-
-
                                             )
                                             : ('There are no features selected')
                                         }
-                                        {/* {propertyDetails &&
-                                            propertyDetails.features ? propertyDetails.features.map((value, index) => {
-                                                {
-
-                                                    return <div key={index} className="listing-feature">
-                                                        <i className={`flaticon-${value.icon}`} />
-
-                                                        <h6 className="listing-feature-label">
-                                                            {value.feature}
-                                                        </h6>
-                                                        <span className="listing-feature-value">
-
-                                                        </span>
-                                                    </div>
-
-                                                }
-
-                                            }) : ('There are no features selected')
-                                        } */}
-
-
                                     </div>
-
                                 </div>
                                 {propertyDetails && propertyDetails.video_url ? (
                                     <div className="section pt-0">
@@ -813,28 +783,7 @@ const Listingwrapper = ({ propertyDetails, coordinates, recentProperties }) => {
                                     ""
                                 )}
 
-                                {/* Pagination Start
-                                        <div className="section p-0 post-single-pagination-wrapper">
-                                            <div className="post-single-pagination post-prev">
-                                                <i className="fas fa-arrow-left" />
-                                                <Link to="#" className="post-single-pagination-content">
-                                                    <span>Prev Listing</span>
-                                                    <h6>Theodore Lowe, Azusa New York 39531</h6>
-                                                </Link>
-                                            </div>
-                                            <div className="post-single-pagination post-next">
-                                                <Link to="#" className="post-single-pagination-content">
-                                                    <span>Next Listing</span>
-                                                    <h6>Cecilia Chapman, Mankato Mississippi 96522</h6>
-                                                </Link>
-                                                <i className="fas fa-arrow-right" />
-                                            </div>
-                                        </div>
-                                        */}
-                                {/* Similar Start */}
-
                                 <Recentlistings recentProperties={recentProperties} col={6} />
-                                {/* Similar End */}
                             </div>
                             {/* Listings End */}
                             {/* Sidebar Start */}

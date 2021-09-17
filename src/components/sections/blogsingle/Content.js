@@ -5,7 +5,7 @@ import { blogblock, blogcomment } from "../../../data/blog.json";
 import $ from "jquery";
 import "magnific-popup";
 import axios from "axios";
-import { convertToSlug } from "../../../helper/comman_helper";
+import { convertToSlug, Host } from "../../../helper/comman_helper";
 import ContentNotFound from "../../pages/ContentNotFound";
 import ReactHtmlParser, {
   processNodes,

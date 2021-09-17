@@ -4912,7 +4912,7 @@ table img {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  max-width: 350px;
+  /* max-width: 350px; */
 }
 .listing .listing-thumbnail .listing-controls {
   position: absolute;
@@ -6776,4 +6776,15 @@ table img {
 .block-text {
   font-size: 15px;
   font-weight: 500;
+}
+
+.location-text {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+}
+.search-bar-area .form-control {
+  border-radius: 30px;
+  border: 1px solid rgb(0 0 0 / 20%);
 }

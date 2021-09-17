@@ -43,7 +43,16 @@ export const Searchoptions = () => {
         getSubCategories();
     }, []);
 
+    var s = [];
+
     selected.map((value, index) => {
+        var elementIndex = s.indexOf(value.value);
+        if (elementIndex !== -1) {
+            s.splice(elementIndex, 1);
+        } else {
+            s.push(value.value)
+        }
+
         if (value.label.toLocaleLowerCase() === 'land') {
             for (var i = 0; i < document.getElementsByClassName("beds-section").length; i++) {
                 document.getElementsByClassName("beds-section")[i].classList.add("d-none");
@@ -87,10 +96,11 @@ export const Searchoptions = () => {
                                 value={selected}
                                 onChange={setSelected}
                                 labelledBy={"Select"}
-                                name="property_type"
+                                name="subcat"
                             />
                             : ''
                     }
+                    <input type="hidden" name="subcategory_id" value={s.toString()} />
                 </div>
             </div>
 

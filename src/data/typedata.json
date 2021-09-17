@@ -30,15 +30,16 @@
             "id": 1,
             "gridimg": "/services/tenant-profile.png",
             "title": "Need to find a tenant?",
-            "description": "Advertise your place for rent We can help you.",
+            "description": "List your properties on Neprealestate to connect with ready-to-move renters in minutes. Your Property will spend less time on the market and more time making you money.",
             "link" : "/add-property",
             "linkText":"Advertise your Properties"
+
         },
         {
             "id": 2,
             "gridimg": "/services/for-rent.png",
             "title": "Find a Rental",
-            "description": "Find a place on Nepal’s biggest rental website.",
+            "description": "Rent your accommodations with Neprealestate, the safe and easy housing platform to find and look rooms, apartments, flats and residence.",
             "link" : "/property-results?property_type=rent",
             "linkText":"Start Searching!"
         },
@@ -46,7 +47,7 @@
             "id": 3,
             "gridimg": "/services/find-flatmets.png",
             "title": "Find a Flatmate",
-            "description": "Find a place on Nepal’s biggest rental website.",
+            "description": "Spare room available? Create a listing for potential flat mates to find you. Nepalrealestae connects you with renters in a minutes",
             "link" : "/property-results?property_type=share",
             "linkText":"Start Searching!"
         }

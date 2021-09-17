@@ -5,7 +5,7 @@ import Footer from '../layouts/Footerthree';
 import Breadcrumb from '../layouts/Breadcrumb';
 import Content from '../sections/property-results/Content';
 import Axios from 'axios';
-import { Endpoints, Host } from '../../helper/comman_helper';
+import { Endpoints, Host, cleanObject } from '../../helper/comman_helper';
 
 const Propertyresults = () => {
     const queryParams = new URLSearchParams(window.location.search);
@@ -18,33 +18,25 @@ const Propertyresults = () => {
     var subCategoryID = queryParams.get("subcategory_id");
     var subCategoryName = queryParams.get("sub_category");
     var suburbs = queryParams.get("suburbs");
-
     var defaultAreaUnit = queryParams.get("default_area_unit");
     var area = queryParams.get("area");
 
     const [searchResults, setSearchResults] = useState([]);
     const [totalResults, setTotalResults] = useState();
     const [offset, setOffset] = useState(0)
-    const [loadNext, setLoadNext] = useState();
-
-    const [selectedFilters, setSelectedFilters] = useState();
     const [loadingButton, setLoadingButton] = useState(false);
+    const [filterData, setFilterData] = useState({});
+    const [runUseEffect, setRunUseEffect] = useState(false);
 
     var currentPath = window.location.pathname;
 
-    const cleanObject = (obj) => {
-        for (var propName in obj) {
-            if (obj[propName] === null || obj[propName] === undefined || obj[propName] === "") {
-                delete obj[propName];
-            }
-        }
-        return obj
-    }
+    console.log("Home filterData ===> ", filterData);
+
     const getSearchResults = async () => {
         setLoadingButton(true);
-
         var searchURL = Host + Endpoints.getPropertiesWithFilters;
-        var data = {
+
+        var homePageSearchData = {
             "search": search,
             "property_type": property_type,
             'subcategory': subCategoryID,
@@ -58,11 +50,14 @@ const Propertyresults = () => {
             "limit": 15,
             "offset": offset
         }
-        let newData = Object.assign(data, selectedFilters); // Merge 2 Objects
+
+        var data = Object.assign(homePageSearchData, filterData);
+
         if (currentPath === '/commercial') {
             Object.assign(data, { category: 2 });
         }
-        var cleanerObject = await cleanObject(newData);
+
+        var cleanerObject = await cleanObject(data);
 
         Axios.post(searchURL, cleanerObject)
             .then((response) => {
@@ -81,7 +76,7 @@ const Propertyresults = () => {
     useEffect(() => {
         window.scrollTo({ top: 0, behavior: "smooth" });
         getSearchResults();
-    }, [offset, selectedFilters]);
+    }, [offset, runUseEffect]);
 
     return (
         <Fragment>
@@ -93,7 +88,7 @@ const Propertyresults = () => {
                 />
             </MetaTags>
             <Header />
-            <Breadcrumb breadcrumb={{ pagename: currentPath === '/commercial' ? 'Commercial Properties' : 'Results for properties' }} />
+            {/*<Breadcrumb breadcrumb={{ pagename: currentPath === '/commercial' ? 'Commercial Properties' : 'Results for properties' }} />*/}
 
             <Content
                 propertyType={property_type}
@@ -104,9 +99,17 @@ const Propertyresults = () => {
                 totalResults={totalResults}
                 offset={offset}
                 setOffset={setOffset}
-                setSelectedFilters={setSelectedFilters}
                 loadingButton={loadingButton}
+                minPrice={minPrice}
+                maxPrice={maxPrice}
+                minBed={minBed}
+                maxBed={maxBed}
+                setFilterData={setFilterData}
+                filterData={filterData}
+                setRunUseEffect={setRunUseEffect}
+                runUseEffect={runUseEffect}
             />
+
             <Footer />
         </Fragment>
 

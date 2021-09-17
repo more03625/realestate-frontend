@@ -558,8 +558,27 @@
         "Outdoor Features",
         "Climet control & energy"
     ],
+    "garage":[
+        "Any",
+        "0",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5+"
+    ],
     "carspaces":[
         "Any",
+        "0",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5+"
+    ],
+    "motarspaces":[
+        "Any",
+        "0",
         "1",
         "2",
         "3",
@@ -568,6 +587,7 @@
     ],
     "bathroomslist":[
         "Any",
+        "0",
         "1",
         "2",
         "3",
@@ -607,6 +627,7 @@
     ],
     "floorlist":[
         "Any floor",
+        "0",
         "1st",
         "2nd",
         "3rd",

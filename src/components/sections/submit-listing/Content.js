@@ -12,7 +12,8 @@ import {
   bedslist,
   bathroomslist,
   facing,
-  carspaces,
+  carspaces, garage,
+  motarspaces,
   areaUnit,
   rooms,
   furnishing, priceOn
@@ -29,6 +30,7 @@ import {
 } from "../../../helper/comman_helper";
 import Axios from "axios";
 import { useHistory, useParams, Link } from "react-router-dom";
+import NextPrevious from './NextPrevious';
 
 function Content() {
   // GOOGLE MAP
@@ -57,7 +59,6 @@ function Content() {
     const addressObject = autoComplete.getPlace();
     const query = addressObject.formatted_address;
     updateQuery(query);
-    console.log(propertyData)
     setMapAddress({ address: addressObject.formatted_address, latitude: addressObject.geometry.location.lat(), longitude: addressObject.geometry.location.lng() })
   }
 
@@ -122,6 +123,13 @@ function Content() {
   };
 
   const { propertyID } = useParams();
+
+  var currentPropertyID = 0;
+
+  if (propertyID !== undefined) {
+    currentPropertyID = parseInt(propertyID.split("?")[0]);
+  }
+
 
   if (propertyID < 0) {
     document.getElementById("property-form").reset();
@@ -190,15 +198,17 @@ function Content() {
       setCategories(result.data.data.categories);
     }
   };
-  const getSubCategories = (categoryID = '') => {
-    var url = Host + Endpoints.getPropertyCounts + categoryID;
-    Axios.get(url).then((response) => {
-      if (response.data.error === true) {
-        alert("There are some errors!");
-      } else {
-        setSubCategoriesWithCount(response.data.data);
-      }
-    });
+  const getSubCategories = (categoryID) => {
+    if (categoryID !== undefined) {
+      var url = Host + Endpoints.getPropertyCounts + categoryID;
+      Axios.get(url).then((response) => {
+        if (response.data.error === true) {
+          alert("There are some errors!");
+        } else {
+          setSubCategoriesWithCount(response.data.data);
+        }
+      });
+    }
   };
   const getPropertyTypes = (categoryID = '') => {
     var url = Host + Endpoints.getPropertyTypes + categoryID;
@@ -250,19 +260,25 @@ function Content() {
     getSubCategories(e.target.value);
 
   };
-  const setStateLocation = (e) => {
-    setPropertyData({ ...propertyData, state: e.target.value });
+  const stateOnChange = (e) => {
+    setPropertyData({ ...propertyData, [e.target.name]: e.target.value });
+    // call district
+  }
+  const districtOnChange = (e) => {
+    setPropertyData({ ...propertyData, [e.target.name]: e.target.value });
+    getCities(e.target.value); // call area drop
+  }
+  const cityOnChange = (e) => {
+    setPropertyData({ ...propertyData, [e.target.name]: e.target.value });
     getCities(e.target.value);
   }
 
   const handleContactShow = (e) => {
     if (e.target.value == 0) {
-
       setIsContactShow(true);
       setPropertyData({
         ...propertyData, name_for_contact: "Neprealestate", number_for_contact: "9656696662", email_for_contact: "admin@neprealestae.com", is_contact_show: e.target.value
       })
-
     } else {
       setIsContactShow(false);
       setPropertyData({
@@ -347,282 +363,278 @@ function Content() {
   }
 
   const isValid = () => {
+    if (propertyData !== undefined && propertyData.is_published !== undefined && propertyData.is_published === 1) {
+      var emailValidator = new RegExp(
+        /[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,15}/g
+      ).test(propertyData.email_for_contact);
 
-    var emailValidator = new RegExp(
-      /[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,15}/g
-    ).test(propertyData.email_for_contact);
+      if (
+        propertyData.title === "" ||
+        propertyData.title === null ||
+        propertyData.title === undefined
+      ) {
+        errorToast("title is required feild");
+        document.getElementById("tab1").click();
+        title.current.scrollIntoView();
+        setPropertyDataError({ title: "title is required feild" });
+        return false;
+      } else if (
+        propertyData.description === "" ||
+        propertyData.description === null ||
+        propertyData.description === undefined
+      ) {
+        errorToast("description is required feild");
+        document.getElementById("tab1").click();
+        are_you.current.scrollIntoView();
+        setPropertyDataError({ description: "Please add description!" });
+        return false;
+      } else if (
+        propertyData.property_type === "" ||
+        propertyData.property_type === null ||
+        propertyData.property_type === undefined
+      ) {
+        errorToast("property_type is required feild");
+        document.getElementById("tab1").click();
+        property_type.current.scrollIntoView();
+        setPropertyDataError({ property_type: "Please select property type!" });
+        return false;
+      } else if (
+        propertyData.price === "" ||
+        propertyData.price === null ||
+        propertyData.price === undefined
+      ) {
+        errorToast("price is required feild");
+        document.getElementById("tab1").click();
+        price.current.scrollIntoView();
+        setPropertyDataError({ price: "Please add price!" });
+        return false;
+      }
+      else if (
+        propertyData.price_on === "" ||
+        propertyData.price_on === null ||
+        propertyData.price_on === undefined
+      ) {
+        errorToast("Please select price on!");
+        document.getElementById("tab1").click();
+        price.current.scrollIntoView();
+        setPropertyDataError({ price_on: "This field is required" });
+        return false;
+      }
+      else if (
+        propertyData.category === "" ||
+        propertyData.category === null ||
+        propertyData.category === undefined
+      ) {
+        errorToast("category is required feild");
+        document.getElementById("tab1").click();
+        categoryRef.current.scrollIntoView();
+        setPropertyDataError({ category: "Please specify property category!" });
+        return false;
+      } else if (
+        propertyData.subcategory === "" ||
+        propertyData.subcategory === null ||
+        propertyData.subcategory === undefined
+      ) {
+        errorToast("subcategory is required feild");
+        document.getElementById("tab1").click();
+        subcategory.current.scrollIntoView();
+        setPropertyDataError({ subcategory: "Please select subcategory!" });
+        return false;
+      } else if (
+        propertyData.image === "" ||
+        propertyData.image === null ||
+        propertyData.image === undefined
+      ) {
+        errorToast("image is required feild");
+        document.getElementById("tab2").click();
+        image.current.scrollIntoView();
+        setPropertyDataError({ image: "Please add your property thumbnail!" });
+        return false;
+      }
+      else if (
+        propertyData.video_url === false
+      ) {
 
-    if (
-      propertyData.title === "" ||
-      propertyData.title === null ||
-      propertyData.title === undefined
-    ) {
-      errorToast("title is required feild");
-      document.getElementById("tab1").click();
-      title.current.scrollIntoView();
-      setPropertyDataError({ title: "title is required feild" });
-      return false;
-    } else if (
-      propertyData.description === "" ||
-      propertyData.description === null ||
-      propertyData.description === undefined
-    ) {
-      errorToast("description is required feild");
-      document.getElementById("tab1").click();
-      are_you.current.scrollIntoView();
-      setPropertyDataError({ description: "Please add description!" });
-      return false;
-    } else if (
-      propertyData.property_type === "" ||
-      propertyData.property_type === null ||
-      propertyData.property_type === undefined
-    ) {
-      errorToast("property_type is required feild");
-      document.getElementById("tab1").click();
-      property_type.current.scrollIntoView();
-      setPropertyDataError({ property_type: "Please select property type!" });
-      return false;
-    } else if (
-      propertyData.price === "" ||
-      propertyData.price === null ||
-      propertyData.price === undefined
-    ) {
-      errorToast("price is required feild");
-      document.getElementById("tab1").click();
-      price.current.scrollIntoView();
-      setPropertyDataError({ price: "Please add price!" });
-      return false;
-    }
-    else if (
-      propertyData.price_on === "" ||
-      propertyData.price_on === null ||
-      propertyData.price_on === undefined
-    ) {
-      errorToast("Please select price on!");
-      document.getElementById("tab1").click();
-      price.current.scrollIntoView();
-      setPropertyDataError({ price_on: "This field is required" });
-      return false;
-    }
-    else if (
-      propertyData.category === "" ||
-      propertyData.category === null ||
-      propertyData.category === undefined
-    ) {
-      errorToast("category is required feild");
-      document.getElementById("tab1").click();
-      categoryRef.current.scrollIntoView();
-      setPropertyDataError({ category: "Please specify property category!" });
-      return false;
-    } else if (
-      propertyData.subcategory === "" ||
-      propertyData.subcategory === null ||
-      propertyData.subcategory === undefined
-    ) {
-      errorToast("subcategory is required feild");
-      document.getElementById("tab1").click();
-      subcategory.current.scrollIntoView();
-      setPropertyDataError({ subcategory: "Please select subcategory!" });
-      return false;
-    } else if (
-      propertyData.image === "" ||
-      propertyData.image === null ||
-      propertyData.image === undefined
-    ) {
-      errorToast("image is required feild");
-      document.getElementById("tab2").click();
-      image.current.scrollIntoView();
-      setPropertyDataError({ image: "Please add your property thumbnail!" });
-      return false;
-    }
-    else if (
-      propertyData.video_url === false
-    ) {
+        errorToast("Please enter valid youtube URL");
+        document.getElementById("tab2").click();
+        image.current.scrollIntoView();
+        setPropertyDataError({ video_url: "Please enter valid youtube URL" });
+        return false;
+      }
 
-      errorToast("Please enter valid youtube URL");
-      document.getElementById("tab2").click();
-      image.current.scrollIntoView();
-      setPropertyDataError({ video_url: "Please enter valid youtube URL" });
-      return false;
-    }
+      else if (
+        propertyData.images === "" ||
+        propertyData.images === null ||
+        propertyData.images === undefined
+      ) {
+        errorToast("images is required feild");
+        document.getElementById("tab2").click();
+        images.current.scrollIntoView();
+        setPropertyDataError({
+          images: "Please images to your property Gallary",
+        });
+        return false;
+      }
 
-    else if (
-      propertyData.images === "" ||
-      propertyData.images === null ||
-      propertyData.images === undefined
-    ) {
-      errorToast("images is required feild");
-      document.getElementById("tab2").click();
-      images.current.scrollIntoView();
-      setPropertyDataError({
-        images: "Please images to your property Gallary",
-      });
-      return false;
-    }
+      else if (
+        propertyData.state === "" ||
+        propertyData.state === null ||
+        propertyData.state === undefined
+      ) {
+        errorToast("state is required feild");
+        document.getElementById("tab3").click();
+        state.current.scrollIntoView();
+        setPropertyDataError({ state: "Please specify state!" });
+        return false;
+      } else if (
+        propertyData.city === "" ||
+        propertyData.city === null ||
+        propertyData.city === undefined
+      ) {
+        errorToast("city is required feild");
+        document.getElementById("tab3").click();
+        city.current.scrollIntoView();
+        setPropertyDataError({ city: "Please specify city!" });
+        return false;
+      } else if (mapAddress === undefined && propertyData.address === '') {
+        errorToast("address is required feild");
+        document.getElementById("tab3").click();
+        city.current.scrollIntoView();
+        setPropertyDataError({ address: "Please provide address!" });
+        return false;
+      }
+      else if (
+        propertyData.area === "" ||
+        propertyData.area === null ||
+        propertyData.area === undefined
+      ) {
 
-    else if (
-      propertyData.state === "" ||
-      propertyData.state === null ||
-      propertyData.state === undefined
-    ) {
-      errorToast("state is required feild");
-      document.getElementById("tab3").click();
-      state.current.scrollIntoView();
-      setPropertyDataError({ state: "Please specify state!" });
-      return false;
-    } else if (
-      propertyData.city === "" ||
-      propertyData.city === null ||
-      propertyData.city === undefined
-    ) {
+        errorToast("area is required feild");
+        document.getElementById("tab4").click();
+        area.current.scrollIntoView();
+        setPropertyDataError({ area: "Please specify area!" });
+        return false;
+      } else if (
+        propertyData.carpet_area === "" ||
+        propertyData.carpet_area === null ||
+        propertyData.carpet_area === undefined
+      ) {
+        errorToast("Carpet Area is required feild");
+        document.getElementById("tab4").click();
+        area.current.scrollIntoView();
+        setPropertyDataError({ carpet_area: "Please specify Carpet Area!" });
+        return false;
+      } else if (
+        propertyData.default_area_unit === "" ||
+        propertyData.default_area_unit === null ||
+        propertyData.default_area_unit === undefined
+      ) {
+        errorToast("default_area_unit is required feild");
+        document.getElementById("tab4").click();
+        default_area_unit.current.scrollIntoView();
+        setPropertyDataError({
+          default_area_unit: "Please specify default area unit!",
+        });
+        return false;
+      }
+      else if (selectedM.length === 0) {
+        errorToast("Please select some features to show");
+        document.getElementById("tab5").click();
+        are_you.current.scrollIntoView();
+        return false;
+      }
+      else if (
+        propertyData.are_you === "" ||
+        propertyData.are_you === null ||
+        propertyData.are_you === undefined
+      ) {
+        errorToast("are_you is required feild");
+        document.getElementById("tab6").click();
+        are_you.current.scrollIntoView();
+        setPropertyDataError({ are_you: "Please, let us know who you are?" });
+        return false;
+      } else if (
+        propertyData.name_for_contact === "" ||
+        propertyData.name_for_contact === null ||
+        propertyData.name_for_contact === undefined
+      ) {
+        errorToast("name_for_contact is required feild");
+        document.getElementById("tab6").click();
+        name_for_contact.current.scrollIntoView();
+        setPropertyDataError({ name_for_contact: "Please specify your name!" });
+        return false;
+      } else if (
+        propertyData.number_for_contact === "" ||
+        propertyData.number_for_contact === null ||
+        propertyData.number_for_contact === undefined ||
+        propertyData.number_for_contact.length < 10
+      ) {
+        errorToast("number_for_contact is required feild");
+        document.getElementById("tab6").click();
+        number_for_contact.current.scrollIntoView();
+        setPropertyDataError({
+          number_for_contact: "Please enter a valid 10 Digit mobile number!",
+        });
+        return false;
+      } else if (
+        propertyData.email_for_contact === "" ||
+        propertyData.email_for_contact === null ||
+        propertyData.email_for_contact === undefined ||
+        !emailValidator
+      ) {
+        errorToast("email_for_contact is required feild");
+        document.getElementById("tab6").click();
+        email_for_contact.current.scrollIntoView();
+        setPropertyDataError({
+          email_for_contact: "Please specify a valid email to contact!",
+        });
+        return false;
+      } else if (
+        propertyData.is_contact_show === "" ||
+        propertyData.is_contact_show === null ||
+        propertyData.is_contact_show === undefined
+      ) {
+        errorToast("Please let us know about visibility of your contact!");
+        document.getElementById("tab6").click();
 
-
-      errorToast("city is required feild");
-      document.getElementById("tab3").click();
-      city.current.scrollIntoView();
-      setPropertyDataError({ city: "Please specify city!" });
-      return false;
-    } else if (mapAddress === undefined && propertyData.address === '') {
-      console.log("mapAddress ===> ", mapAddress);
-      console.log("propertyData.address ===> ", propertyData.address);
-
-      errorToast("address is required feild");
-      document.getElementById("tab3").click();
-      city.current.scrollIntoView();
-      setPropertyDataError({ address: "Please provide address!" });
-      return false;
-
-    }
-    else if (
-      propertyData.area === "" ||
-      propertyData.area === null ||
-      propertyData.area === undefined
-    ) {
-      console.log('I am not here')
-
-      errorToast("area is required feild");
-      document.getElementById("tab4").click();
-      area.current.scrollIntoView();
-      setPropertyDataError({ area: "Please specify area!" });
-      return false;
-    } else if (
-      propertyData.carpet_area === "" ||
-      propertyData.carpet_area === null ||
-      propertyData.carpet_area === undefined
-    ) {
-      errorToast("Carpet Area is required feild");
-      document.getElementById("tab4").click();
-      area.current.scrollIntoView();
-      setPropertyDataError({ carpet_area: "Please specify Carpet Area!" });
-      return false;
-    } else if (
-      propertyData.default_area_unit === "" ||
-      propertyData.default_area_unit === null ||
-      propertyData.default_area_unit === undefined
-    ) {
-      errorToast("default_area_unit is required feild");
-      document.getElementById("tab4").click();
-      default_area_unit.current.scrollIntoView();
-      setPropertyDataError({
-        default_area_unit: "Please specify default area unit!",
-      });
-      return false;
-    }
-    else if (selectedM.length === 0) {
-      errorToast("Please select some features to show");
-      document.getElementById("tab5").click();
-      are_you.current.scrollIntoView();
-      return false;
-    }
-    else if (
-      propertyData.are_you === "" ||
-      propertyData.are_you === null ||
-      propertyData.are_you === undefined
-    ) {
-      errorToast("are_you is required feild");
-      document.getElementById("tab6").click();
-      are_you.current.scrollIntoView();
-      setPropertyDataError({ are_you: "Please, let us know who you are?" });
-      return false;
-    } else if (
-      propertyData.name_for_contact === "" ||
-      propertyData.name_for_contact === null ||
-      propertyData.name_for_contact === undefined
-    ) {
-      errorToast("name_for_contact is required feild");
-      document.getElementById("tab6").click();
-      name_for_contact.current.scrollIntoView();
-      setPropertyDataError({ name_for_contact: "Please specify your name!" });
-      return false;
-    } else if (
-      propertyData.number_for_contact === "" ||
-      propertyData.number_for_contact === null ||
-      propertyData.number_for_contact === undefined ||
-      propertyData.number_for_contact.length < 10
-    ) {
-      errorToast("number_for_contact is required feild");
-      document.getElementById("tab6").click();
-      number_for_contact.current.scrollIntoView();
-      setPropertyDataError({
-        number_for_contact: "Please enter a valid 10 Digit mobile number!",
-      });
-      return false;
-    } else if (
-      propertyData.email_for_contact === "" ||
-      propertyData.email_for_contact === null ||
-      propertyData.email_for_contact === undefined ||
-      !emailValidator
-    ) {
-      errorToast("email_for_contact is required feild");
-      document.getElementById("tab6").click();
-      email_for_contact.current.scrollIntoView();
-      setPropertyDataError({
-        email_for_contact: "Please specify a valid email to contact!",
-      });
-      return false;
-    } else if (
-      propertyData.is_contact_show === "" ||
-      propertyData.is_contact_show === null ||
-      propertyData.is_contact_show === undefined
-    ) {
-      errorToast("Please let us know about visibility of your contact!");
-      document.getElementById("tab6").click();
-
-      is_contact_show.current.scrollIntoView();
-      setPropertyDataError({
-        is_contact_show: "Please let us know about visibility of your contact!",
-      });
-      return false;
+        is_contact_show.current.scrollIntoView();
+        setPropertyDataError({
+          is_contact_show: "Please let us know about visibility of your contact!",
+        });
+        return false;
+      } else {
+        setPropertyDataError({ email_for_contact: "" });
+        return true;
+      }
     } else {
-      setPropertyDataError({ email_for_contact: "" });
+      successToast("Auto saved...");
       return true;
     }
+
   };
   const handleSubmit = (e) => {
     setLoadingButton(true);
     e.preventDefault();
-
-
-
-
-    if (isImageSelected === false) {
+    console.log(propertyData)
+    if (isImageSelected === false && propertyData !== undefined) {
       const imageObject = { image: 0 };
       Object.assign(propertyData, imageObject); // object assign is used to update the propertyData object with imagesObject
     }
-    if (isGallarySelected === false) {
+    if (isGallarySelected === false && propertyData !== undefined) {
       const gallaryObject = { images: 0 };
       Object.assign(propertyData, gallaryObject); // object assign is used to update the propertyData object with imagesObject
     }
-    Object.assign(propertyData, { 'features': selectedM, 'description': content });
+    propertyData !== undefined && Object.assign(propertyData, { 'features': selectedM, 'description': content })
 
 
     if (isValid()) {
-      if (propertyData.id > 0) {
+      if (propertyData && propertyData.id > 0) {
         var addPropertyURL = Host + Endpoints.editProperty;
       } else {
         var addPropertyURL = Host + Endpoints.addProperty;
       }
-      Object.assign(propertyData, mapAddress);
+
+      propertyData !== undefined && Object.assign(propertyData, mapAddress);
 
       Axios.post(addPropertyURL, propertyData, {
         headers: {
@@ -635,9 +647,9 @@ function Content() {
             errorToast(response.data.title);
           } else {
             successToast(response.data.title);
-            // setTimeout(function () {
-            //   history.push("/my-listings");
-            // }, 1000);
+            setTimeout(function () {
+              history.push("/my-listings");
+            }, 1000);
           }
         })
         .catch((error) => {
@@ -648,12 +660,15 @@ function Content() {
       setLoadingButton(false);
     }
   };
+
+
+
   const queryParams = new URLSearchParams(window.location.search);
   var isAdmin = queryParams.get("isadmin");
   const [imagesToPreview, setImagesToPreview] = useState([]);
   const getPropertyDetails = () => {
-    if (propertyID !== undefined) {
-      var url = Host + Endpoints.getPropertyDetails + propertyID + "?isadmin=" + isAdmin;
+    if (currentPropertyID !== undefined && currentPropertyID !== 0) {
+      var url = Host + Endpoints.getPropertyDetails + currentPropertyID + "&isadmin=" + isAdmin;
       Axios.get(url).then((response) => {
         if (response.data.error !== true) {
           setPropertyData(response.data.data);
@@ -705,8 +720,18 @@ function Content() {
       });
     }
   };
+  const autoSave = () => {
+    if (currentPropertyID === 0 && window.location.pathname === '/add-property') {
+      document.getElementById("publish_property").click();
+    }
+  }
 
   useEffect(() => {
+
+    if (currentPropertyID === 0 && window.location.pathname === '/add-property') {
+      setInterval(function () { autoSave() }, 2500);
+    }
+
     handleScriptLoad(setQuery, autoCompleteRef);
     getPropertyDetails();
     getCategories();
@@ -771,12 +796,13 @@ function Content() {
                 <Tab.Content className="m-0">
                   <Tab.Pane eventKey="tab1">
                     <div className="row">
+
                       <div className="col-md-12 form-group">
                         <label className="required">Property Name</label>
                         <input
                           type="hidden"
                           name="form_type"
-                          value={propertyID > 0 ? propertyID : 0}
+                          value={currentPropertyID > 0 ? currentPropertyID : 0}
                         />
                         <input
                           type="text"
@@ -799,6 +825,7 @@ function Content() {
                         />
                         <p style={errorStyle}>{propertyDataError.title}</p>
                       </div>
+
                       <div className="col-md-12 form-group">
 
                         <CKEditor
@@ -839,7 +866,32 @@ function Content() {
                       </div>
 
                       <div className="col-md-6 form-group">
-                        <label className="required">Service</label>
+                        <label className="required">Sub category</label>
+                        <select
+                          className="form-control"
+                          name="sub_category"
+                          ref={subcategory}
+                          onChange={(e) =>
+                            setPropertyData({
+                              ...propertyData,
+                              subcategory: e.target.value,
+                            })
+                          }
+                          value={propertyData && propertyData.subcategory ? propertyData.subcategory : ""}
+                        >
+                          <option value="">Select subcategory</option>
+                          {subCategoriesWithCount &&
+                            subCategoriesWithCount.filter((x) => (x.name !== 'All property types')).map((value, index) => (
+                              <option key={index} value={value.id}>{uppercaseFirstLetter(value.name)}</option>
+                            ))}
+                        </select>
+                        <p style={errorStyle}>
+                          {propertyDataError.subcategory}
+                        </p>
+                      </div>
+
+                      <div className="col-md-6 form-group">
+                        <label className="required">Purpose</label>
                         <select
                           className="form-control"
                           name="propertyType"
@@ -858,7 +910,7 @@ function Content() {
                         >
                           <option value="">Property Type</option>
                           {
-                            propertyID > 0 ?
+                            currentPropertyID > 0 ?
                               propertyTypes && propertyTypes.map((ptype) => (
                                 <option key={ptype.id} value={lowercaseFirstLetter(ptype.name)}>
                                   {uppercaseFirstLetter(ptype.name)}
@@ -879,35 +931,10 @@ function Content() {
                       </div>
 
                       <div className="col-md-6 form-group">
-                        <label className="required">Sub category</label>
-                        <select
-                          className="form-control"
-                          name="sub_category"
-                          ref={subcategory}
-                          onChange={(e) =>
-                            setPropertyData({
-                              ...propertyData,
-                              subcategory: e.target.value,
-                            })
-                          }
-                          value={propertyData && propertyData.subcategory ? propertyData.subcategory : ""}
-                        >
-                          <option value="">Sub category</option>
-                          {subCategoriesWithCount &&
-                            subCategoriesWithCount.filter((x) => (x.name !== 'All property types')).map((value, index) => (
-                              <option key={index} value={value.id}>{uppercaseFirstLetter(value.name)}</option>
-                            ))}
-                        </select>
-                        <p style={errorStyle}>
-                          {propertyDataError.subcategory}
-                        </p>
-                      </div>
-
-                      <div className="col-md-6 form-group">
                         <label className="required">Property Price</label>
                         <div className="input-group">
                           <div className="input-group-prepend">
-                            <span className="input-group-text">&#8377;</span>
+                            <span className="input-group-text">&#8377; </span>
                           </div>
                           <input
                             type="number"
@@ -930,21 +957,7 @@ function Content() {
                         </div>
                         <p style={errorStyle}>{propertyDataError.price}</p>
                       </div>
-                      {/*
-                                            <div className="col-md-6 form-group">
-                                                <label className="required">Price Per</label>
-                                                <select className="form-control" name="price_per_area_unit" ref={default_area_unit} onChange={(e) => setPropertyData({ ...propertyData, "price_per_area_unit": e.target.value })} value={propertyData && propertyData.price_per_area_unit ? propertyData.price_per_area_unit : ''}>
-                                                    <option>Select</option>
-                                                    {
-                                                        areaUnit.map((value, index) => (
-                                                            <option key={index} value={index}>{value}</option>
 
-                                                        ))
-                                                    }
-                                                </select>
-                                                <p style={errorStyle}>{propertyDataError.price_per_area_unit}</p>
-                                            </div>
-                                            */}
                       <div className="col-md-6 form-group">
                         <label className="required">Price On</label>
                         <select
@@ -967,7 +980,6 @@ function Content() {
                           }
                         </select>
                         <p style={errorStyle}>{propertyDataError.price_on}</p>
-
                       </div>
 
                       <div className="col-md-6 form-group">
@@ -988,8 +1000,9 @@ function Content() {
                           <option value="1">Yes</option>
                         </select>
                       </div>
+
                       {
-                        propertyID > 0 &&
+                        currentPropertyID > 0 &&
                         <div className="col-md-12 form-group">
                           <button type="submit" className="btn-custom btn-block" name="submit" disabled={loadingButton}>
                             Update Property
@@ -1001,110 +1014,125 @@ function Content() {
                           </button>
                         </div>
                       }
-
-
                     </div>
+                    <NextPrevious prev={0} next={"tab2"} />
                   </Tab.Pane>
+
                   <Tab.Pane eventKey="tab2">
-                    <div className="form-group">
-                      <label className="required">Property Thumbnail</label>
-                      <div className="custom-file">
-                        <input
-                          type="file"
-                          className="custom-file-input"
-                          ref={image}
-                          id="propertyThumbnail"
-                          onChange={(e) => {
-                            uploadImage(e);
-                          }}
-                          accept="image/jpeg, image/jpg, image/png, image/webp"
-                        />
-                        <label
-                          className="custom-file-label"
-                          htmlFor="propertyThumbnail"
-                        >
-                          Choose file
-                        </label>
-                      </div>
-                      <p style={errorStyle}>{propertyDataError.image}</p>
-                      <p style={successStyle}>{isImageSelected.image}</p>
-                      {
+                    <div className="row">
+                      <div className="col-md-12">
+                        <div className="form-group">
+                          <label className="required">Property Thumbnail</label>
+                          <div className="custom-file">
+                            <input
+                              type="file"
+                              className="custom-file-input"
+                              ref={image}
+                              id="propertyThumbnail"
+                              onChange={(e) => {
+                                uploadImage(e);
+                              }}
+                              accept="image/jpeg, image/jpg, image/png, image/webp"
+                            />
+                            <label
+                              className="custom-file-label"
+                              htmlFor="propertyThumbnail"
+                            >
+                              Choose file
+                            </label>
+                          </div>
+                          <span className="acr-form-notice">*This is the main image of property.This will be shown in property listing</span>
+                          <p style={errorStyle}>{propertyDataError.image}</p>
+                          <p style={successStyle}>{isImageSelected.image}</p>
+                          {
 
-                        isImageSelected === false && propertyID > 0 ?
-                          <p style={successStyle}>
-                            <Link style={successStyle} target="_blank" to={{ pathname: propertyData && propertyData.image ? Host + propertyData.image + ".jpg" : "" }}>This image selected as a thumbnail!</Link>
-                          </p>
-                          : ''
-                      }
-                    </div>
-                    <div className="form-group">
-                      <label>Youtube URL</label>
-                      <input
-                        type="text"
-                        className="form-control"
-                        placeholder="https://www.youtube.com/watch?v=m2Ux2PnJe6E"
-                        onChange={(e) => matchYoutubeUrl(e)}
-                        ref={video_url}
-                        defaultValue={
-                          propertyData && propertyData.video_url
-                            ? "https://www.youtube.com/watch?v=" + propertyData.video_url
-                            : ""
-                        }
-                      />
-                      <p style={errorStyle}>{propertyDataError.video_url}</p>
-
-                    </div>
-                    <div className="form-group">
-                      <label>Property Gallery </label>
-                      <div {...getRootProps({ className: 'dropzone' })}>
-                        <input {...getInputProps()} />
-                        <div className="dropzone-msg dz-message needsclick">
-                          <i className="fas fa-cloud-upload-alt" />
-                          <h5 className="dropzone-msg-title">Drop files here or click to upload.</h5>
-                          <span className="dropzone-msg-desc">Add images to <strong>attract customers</strong></span>
+                            isImageSelected === false && currentPropertyID > 0 ?
+                              <p style={successStyle}>
+                                <Link style={successStyle} target="_blank" to={{ pathname: propertyData && propertyData.image ? Host + propertyData.image + ".jpg" : "" }}>This image selected as a thumbnail!</Link>
+                              </p>
+                              : ''
+                          }
                         </div>
                       </div>
-                      <aside className="thumbsContainer" style={thumbsContainer}>
-                        {thumbs}
-                        {
-                          thumbs.length == 0 && imagesToPreview != undefined ? imagesToPreview.map((value, index) => {
-                            return <div className="thumb" style={thumb} key={index}>
-                              <div className="thumbInner" style={thumbInner}>
-                                <img src={value} alt="img" style={{ objectFit: 'contain' }} />
-                              </div>
-                            </div>
-                          }) : ''
-                        }
-                      </aside>
-                      <span className="acr-form-notice">*You can upload up to 15 images for your listing</span>
-                      <span className="acr-form-notice">*Upload minimum 4-8 Images to get more calls!</span>
-                    </div>
-                    {
-                      propertyID > 0 &&
-                      <div className="col-md-12 form-group">
-                        <button type="submit" className="btn-custom btn-block" name="submit" disabled={loadingButton}>
-                          Update Property
-                          {loadingButton === true ?
-                            <div className="ml-1 spinner-border spinner-border-sm" role="status">
-                              <span className="sr-only">Loading...</span>
-                            </div> : ''
-                          }
-                        </button>
+
+                      <div className="col-md-12">
+                        <div className="form-group">
+                          <label>Youtube URL</label>
+                          <input
+                            type="text"
+                            className="form-control"
+                            placeholder="https://www.youtube.com/watch?v=m2Ux2PnJe6E"
+                            onChange={(e) => matchYoutubeUrl(e)}
+                            ref={video_url}
+                            defaultValue={
+                              propertyData && propertyData.video_url
+                                ? "https://www.youtube.com/watch?v=" + propertyData.video_url
+                                : ""
+                            }
+                          />
+                          <p style={errorStyle}>{propertyDataError.video_url}</p>
+                        </div>
                       </div>
-                    }
+
+                      <div className="col-md-12">
+                        <div className="form-group">
+                          <label>Property Gallery </label>
+                          <div {...getRootProps({ className: 'dropzone' })}>
+                            <input {...getInputProps()} />
+                            <div className="dropzone-msg dz-message needsclick">
+                              <i className="fas fa-cloud-upload-alt" />
+                              <h5 className="dropzone-msg-title">Drop files here or click to upload.</h5>
+                              <span className="dropzone-msg-desc">Add images to <strong>attract customers</strong></span>
+                            </div>
+                          </div>
+                          <aside className="thumbsContainer" style={thumbsContainer}>
+                            {thumbs}
+                            {
+                              thumbs.length == 0 && imagesToPreview != undefined ? imagesToPreview.map((value, index) => {
+                                return <div className="thumb" style={thumb} key={index}>
+                                  <div className="thumbInner" style={thumbInner}>
+                                    <img src={value} alt="img" style={{ objectFit: 'contain' }} />
+                                  </div>
+                                </div>
+                              }) : ''
+                            }
+                          </aside>
+                          <span className="acr-form-notice">*You can upload up to 15 images for your listing</span>
+                          <span className="acr-form-notice">*Upload minimum 4-8 Images to get more calls!</span>
+                        </div>
+                      </div>
+                      {
+                        currentPropertyID > 0 &&
+                        <div className="col-md-12 form-group">
+                          <button type="submit" className="btn-custom btn-block" name="submit" disabled={loadingButton}>
+                            Update Property
+                            {loadingButton === true ?
+                              <div className="ml-1 spinner-border spinner-border-sm" role="status">
+                                <span className="sr-only">Loading...</span>
+                              </div> : ''
+                            }
+                          </button>
+                        </div>
+                      }
+                    </div>
+                    <NextPrevious prev={"tab1"} next={"tab3"} />
+
+
                   </Tab.Pane>
+
                   <Tab.Pane eventKey="tab3">
                     {/*<Locationtab />*/}
 
                     {/****************************Address****************************/}
                     <div className="row">
-                      <div className="col-md-6">
+
+                      <div className="col-md-4">
                         <label className="required">State</label>
                         <select
                           className="form-control"
                           name="state"
                           ref={state}
-                          onChange={(e) => setStateLocation(e)}
+                          onChange={(e) => stateOnChange(e)}
                           value={
                             propertyData && propertyData.state
                               ? propertyData.state
@@ -1121,8 +1149,31 @@ function Content() {
                         </select>
                         <p style={errorStyle}>{propertyDataError.state}</p>
                       </div>
+                      <div className="col-md-4">
+                        <label className="required">District</label>
+                        <select
+                          className="form-control"
+                          name="district"
+                          ref={state}
+                          onChange={(e) => stateOnChange(e)}
+                          value={
+                            propertyData && propertyData.state
+                              ? propertyData.state
+                              : ""
+                          }
+                        >
+                          <option value="">Select district</option>
+                          {states &&
+                            states.map((value, index) => (
+                              <option key={index} value={value.id}>
+                                {value.state_name}
+                              </option>
+                            ))}
+                        </select>
+                        <p style={errorStyle}>{propertyDataError.state}</p>
+                      </div>
 
-                      <div className="col-md-6">
+                      <div className="col-md-4">
                         <label className="required">City</label>
                         <select
                           className="form-control"
@@ -1151,6 +1202,43 @@ function Content() {
                         <p style={errorStyle}>{propertyDataError.city}</p>
                       </div>
 
+                      <div className="col-md-6">
+                        <label className="required">Area</label>
+                        <select
+                          className="form-control"
+                          name="area_address"
+                          ref={state}
+                          onChange={(e) => stateOnChange(e)}
+                          value={
+                            propertyData && propertyData.area_address
+                              ? propertyData.area_address
+                              : ""
+                          }
+                        >
+                          <option value="">Select area</option>
+                          {states &&
+                            states.map((value, index) => (
+                              <option key={index} value={value.id}>
+                                {value.state_name}
+                              </option>
+                            ))}
+                        </select>
+                        <p style={errorStyle}>{propertyDataError.area_address}</p>
+                      </div>
+
+                      <div className="col-md-6">
+                        <label className="required">House No./Landmark</label>
+                        <input
+                          className="form-control"
+                          placeholder="address"
+                          name="house_landmark"
+                          ref={autoCompleteRef}
+                          autoComplete="off"
+                          defaultValue={propertyData && propertyData.house_landmark ? propertyData.house_landmark : ""
+                          }
+                        />
+                        <p style={errorStyle}>{propertyDataError.house_landmark}</p>
+                      </div>
 
                       <div className="col-md-12">
                         <label className="required">Address</label>
@@ -1170,7 +1258,7 @@ function Content() {
                       </div>
 
                       {
-                        propertyID > 0 &&
+                        currentPropertyID > 0 &&
                         <div className="col-md-12 form-group">
                           <button type="submit" className="btn-custom btn-block" name="submit" disabled={loadingButton}>
                             Update Property
@@ -1182,7 +1270,10 @@ function Content() {
                           </button>
                         </div>
                       }
+
                     </div>
+                    <NextPrevious prev={"tab2"} next={"tab4"} />
+
                     {/****************************Address End****************************/}
                   </Tab.Pane>
                   <Tab.Pane eventKey="tab4">
@@ -1266,8 +1357,6 @@ function Content() {
                         </p>
                       </div>
 
-
-
                       <div className="col-md-6 form-group">
                         <label>Facing</label>
                         <select
@@ -1319,7 +1408,116 @@ function Content() {
                       </div>
 
                       {
-                        propertyID > 0 &&
+                        currentPropertyID > 0 &&
+                        <div className="col-md-12 form-group">
+                          <button type="submit" className="btn-custom btn-block" name="submit" disabled={loadingButton}>
+                            Update Property
+                            {loadingButton === true ?
+                              <div className="ml-1 spinner-border spinner-border-sm" role="status">
+                                <span className="sr-only">Loading...</span>
+                              </div> : ''
+                            }
+                          </button>
+                        </div>
+                      }
+
+                    </div>
+                    <NextPrevious prev={"tab3"} next={"tab5"} />
+
+                  </Tab.Pane>
+                  <Tab.Pane eventKey="tab5">
+                    <div className="row">
+                      <Tabs
+                        className="justify-content-center"
+                        defaultActiveKey="1"
+                        id="uncontrolled-tab-example"
+                      >
+
+                        <Tab eventKey="1" title="Indoor Features">
+                          <div className="row">
+                            {indoorFeatures &&
+                              indoorFeatures.map((value, index) => (
+                                <div
+                                  key={index}
+                                  className="col-lg-4 col-md-6 col-sm-6"
+                                >
+                                  <label className="acr-listing-feature">
+                                    <input
+                                      type="checkbox"
+                                      name={"feature_" + value.id + ""}
+                                      value={value.id}
+                                      onChange={() => onChange(value.id)}
+                                      defaultChecked={selectedM.indexOf(value.id) > -1 ? true : false}
+                                    // selected={selectedM.includes(value.id)}
+                                    />
+                                    <i className="acr-feature-check fas fa-check" />
+                                    <i className="acr-listing-feature-icon">
+                                      <img src={Host + value.icon + ".jpg"} />
+                                    </i>
+                                    {value.feature}
+                                  </label>
+                                </div>
+                              ))}
+                          </div>
+                        </Tab>
+
+                        <Tab eventKey="2" title="Outdoor Features">
+                          <div className="row">
+                            {outdoorFeatures &&
+                              outdoorFeatures.map((value, index) => (
+                                <div
+                                  key={index}
+                                  className="col-lg-4 col-md-6 col-sm-6"
+                                >
+                                  <label className="acr-listing-feature">
+                                    <input
+                                      type="checkbox"
+                                      name={"feature_" + value.id + ""}
+                                      onChange={() => onChange(value.id)}
+                                      defaultChecked={selectedM.indexOf(value.id) > -1 ? true : false}
+                                    // selected={selectedM.includes(value.id)}
+                                    />
+                                    <i className="acr-feature-check fas fa-check" />
+                                    <i className="acr-listing-feature-icon">
+                                      <img src={Host + value.icon + ".jpg"} />
+                                    </i>
+                                    {value.feature}
+                                  </label>
+                                </div>
+                              ))}
+                          </div>
+                        </Tab>
+
+                        <Tab eventKey="3" title="Climet control & energy">
+                          <div className="row">
+                            {climateControlFeatures &&
+                              climateControlFeatures.map((value, index) => (
+                                <div
+                                  key={index}
+                                  className="col-lg-4 col-md-6 col-sm-6"
+                                >
+                                  <label className="acr-listing-feature">
+                                    <input
+                                      type="checkbox"
+                                      name={"feature_" + value.id + ""}
+                                      onChange={() => onChange(value.id)}
+                                      defaultChecked={selectedM.indexOf(value.id) > -1 ? true : false}
+                                    // selected={selectedM.includes(value.id)}
+                                    />
+                                    <i className="acr-feature-check fas fa-check" />
+                                    <i className="acr-listing-feature-icon">
+                                      <img src={Host + value.icon + ".jpg"} />
+                                    </i>
+                                    {value.feature}
+                                  </label>
+                                </div>
+                              ))}
+                          </div>
+                        </Tab>
+
+                      </Tabs>
+                      {
+                        currentPropertyID > 0 &&
                         <div className="col-md-12 form-group">
                           <button type="submit" className="btn-custom btn-block" name="submit" disabled={loadingButton}>
                             Update Property
@@ -1332,111 +1530,8 @@ function Content() {
                         </div>
                       }
                     </div>
-                  </Tab.Pane>
-                  <Tab.Pane eventKey="tab5">
-                    <Tabs
-                      className="justify-content-center"
-                      defaultActiveKey="1"
-                      id="uncontrolled-tab-example"
-                    >
+                    <NextPrevious prev={"tab4"} next={"tab6"} />
 
-                      <Tab eventKey="1" title="Indoor Features">
-                        <div className="row">
-                          {indoorFeatures &&
-                            indoorFeatures.map((value, index) => (
-                              <div
-                                key={index}
-                                className="col-lg-4 col-md-6 col-sm-6"
-                              >
-                                <label className="acr-listing-feature">
-                                  <input
-                                    type="checkbox"
-                                    name={"feature_" + value.id + ""}
-                                    value={value.id}
-                                    onChange={() => onChange(value.id)}
-                                    defaultChecked={selectedM.indexOf(value.id) > -1 ? true : false}
-                                  // selected={selectedM.includes(value.id)}
-                                  />
-                                  <i className="acr-feature-check fas fa-check" />
-                                  <i className="acr-listing-feature-icon">
-                                    <img src={Host + value.icon + ".jpg"} />
-                                  </i>
-                                  {value.feature}
-                                </label>
-                              </div>
-                            ))}
-                        </div>
-                      </Tab>
-
-
-                      <Tab eventKey="2" title="Outdoor Features">
-                        <div className="row">
-                          {outdoorFeatures &&
-                            outdoorFeatures.map((value, index) => (
-                              <div
-                                key={index}
-                                className="col-lg-4 col-md-6 col-sm-6"
-                              >
-                                <label className="acr-listing-feature">
-                                  <input
-                                    type="checkbox"
-                                    name={"feature_" + value.id + ""}
-                                    onChange={() => onChange(value.id)}
-                                    defaultChecked={selectedM.indexOf(value.id) > -1 ? true : false}
-                                  // selected={selectedM.includes(value.id)}
-                                  />
-                                  <i className="acr-feature-check fas fa-check" />
-                                  <i className="acr-listing-feature-icon">
-                                    <img src={Host + value.icon + ".jpg"} />
-                                  </i>
-                                  {value.feature}
-                                </label>
-                              </div>
-                            ))}
-                        </div>
-                      </Tab>
-
-                      <Tab eventKey="3" title="Climet control & energy">
-                        <div className="row">
-                          {climateControlFeatures &&
-                            climateControlFeatures.map((value, index) => (
-                              <div
-                                key={index}
-                                className="col-lg-4 col-md-6 col-sm-6"
-                              >
-                                <label className="acr-listing-feature">
-                                  <input
-                                    type="checkbox"
-                                    name={"feature_" + value.id + ""}
-                                    onChange={() => onChange(value.id)}
-                                    defaultChecked={selectedM.indexOf(value.id) > -1 ? true : false}
-                                  // selected={selectedM.includes(value.id)}
-                                  />
-                                  <i className="acr-feature-check fas fa-check" />
-                                  <i className="acr-listing-feature-icon">
-                                    <img src={Host + value.icon + ".jpg"} />
-                                  </i>
-                                  {value.feature}
-                                </label>
-                              </div>
-                            ))}
-                        </div>
-                      </Tab>
-
-                    </Tabs>
-                    {
-                      propertyID > 0 &&
-                      <div className="col-md-12 form-group">
-                        <button type="submit" className="btn-custom btn-block" name="submit" disabled={loadingButton}>
-                          Update Property
-                          {loadingButton === true ?
-                            <div className="ml-1 spinner-border spinner-border-sm" role="status">
-                              <span className="sr-only">Loading...</span>
-                            </div> : ''
-                          }
-                        </button>
-                      </div>
-                    }
                   </Tab.Pane>
                   <Tab.Pane eventKey="tab6">
                     <div className="row">
@@ -1535,8 +1630,8 @@ function Content() {
                           }
                         >
                           <option>Select garage</option>
-                          {carspaces &&
-                            carspaces.map((value, index) => (
+                          {garage &&
+                            garage.map((value, index) => (
                               <option key={index} value={index}>{value}</option>
                             ))}
                         </select>
@@ -1594,6 +1689,31 @@ function Content() {
                       </div>
 
                       <div className="col-md-3 form-group">
+                        <label>Motar spcaes</label>
+                        <select
+                          className="form-control"
+                          name="motar_spaces"
+                          onChange={(e) =>
+                            setPropertyData({
+                              ...propertyData,
+                              motar_spaces: e.target.value,
+                            })
+                          }
+                          value={
+                            propertyData && propertyData.motar_spaces
+                              ? propertyData.motar_spaces
+                              : ""
+                          }
+                        >
+                          <option>Select</option>
+                          {motarspaces &&
+                            motarspaces.map((value, index) => (
+                              <option key={index} value={index}>{value}</option>
+                            ))}
+                        </select>
+                      </div>
+
+                      <div className="col-md-3 form-group">
                         <label>Pets considered?</label>
                         <select
                           className="form-control"
@@ -1612,6 +1732,7 @@ function Content() {
 
                         </select>
                       </div>
+
                       <div className="col-md-3 form-group">
                         <label>Is Furnished?</label>
                         <select
@@ -1636,6 +1757,7 @@ function Content() {
                             ))}
                         </select>
                       </div>
+
                       <div className="col-md-6 ">
                         <label className="required">Are you</label>
                         <select
@@ -1682,6 +1804,7 @@ function Content() {
                           }
                         />
                       </div>
+
                       <div className="col-md-6 form-group">
                         <label>Build Type</label>
                         <select
@@ -1705,6 +1828,7 @@ function Content() {
                             ))}
                         </select>
                       </div>
+
                       <div className="col-md-6 form-group">
                         <label>Is Under offer?</label>
                         <select
@@ -1748,6 +1872,7 @@ function Content() {
                           {propertyDataError.is_contact_show}
                         </p>
                       </div>
+
                       <div className="col-md-6 form-group">
                         <label className="required">Contact Preson Name</label>
                         <input
@@ -1773,6 +1898,7 @@ function Content() {
                           {propertyDataError.name_for_contact}
                         </p>
                       </div>
+
                       <div className="col-md-6 form-group">
                         <label className="required">
                           Contact Preson Number
@@ -1800,6 +1926,7 @@ function Content() {
                           {propertyDataError.number_for_contact}
                         </p>
                       </div>
+
                       <div className="col-md-6 form-group">
                         <label className="required">Contact Preson Email</label>
                         <input
@@ -1827,27 +1954,7 @@ function Content() {
                       </div>
 
                       <div className="col-md-6 form-group">
-                        <label>Source From</label>
-                        <input
-                          type="text"
-                          className="form-control"
-                          placeholder="Source From"
-                          name="source_from"
-                          onChange={(e) =>
-                            setPropertyData({
-                              ...propertyData,
-                              source_from: e.target.value,
-                            })
-                          }
-                          defaultValue={
-                            propertyData && propertyData.source_from
-                              ? propertyData.source_from
-                              : ""
-                          }
-                        />
-                      </div>
-                      <div className="col-md-6 form-group">
-                        <label>Available from</label>
+                        <label>Available from </label>
                         <input
                           type="date"
                           className="form-control"
@@ -1864,6 +1971,27 @@ function Content() {
                               : ""
                           }
                         />
+                      </div>
+
+                      <div className="col-md-6 form-group">
+                        <label className="required">Property Status</label>
+                        <select
+                          className="form-control"
+                          name="is_published"
+                          onChange={(e) =>
+                            setPropertyData({
+                              ...propertyData,
+                              is_published: e.target.value,
+                            })
+                          }
+                          value={
+                            propertyData && propertyData.is_published == "1" ? "1" : "0"
+                          }
+                        >
+                          <option value="">Select</option>
+                          <option value="1">Publish</option>
+                          <option value="0">Draft</option>
+                        </select>
                       </div>
 
                       <div className="col-md-12 form-group">
@@ -1886,15 +2014,13 @@ function Content() {
                           }
                         />
                       </div>
+
                     </div>
 
-
-
-
+                    <NextPrevious prev={"tab5"} next={0} />
                     {
-                      propertyID > 0 &&
-
-                      <button type="submit" className="btn-custom btn-block" name="submit" disabled={loadingButton}>
+                      currentPropertyID > 0 &&
+                      <button type="submit" className="btn-custom btn-block" name="submit" id="update_property" disabled={loadingButton}>
                         Update Property
                         {loadingButton === true ?
                           <div className="ml-1 spinner-border spinner-border-sm" role="status">
@@ -1903,11 +2029,10 @@ function Content() {
                         }
                       </button>
                     }
-
                     {
-                      propertyID == undefined &&
-                      <button type="submit" className="btn-custom btn-block" name="submit" disabled={loadingButton}>
-                        Add Property
+                      currentPropertyID === 0 &&
+                      <button type="submit" className="btn-custom btn-block" name="submit" id="publish_property" disabled={loadingButton}>
+                        Publish Property
                         {loadingButton === true ?
                           <div className="ml-1 spinner-border spinner-border-sm" role="status">
                             <span className="sr-only">Loading...</span>
@@ -1915,16 +2040,13 @@ function Content() {
                         }
                       </button>
                     }
-
-
                   </Tab.Pane>
                 </Tab.Content>
               </form>
             </div>
           </Tab.Container>
-          {/* Tab Content End */}
         </div>
-      </div>
+      </div >
     </div >
   );
 }

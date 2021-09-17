@@ -19,18 +19,27 @@ const Recentlisting = ({ recentProperties, col }) => {
   }
   const bedstip = <Tooltip>Beds</Tooltip>;
   const bathstip = <Tooltip>Bathrooms</Tooltip>;
+  const propertyType = window.location.pathname.split("/")[1] === 'home' ? 'buy' : window.location.pathname.split("/")[1];
 
   return (
     <div className="section section-padding">
       <div className="container">
         <div className="section-title-wrap section-header flex-header">
           <div className="section-title-text">
-            <h5 className="custom-primary">Find Your Home</h5>
+            {
+              propertyType !== 'property' ? (
+                <h5 className="custom-primary">Find Your Home</h5>
+              ) : ''
+            }
             <h2 className="title">Recent Listings</h2>
           </div>
-          <Link to={`/property-results?property_type=${window.location.pathname.split("/")[1]}`} className="btn-custom">
-            View All
-          </Link>
+          {
+            propertyType !== 'property' ? (
+              <Link to={`/property-results?property_type=${propertyType}`} className="btn-custom">
+                View All
+              </Link>
+            ) : ''
+          }
         </div>
         <div className="row">
           {/* Listing Start */}
@@ -79,13 +88,6 @@ const Recentlisting = ({ recentProperties, col }) => {
                       ""
                     )}
                   </div>
-                  {/*
-                                                                <div className="listing-controls">
-                                                                <Link to="#" onClick={() => saveProperty(item.id)} className="favorite">
-                                                                    <i className="far fa-heart" />
-                                                                </Link>
-                                                                </div>
-                                                                */}
                 </div>
                 <div className="listing-body" style={listingBody}>
                   <div className="listing-author">
@@ -136,7 +138,7 @@ const Recentlisting = ({ recentProperties, col }) => {
                       {item.title}
                     </Link>{" "}
                   </h5>
-                  <p className="listing-text"><Link to={'#'} > <span><i className="fas fa-map-marker-alt"></i></span> {item.title.slice(0, 44) + "..."}</Link></p>
+                  <p className="listing-text"><Link className="location-text" to={'#'} > <span><i className="fas fa-map-marker-alt"></i></span> {item.address + "..."}</Link></p>
                   <span className="listing-price">
                     Rs. {new Number(item.price).toLocaleString()}
                     <span> {item.price_on}</span>{" "}
@@ -176,15 +178,6 @@ const Recentlisting = ({ recentProperties, col }) => {
                     >
                       View Details
                     </Link>
-                    {/*
- <OverlayTrigger overlay={gallerytip}>
-                      <Link to={`/property/${convertToSlug(item.title)}/${item.id}`} className="listing-gallery">
-                        {" "}
-                        <i className="fas fa-camera" />{" "}
-                      </Link>
-                    </OverlayTrigger>
-                  */}
-
                   </div>
                 </div>
               </div>
