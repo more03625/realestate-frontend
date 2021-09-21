@@ -32,7 +32,7 @@ const Banner = () => {
       className="subheader bg-cover bg-center dark-overlay"
       style={{
         backgroundImage:
-          "url(" + process.env.PUBLIC_URL + "/assets/img/banner/3.jpg)",
+          "url(" + process.env.PUBLIC_URL + "/assets/img/banner/3.png)",
       }}
     >
       <div className="container">

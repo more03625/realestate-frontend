@@ -677,11 +677,11 @@ function Content() {
     setLoadingButton(true);
     e && e.preventDefault();
 
-
     if (isImageSelected === false && propertyData !== undefined) {
       const imageObject = { image: 0 };
       Object.assign(propertyData, imageObject); // object assign is used to update the propertyData object with imagesObject
     }
+
     if (isGallarySelected === false && propertyData !== undefined) {
       const gallaryObject = { images: 0 };
       Object.assign(propertyData, gallaryObject); // object assign is used to update the propertyData object with imagesObject
@@ -700,7 +700,6 @@ function Content() {
       } else {
         var addPropertyURL = Host + Endpoints.addProperty;
       }
-
       propertyData !== undefined && Object.assign(propertyData, mapAddress);
 
       Axios.post(addPropertyURL, cleanObject(propertyData), {
@@ -722,7 +721,9 @@ function Content() {
               }, 1000);
             } else {
               successToast("Auto saved...");
-              setIsAutoSave(false);
+              setIsAutoSave(false); //commented because it was keeping autoSave to false for 2nd autosave
+              setIsGallarySelected(false);
+              setIsImageSelected(false);
             }
           }
         })
@@ -730,6 +731,7 @@ function Content() {
           setLoadingButton(false);
           errorToast();
         });
+
     } else {
       setLoadingButton(false);
     }
@@ -784,22 +786,23 @@ function Content() {
           //set is_contact_show disabled
           response.data.data.is_contact_show == 0 ? setIsContactShow(true) : setIsContactShow(false);
           response.data.data.status === 'active' ? setIsPublished(true) : setIsPublished(false);
+          console.log("st ===> ", response.data.data.status)
         }
       });
     }
   };
   const autoSave = () => {
-
+    console.log('In Autosave')
+    setIsAutoSave(true);
     if (currentPropertyID === 0 && window.location.pathname === '/add-property' || window.location.pathname.includes('edit-property')) {
-      setIsAutoSave(true)
       document.getElementById("save_data").click();
     }
   }
 
   useEffect(() => {
     if (currentPropertyID === 0 && window.location.pathname === '/add-property' || window.location.pathname.includes('edit-property')) {
-      setIsAutoSave(true)
       setInterval(function () {
+        setIsAutoSave(true);
         autoSave()
       }, 60000);
     }
@@ -982,13 +985,13 @@ function Content() {
                           {
                             currentPropertyID > 0 ?
                               propertyTypes && propertyTypes.map((ptype) => (
-                                <option key={ptype.id} value={lowercaseFirstLetter(ptype.name)}>
+                                <option key={ptype.id} value={ptype.name === 'sell' ? 'buy' : lowercaseFirstLetter(ptype.name)}>
                                   {uppercaseFirstLetter(ptype.name)}
                                 </option>
                               ))
                               :
                               propertyTypes && propertyTypes.filter((x) => x.name !== 'sold').map((ptype) => (
-                                <option key={ptype.id} value={lowercaseFirstLetter(ptype.name)}>
+                                <option key={ptype.id} value={ptype.name === 'sell' ? 'buy' : lowercaseFirstLetter(ptype.name)}>
                                   {uppercaseFirstLetter(ptype.name)}
                                 </option>
                               ))
