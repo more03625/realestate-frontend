@@ -54,9 +54,11 @@ function Content() {
     );
   }
   const [propertyData, setPropertyData] = useState();
+
   const [isPublished, setIsPublished] = useState(false);
 
-  const handleIsPublished = () => setIsPublished(!isPublished)
+
+  const handleIsPublished = () => setIsPublished(!isPublished);
   const [mapAddress, setMapAddress] = useState();
 
   async function handlePlaceSelect(updateQuery) {
@@ -331,8 +333,6 @@ function Content() {
     } else {
       console.log('Plase select from that only')
     }
-
-    // call district
   }
 
   const handleContactShow = (e) => {
@@ -419,6 +419,9 @@ function Content() {
   }
 
   const isValid = () => {
+    console.log("isPublished ===>", isPublished) // false  | edit ===> | false
+    console.log("isAutoSave ===>", isAutoSave) // true     | edit ===> | true
+    // || isAutoSave === false
     if (isPublished === true) {
       var emailValidator = new RegExp(
         /[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,15}/g
@@ -664,7 +667,6 @@ function Content() {
       }
     } else {
       // Save as draft
-
       return true;
     }
 
@@ -684,7 +686,13 @@ function Content() {
       const gallaryObject = { images: 0 };
       Object.assign(propertyData, gallaryObject); // object assign is used to update the propertyData object with imagesObject
     }
-    propertyData !== undefined && Object.assign(propertyData, { 'features': selectedM, 'description': content, 'add_status': isPublished === false ? 'draft' : 'pending' })
+
+    propertyData !== undefined && Object.assign(propertyData, {
+      'features': selectedM,
+      'description': content,
+      'add_status': isPublished === false ? 'draft' : 'pending',
+      'auto_save': isAutoSave
+    })
 
     if (isValid()) {
       if (propertyData && propertyData.id > 0) {
@@ -706,7 +714,7 @@ function Content() {
             errorToast(response.data.title);
           } else {
             setPropertyData(response.data.data);
-            console.log("isAutoSave ===> ", isAutoSave, "typeof ===>", typeof (isAutoSave))
+
             if (isAutoSave === false) {
               successToast(response.data.title);
               setTimeout(function () {
@@ -714,6 +722,7 @@ function Content() {
               }, 1000);
             } else {
               successToast("Auto saved...");
+              setIsAutoSave(false);
             }
           }
         })
@@ -774,23 +783,25 @@ function Content() {
           setImagesToPreview(preImg);
           //set is_contact_show disabled
           response.data.data.is_contact_show == 0 ? setIsContactShow(true) : setIsContactShow(false);
+          response.data.data.status === 'active' ? setIsPublished(true) : setIsPublished(false);
         }
       });
     }
   };
   const autoSave = () => {
-    setIsAutoSave(true)
+
     if (currentPropertyID === 0 && window.location.pathname === '/add-property' || window.location.pathname.includes('edit-property')) {
+      setIsAutoSave(true)
       document.getElementById("save_data").click();
     }
-    setIsAutoSave(false);
   }
 
   useEffect(() => {
     if (currentPropertyID === 0 && window.location.pathname === '/add-property' || window.location.pathname.includes('edit-property')) {
+      setIsAutoSave(true)
       setInterval(function () {
         autoSave()
-      }, 10000);
+      }, 60000);
     }
     handleScriptLoad(setQuery, autoCompleteRef);
     getPropertyDetails();
@@ -2000,7 +2011,6 @@ function Content() {
                             name="isPublished"
                             onChange={(e) => handleIsPublished()}
                             checked={isPublished}
-
                           />
                           <label
                             className="custom-control-label"
@@ -2010,6 +2020,8 @@ function Content() {
                           </label>
                         </div>
                       </div>
+
+
                       <div className="col-md-12 form-group">
                         <label>Keywords</label>
                         <input
