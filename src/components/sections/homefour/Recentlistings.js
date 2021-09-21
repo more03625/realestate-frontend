@@ -58,7 +58,7 @@ const Recentlisting = ({ recentProperties, col }) => {
 
                   <div className="listing-badges">
                     {item.property_type === "buy" ? (
-                      <span className="listing-badge sale">Sell</span>
+                      <span className="listing-badge sale">Sale</span>
                     ) : (
                       ""
                     )}

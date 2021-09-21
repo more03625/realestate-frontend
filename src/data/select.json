@@ -537,7 +537,7 @@
         }
     ],
     "bedslist":[
-        "Any",
+        "0 Beds",
         "1 Bed",
         "2 Beds",
         "3 Beds",
@@ -559,7 +559,6 @@
         "Climet control & energy"
     ],
     "garage":[
-        "Any",
         "0",
         "1",
         "2",
@@ -568,7 +567,6 @@
         "5+"
     ],
     "carspaces":[
-        "Any",
         "0",
         "1",
         "2",
@@ -577,7 +575,6 @@
         "5+"
     ],
     "motarspaces":[
-        "Any",
         "0",
         "1",
         "2",
@@ -586,7 +583,6 @@
         "5+"
     ],
     "bathroomslist":[
-        "Any",
         "0",
         "1",
         "2",
@@ -595,7 +591,7 @@
         "5+"
     ],
     "rooms":[
-        "Any",
+        "0",
         "1",
         "2",
         "3",
@@ -626,7 +622,6 @@
         "Within 22 miles"
     ],
     "floorlist":[
-        "Any floor",
         "0",
         "1st",
         "2nd",

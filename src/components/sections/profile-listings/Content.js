@@ -185,9 +185,9 @@ const Content = ({ userData }) => {
                     </h5>
                     <span className="listing-price">
                       Rs. {new Intl.NumberFormat().format(
-                        21525
+                        item.price
                       )}
-                      <span>/month</span>{" "}
+                      <span>/{item.price_on}</span>{" "}
                     </span>
                     <p className="listing-text">{item.text}</p>
                     <div className="acr-listing-icons">
@@ -216,7 +216,10 @@ const Content = ({ userData }) => {
                         </div>
                       </OverlayTrigger>
                     </div>
-                    <div className="listing-gallery-wrapper">
+
+                    {
+                      /*
+                      <div className="listing-gallery-wrapper">
                       <Link
                         to={`/property/${convertToSlug(item.title)}/${item.id}?isadmin=1`}
                         className="btn-custom btn-sm secondary"
@@ -230,6 +233,9 @@ const Content = ({ userData }) => {
                         </Link>
                       </OverlayTrigger>
                     </div>
+                      */
+                    }
+
                   </div>
                 </div>
               ))}

@@ -27,15 +27,18 @@ import {
   getUserToken,
   uppercaseFirstLetter,
   lowercaseFirstLetter,
+  cleanObject,
 } from "../../../helper/comman_helper";
 import Axios from "axios";
 import { useHistory, useParams, Link } from "react-router-dom";
 import NextPrevious from './NextPrevious';
+import Updatebtn from "./Updatebtn";
+import axios from "axios";
+import Publishbtn from "./Publishbtn";
 
 function Content() {
   // GOOGLE MAP
   let autoComplete;
-
 
   function handleScriptLoad(updateQuery, autoCompleteRef) {
     const options = {
@@ -45,15 +48,16 @@ function Content() {
 
     autoComplete.setFields(['place_id', 'geometry', 'name', 'formatted_address']);
 
-
     autoComplete.addListener("place_changed", () => {
       handlePlaceSelect(updateQuery)
     }
     );
   }
   const [propertyData, setPropertyData] = useState();
-  const [mapAddress, setMapAddress] = useState();
+  const [isPublished, setIsPublished] = useState(false);
 
+  const handleIsPublished = () => setIsPublished(!isPublished)
+  const [mapAddress, setMapAddress] = useState();
 
   async function handlePlaceSelect(updateQuery) {
     const addressObject = autoComplete.getPlace();
@@ -64,7 +68,6 @@ function Content() {
 
   const [query, setQuery] = useState("");
   const autoCompleteRef = useRef(null);
-
 
   // GOOGLE MAP
 
@@ -130,12 +133,11 @@ function Content() {
     currentPropertyID = parseInt(propertyID.split("?")[0]);
   }
 
-
   if (propertyID < 0) {
     document.getElementById("property-form").reset();
   }
 
-
+  const [imagesToPreview, setImagesToPreview] = useState([]);
   const [propertyDataError, setPropertyDataError] = useState([]);
   const [states, setStates] = useState([]);
   const [cities, setCities] = useState([]);
@@ -154,6 +156,8 @@ function Content() {
   const [isContactShow, setIsContactShow] = useState(false);
 
   const [isGallarySelected, setIsGallarySelected] = useState(false);
+  const [selectedM, setSelectedM] = useState([]);
+
   // CK EDITPRT
   const [content, setContent] = useState();
   const handleDescriptionChange = (e, editor) => {
@@ -211,14 +215,24 @@ function Content() {
     }
   };
   const getPropertyTypes = (categoryID = '') => {
-    var url = Host + Endpoints.getPropertyTypes + categoryID;
-    Axios.get(url).then((response) => {
-      if (response.data.error === true) {
-        alert("There are some errors!");
-      } else {
-        setPropertyTypes(response.data.data);
-      }
-    });
+    if (categoryID != '') {
+      var url = Host + Endpoints.getPropertyTypes + categoryID;
+      Axios.get(url).then((response) => {
+        if (response.data.error === true) {
+          alert("There are some errors!");
+        } else {
+          var formattedPropertyTypes = [];
+          response.data.data.map((value, index) => {
+            if (value.name === 'buy') {
+              value.name = 'sell'
+            }
+            formattedPropertyTypes.push({ id: value.id, name: value.name })
+          }
+          );
+          setPropertyTypes(formattedPropertyTypes);
+        }
+      });
+    }
   };
 
   const getIndoorFeatures = () => {
@@ -260,17 +274,65 @@ function Content() {
     getSubCategories(e.target.value);
 
   };
-  const stateOnChange = (e) => {
-    setPropertyData({ ...propertyData, [e.target.name]: e.target.value });
+  const [districts, setDistricts] = useState([]);
+  const [areaAddress, setAreaAddress] = useState([]);
+  const getDistrict = async (state_id) => {
+    var url = Host + Endpoints.getDistricts;
+    var data = {
+      limit: 100,
+      state_id: state_id
+    }
+
+    const result = await axios.post(url, data);
+    if (result.data.error === true) {
+      errorToast(result.data.title);
+    } else {
+      setDistricts(result.data.data.districts);
+    }
+  }
+  const getCities = async (districtID) => {
+    var url = Host + Endpoints.getCitiesAdmin;
+    var data = {
+      limit: 100,
+      district_id: districtID
+    }
+    const result = await Axios.post(url, data);
+    if (result.data.error === true) {
+      errorToast(result.data.title);
+    } else {
+      setCities(result.data.data.cities);
+    }
+  };
+  const getAreaAddressDrop = async (cityID) => {
+    var url = Host + Endpoints.getAreaAddresses;
+    var data = {
+      limit: 100,
+      city_id: cityID
+    }
+    const result = await Axios.post(url, data);
+    if (result.data.error === true) {
+      errorToast(result.data.title);
+    } else {
+      setAreaAddress(result.data.data.areaAddresses);
+    }
+  }
+  const locationOnChange = (e) => {
+    if (e.target.name === 'state') {
+      getDistrict(e.target.value); //stateID
+      setPropertyData({ ...propertyData, [e.target.name]: e.target.value });
+    } else if (e.target.name === 'district') {
+      getCities(e.target.value); //districtID
+      setPropertyData({ ...propertyData, [e.target.name]: e.target.value });
+    } else if (e.target.name === 'city') {
+      getAreaAddressDrop(e.target.value) //cityID
+      setPropertyData({ ...propertyData, [e.target.name]: e.target.value });
+    } else if (e.target.name === 'area_address') {
+      setPropertyData({ ...propertyData, [e.target.name]: e.target.value });
+    } else {
+      console.log('Plase select from that only')
+    }
+
     // call district
-  }
-  const districtOnChange = (e) => {
-    setPropertyData({ ...propertyData, [e.target.name]: e.target.value });
-    getCities(e.target.value); // call area drop
-  }
-  const cityOnChange = (e) => {
-    setPropertyData({ ...propertyData, [e.target.name]: e.target.value });
-    getCities(e.target.value);
   }
 
   const handleContactShow = (e) => {
@@ -292,12 +354,7 @@ function Content() {
       setStates(response.data.data);
     });
   };
-  const getCities = (stateID = '') => {
-    var url = Host + Endpoints.getCities + stateID;
-    Axios.get(url).then((response) => {
-      setCities(response.data.data);
-    });
-  };
+
   const uploadImage = async (e) => {
     const file = e.target.files[0];
     setIsImageSelected({
@@ -332,7 +389,6 @@ function Content() {
     setPropertyData({ ...propertyData, images: base64Images });
   }
 
-  const [selectedM, setSelectedM] = useState([]);
   const onChange = (id) => {
     let find = selectedM.indexOf(id);
 
@@ -363,7 +419,7 @@ function Content() {
   }
 
   const isValid = () => {
-    if (propertyData !== undefined && propertyData.is_published !== undefined && propertyData.is_published === 1) {
+    if (isPublished === true) {
       var emailValidator = new RegExp(
         /[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,15}/g
       ).test(propertyData.email_for_contact);
@@ -607,15 +663,19 @@ function Content() {
         return true;
       }
     } else {
-      successToast("Auto saved...");
+      // Save as draft
+
       return true;
     }
 
   };
+  const [isAutoSave, setIsAutoSave] = useState(false);
+
   const handleSubmit = (e) => {
     setLoadingButton(true);
-    e.preventDefault();
-    console.log(propertyData)
+    e && e.preventDefault();
+
+
     if (isImageSelected === false && propertyData !== undefined) {
       const imageObject = { image: 0 };
       Object.assign(propertyData, imageObject); // object assign is used to update the propertyData object with imagesObject
@@ -624,8 +684,7 @@ function Content() {
       const gallaryObject = { images: 0 };
       Object.assign(propertyData, gallaryObject); // object assign is used to update the propertyData object with imagesObject
     }
-    propertyData !== undefined && Object.assign(propertyData, { 'features': selectedM, 'description': content })
-
+    propertyData !== undefined && Object.assign(propertyData, { 'features': selectedM, 'description': content, 'add_status': isPublished === false ? 'draft' : 'pending' })
 
     if (isValid()) {
       if (propertyData && propertyData.id > 0) {
@@ -636,7 +695,7 @@ function Content() {
 
       propertyData !== undefined && Object.assign(propertyData, mapAddress);
 
-      Axios.post(addPropertyURL, propertyData, {
+      Axios.post(addPropertyURL, cleanObject(propertyData), {
         headers: {
           token: getUserToken().token,
         },
@@ -646,10 +705,16 @@ function Content() {
           if (response.data.error === true) {
             errorToast(response.data.title);
           } else {
-            successToast(response.data.title);
-            setTimeout(function () {
-              history.push("/my-listings");
-            }, 1000);
+            setPropertyData(response.data.data);
+            console.log("isAutoSave ===> ", isAutoSave, "typeof ===>", typeof (isAutoSave))
+            if (isAutoSave === false) {
+              successToast(response.data.title);
+              setTimeout(function () {
+                history.push("/my-listings");
+              }, 1000);
+            } else {
+              successToast("Auto saved...");
+            }
           }
         })
         .catch((error) => {
@@ -661,11 +726,9 @@ function Content() {
     }
   };
 
-
-
   const queryParams = new URLSearchParams(window.location.search);
   var isAdmin = queryParams.get("isadmin");
-  const [imagesToPreview, setImagesToPreview] = useState([]);
+
   const getPropertyDetails = () => {
     if (currentPropertyID !== undefined && currentPropertyID !== 0) {
       var url = Host + Endpoints.getPropertyDetails + currentPropertyID + "&isadmin=" + isAdmin;
@@ -709,36 +772,32 @@ function Content() {
               });
           }
           setImagesToPreview(preImg);
-
           //set is_contact_show disabled
-
-          response.data.data.is_contact_show == 0 ? setIsContactShow(true) : setIsContactShow(false)
-
-
-
+          response.data.data.is_contact_show == 0 ? setIsContactShow(true) : setIsContactShow(false);
         }
       });
     }
   };
   const autoSave = () => {
-    if (currentPropertyID === 0 && window.location.pathname === '/add-property') {
-      document.getElementById("publish_property").click();
+    setIsAutoSave(true)
+    if (currentPropertyID === 0 && window.location.pathname === '/add-property' || window.location.pathname.includes('edit-property')) {
+      document.getElementById("save_data").click();
     }
+    setIsAutoSave(false);
   }
 
   useEffect(() => {
-
-    if (currentPropertyID === 0 && window.location.pathname === '/add-property') {
-      setInterval(function () { autoSave() }, 2500);
+    if (currentPropertyID === 0 && window.location.pathname === '/add-property' || window.location.pathname.includes('edit-property')) {
+      setInterval(function () {
+        autoSave()
+      }, 10000);
     }
-
     handleScriptLoad(setQuery, autoCompleteRef);
     getPropertyDetails();
     getCategories();
     getPropertyTypes();
     getSubCategories();
     getStates();
-    getCities();
     getIndoorFeatures();
     getOutDoorFeatures();
     getClimateControlFeatures();
@@ -908,7 +967,7 @@ function Content() {
                               : ""
                           }
                         >
-                          <option value="">Property Type</option>
+                          <option value="">Select purpose</option>
                           {
                             currentPropertyID > 0 ?
                               propertyTypes && propertyTypes.map((ptype) => (
@@ -981,7 +1040,6 @@ function Content() {
                         </select>
                         <p style={errorStyle}>{propertyDataError.price_on}</p>
                       </div>
-
                       <div className="col-md-6 form-group">
                         <label>Price Negotiable?</label>
                         <select
@@ -993,7 +1051,7 @@ function Content() {
                               price_negotiable: e.target.value,
                             })
                           }
-                          value={propertyData && propertyData.price_negotiable == "1" ? "1" : "0"}
+                          value={propertyData && propertyData.price_negotiable !== undefined ? propertyData.price_negotiable : ''}
                         >
                           <option value="">Select</option>
                           <option value="0">No</option>
@@ -1001,28 +1059,18 @@ function Content() {
                         </select>
                       </div>
 
-                      {
-                        currentPropertyID > 0 &&
-                        <div className="col-md-12 form-group">
-                          <button type="submit" className="btn-custom btn-block" name="submit" disabled={loadingButton}>
-                            Update Property
-                            {loadingButton === true ?
-                              <div className="ml-1 spinner-border spinner-border-sm" role="status">
-                                <span className="sr-only">Loading...</span>
-                              </div> : ''
-                            }
-                          </button>
-                        </div>
-                      }
+
+
                     </div>
                     <NextPrevious prev={0} next={"tab2"} />
+                    <Updatebtn currentPropertyID={currentPropertyID} loadingButton={loadingButton} />
                   </Tab.Pane>
 
                   <Tab.Pane eventKey="tab2">
                     <div className="row">
                       <div className="col-md-12">
                         <div className="form-group">
-                          <label className="required">Property Thumbnail</label>
+                          <label className="required">Property Thumbnail (Main Image)</label>
                           <div className="custom-file">
                             <input
                               type="file"
@@ -1101,22 +1149,10 @@ function Content() {
                           <span className="acr-form-notice">*Upload minimum 4-8 Images to get more calls!</span>
                         </div>
                       </div>
-                      {
-                        currentPropertyID > 0 &&
-                        <div className="col-md-12 form-group">
-                          <button type="submit" className="btn-custom btn-block" name="submit" disabled={loadingButton}>
-                            Update Property
-                            {loadingButton === true ?
-                              <div className="ml-1 spinner-border spinner-border-sm" role="status">
-                                <span className="sr-only">Loading...</span>
-                              </div> : ''
-                            }
-                          </button>
-                        </div>
-                      }
+
                     </div>
                     <NextPrevious prev={"tab1"} next={"tab3"} />
-
+                    <Updatebtn currentPropertyID={currentPropertyID} loadingButton={loadingButton} />
 
                   </Tab.Pane>
 
@@ -1132,12 +1168,8 @@ function Content() {
                           className="form-control"
                           name="state"
                           ref={state}
-                          onChange={(e) => stateOnChange(e)}
-                          value={
-                            propertyData && propertyData.state
-                              ? propertyData.state
-                              : ""
-                          }
+                          onChange={(e) => locationOnChange(e)}
+                          value={propertyData && propertyData.state}
                         >
                           <option value="">Select State</option>
                           {states &&
@@ -1149,26 +1181,28 @@ function Content() {
                         </select>
                         <p style={errorStyle}>{propertyDataError.state}</p>
                       </div>
+
                       <div className="col-md-4">
                         <label className="required">District</label>
                         <select
                           className="form-control"
                           name="district"
                           ref={state}
-                          onChange={(e) => stateOnChange(e)}
-                          value={
-                            propertyData && propertyData.state
-                              ? propertyData.state
-                              : ""
-                          }
+                          onChange={(e) => locationOnChange(e)}
+                          value={propertyData && propertyData.district}
                         >
-                          <option value="">Select district</option>
-                          {states &&
-                            states.map((value, index) => (
-                              <option key={index} value={value.id}>
-                                {value.state_name}
-                              </option>
-                            ))}
+                          {
+                            districts.length > 0 ? (
+                              districts.map((value, index) => (
+                                <option key={index} value={value.id}>
+                                  {value.district_name}
+                                </option>
+                              ))
+                            ) : (
+                              <option value="">Select State first</option>
+                            )
+                          }
+
                         </select>
                         <p style={errorStyle}>{propertyDataError.state}</p>
                       </div>
@@ -1179,25 +1213,22 @@ function Content() {
                           className="form-control"
                           name="city"
                           ref={city}
-                          onChange={(e) =>
-                            setPropertyData({
-                              ...propertyData,
-                              city: e.target.value,
-                            })
-                          }
-                          value={
-                            propertyData && propertyData.city
-                              ? propertyData.city
-                              : ""
-                          }
+                          onChange={(e) => locationOnChange(e)}
+                          value={propertyData && propertyData.city}
                         >
-                          <option value="">Select City</option>
-                          {cities &&
-                            cities.map((value, index) => (
-                              <option key={index} value={value.id}>
-                                {value.city_name}
-                              </option>
-                            ))}
+                          {
+                            cities.length > 0 ? (
+                              cities &&
+                              cities.map((value, index) => (
+                                <option key={index} value={value.id}>
+                                  {value.city_name}
+                                </option>
+                              ))
+                            ) : (
+                              <option value="">Select District first</option>
+                            )
+                          }
+
                         </select>
                         <p style={errorStyle}>{propertyDataError.city}</p>
                       </div>
@@ -1208,20 +1239,21 @@ function Content() {
                           className="form-control"
                           name="area_address"
                           ref={state}
-                          onChange={(e) => stateOnChange(e)}
-                          value={
-                            propertyData && propertyData.area_address
-                              ? propertyData.area_address
-                              : ""
-                          }
+                          onChange={(e) => locationOnChange(e)}
+                          value={propertyData && propertyData.area_address}
                         >
-                          <option value="">Select area</option>
-                          {states &&
-                            states.map((value, index) => (
-                              <option key={index} value={value.id}>
-                                {value.state_name}
-                              </option>
-                            ))}
+                          {
+                            areaAddress.length > 0 ? (
+                              areaAddress &&
+                              areaAddress.map((value, index) => (
+                                <option key={index} value={value.id}>
+                                  {value.name}
+                                </option>
+                              ))
+                            ) : (
+                              <option value="">Select city first</option>
+                            )
+                          }
                         </select>
                         <p style={errorStyle}>{propertyDataError.area_address}</p>
                       </div>
@@ -1232,6 +1264,7 @@ function Content() {
                           className="form-control"
                           placeholder="address"
                           name="house_landmark"
+                          onChange={(e) => setPropertyData({ ...propertyData, house_landmark: e.target.value })}
                           ref={autoCompleteRef}
                           autoComplete="off"
                           defaultValue={propertyData && propertyData.house_landmark ? propertyData.house_landmark : ""
@@ -1257,22 +1290,11 @@ function Content() {
                         <p style={errorStyle}>{propertyDataError.address}</p>
                       </div>
 
-                      {
-                        currentPropertyID > 0 &&
-                        <div className="col-md-12 form-group">
-                          <button type="submit" className="btn-custom btn-block" name="submit" disabled={loadingButton}>
-                            Update Property
-                            {loadingButton === true ?
-                              <div className="ml-1 spinner-border spinner-border-sm" role="status">
-                                <span className="sr-only">Loading...</span>
-                              </div> : ''
-                            }
-                          </button>
-                        </div>
-                      }
+
 
                     </div>
                     <NextPrevious prev={"tab2"} next={"tab4"} />
+                    <Updatebtn currentPropertyID={currentPropertyID} loadingButton={loadingButton} />
 
                     {/****************************Address End****************************/}
                   </Tab.Pane>
@@ -1407,131 +1429,107 @@ function Content() {
                         </select>
                       </div>
 
-                      {
-                        currentPropertyID > 0 &&
-                        <div className="col-md-12 form-group">
-                          <button type="submit" className="btn-custom btn-block" name="submit" disabled={loadingButton}>
-                            Update Property
-                            {loadingButton === true ?
-                              <div className="ml-1 spinner-border spinner-border-sm" role="status">
-                                <span className="sr-only">Loading...</span>
-                              </div> : ''
-                            }
-                          </button>
-                        </div>
-                      }
+
+
 
                     </div>
                     <NextPrevious prev={"tab3"} next={"tab5"} />
+                    <Updatebtn currentPropertyID={currentPropertyID} loadingButton={loadingButton} />
 
                   </Tab.Pane>
                   <Tab.Pane eventKey="tab5">
-                    <div className="row">
-                      <Tabs
-                        className="justify-content-center"
-                        defaultActiveKey="1"
-                        id="uncontrolled-tab-example"
-                      >
 
-                        <Tab eventKey="1" title="Indoor Features">
-                          <div className="row">
-                            {indoorFeatures &&
-                              indoorFeatures.map((value, index) => (
-                                <div
-                                  key={index}
-                                  className="col-lg-4 col-md-6 col-sm-6"
-                                >
-                                  <label className="acr-listing-feature">
-                                    <input
-                                      type="checkbox"
-                                      name={"feature_" + value.id + ""}
-                                      value={value.id}
-                                      onChange={() => onChange(value.id)}
-                                      defaultChecked={selectedM.indexOf(value.id) > -1 ? true : false}
-                                    // selected={selectedM.includes(value.id)}
-                                    />
-                                    <i className="acr-feature-check fas fa-check" />
-                                    <i className="acr-listing-feature-icon">
-                                      <img src={Host + value.icon + ".jpg"} />
-                                    </i>
-                                    {value.feature}
-                                  </label>
-                                </div>
-                              ))}
-                          </div>
-                        </Tab>
+                    <Tabs
+                      className="justify-content-center"
+                      defaultActiveKey="1"
+                      id="uncontrolled-tab-example"
+                    >
 
-                        <Tab eventKey="2" title="Outdoor Features">
-                          <div className="row">
-                            {outdoorFeatures &&
-                              outdoorFeatures.map((value, index) => (
-                                <div
-                                  key={index}
-                                  className="col-lg-4 col-md-6 col-sm-6"
-                                >
-                                  <label className="acr-listing-feature">
-                                    <input
-                                      type="checkbox"
-                                      name={"feature_" + value.id + ""}
-                                      onChange={() => onChange(value.id)}
-                                      defaultChecked={selectedM.indexOf(value.id) > -1 ? true : false}
-                                    // selected={selectedM.includes(value.id)}
-                                    />
-                                    <i className="acr-feature-check fas fa-check" />
-                                    <i className="acr-listing-feature-icon">
-                                      <img src={Host + value.icon + ".jpg"} />
-                                    </i>
-                                    {value.feature}
-                                  </label>
-                                </div>
-                              ))}
-                          </div>
-                        </Tab>
-
-                        <Tab eventKey="3" title="Climet control & energy">
-                          <div className="row">
-                            {climateControlFeatures &&
-                              climateControlFeatures.map((value, index) => (
-                                <div
-                                  key={index}
-                                  className="col-lg-4 col-md-6 col-sm-6"
-                                >
-                                  <label className="acr-listing-feature">
-                                    <input
-                                      type="checkbox"
-                                      name={"feature_" + value.id + ""}
-                                      onChange={() => onChange(value.id)}
-                                      defaultChecked={selectedM.indexOf(value.id) > -1 ? true : false}
-                                    // selected={selectedM.includes(value.id)}
-                                    />
-                                    <i className="acr-feature-check fas fa-check" />
-                                    <i className="acr-listing-feature-icon">
-                                      <img src={Host + value.icon + ".jpg"} />
-                                    </i>
-                                    {value.feature}
-                                  </label>
-                                </div>
-                              ))}
-                          </div>
-                        </Tab>
-
-                      </Tabs>
-                      {
-                        currentPropertyID > 0 &&
-                        <div className="col-md-12 form-group">
-                          <button type="submit" className="btn-custom btn-block" name="submit" disabled={loadingButton}>
-                            Update Property
-                            {loadingButton === true ?
-                              <div className="ml-1 spinner-border spinner-border-sm" role="status">
-                                <span className="sr-only">Loading...</span>
-                              </div> : ''
-                            }
-                          </button>
+                      <Tab eventKey="1" title="Indoor Features">
+                        <div className="row">
+                          {indoorFeatures &&
+                            indoorFeatures.map((value, index) => (
+                              <div
+                                key={index}
+                                className="col-lg-4 col-md-6 col-sm-6"
+                              >
+                                <label className="acr-listing-feature">
+                                  <input
+                                    type="checkbox"
+                                    name={"feature_" + value.id + ""}
+                                    value={value.id}
+                                    onChange={() => onChange(value.id)}
+                                    defaultChecked={selectedM.indexOf(value.id) > -1 ? true : false}
+                                  // selected={selectedM.includes(value.id)}
+                                  />
+                                  <i className="acr-feature-check fas fa-check" />
+                                  <i className="acr-listing-feature-icon">
+                                    <img src={Host + value.icon + ".jpg"} />
+                                  </i>
+                                  {value.feature}
+                                </label>
+                              </div>
+                            ))}
                         </div>
-                      }
-                    </div>
-                    <NextPrevious prev={"tab4"} next={"tab6"} />
+                      </Tab>
 
+                      <Tab eventKey="2" title="Outdoor Features">
+                        <div className="row">
+                          {outdoorFeatures &&
+                            outdoorFeatures.map((value, index) => (
+                              <div
+                                key={index}
+                                className="col-lg-4 col-md-6 col-sm-6"
+                              >
+                                <label className="acr-listing-feature">
+                                  <input
+                                    type="checkbox"
+                                    name={"feature_" + value.id + ""}
+                                    onChange={() => onChange(value.id)}
+                                    defaultChecked={selectedM.indexOf(value.id) > -1 ? true : false}
+                                  // selected={selectedM.includes(value.id)}
+                                  />
+                                  <i className="acr-feature-check fas fa-check" />
+                                  <i className="acr-listing-feature-icon">
+                                    <img src={Host + value.icon + ".jpg"} />
+                                  </i>
+                                  {value.feature}
+                                </label>
+                              </div>
+                            ))}
+                        </div>
+                      </Tab>
+
+                      <Tab eventKey="3" title="Climet control & energy">
+                        <div className="row">
+                          {climateControlFeatures &&
+                            climateControlFeatures.map((value, index) => (
+                              <div
+                                key={index}
+                                className="col-lg-4 col-md-6 col-sm-6"
+                              >
+                                <label className="acr-listing-feature">
+                                  <input
+                                    type="checkbox"
+                                    name={"feature_" + value.id + ""}
+                                    onChange={() => onChange(value.id)}
+                                    defaultChecked={selectedM.indexOf(value.id) > -1 ? true : false}
+                                  // selected={selectedM.includes(value.id)}
+                                  />
+                                  <i className="acr-feature-check fas fa-check" />
+                                  <i className="acr-listing-feature-icon">
+                                    <img src={Host + value.icon + ".jpg"} />
+                                  </i>
+                                  {value.feature}
+                                </label>
+                              </div>
+                            ))}
+                        </div>
+                      </Tab>
+
+                    </Tabs>
+                    <NextPrevious prev={"tab4"} next={"tab6"} />
+                    <Updatebtn currentPropertyID={currentPropertyID} loadingButton={loadingButton} />
                   </Tab.Pane>
                   <Tab.Pane eventKey="tab6">
                     <div className="row">
@@ -1724,9 +1722,9 @@ function Content() {
                               pets_considere: e.target.value,
                             })
                           }
-                          value={propertyData && propertyData.pets_considere == "1" ? "1" : "0"}
+                          value={propertyData && propertyData.pets_considere !== undefined ? propertyData.pets_considere : " "}
                         >
-                          <option>Pets?</option>
+                          <option value="">Pets?</option>
                           <option value="1">YES</option>
                           <option value="0">NO</option>
 
@@ -1747,7 +1745,7 @@ function Content() {
                           value={
                             propertyData && propertyData.furnishing
                               ? propertyData.furnishing
-                              : ""
+                              : "Un-Furnished"
                           }
                         >
                           <option>Furnished?</option>
@@ -1776,6 +1774,7 @@ function Content() {
                               : ""
                           }
                         >
+                          <option value="">Who are you?</option>
                           {userTypeDrop &&
                             userTypeDrop.map((value, index) => (
                               <option key={index} value={value}>{value}</option>
@@ -1816,12 +1815,9 @@ function Content() {
                               build_type: e.target.value,
                             })
                           }
-                          value={
-                            propertyData && propertyData.build_type
-                              ? uppercaseFirstLetter(propertyData.build_type)
-                              : ""
-                          }
+                          value={propertyData && propertyData.build_type !== undefined ? uppercaseFirstLetter(propertyData.build_type) : ""}
                         >
+                          <option value="">Select build type</option>
                           {buildType &&
                             buildType.map((value, index) => (
                               <option key={index} value={value}>{value}</option>
@@ -1841,7 +1837,7 @@ function Content() {
                             })
                           }
                           value={
-                            propertyData && propertyData.is_under_offer == "1" ? "1" : "0"
+                            propertyData && propertyData.is_under_offer !== undefined ? propertyData.is_under_offer : " "
                           }
                         >
                           <option value="">Select</option>
@@ -1859,9 +1855,8 @@ function Content() {
                           name="is_contact_show"
                           ref={is_contact_show}
                           onChange={(e) => handleContactShow(e)}
-
                           value={
-                            propertyData && propertyData.is_contact_show === undefined ? '' : propertyData && propertyData.is_contact_show === "1" ? "1" : "0"
+                            propertyData && propertyData.is_contact_show !== undefined ? propertyData.is_contact_show : ""
                           }
                         >
                           <option value="">Select</option>
@@ -1972,20 +1967,21 @@ function Content() {
                           }
                         />
                       </div>
+                      {/*
 
                       <div className="col-md-6 form-group">
                         <label className="required">Property Status</label>
                         <select
                           className="form-control"
-                          name="is_published"
+                          name="add_status"
                           onChange={(e) =>
                             setPropertyData({
                               ...propertyData,
-                              is_published: e.target.value,
+                              add_status: e.target.value,
                             })
                           }
                           value={
-                            propertyData && propertyData.is_published == "1" ? "1" : "0"
+                            propertyData && propertyData.add_status == "1" ? "1" : "0"
                           }
                         >
                           <option value="">Select</option>
@@ -1993,7 +1989,27 @@ function Content() {
                           <option value="0">Draft</option>
                         </select>
                       </div>
+                        */}
 
+                      <div className="col-md-6 form-group">
+                        <div className="custom-control custom-checkbox">
+                          <input
+                            type="checkbox"
+                            className="custom-control-input"
+                            id="isPublished"
+                            name="isPublished"
+                            onChange={(e) => handleIsPublished()}
+                            checked={isPublished}
+
+                          />
+                          <label
+                            className="custom-control-label"
+                            htmlFor="isPublished"
+                          >
+                            Is Published{" "}
+                          </label>
+                        </div>
+                      </div>
                       <div className="col-md-12 form-group">
                         <label>Keywords</label>
                         <input
@@ -2018,28 +2034,8 @@ function Content() {
                     </div>
 
                     <NextPrevious prev={"tab5"} next={0} />
-                    {
-                      currentPropertyID > 0 &&
-                      <button type="submit" className="btn-custom btn-block" name="submit" id="update_property" disabled={loadingButton}>
-                        Update Property
-                        {loadingButton === true ?
-                          <div className="ml-1 spinner-border spinner-border-sm" role="status">
-                            <span className="sr-only">Loading...</span>
-                          </div> : ''
-                        }
-                      </button>
-                    }
-                    {
-                      currentPropertyID === 0 &&
-                      <button type="submit" className="btn-custom btn-block" name="submit" id="publish_property" disabled={loadingButton}>
-                        Publish Property
-                        {loadingButton === true ?
-                          <div className="ml-1 spinner-border spinner-border-sm" role="status">
-                            <span className="sr-only">Loading...</span>
-                          </div> : ''
-                        }
-                      </button>
-                    }
+                    <Updatebtn currentPropertyID={currentPropertyID} loadingButton={loadingButton} />
+                    <Publishbtn currentPropertyID={currentPropertyID} loadingButton={loadingButton} isPublished={isPublished} />
                   </Tab.Pane>
                 </Tab.Content>
               </form>

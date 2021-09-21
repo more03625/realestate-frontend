@@ -198,7 +198,6 @@ function App() {
           <Route path="/edit-property/:slug/:propertyID">
             <Protected component={Submitlisting} />
           </Route>
-
           {/* <Protected component={Submitlisting} /> */}
           {/* </Route> */}
 
@@ -210,6 +209,7 @@ function App() {
           <Route path="/profile">
             <Protected component={Profile} />
           </Route>
+
 
           <Route path="/my-listings">
             <Protected component={Profilelistings} />

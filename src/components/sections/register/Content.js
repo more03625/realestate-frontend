@@ -40,7 +40,6 @@ const Content = () => {
   const [password, setPassword] = useState("");
   const [mobileNumber, setMobileNumber] = useState("");
   const [userType, setUserType] = useState("");
-  const [tandcBox, setTandcBox] = useState(false);
 
   const [nameError, setNameError] = useState("");
   const [emailError, setEmailError] = useState("");
@@ -54,6 +53,7 @@ const Content = () => {
   const [tokenError, setTokenError] = useState("");
 
   const [loadingButton, setLoadingButton] = useState(false);
+  const [tandcBox, setTandcBox] = useState(false);
   const handleCheckBox = () => setTandcBox(!tandcBox)
 
   const isValid = () => {

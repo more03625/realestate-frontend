@@ -40,6 +40,10 @@ export const Endpoints = {
     agentList: "/admin/agentList",
     editSettings: "/admin/edit-settings",
     getSettingBySlug: "/admin/get-settings-by-slug",
+    getDistricts: "/admin/getDistricts",
+    getAreaAddresses: "/admin/getAreaAddresses",
+    getCitiesAdmin: "/admin/getCities",
+    getAreaAddresses: "/admin/getAreaAddresses"
 
 
 };
@@ -51,10 +55,10 @@ export const openInGmail = (to, subject = '', body = '', cc = null, bcc = null) 
     return mailLink;
 }
 export const uppercaseFirstLetter = (string) => {
-    return string[0].toUpperCase() + string.slice(1);
+    return string && string[0].toUpperCase() + string.slice(1);
 }
 export const lowercaseFirstLetter = (string) => {
-    return string[0].toLowerCase() + string.slice(1);
+    return string && string[0].toLowerCase() + string.slice(1);
 }
 export const saveProperty = (propertyID) => {
     alert(`Ok, i will save this property if you are logged in. PropertyID is ${propertyID}`);
