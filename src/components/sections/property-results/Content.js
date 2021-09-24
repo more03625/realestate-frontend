@@ -162,6 +162,14 @@ const Content = ({ propertyType, searchQuery, searchResults, subCategoryName, su
                                 {item.title}
                             </Link>{" "}
                         </h5>
+                        <p className="listing-text">
+                            <Link className="location-text" to={'#'} >
+                                <span>
+                                    <i className="fas fa-map-marker-alt"></i>
+                                </span>
+                                {" "}{item.address + "..."}
+                            </Link>
+                        </p>
                         <span className="listing-price">
                             Rs. {new Number(item.price).toLocaleString()}
                             <span> {item.price_on}</span>{" "}

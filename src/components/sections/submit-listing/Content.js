@@ -159,6 +159,9 @@ function Content() {
 
   const [isGallarySelected, setIsGallarySelected] = useState(false);
   const [selectedM, setSelectedM] = useState([]);
+  const [districts, setDistricts] = useState([]);
+  const [areaAddress, setAreaAddress] = useState([]);
+  const [isAutoSave, setIsAutoSave] = useState(false);
 
   // CK EDITPRT
   const [content, setContent] = useState();
@@ -217,7 +220,7 @@ function Content() {
     }
   };
   const getPropertyTypes = (categoryID = '') => {
-    if (categoryID != '') {
+    if (categoryID != undefined) { // previosly != ''
       var url = Host + Endpoints.getPropertyTypes + categoryID;
       Axios.get(url).then((response) => {
         if (response.data.error === true) {
@@ -276,15 +279,13 @@ function Content() {
     getSubCategories(e.target.value);
 
   };
-  const [districts, setDistricts] = useState([]);
-  const [areaAddress, setAreaAddress] = useState([]);
+
   const getDistrict = async (state_id) => {
     var url = Host + Endpoints.getDistricts;
     var data = {
-      limit: 100,
+      limit: 500,
       state_id: state_id
     }
-
     const result = await axios.post(url, data);
     if (result.data.error === true) {
       errorToast(result.data.title);
@@ -295,7 +296,7 @@ function Content() {
   const getCities = async (districtID) => {
     var url = Host + Endpoints.getCitiesAdmin;
     var data = {
-      limit: 100,
+      limit: 500,
       district_id: districtID
     }
     const result = await Axios.post(url, data);
@@ -308,7 +309,7 @@ function Content() {
   const getAreaAddressDrop = async (cityID) => {
     var url = Host + Endpoints.getAreaAddresses;
     var data = {
-      limit: 100,
+      limit: 500,
       city_id: cityID
     }
     const result = await Axios.post(url, data);
@@ -331,7 +332,7 @@ function Content() {
     } else if (e.target.name === 'area_address') {
       setPropertyData({ ...propertyData, [e.target.name]: e.target.value });
     } else {
-      console.log('Plase select from that only')
+      errorToast('Please select state, district or city')
     }
   }
 
@@ -354,7 +355,7 @@ function Content() {
       setStates(response.data.data);
     });
   };
-
+  // console.log("On Page Load ===> ", isAutoSave)
   const uploadImage = async (e) => {
     const file = e.target.files[0];
     setIsImageSelected({
@@ -383,7 +384,6 @@ function Content() {
     var base64Images = [];
     for (var i = 0; i < files.length; i++) {
       const multipleImages = await convertToBase64(files[i]);
-
       base64Images.push(multipleImages);
     }
     setPropertyData({ ...propertyData, images: base64Images });
@@ -419,8 +419,8 @@ function Content() {
   }
 
   const isValid = () => {
-    console.log("isPublished ===>", isPublished) // false  | edit ===> | false
-    console.log("isAutoSave ===>", isAutoSave) // true     | edit ===> | true
+    // console.log("isPublished ===>", isPublished) // false  | edit ===> | false
+    // console.log("isAutoSave ===>", isAutoSave) // true     | edit ===> | true
     // || isAutoSave === false
     if (isPublished === true) {
       var emailValidator = new RegExp(
@@ -671,7 +671,6 @@ function Content() {
     }
 
   };
-  const [isAutoSave, setIsAutoSave] = useState(false);
 
   const handleSubmit = (e) => {
     setLoadingButton(true);
@@ -713,6 +712,7 @@ function Content() {
             errorToast(response.data.title);
           } else {
             setPropertyData(response.data.data);
+            // console.log("While Saving ===> ", isAutoSave)
 
             if (isAutoSave === false) {
               successToast(response.data.title);
@@ -721,10 +721,12 @@ function Content() {
               }, 1000);
             } else {
               successToast("Auto saved...");
-              setIsAutoSave(false); //commented because it was keeping autoSave to false for 2nd autosave
               setIsGallarySelected(false);
+              setIsAutoSave(false); //commented because it was keeping autoSave to false for 2nd autosave
               setIsImageSelected(false);
             }
+
+
           }
         })
         .catch((error) => {
@@ -786,41 +788,59 @@ function Content() {
           //set is_contact_show disabled
           response.data.data.is_contact_show == 0 ? setIsContactShow(true) : setIsContactShow(false);
           response.data.data.status === 'active' ? setIsPublished(true) : setIsPublished(false);
-          console.log("st ===> ", response.data.data.status)
+          // console.log("st ===> ", response.data.data)
+
+          getSubCategories(response.data.data.category !== null ? response.data.data.category : '');
+          getPropertyTypes(response.data.data.category !== null ? response.data.data.category : '');
+
+          getDistrict(response.data.data.state !== null ? response.data.data.state : '') // stateID
+          getCities(response.data.data.district !== null ? response.data.data.district : '') // DistrictID
+          getAreaAddressDrop(response.data.data.city !== null ? response.data.data.city : '') // CityID
+
         }
       });
     }
   };
   const autoSave = () => {
-    console.log('In Autosave')
-    setIsAutoSave(true);
-    if (currentPropertyID === 0 && window.location.pathname === '/add-property' || window.location.pathname.includes('edit-property')) {
-      document.getElementById("save_data").click();
+    // console.log('Autosave called')
+    if (window.location.pathname === '/add-property' || window.location.pathname.includes('edit-property')) {
+      document.getElementById("save_data").click(); // button
     }
   }
 
   useEffect(() => {
-    if (currentPropertyID === 0 && window.location.pathname === '/add-property' || window.location.pathname.includes('edit-property')) {
-      setInterval(function () {
+    if (window.location.pathname === '/add-property' || window.location.pathname.includes('edit-property')) {
+      window.interval23 = setInterval(function () {
+        // console.log('In interval')
         setIsAutoSave(true);
         autoSave()
       }, 60000);
     }
+    if (window.location.pathname.includes('edit-property')) {
+      getPropertyDetails();
+    }
+
     handleScriptLoad(setQuery, autoCompleteRef);
-    getPropertyDetails();
     getCategories();
-    getPropertyTypes();
-    getSubCategories();
+
     getStates();
     getIndoorFeatures();
     getOutDoorFeatures();
     getClimateControlFeatures();
     setPropertyData({ ...propertyData, user_id: getUserToken().data.id, });
+    return () => {
+      clearInterval(window.interval23)
+    }
+  }, []);
+
+
+  useEffect(() => {
     dropZoneToBase64(files)
     files.forEach((file) => {
       URL.revokeObjectURL(file.preview)
     });
   }, [files]);
+
   return (
     <div className="section">
       <div className="container">

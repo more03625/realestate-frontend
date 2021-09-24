@@ -8,18 +8,22 @@ import { useParams } from 'react-router-dom';
 
 const Submitlisting = () => {
     const { propertyID } = useParams();
+    var currentPropertyID = 0;
 
+    if (propertyID !== undefined) {
+        currentPropertyID = parseInt(propertyID.split("?")[0]);
+    }
     return (
         <Fragment>
             <MetaTags>
-                <title>{propertyID > 0 ? 'Edit Property' : 'Add Property'} | Neprealestate</title>
+                <title>{currentPropertyID > 0 ? 'Edit Property' : 'Add Property'} | Neprealestate</title>
                 <meta
                     name="description"
                     content="#"
                 />
             </MetaTags>
             <Header />
-            <Breadcrumb breadcrumb={{ pagename: propertyID > 0 ? 'Edit Property' : 'Add Property' }} />
+            <Breadcrumb breadcrumb={{ pagename: currentPropertyID > 0 ? 'Edit Property' : 'Add Property' }} />
             <Content />
             <Footer />
         </Fragment>

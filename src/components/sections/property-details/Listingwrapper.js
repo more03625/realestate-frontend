@@ -402,7 +402,7 @@ const Listingwrapper = ({ propertyDetails, coordinates, recentProperties }) => {
                                     <div id="map"></div>
 
                                 </div>
-                                <div className="section section-padding  acr-listing-features">
+                                <div className="section section-padding acr-listing-features">
                                     <h4>Property Details</h4>
                                     <div className="row">
                                         {getUserToken() !== null && getUserToken().data !== undefined ? (
@@ -697,20 +697,20 @@ const Listingwrapper = ({ propertyDetails, coordinates, recentProperties }) => {
                                     {/*Row Ends*/}
                                 </div>
 
-                                <div className="section section-padding  acr-listing-features">
+                                <div className="section section-padding acr-listing-features">
                                     <h4>Features</h4>
                                     <div className="row">
 
                                         {propertyDetails && propertyDetails.features ?
                                             (
-                                                <div className="row">
+                                                <>
                                                     {
                                                         propertyDetails.features.outdoor.length > 0 && <h5 className="col-12 text-left">Outdoon Features:</h5>
                                                     }
                                                     {
                                                         propertyDetails.features.outdoor ? propertyDetails.features.outdoor.map((value, index) => (
 
-                                                            <div key={index} className="listing-feature">
+                                                            <div key={index} className="listing-feature col-lg-6 col-md-6">
                                                                 <img className="propertyDetailsOtherDetails" src={Host + value.icon + ".jpg"} />
                                                                 <h6 className="listing-feature-label">
                                                                     {value.feature}
@@ -728,7 +728,7 @@ const Listingwrapper = ({ propertyDetails, coordinates, recentProperties }) => {
                                                     {
                                                         propertyDetails.features.indoor ? propertyDetails.features.indoor.map((value, index) => {
                                                             {
-                                                                return <div key={index} className="listing-feature">
+                                                                return <div key={index} className="listing-feature col-lg-6 col-md-6">
                                                                     <img className="propertyDetailsOtherDetails" src={Host + value.icon + ".jpg"} />
 
                                                                     <h6 className="listing-feature-label">
@@ -746,7 +746,7 @@ const Listingwrapper = ({ propertyDetails, coordinates, recentProperties }) => {
                                                     }
                                                     {
                                                         propertyDetails.features.climate ? propertyDetails.features.climate.map((value, index) => (
-                                                            <div key={index} className="listing-feature">
+                                                            <div key={index} className="listing-feature col-lg-6 col-md-6">
                                                                 <img className="propertyDetailsOtherDetails" src={Host + value.icon + ".jpg"} />
 
                                                                 <h6 className="listing-feature-label">
@@ -758,7 +758,7 @@ const Listingwrapper = ({ propertyDetails, coordinates, recentProperties }) => {
                                                             </div>
                                                         )) : ("No Climate Control Features Mentioned")
                                                     }
-                                                </div>
+                                                </>
                                             )
                                             : ('There are no features selected')
                                         }
