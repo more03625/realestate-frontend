@@ -1,2 +1,0 @@
-(this.webpackJsonpacres=this.webpackJsonpacres||[]).push([[66],{512:function(t,e,o){"use strict";o.r(e);var a=o(1),n=o(2);e.default=function(){return null!==localStorage.getItem("token")?(localStorage.removeItem("token"),Object(a.jsx)(n.a,{to:"/login"})):Object(a.jsx)(n.a,{to:"/login"})}}}]);
-//# sourceMappingURL=66.7bdb7412.chunk.js.map

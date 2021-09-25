@@ -1,4 +1,3 @@
-import { red } from "chalk";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -43,7 +42,6 @@ export const Endpoints = {
     getDistricts: "/admin/getDistricts",
     getAreaAddresses: "/admin/getAreaAddresses",
     getCitiesAdmin: "/admin/getCities",
-    getAreaAddresses: "/admin/getAreaAddresses"
 };
 
 export const openInGmail = (to, subject = '', body = '', cc = null, bcc = null) => {
@@ -77,7 +75,7 @@ export const successToast = (message = "✅" + " Success!") => {
         closeOnClick: true,
         pauseOnHover: true,
         draggable: true,
-        progress: undefined,
+        progress: undefined
     });
 };
 
@@ -89,7 +87,7 @@ export const errorToast = (message = "❌" + " Error") => {
         closeOnClick: true,
         pauseOnHover: true,
         draggable: true,
-        progress: undefined,
+        progress: undefined
     });
 };
 export const getUserToken = () => {

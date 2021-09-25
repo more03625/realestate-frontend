@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 import Slider from "react-slick";
 import Axios from "axios";
@@ -39,7 +39,6 @@ const Content = ({ userData }) => {
   const history = useHistory();
 
   const [emailOTP, setEmailOTP] = useState("");
-  const [phoneOTP, setPhoneOTP] = useState("");
 
   const [emailOTPError, setEmailOTPError] = useState("");
   const [phoneOTPError, setPhoneOTPError] = useState("");
@@ -105,6 +104,7 @@ const Content = ({ userData }) => {
     e.preventDefault();
     console.log();
     var url = Host + Endpoints.resendOtp;
+
     if (e.target.name === "mailOTP") {
       var data = { email: userData.email };
     } else {
