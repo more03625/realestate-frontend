@@ -679,6 +679,13 @@
         "kattha",
         "bigga"
     ],
+    "addAreaUnit":[
+        "sqmt",
+        "sqft",
+        "acres",
+        "Bigha-Kattha-Dhur-Haat",
+        "Ropani-Aana-Paisa-Daam"
+    ],
     "buildType":[
         "Old",
         "New"

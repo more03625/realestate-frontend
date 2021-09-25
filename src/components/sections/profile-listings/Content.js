@@ -2,9 +2,12 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import listing from "../../../data/listings.json";
 import { OverlayTrigger, Tooltip, Dropdown, NavLink } from "react-bootstrap";
-import { openInGmail, successToast, errorToast, Endpoints, Host, convertToSlug, getUserToken, uppercaseFirstLetter } from "../../../helper/comman_helper";
+import { openInGmail, successToast, errorToast, Endpoints, Host, convertToSlug, getUserToken, uppercaseFirstLetter, cleanObject } from "../../../helper/comman_helper";
 import Axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
+import Listingproperties from "../property-results/Listingproperties";
+import PaginationLogic from "../pagination-logic/PaginationLogic";
+import Loader from "../../layouts/Loader";
 
 const gallerytip = <Tooltip>Gallery</Tooltip>;
 const bedstip = <Tooltip>Beds</Tooltip>;
@@ -12,33 +15,36 @@ const bathstip = <Tooltip>Bathrooms</Tooltip>;
 const areatip = <Tooltip>Ropani-Aana-Paisa-Daam</Tooltip>;
 const Content = ({ userData }) => {
   const [myProperties, setMyProperties] = useState([]);
+  // Pagination
+  const [totalResults, setTotalResults] = useState();
+  const [offset, setOffset] = useState(0);
+  const [limit, setLimit] = useState(2);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [loading, setLoading] = useState(false);
 
-  const getMyProperties = () => {
+  const getMyProperties = async () => {
     var url = Host + Endpoints.getPropertiesBySellerID;
     var data = {
       "id": getUserToken().data.id,
-      "search": "",
-      "limit": 5,
-      "offset": 0,
-      "order_col": "id",
-      "order_by": "desc"
+      limit: limit,
+      offset: offset
     }
-    Axios.post(url, data, {
+    const result = await Axios.post(url, cleanObject(data), {
       headers: {
         token: getUserToken().token
       }
-    }).then((response) => {
-      if (response.data.error === true) {
-        errorToast(response.data.title);
-      } else {
-        setMyProperties(response.data.data.users);
-      }
     });
+    if (result.data.error === true) {
+      errorToast(result.data.title);
+    } else {
+      setTotalResults(result.data.data.total);
+      setMyProperties(result.data.data.users);
+    }
+
   }
   useEffect(() => {
     getMyProperties();
-
-  }, []);
+  }, [offset]);
 
   return (
     <div className="section">
@@ -78,167 +84,34 @@ const Content = ({ userData }) => {
           <div className="col-lg-8">
             {/* Listing Start */}
 
-            {myProperties.length == 0 ?
+            {totalResults === undefined ? <Loader /> : totalResults === 0 ?
               <div className="container text-center ">
                 <div className="row justify-content-center">
                   <h5>There are no properties to show!</h5>
                 </div>
                 <div className="row justify-content-center">
                   <p>Start adding properties by clicking on Add properties!</p>
-
                 </div>
-
                 <div className="row justify-content-center">
                   <Link to="/add-property" className="btn-custom secondary mr-0">Add Properties <i className="fas mr-0 fa-plus" /> </Link>
-
-
                 </div>
               </div>
               :
-
-              myProperties && myProperties.slice(0, 4).map((item, i) => (
-                <div key={i} className="listing listing-list">
-                  <div className="listing-thumbnail">
-                    <Link to={`/property/${convertToSlug(item.title)}/${item.id}?isadmin=1`}>
-                      <img
-                        src={Host + item.image + ".jpg"}
-                        alt={`image of ${item.title}`}
-                      />
-                    </Link>
-                    <div className="listing-badges">
-                      {item.property_type === "buy" ? (
-                        <span className="listing-badge sale">For Sell</span>
-                      ) : (
-                        ""
-                      )}
-                      {item.property_type === "sold" ? (
-                        <span className="listing-badge pending">{uppercaseFirstLetter(item.property_type)}</span>
-                      ) : (
-                        ""
-                      )}
-                      {item.property_type === "rent" ? (
-                        <span className="listing-badge rent">For {uppercaseFirstLetter(item.property_type)}</span>
-                      ) : (
-                        ""
-                      )}
-                      {item.property_type === "share" ? (
-                        <span className="listing-badge rent">For {uppercaseFirstLetter(item.property_type)}</span>
-                      ) : (
-                        ""
-                      )}
-                      {item.property_type === "invest" ? (
-                        <span className="listing-badge sale">To {uppercaseFirstLetter(item.property_type)}</span>
-                      ) : (
-                        ""
-                      )}
-                      {item.property_type === "lease" ? (
-                        <span className="listing-badge sale">To {uppercaseFirstLetter(item.property_type)}</span>
-                      ) : (
-                        ""
-                      )}
-                    </div>
-                    <div className="listing-controls">
-                      {/*
-                      <Link to="#" className="favorite">
-                        <i className="far fa-heart" />
-                      </Link>
-                      */}
-                    </div>
-                  </div>
-
-                  <div className="listing-body">
-                    <div className="listing-author">
-                      <img
-                        src={userData.profile_image != null ? Host + userData.profile_image + "_small.jpg" : Host + "/users/default.png"}
-                        alt={userData.profile_image + "_small.jpg"}
-                      />
-                      <div className="listing-author-body">
-                        <p>
-                          {" "}
-                          <Link to="#">{getUserToken().data.name}</Link>{" "}
-                        </p>
-
-                        <span className="listing-date">{new Date(item.createdAt).toDateString()}</span>
-                      </div>
-                      <Dropdown className="options-dropdown">
-                        <Dropdown.Toggle as={NavLink}>
-                          <i className="fas fa-ellipsis-v" />
-                        </Dropdown.Toggle>
-                        <Dropdown.Menu className="dropdown-menu-right">
-                          <ul>
-                            <li>
-                              {" "}
-                              <Link to={{ pathname: `edit-property/${convertToSlug(item.title)}/${item.id}?isadmin=1` }}>
-                                {" "}
-                                <i className="fas fa-pen" /> Edit Property
-                              </Link>{" "}
-                            </li>
-                          </ul>
-                        </Dropdown.Menu>
-                      </Dropdown>
-                    </div>
-                    <h5 className="listing-title">
-                      {" "}
-                      <Link to={`/property/${convertToSlug(item.title)}/${item.id}?isadmin=1`} title={item.title}>
-                        {item.title}
-                      </Link>{" "}
-                    </h5>
-                    <span className="listing-price">
-                      Rs. {new Intl.NumberFormat().format(
-                        item.price
-                      )}
-                      <span>/{item.price_on}</span>{" "}
-                    </span>
-                    <p className="listing-text">{item.text}</p>
-                    <div className="acr-listing-icons">
-                      <OverlayTrigger overlay={bedstip}>
-                        <div className="acr-listing-icon">
-                          <i className="flaticon-bedroom" />
-                          <span className="acr-listing-icon-value">
-                            {item.no_of_beds}
-                          </span>
-                        </div>
-                      </OverlayTrigger>
-                      <OverlayTrigger overlay={bathstip}>
-                        <div className="acr-listing-icon">
-                          <i className="flaticon-bathroom" />
-                          <span className="acr-listing-icon-value">
-                            {item.no_of_bathrooms}
-                          </span>
-                        </div>
-                      </OverlayTrigger>
-                      <OverlayTrigger overlay={areatip}>
-                        <div className="acr-listing-icon">
-                          <i className="flaticon-ruler" />
-                          <span className="acr-listing-icon-value">
-                            {item.area}
-                          </span>
-                        </div>
-                      </OverlayTrigger>
-                    </div>
-
-                    {
-                      /*
-                      <div className="listing-gallery-wrapper">
-                      <Link
-                        to={`/property/${convertToSlug(item.title)}/${item.id}?isadmin=1`}
-                        className="btn-custom btn-sm secondary"
-                      >
-                        View Details
-                      </Link>
-                      <OverlayTrigger overlay={gallerytip}>
-                        <Link to={`/property/${convertToSlug(item.title)}/${item.id}?isadmin=1`} className="listing-gallery">
-                          {" "}
-                          <i className="fas fa-camera" />{" "}
-                        </Link>
-                      </OverlayTrigger>
-                    </div>
-                      */
-                    }
-
-                  </div>
-                </div>
-              ))}
+              (
+                <>
+                  <Listingproperties properties={myProperties} />
+                  <PaginationLogic
+                    setLoading={setLoading}
+                    setOffset={setOffset}
+                    setCurrentPage={setCurrentPage}
+                    loading={loading}
+                    offset={offset}
+                    currentPage={currentPage}
+                    totalResults={totalResults}
+                    limit={limit}
+                  />
+                </>
+              )}
             {/* Listing End */}
           </div>
         </div>

@@ -1,6 +1,5 @@
-import React, { Fragment, useState } from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import classNames from 'classnames';
 import Loader from '../../layouts/Loader';
 import { convertToSlug, Host } from '../../../helper/comman_helper';
 import { Noresults } from '../../layouts/Noresults';
@@ -8,36 +7,7 @@ import PaginationLogic from '../pagination-logic/PaginationLogic';
 
 const Content = ({ agents, recentProperties, subCategoriesWithCount, setOffset, offset, limit, totalResults }) => {
     const [currentPage, setCurrentPage] = useState(1);
-    const [itemsPerPage, setItemsPerPage] = useState(2);
     const [loading, setLoading] = useState(false);
-
-    const handleClick = (event) => {
-        setLoading(true);
-        if (event.target.getAttribute('data-action') === 'next') {
-            setOffset(offset + 1);
-            setTimeout(() => {
-                setCurrentPage(currentPage + 1);
-                setLoading(false);
-            }, 2000);
-        } else if (event.target.getAttribute('data-action') === 'previous') {
-            setOffset(offset - 1);
-            setTimeout(() => {
-                setCurrentPage(currentPage - 1);
-                setLoading(false);
-            }, 2000);
-        } else {
-            setOffset(Number(event.target.getAttribute('data-page')) - 1);
-            setTimeout(() => {
-                setCurrentPage(Number(event.target.getAttribute('data-page')));
-                setLoading(false);
-            }, 2000);
-        }
-    }
-
-    // Logic for displaying items
-    // const indexOfLastitem = currentPage * itemsPerPage;
-    // const indexOfFirstitem = indexOfLastitem - itemsPerPage;
-    // const currentitems = agents //&& agents.slice(indexOfFirstitem, indexOfLastitem);
 
     let currentitems;
     if (totalResults == 0) {
@@ -72,33 +42,6 @@ const Content = ({ agents, recentProperties, subCategoriesWithCount, setOffset, 
             </div>
         })
     }
-
-    // Logic for displaying page numbers
-    const pageNumbers = [];
-    for (let i = 1; i <= Math.ceil(totalResults / itemsPerPage); i++) {
-        pageNumbers.push(i);
-    }
-    const renderPagination = pageNumbers.map(number => {
-        const activeCondition = currentPage === number ? 'active' : ''
-        return (
-            <Fragment key={number}>
-                {pageNumbers.length > 1 ? (
-                    <li className={classNames("page-item", { active: activeCondition })}>
-                        <Link
-                            className="page-link"
-                            to={'#'}
-                            data-page={number}
-                            onClick={handleClick}
-                        >
-                            {number}
-                        </Link>
-                    </li>
-                ) : (
-                    ""
-                )}
-            </Fragment>
-        );
-    });
     return (
         <div className="section pagination-content">
             <div className="container">
@@ -157,43 +100,16 @@ const Content = ({ agents, recentProperties, subCategoriesWithCount, setOffset, 
                             {/* Agent End */}
                         </div>
                         {/* Pagination Start */}
-                        {pageNumbers.length > 1 ? (
-                            <ul className="pagination">
-                                {/* Prev */}
-                                {/* to show previous, we need to be on the 2nd or more page */}
-                                {pageNumbers.length > 1 && currentPage !== 1 ? (
-                                    <li className="page-item">
-                                        <Link className="page-link" to={window.location.search} data-page={parseInt(currentPage) - 1} data-action="previous" onClick={handleClick}>
-                                            <i className="fas fa-chevron-left" data-page={parseInt(currentPage) - 1} data-action="previous" />
-                                        </Link>
-                                    </li>
-                                ) : (
-                                    ""
-                                )}
-                                {/* Prev */}
-                                {renderPagination}
-                                {/* Next */}
-                                {/* to show next, we should not be on the last page */}
-                                {pageNumbers.length > 1 &&
-                                    currentPage !== pageNumbers.length ? (
-                                    <li className="page-item right-btn">
-                                        <Link
-                                            className="page-link"
-                                            to={window.location.serach}
-                                            data-page={currentPage} data-action="next"
-                                            onClick={handleClick}
-                                        >
-                                            <i className="fas fa-chevron-right" data-page={currentPage} data-action="next" />
-                                        </Link>
-                                    </li>
-                                ) : (
-                                    ""
-                                )}
-                                {/* Next */}
-                            </ul>
-                        ) : (
-                            ""
-                        )}
+                        <PaginationLogic
+                            setLoading={setLoading}
+                            setOffset={setOffset}
+                            setCurrentPage={setCurrentPage}
+                            loading={loading}
+                            offset={offset}
+                            currentPage={currentPage}
+                            totalResults={totalResults}
+                            limit={limit}
+                        />
                         {/* Pagination End */}
                     </div>
 

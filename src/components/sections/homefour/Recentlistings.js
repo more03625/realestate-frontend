@@ -1,12 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import { OverlayTrigger, Tooltip, Dropdown, NavLink } from "react-bootstrap";
-import Axios from 'axios';
 import { openInGmail, saveProperty, Endpoints, Host, convertToSlug, uppercaseFirstLetter } from "../../../helper/comman_helper";
 
-
-
-const Recentlisting = ({ recentProperties, col }) => {
+const Recentlisting = ({ properties, col, headerPresent, viewAll }) => {
   const listingThumbnail = {
     borderRadius: "0px"
   }
@@ -24,26 +21,33 @@ const Recentlisting = ({ recentProperties, col }) => {
   return (
     <div className="section section-padding">
       <div className="container">
+
         <div className="section-title-wrap section-header flex-header">
-          <div className="section-title-text">
-            {
-              propertyType !== 'property' ? (
-                <h5 className="custom-primary">Find Your Home</h5>
-              ) : ''
-            }
-            <h2 className="title">Recent Listings</h2>
-          </div>
           {
-            propertyType !== 'property' ? (
+            headerPresent === true ? (
+              <div className="section-title-text">
+                {
+                  viewAll === true ? (
+                    <h5 className="custom-primary">Find Your Home</h5>
+                  ) : ('')
+                }
+                <h2 className="title">Recent Listings</h2>
+              </div>
+            ) : ('')
+          }
+          {
+            viewAll === true ? (
               <Link to={`/property-results?property_type=${propertyType}`} className="btn-custom">
                 View All
               </Link>
-            ) : ''
+            ) : ('')
           }
         </div>
+
+
         <div className="row">
           {/* Listing Start */}
-          {recentProperties && recentProperties.slice(0, 4).map((item, i) => (
+          {properties && properties.map((item, i) => (
             <div key={i} className={`col-lg-${col}`}>
               <div className="listing" style={listing}>
                 <div className="listing-thumbnail" style={listingThumbnail}>

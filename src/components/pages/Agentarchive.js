@@ -13,6 +13,7 @@ const Agentarchive = () => {
     const [agents, setAgents] = useState([]);
     const [recentProperties, setRecentProperties] = useState([]);
     const [subCategoriesWithCount, setSubCategoriesWithCount] = useState([]);
+    // Pagination
     const [totalResults, setTotalResults] = useState([]);
     const [offset, setOffset] = useState(0);
     const [limit, setLimit] = useState(2);

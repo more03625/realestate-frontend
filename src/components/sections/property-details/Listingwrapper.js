@@ -783,7 +783,7 @@ const Listingwrapper = ({ propertyDetails, coordinates, recentProperties }) => {
                                     ""
                                 )}
 
-                                <Recentlistings recentProperties={recentProperties} col={6} />
+                                <Recentlistings properties={recentProperties} col={6} headerPresent={true} viewAll={false} />
                             </div>
                             {/* Listings End */}
                             {/* Sidebar Start */}

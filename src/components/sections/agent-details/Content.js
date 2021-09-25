@@ -1,21 +1,23 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { OverlayTrigger, Tooltip, Dropdown, NavLink } from "react-bootstrap";
-import agents from "../../../data/agents.json";
-import listing from "../../../data/listings.json";
+import { Tooltip, Dropdown, NavLink } from "react-bootstrap";
 import { openInGmail, convertToSlug, errorToast, successToast } from "../../../helper/comman_helper";
-
-import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Axios from "axios";
-import { Host, Endpoints, uppercaseFirstLetter } from "../../../helper/comman_helper";
+import { Host, Endpoints } from "../../../helper/comman_helper";
 import { Noresults } from "../../layouts/Noresults";
+import PaginationLogic from "../pagination-logic/PaginationLogic";
+import Recentlisting from "../homefour/Recentlistings";
+
 const gallerytip = <Tooltip>Gallery</Tooltip>;
 const bedstip = <Tooltip>Beds</Tooltip>;
 const bathstip = <Tooltip>Bathrooms</Tooltip>;
 const areatip = <Tooltip>Ropani-Aana-Paisa-Daam</Tooltip>;
 
-const Content = ({ agentData, agentProperties, similarAgents }) => {
+const Content = ({ agentData, agentProperties, similarAgents, totalResults, setOffset, offset, limit }) => {
+  const [currentPage, setCurrentPage] = useState(1);
+  const [loading, setLoading] = useState(false);
 
   const [fname, setFname] = useState("");
   const [email, setEmail] = useState("");
@@ -108,7 +110,6 @@ const Content = ({ agentData, agentProperties, similarAgents }) => {
       console.log("In else");
     }
   };
-
   return (
     <div className="section agent-wrapper">
       <div className="container">
@@ -225,172 +226,20 @@ const Content = ({ agentData, agentProperties, similarAgents }) => {
           {/* Agent Sidebar End */}
           {/* Agent Listings Start */}
           <div className="col-lg-8">
-            <div className="row pt-0 section section-padding">
-              {/* Listing Start */}
-              {
-                agentProperties.length > 0 ? (
-                  agentProperties && agentProperties.map((item, i) => (
-                    <div key={i} className="col-md-6">
-                      <div className="listing">
-                        <div className="listing-thumbnail " >
-                          <Link to={`/property/${convertToSlug(item.title)}/${item.id}`}>
+            {
+              agentProperties.length > 0 ? <Recentlisting properties={agentProperties} col="6" /> : <Noresults />
+            }
 
-                            <img src={item.image != null ? Host + item.image + "_medium.jpg" : Host + "/users/default.png"}
-                              alt={`image of ${item.title}`}
-                              style={{ width: "300px", height: "200px" }}
-                            />
-                          </Link>
-
-                          <div className="listing-badges">
-                            {item.property_type === "buy" ? (
-                              <span className="listing-badge sale">For Sell</span>
-                            ) : (
-                              ""
-                            )}
-                            {item.property_type === "sold" ? (
-                              <span className="listing-badge pending">{uppercaseFirstLetter(item.property_type)}</span>
-                            ) : (
-                              ""
-                            )}
-                            {item.property_type === "rent" ? (
-                              <span className="listing-badge rent">For {uppercaseFirstLetter(item.property_type)}</span>
-                            ) : (
-                              ""
-                            )}
-                            {item.property_type === "share" ? (
-                              <span className="listing-badge rent">For {uppercaseFirstLetter(item.property_type)}</span>
-                            ) : (
-                              ""
-                            )}
-                            {item.property_type === "invest" ? (
-                              <span className="listing-badge sale">To {uppercaseFirstLetter(item.property_type)}</span>
-                            ) : (
-                              ""
-                            )}
-                            {item.property_type === "lease" ? (
-                              <span className="listing-badge sale">To {uppercaseFirstLetter(item.property_type)}</span>
-                            ) : (
-                              ""
-                            )}
-                          </div>
-                          {/*
-                            <div className="listing-controls">
-                              <Link to="#" onClick={() => saveProperty(item.id)} className="favorite">
-                                <i className="far fa-heart" />
-                              </Link>
-                            </div>
-                          */}
-                        </div>
-                        <div className="listing-body">
-                          <div className="listing-author">
-                            <img src={
-                              item && item.is_contact_show === 1 ? item && item.profile_image !== null ?
-                                Host + item.profile_image + "_small.jpg" : Host + "/users/default.png"
-                                : Host + "/neprealestate-logo/logo.png"}
-                              alt={item.profile_image + "_small.jpg"}
-                            />
-                            <div className="listing-author-body">
-                              <p>
-                                {" "}
-                                <Link to="#">{item.name_for_contact}</Link>{" "}
-                              </p>
-                              <span className="listing-date">{new Date(item.createdAt).toDateString()}</span>
-                            </div>
-                            <Dropdown className="options-dropdown">
-                              <Dropdown.Toggle as={NavLink}>
-                                <i className="fas fa-ellipsis-v" />
-                              </Dropdown.Toggle>
-                              <Dropdown.Menu className="dropdown-menu-right">
-                                <ul>
-                                  <li>
-                                    {" "}
-                                    <Link target="_blank" to={{ pathname: `tel:${item.number_for_contact}` }}>
-                                      {" "}
-                                      <i className="fas fa-phone" /> Call Agent
-                                    </Link>{" "}
-                                  </li>
-                                  <li>
-                                    {" "}
-                                    <Link target="_blank" to={{ pathname: `${openInGmail(item.email_for_contact, item.title, Host + "/property/" + convertToSlug(item.title) + "/" + item.id)}` }}>
-                                      {" "}
-                                      <i className="fas fa-envelope" /> Send Message
-                                    </Link>{" "}
-                                  </li>
-                                  <li>
-                                    {" "}
-                                    <Link to={`/property/${convertToSlug(item.title)}/${item.id}#book_tour`}>
-                                      {" "}
-                                      <i className="fas fa-bookmark" /> Book Tour
-                                    </Link>{" "}
-                                  </li>
-                                </ul>
-                              </Dropdown.Menu>
-                            </Dropdown>
-                          </div>
-                          <h5 className="listing-title">
-                            {" "}
-                            <Link to={`/property/${convertToSlug(item.title)}/${item.id}`} title={item.title}>
-                              {item.title}
-                            </Link>{" "}
-                          </h5>
-                          <span className="listing-price">
-                            Rs. {new Number(item.price).toLocaleString()}
-                            <span> {item.price_on}</span>{" "}
-                          </span>
-                          <p className="listing-text">{item.text}</p>
-                          <div className="acr-listing-icons">
-                            <OverlayTrigger overlay={bedstip}>
-                              <div className="acr-listing-icon">
-                                <i className="flaticon-bedroom" />
-                                <span className="acr-listing-icon-value">
-                                  {item.no_of_beds}
-                                </span>
-                              </div>
-                            </OverlayTrigger>
-                            <OverlayTrigger overlay={bathstip}>
-                              <div className="acr-listing-icon">
-                                <i className="flaticon-bathroom" />
-                                <span className="acr-listing-icon-value">
-                                  {item.no_of_bathrooms}
-                                </span>
-                              </div>
-                            </OverlayTrigger>
-                            <OverlayTrigger overlay={areatip}>
-                              <div className="acr-listing-icon">
-                                <i className="flaticon-ruler" />
-                                <span className="acr-listing-icon-value">
-                                  {item.area}
-                                </span>
-                              </div>
-                            </OverlayTrigger>
-                          </div>
-                          <div className="listing-gallery-wrapper">
-                            <Link
-                              to={`/property/${convertToSlug(item.title)}/${item.id}`}
-                              className="btn-custom btn-sm secondary"
-                            >
-                              View Details
-                            </Link>
-                            <OverlayTrigger overlay={gallerytip}>
-                              <Link to="#" className="listing-gallery">
-                                {" "}
-                                <i className="fas fa-camera" />{" "}
-                              </Link>
-                            </OverlayTrigger>
-
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  ))
-
-                ) : (
-                  <Noresults />
-                )
-              }
-
-              {/* Listing End */}
-            </div>
+            <PaginationLogic
+              setLoading={setLoading}
+              setOffset={setOffset}
+              setCurrentPage={setCurrentPage}
+              loading={loading}
+              offset={offset}
+              currentPage={currentPage}
+              totalResults={totalResults}
+              limit={limit}
+            />
 
           </div>
           {/* Agent Listings End */}

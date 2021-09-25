@@ -78,7 +78,7 @@ const Content = () => {
 
             {/*<Findhome categories={subCategoriesWithCount} />*/}
             {/*<Services />*/}
-            <Recentlistings recentProperties={recentProperties} col={4} />
+            <Recentlistings properties={recentProperties} col={4} headerPresent={true} viewAll={true} />
             {/* <Whyus />
             <div className="section pt-0">
                 <Bluecta />

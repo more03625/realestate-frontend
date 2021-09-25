@@ -14,7 +14,7 @@ import {
   facing,
   carspaces, garage,
   motarspaces,
-  areaUnit,
+  addAreaUnit,
   rooms,
   furnishing, priceOn
 } from "../../../data/select.json";
@@ -1335,7 +1335,7 @@ function Content() {
                   <Tab.Pane eventKey="tab4">
                     <div className="row">
 
-                      <div className="col-md-6 form-group">
+                      <div className="col-md-4 form-group">
                         <label className="required">Area Unit</label>
                         <select
                           className="form-control"
@@ -1353,8 +1353,8 @@ function Content() {
                           }
                         >
                           <option>Select</option>
-                          {areaUnit &&
-                            areaUnit.map((value, index) => (
+                          {addAreaUnit &&
+                            addAreaUnit.map((value, index) => (
                               <option key={index} value={value}>
                                 {uppercaseFirstLetter(value)}
                               </option>
@@ -1365,12 +1365,12 @@ function Content() {
                         </p>
                       </div>
 
-                      <div className="col-md-6 form-group">
+                      <div className="col-md-4 form-group">
                         <label className="required">Total Area</label>
                         <input
-                          type="number"
+                          type="text"
                           className="form-control"
-                          placeholder="500 Sq.ft"
+                          placeholder="0-4-2-0"
                           ref={area}
                           name="area"
                           onChange={(e) =>
@@ -1388,12 +1388,12 @@ function Content() {
                         <p style={errorStyle}>{propertyDataError.area}</p>
                       </div>
 
-                      <div className="col-md-6 form-group">
+                      <div className="col-md-4 form-group">
                         <label className="required">Carpet Area</label>
                         <input
-                          type="number"
+                          type="text"
                           className="form-control"
-                          placeholder="500 Sq.ft"
+                          placeholder="0-4-2-0"
                           ref={area}
                           name="carpet_area"
                           onChange={(e) =>
@@ -2025,24 +2025,7 @@ function Content() {
                       </div>
                         */}
 
-                      <div className="col-md-6 form-group">
-                        <div className="custom-control custom-checkbox">
-                          <input
-                            type="checkbox"
-                            className="custom-control-input"
-                            id="isPublished"
-                            name="isPublished"
-                            onChange={(e) => handleIsPublished()}
-                            checked={isPublished}
-                          />
-                          <label
-                            className="custom-control-label"
-                            htmlFor="isPublished"
-                          >
-                            Is Published{" "}
-                          </label>
-                        </div>
-                      </div>
+
 
 
                       <div className="col-md-12 form-group">
@@ -2065,7 +2048,24 @@ function Content() {
                           }
                         />
                       </div>
-
+                      <div className="col-md-6 form-group">
+                        <div className="custom-control custom-checkbox">
+                          <input
+                            type="checkbox"
+                            className="custom-control-input"
+                            id="isPublished"
+                            name="isPublished"
+                            onChange={(e) => handleIsPublished()}
+                            checked={isPublished}
+                          />
+                          <label
+                            className="custom-control-label"
+                            htmlFor="isPublished"
+                          >
+                            Is Published{" "}
+                          </label>
+                        </div>
+                      </div>
                     </div>
 
                     <NextPrevious prev={"tab5"} next={0} />

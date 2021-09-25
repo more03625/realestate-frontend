@@ -9,19 +9,14 @@ import Axios from "axios";
 
 const Profilelistings = () => {
     const [userData, setUserData] = useState([]);
-
-
     const getUser = async () => {
-        //write function here & get this data from DB
         var url = Host + Endpoints.getProfileDetails;
         var result = await Axios.get(url, {
             headers: {
                 token: getUserToken().token
             }
         });
-
         setUserData(result.data.data);
-
     }
     useEffect(() => {
         getUser();
