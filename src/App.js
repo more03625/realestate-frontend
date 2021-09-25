@@ -150,7 +150,7 @@ function App() {
 
           {/* RAHUL */}
           {/* Homepages */}
-          <Route exact path="/" component={CommingSoon} />
+          <Route exact path="/" component={Home} />
           <Route path="/demosite" component={Home} />
           <Route path="/home" component={Home} />
           <Route path="/home-v2" component={Hometwo} />

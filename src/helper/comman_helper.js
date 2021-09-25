@@ -3,40 +3,40 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 export const Host =
-    window.location.host === "neprealestate.com" ? "http://neprealestate.com:5254" : "http://localhost:5254"; //Node URL
+    window.location.host === "realestate-react.netlify.app" ? "http://neprealestate.com:5254" : "http://localhost:5254"; //Node URL
 
 export const Endpoints = {
     Login: "/users/login",
     Register: "/users/register",
-    isAuthenticated: "/isAuthenticated",
     updateProfile: "/users/updateProfile",
     verifyOtp: "/users/verifyOtp",
     resendOtp: "/users/resendOtp",
     changePassword: "/users/changePassword",
     getStates: "/users/getStates",
-    getRecentNews: "/news/getRecentNews",
-    getNews: "/news/getNews",
-    getNewsDetails: "/news/getNewsDetails?id=",
     contactUs: "/users/contact_us",
     forgotPassword: "/users/forgotPassword",
     ResetPassword: "/users/resetPassword",
+    getCities: "/users/getCities?id=",
+    getProfileDetails: "/users/getProfileDetails",
+    getPropertyTypes: "/users/getPropertyTypes?id=",
+    addSubscriber: "/users/addSubscriber",
+    propertyEnquiry: "/users/properties_enquiry",
+    isAuthenticated: "/isAuthenticated",
+    getRecentNews: "/news/getRecentNews",
+    getNews: "/news/getNews",
+    getNewsDetails: "/news/getNewsDetails?id=",
     getPropertyDetails: "/property/getPropertyDetails?id=",
     getRecentProperties: "/property/getRecentProperties",
     getPropertiesBySellerID: "/property/getPropertiesBySellerID",
     getProperties: "/property/getProperties",
     addProperty: "/property/addProperty",
-    getSubCategories: "/admin/getSubCategories",
-    getCities: "/users/getCities?id=",
     getPropertiesWithFilters: '/property/getPropertiesWithFilters',
     editProperty: "/property/editProperty",
-    getUserById: "/admin/getUserById?id=",
-    getProfileDetails: "/users/getProfileDetails",
     getPropertyCounts: "/property/getPropertyCounts?id=",
+    getSubCategories: "/admin/getSubCategories",
+    getUserById: "/admin/getUserById?id=",
     getCategories: "/admin/getCategories",
-    getPropertyTypes: "/users/getPropertyTypes?id=",
     getfeatures: "/admin/getfeatures?type=",
-    addSubscriber: "/users/addSubscriber",
-    propertyEnquiry: "/users/properties_enquiry",
     agentList: "/admin/agentList",
     editSettings: "/admin/edit-settings",
     getSettingBySlug: "/admin/get-settings-by-slug",
@@ -44,8 +44,6 @@ export const Endpoints = {
     getAreaAddresses: "/admin/getAreaAddresses",
     getCitiesAdmin: "/admin/getCities",
     getAreaAddresses: "/admin/getAreaAddresses"
-
-
 };
 
 export const openInGmail = (to, subject = '', body = '', cc = null, bcc = null) => {
