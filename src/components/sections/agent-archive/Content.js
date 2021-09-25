@@ -1,42 +1,59 @@
-import React, { Component, Fragment, useState } from 'react';
+import React, { Fragment, useState } from 'react';
 import { Link } from 'react-router-dom';
-
-import listing from '../../../data/listings.json';
-import { blogcategory } from '../../../data/blog.json';
 import classNames from 'classnames';
 import Loader from '../../layouts/Loader';
 import { convertToSlug, Host } from '../../../helper/comman_helper';
 import { Noresults } from '../../layouts/Noresults';
-const Content = ({ agents, recentProperties, subCategoriesWithCount }) => {
-    const [items, setItems] = useState();
+import PaginationLogic from '../pagination-logic/PaginationLogic';
+
+const Content = ({ agents, recentProperties, subCategoriesWithCount, setOffset, offset, limit, totalResults }) => {
     const [currentPage, setCurrentPage] = useState(1);
-    const [itemsPerPage, setItemsPerPage] = useState(10);
+    const [itemsPerPage, setItemsPerPage] = useState(2);
     const [loading, setLoading] = useState(false);
 
-
     const handleClick = (event) => {
-        var paginationContent = event.target.closest('.pagination-content');
-
-        if (paginationContent) {
-            paginationContent.scrollIntoView();
-        }
-
-
         setLoading(true);
-
-        setTimeout(() => {
-            setCurrentPage(Number(event.target.getAttribute('data-page')));
-            setLoading(false);
-        }, 2000);
+        if (event.target.getAttribute('data-action') === 'next') {
+            setOffset(offset + 1);
+            setTimeout(() => {
+                setCurrentPage(currentPage + 1);
+                setLoading(false);
+            }, 2000);
+        } else if (event.target.getAttribute('data-action') === 'previous') {
+            setOffset(offset - 1);
+            setTimeout(() => {
+                setCurrentPage(currentPage - 1);
+                setLoading(false);
+            }, 2000);
+        } else {
+            setOffset(Number(event.target.getAttribute('data-page')) - 1);
+            setTimeout(() => {
+                setCurrentPage(Number(event.target.getAttribute('data-page')));
+                setLoading(false);
+            }, 2000);
+        }
     }
 
     // Logic for displaying items
-    const indexOfLastitem = currentPage * itemsPerPage;
-    const indexOfFirstitem = indexOfLastitem - itemsPerPage;
-    const currentitems = agents && agents.slice(indexOfFirstitem, indexOfLastitem);
+    // const indexOfLastitem = currentPage * itemsPerPage;
+    // const indexOfFirstitem = indexOfLastitem - itemsPerPage;
+    // const currentitems = agents //&& agents.slice(indexOfFirstitem, indexOfLastitem);
 
-    const renderitems = currentitems.length > 0 ? (
-        currentitems.map((item, i) => {
+    let currentitems;
+    if (totalResults == 0) {
+        currentitems = [];
+    } else {
+        currentitems = agents
+    }
+    var renderitems = [];
+
+    if (totalResults === undefined) {
+        var renderitems = <Loader />
+    }
+    else if (totalResults == 0) {
+        var renderitems = <Noresults />;
+    } else {
+        var renderitems = currentitems && currentitems.map((item, i) => {
             var url = "agent" + "/" + convertToSlug(item.name) + "/" + item.id;
 
             return <div key={i} className="col-lg-6">
@@ -54,22 +71,31 @@ const Content = ({ agents, recentProperties, subCategoriesWithCount }) => {
                 </div>
             </div>
         })
-    ) : (
-        <Noresults />
-    )
+    }
 
     // Logic for displaying page numbers
     const pageNumbers = [];
-    for (let i = 1; i <= Math.ceil(agents && agents.length / itemsPerPage); i++) {
+    for (let i = 1; i <= Math.ceil(totalResults / itemsPerPage); i++) {
         pageNumbers.push(i);
     }
     const renderPagination = pageNumbers.map(number => {
         const activeCondition = currentPage === number ? 'active' : ''
         return (
             <Fragment key={number}>
-                {pageNumbers.length > 1 ? <li className={classNames("page-item", { "active": activeCondition })}>
-                    <Link className="page-link" to="#" data-page={number} onClick={handleClick}>{number}</Link>
-                </li> : ''}
+                {pageNumbers.length > 1 ? (
+                    <li className={classNames("page-item", { active: activeCondition })}>
+                        <Link
+                            className="page-link"
+                            to={'#'}
+                            data-page={number}
+                            onClick={handleClick}
+                        >
+                            {number}
+                        </Link>
+                    </li>
+                ) : (
+                    ""
+                )}
             </Fragment>
         );
     });
@@ -131,29 +157,43 @@ const Content = ({ agents, recentProperties, subCategoriesWithCount }) => {
                             {/* Agent End */}
                         </div>
                         {/* Pagination Start */}
-                        {pageNumbers.length > 1 ?
+                        {pageNumbers.length > 1 ? (
                             <ul className="pagination">
                                 {/* Prev */}
                                 {/* to show previous, we need to be on the 2nd or more page */}
-                                {pageNumbers.length > 1 && currentPage !== 1 ?
+                                {pageNumbers.length > 1 && currentPage !== 1 ? (
                                     <li className="page-item">
-                                        <Link className="page-link" to="#" data-page={currentPage - 1} onClick={handleClick}>
-                                            <i className="fas fa-chevron-left" />
+                                        <Link className="page-link" to={window.location.search} data-page={parseInt(currentPage) - 1} data-action="previous" onClick={handleClick}>
+                                            <i className="fas fa-chevron-left" data-page={parseInt(currentPage) - 1} data-action="previous" />
                                         </Link>
                                     </li>
-                                    : ''}
+                                ) : (
+                                    ""
+                                )}
                                 {/* Prev */}
                                 {renderPagination}
                                 {/* Next */}
                                 {/* to show next, we should not be on the last page */}
-                                {pageNumbers.length > 1 && currentPage !== pageNumbers.length ? <li className="page-item">
-                                    <Link className="page-link" to="#" data-page={parseInt(currentPage + 1)} onClick={handleClick}>
-                                        <i className="fas fa-chevron-right" />
-                                    </Link>
-                                </li>
-                                    : ''}
+                                {pageNumbers.length > 1 &&
+                                    currentPage !== pageNumbers.length ? (
+                                    <li className="page-item right-btn">
+                                        <Link
+                                            className="page-link"
+                                            to={window.location.serach}
+                                            data-page={currentPage} data-action="next"
+                                            onClick={handleClick}
+                                        >
+                                            <i className="fas fa-chevron-right" data-page={currentPage} data-action="next" />
+                                        </Link>
+                                    </li>
+                                ) : (
+                                    ""
+                                )}
                                 {/* Next */}
-                            </ul> : ''}
+                            </ul>
+                        ) : (
+                            ""
+                        )}
                         {/* Pagination End */}
                     </div>
 

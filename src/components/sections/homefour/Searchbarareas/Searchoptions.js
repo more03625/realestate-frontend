@@ -97,6 +97,7 @@ export const Searchoptions = () => {
                                 onChange={setSelected}
                                 labelledBy={"Select"}
                                 name="subcat"
+                                labelledBy="Select"
                             />
                             : ''
                     }

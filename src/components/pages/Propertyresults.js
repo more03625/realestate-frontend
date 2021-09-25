@@ -23,7 +23,8 @@ const Propertyresults = () => {
 
     const [searchResults, setSearchResults] = useState([]);
     const [totalResults, setTotalResults] = useState();
-    const [offset, setOffset] = useState(0)
+    const [offset, setOffset] = useState(0);
+    const [limit, setLimit] = useState(2)
     const [loadingButton, setLoadingButton] = useState(false);
     const [filterData, setFilterData] = useState({});
     const [runUseEffect, setRunUseEffect] = useState(false);
@@ -47,7 +48,7 @@ const Propertyresults = () => {
             "suburbs": suburbs,
             "default_area_unit": defaultAreaUnit,
             "area": area,
-            "limit": 15,
+            "limit": limit,
             "offset": offset
         }
 
@@ -97,6 +98,8 @@ const Propertyresults = () => {
                 subCategoryName={subCategoryName}
                 subCategoryID={subCategoryID}
                 totalResults={totalResults}
+                limit={limit}
+                setLimit={setLimit}
                 offset={offset}
                 setOffset={setOffset}
                 loadingButton={loadingButton}

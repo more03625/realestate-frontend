@@ -70,7 +70,9 @@ Version: 1.0.0
     margin-left: 120%;
   }
 }
-
+.dropdown-content .panel-content {
+  z-index: 9999;
+}
 @-webkit-keyframes animateCloudtwo {
   0% {
     right: -140px;

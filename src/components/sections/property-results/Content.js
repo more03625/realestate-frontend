@@ -12,32 +12,30 @@ const bedstip = <Tooltip>Beds</Tooltip>;
 const bathstip = <Tooltip>Bathrooms</Tooltip>;
 const areatip = <Tooltip>Ropani-Aana-Paisa-Daam</Tooltip>;
 
-const Content = ({ propertyType, searchQuery, searchResults, subCategoryName, subCategoryID, totalResults, offset, setOffset, loadingButton, setFilterData, filterData, setRunUseEffect, runUseEffect }) => {
+const Content = ({ propertyType, searchQuery, searchResults, subCategoryName, subCategoryID, totalResults, offset, setOffset, loadingButton, setFilterData, filterData, setRunUseEffect, runUseEffect, limit, setLimit }) => {
 
 
     const [currentPage, setCurrentPage] = useState(1);
-    const [itemsPerPage, setItemsPerPage] = useState(15);
+    // const [itemsPerPage, setItemsPerPage] = useState(2);
     const [loading, setLoading] = useState(false);
     const [show, setShow] = useState(false);
 
     const handleClick = (event) => {
+        setLoading(true);
         if (event.target.getAttribute("data-action") === 'next') {
             setOffset(offset + 1)
-            setLoading(true);
             setTimeout(() => {
                 setCurrentPage(currentPage + 1);
                 setLoading(false);
             }, 2000);
         } else if (event.target.getAttribute("data-action") === 'previous') {
             setOffset(offset - 1)
-            setLoading(true);
             setTimeout(() => {
                 setCurrentPage(currentPage - 1);
                 setLoading(false);
             }, 2000);
         } else {
             setOffset(Number(event.target.getAttribute("data-page")) - 1);
-            setLoading(true);
             setTimeout(() => {
                 setCurrentPage(Number(event.target.getAttribute("data-page")));
                 setLoading(false);
@@ -57,11 +55,9 @@ const Content = ({ propertyType, searchQuery, searchResults, subCategoryName, su
 
     if (totalResults === undefined) {
         var renderitems = <Loader />
-    }
-    else if (totalResults == 0) {
+    } else if (totalResults == 0) {
         var renderitems = <Noresults />;
-    }
-    else {
+    } else {
         var renderitems = currentitems && currentitems.map((item, i) => {
             var propertyURL = "property" + "/" + convertToSlug(item.title) + "/" + item.id;
             return (
@@ -214,7 +210,7 @@ const Content = ({ propertyType, searchQuery, searchResults, subCategoryName, su
     // Logic for displaying page numbers
     const pageNumbers = [];
 
-    for (let i = 1; i <= Math.ceil(totalResults / itemsPerPage); i++) {
+    for (let i = 1; i <= Math.ceil(totalResults / limit); i++) {
         pageNumbers.push(i);
     }
     const queryParams = new URLSearchParams(window.location.search);
