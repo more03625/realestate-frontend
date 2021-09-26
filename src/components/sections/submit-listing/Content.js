@@ -55,6 +55,19 @@ function Content() {
   }
   const [propertyData, setPropertyData] = useState();
 
+  const [placeholder, setPlaceHolder] = useState(null);
+
+  const handleAreaChange = (e) => {
+    if (e.target.name === 'default_area_unit' && e.target.value === 'Bigha-Kattha-Dhur-Haat' || e.target.value === 'Ropani-Aana-Paisa-Daam') {
+      setPlaceHolder(`0-4-2-0 ${e.target.value}`);
+    } else if (e.target.name === 'default_area_unit' && e.target.value === 'sqmt' || e.target.value === 'sqft') {
+      setPlaceHolder(`1000 ${e.target.value}`);
+    } else if (e.target.name === 'default_area_unit' && e.target.value === 'acres') {
+      setPlaceHolder('2 Acres');
+    }
+    setPropertyData({ ...propertyData, [e.target.name]: e.target.value })
+  }
+
   const [isPublished, setIsPublished] = useState(false);
 
 
@@ -1340,12 +1353,7 @@ function Content() {
                         <select
                           className="form-control"
                           name="default_area_unit"
-                          onChange={(e) =>
-                            setPropertyData({
-                              ...propertyData,
-                              default_area_unit: e.target.value,
-                            })
-                          }
+                          onChange={(e) => handleAreaChange(e)}
                           value={
                             propertyData && propertyData.default_area_unit
                               ? propertyData.default_area_unit
@@ -1370,15 +1378,10 @@ function Content() {
                         <input
                           type="text"
                           className="form-control"
-                          placeholder="0-4-2-0"
+                          placeholder={placeholder}
                           ref={area}
                           name="area"
-                          onChange={(e) =>
-                            setPropertyData({
-                              ...propertyData,
-                              area: e.target.value,
-                            })
-                          }
+                          onChange={(e) => handleAreaChange(e)}
                           defaultValue={
                             propertyData && propertyData.area
                               ? propertyData.area
@@ -1386,6 +1389,7 @@ function Content() {
                           }
                         />
                         <p style={errorStyle}>{propertyDataError.area}</p>
+                        <span className="acr-form-notice">Format: {placeholder} </span>
                       </div>
 
                       <div className="col-md-4 form-group">
@@ -1393,15 +1397,10 @@ function Content() {
                         <input
                           type="text"
                           className="form-control"
-                          placeholder="0-4-2-0"
+                          placeholder={placeholder}
                           ref={area}
                           name="carpet_area"
-                          onChange={(e) =>
-                            setPropertyData({
-                              ...propertyData,
-                              carpet_area: e.target.value,
-                            })
-                          }
+                          onChange={(e) => handleAreaChange(e)}
                           defaultValue={
                             propertyData && propertyData.carpet_area
                               ? propertyData.carpet_area
@@ -1411,6 +1410,7 @@ function Content() {
                         <p style={errorStyle}>
                           {propertyDataError.carpet_area}
                         </p>
+                        <span className="acr-form-notice">Format: {placeholder} </span>
                       </div>
 
                       <div className="col-md-6 form-group">

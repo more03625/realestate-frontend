@@ -1,11 +1,9 @@
-import React, { useState, useEffect } from 'react'
-import { Host, Endpoints } from '../../helper/comman_helper';
-import Axios from 'axios';
+import React, { useState } from 'react'
 import {
     bedslist,
     bathroomslist,
     carspaces,
-    areaUnit,
+    addAreaUnit,
     pricerangelist
 } from "../../data/select.json";
 export default function FilterModal({ tabName, setFilterData, filterData, selectedIndoorFeatures, selectedOutdoorFeatures, selectedClimateFeatures, setSelectedIndoorFeatures, setSelectedOutdoorFeatures, setSelectedClimateFeatures, setSelectedM, selectedM, subCategories, indoorFeatures, outdoorFeatures, climateControlFeatures }) {
@@ -59,7 +57,16 @@ export default function FilterModal({ tabName, setFilterData, filterData, select
         }
         setSelectedClimateFeatures(selectedClimateFeatures);
     };
+    const [placeholder, setPlaceHolder] = useState(null);
     const handleChange = (e) => {
+
+        if (e.target.name === 'default_area_unit' && e.target.value === 'Bigha-Kattha-Dhur-Haat' || e.target.value === 'Ropani-Aana-Paisa-Daam') {
+            setPlaceHolder(`0-4-2-0 ${e.target.value}`);
+        } else if (e.target.name === 'default_area_unit' && e.target.value === 'sqmt' || e.target.value === 'sqft') {
+            setPlaceHolder(`1000 ${e.target.value}`);
+        } else if (e.target.name === 'default_area_unit' && e.target.value === 'acres') {
+            setPlaceHolder('2 Acres');
+        }
         setFilterData({ ...filterData, [e.target.name]: e.target.value });
     };
     return (
@@ -251,8 +258,8 @@ export default function FilterModal({ tabName, setFilterData, filterData, select
                                     onChange={(e) => handleChange(e)}
                                 >
                                     <option value="">Any</option>
-                                    {areaUnit &&
-                                        areaUnit.map((value, index) => (
+                                    {addAreaUnit &&
+                                        addAreaUnit.map((value, index) => (
                                             <option key={index} value={value}>{value}</option>
                                         ))}
                                 </select>
@@ -262,10 +269,10 @@ export default function FilterModal({ tabName, setFilterData, filterData, select
                         <div className="col-md-6">
                             <div className="form-group">
                                 <label>Area Size</label>
-                                <input className="form-control" name="area" placeholder="Enter area size" onChange={(e) => handleChange(e)} />
+                                <input className="form-control" name="area" placeholder={placeholder} onChange={(e) => handleChange(e)} />
+                                <span className="acr-form-notice">Format: {placeholder} </span>
                             </div>
                         </div>
-
                     </div>
                 </div>
                 <hr />

@@ -31,8 +31,6 @@ const Propertyresults = () => {
 
     var currentPath = window.location.pathname;
 
-    console.log("Home filterData ===> ", filterData);
-
     const getSearchResults = async () => {
         setLoadingButton(true);
         var searchURL = Host + Endpoints.getPropertiesWithFilters;

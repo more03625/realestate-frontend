@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import { convertToSlug } from "./../../helper/comman_helper";
 import { Host } from "./../../helper/comman_helper";
 const Blogsidebar = ({ recentNews }) => {
-  console.log(recentNews)
   return (
     <div className="sidebar">
       <div className="sidebar-widget">
@@ -25,7 +24,7 @@ const Blogsidebar = ({ recentNews }) => {
       <div className="sidebar-widget">
         <h5>Recent News</h5>
 
-        {recentNews && recentNews.slice(0, 4).map((item, i) => (
+        {recentNews > 0 ? recentNews.slice(0, 4).map((item, i) => (
           <article key={i} className="media">
             <Link to={`/read/news/${convertToSlug(item.title)}/${item.id}`}>
               <img src={item.image != null ? Host + item.image + ".jpg" : Host + "/users/default.png"}
@@ -43,7 +42,7 @@ const Blogsidebar = ({ recentNews }) => {
               <span>{new Date(item.createdAt).toDateString()}</span>
             </div>
           </article>
-        ))}
+        )) : ('There are no related posts!')}
       </div>
     </div>
   );

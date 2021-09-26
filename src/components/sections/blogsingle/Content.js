@@ -50,75 +50,74 @@ const Content = ({ newsData, recentNews }) => {
               <div className="section section-padding">
                 <h4>Related Posts</h4>
                 <div className="row">
-                  {recentNews &&
-                    recentNews.slice(0, 10).map((item, i) => (
-                      <div key={i} className="col-md-6">
-                        <article className="post single">
-                          <div className="post-thumbnail">
+                  {recentNews.length > 0 ? recentNews.slice(0, 10).map((item, i) => (
+                    <div key={i} className="col-md-6">
+                      <article className="post single">
+                        <div className="post-thumbnail">
+                          <Link
+                            to={`/read/news/${convertToSlug(item.title)}/${item.id
+                              }`}
+                          >
+                            <img
+                              src={
+                                item.image != null
+                                  ? Host +
+                                  item.image +
+                                  ".jpg"
+                                  : Host +
+                                  "/users/default.png"
+                              }
+                              alt={`image of ${item.title}`}
+                            />
+                          </Link>
+                        </div>
+                        <div className="post-body">
+                          <div className="post-author">
+                            <img
+                              src={
+                                Host +
+                                item.profile_image +
+                                "_small.jpg"
+                              }
+                              alt={item.profile_image + "_small.jpg"}
+                            />
+                            <div className="post-author-body">
+                              <p>
+                                {" "}
+                                <Link to="#">{item.name}</Link>{" "}
+                              </p>
+                              <span className="post-date">
+                                {new Date(item.createdAt).toDateString()}
+                              </span>
+                            </div>
+                          </div>
+                          <h5 className="post-title">
+                            {" "}
                             <Link
                               to={`/read/news/${convertToSlug(item.title)}/${item.id
                                 }`}
                             >
-                              <img
-                                src={
-                                  item.image != null
-                                    ? Host +
-                                    item.image +
-                                    ".jpg"
-                                    : Host +
-                                    "/users/default.png"
-                                }
-                                alt={`image of ${item.title}`}
-                              />
+                              {item.title.slice(0, 30) + "..."}
+                            </Link>{" "}
+                          </h5>
+                          <p className="post-text">
+                            {item.description
+                              .slice(0, 75)
+                              .replace(/(<([^>]+)>)/gi, "")}
+                          </p>
+                          <div className="post-controls">
+                            <Link
+                              to={`/read/news/${convertToSlug(item.title)}/${item.id
+                                }`}
+                              className="btn-custom secondary btn-sm"
+                            >
+                              Read More
                             </Link>
                           </div>
-                          <div className="post-body">
-                            <div className="post-author">
-                              <img
-                                src={
-                                  Host +
-                                  item.profile_image +
-                                  "_small.jpg"
-                                }
-                                alt={item.profile_image + "_small.jpg"}
-                              />
-                              <div className="post-author-body">
-                                <p>
-                                  {" "}
-                                  <Link to="#">{item.name}</Link>{" "}
-                                </p>
-                                <span className="post-date">
-                                  {new Date(item.createdAt).toDateString()}
-                                </span>
-                              </div>
-                            </div>
-                            <h5 className="post-title">
-                              {" "}
-                              <Link
-                                to={`/read/news/${convertToSlug(item.title)}/${item.id
-                                  }`}
-                              >
-                                {item.title.slice(0, 30) + "..."}
-                              </Link>{" "}
-                            </h5>
-                            <p className="post-text">
-                              {item.description
-                                .slice(0, 75)
-                                .replace(/(<([^>]+)>)/gi, "")}
-                            </p>
-                            <div className="post-controls">
-                              <Link
-                                to={`/read/news/${convertToSlug(item.title)}/${item.id
-                                  }`}
-                                className="btn-custom secondary btn-sm"
-                              >
-                                Read More
-                              </Link>
-                            </div>
-                          </div>
-                        </article>
-                      </div>
-                    ))}
+                        </div>
+                      </article>
+                    </div>
+                  )) : ('There are no related posts!')}
                 </div>
                 {/*row ends*/}
               </div>

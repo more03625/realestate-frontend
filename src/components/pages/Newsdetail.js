@@ -1,6 +1,6 @@
 import React, { useEffect, Fragment, useState, useRef } from "react";
 import MetaTags from "react-meta-tags";
-import Header from "../layouts/Headerfive";
+import Header from "../layouts/Header";
 import Breadcrumb from "../sections/blogsingle/Breadcrumb";
 import Footer from "../layouts/Footerthree";
 import Content from "../sections/blogsingle/Content";
@@ -10,9 +10,14 @@ import Axios from "axios";
 import Loader from "../layouts/Loader";
 import Error from '../pages/Error';
 import NewsNotFound from "./NewsNotFound";
+
 const Newsdetail = () => {
   const { slug, newsID } = useParams();
   const ref = useRef();
+  const [detailedNewsError, setDetailedNewsError] = useState();
+  const [detailedNews, setDetailedNews] = useState();
+  const [recentNews, setRecentNews] = useState([]);
+
   const getNewsDetails = async () => {
     var url = Host + Endpoints.getNewsDetails + newsID;
     const response = await Axios.get(url);
@@ -33,9 +38,7 @@ const Newsdetail = () => {
     }
 
   };
-  const [detailedNewsError, setDetailedNewsError] = useState();
-  const [detailedNews, setDetailedNews] = useState();
-  const [recentNews, setRecentNews] = useState([]);
+
 
 
   useEffect(() => {

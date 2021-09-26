@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import Formbox from '../../layouts/Formbox';
 import contactinfo from '../../../data/contactinfo.json';
 
 class Contactform extends Component {
