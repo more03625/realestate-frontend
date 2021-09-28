@@ -65,7 +65,7 @@ const Content = ({ newsData, recentNews }) => {
                                   item.image +
                                   ".jpg"
                                   : Host +
-                                  "/users/default.png"
+                                  "/news/default.jpg"
                               }
                               alt={`image of ${item.title}`}
                             />
@@ -73,12 +73,7 @@ const Content = ({ newsData, recentNews }) => {
                         </div>
                         <div className="post-body">
                           <div className="post-author">
-                            <img
-                              src={
-                                Host +
-                                item.profile_image +
-                                "_small.jpg"
-                              }
+                            <img src={item.profile_image != null ? Host + item.profile_image + "_small.jpg" : Host + "/users/default.png"}
                               alt={item.profile_image + "_small.jpg"}
                             />
                             <div className="post-author-body">

@@ -17,7 +17,7 @@ const Agentdetails = () => {
     // Pagination
     const [totalResults, setTotalResults] = useState();
     const [offset, setOffset] = useState(0);
-    const [limit, setLimit] = useState(2);
+    const [limit, setLimit] = useState(10);
 
     const getUserById = async () => {
         var url = Host + Endpoints.getUserById + agentID;

@@ -703,6 +703,7 @@ function Content() {
       'features': selectedM,
       'description': content,
       'add_status': isPublished === false ? 'draft' : 'pending',
+      'status': isPublished === false ? 'draft' : 'pending',
       'auto_save': isAutoSave
     })
 
@@ -1110,7 +1111,7 @@ function Content() {
 
                     </div>
                     <NextPrevious prev={0} next={"tab2"} />
-                    <Updatebtn currentPropertyID={currentPropertyID} loadingButton={loadingButton} />
+                    <Updatebtn currentPropertyID={currentPropertyID} loadingButton={loadingButton} isPublished={isPublished} />
                   </Tab.Pane>
 
                   <Tab.Pane eventKey="tab2">
@@ -1199,7 +1200,7 @@ function Content() {
 
                     </div>
                     <NextPrevious prev={"tab1"} next={"tab3"} />
-                    <Updatebtn currentPropertyID={currentPropertyID} loadingButton={loadingButton} />
+                    <Updatebtn currentPropertyID={currentPropertyID} loadingButton={loadingButton} isPublished={isPublished} />
 
                   </Tab.Pane>
 
@@ -1341,7 +1342,7 @@ function Content() {
 
                     </div>
                     <NextPrevious prev={"tab2"} next={"tab4"} />
-                    <Updatebtn currentPropertyID={currentPropertyID} loadingButton={loadingButton} />
+                    <Updatebtn currentPropertyID={currentPropertyID} loadingButton={loadingButton} isPublished={isPublished} />
 
                     {/****************************Address End****************************/}
                   </Tab.Pane>
@@ -1468,7 +1469,7 @@ function Content() {
 
                     </div>
                     <NextPrevious prev={"tab3"} next={"tab5"} />
-                    <Updatebtn currentPropertyID={currentPropertyID} loadingButton={loadingButton} />
+                    <Updatebtn currentPropertyID={currentPropertyID} loadingButton={loadingButton} isPublished={isPublished} />
 
                   </Tab.Pane>
                   <Tab.Pane eventKey="tab5">
@@ -1563,7 +1564,7 @@ function Content() {
 
                     </Tabs>
                     <NextPrevious prev={"tab4"} next={"tab6"} />
-                    <Updatebtn currentPropertyID={currentPropertyID} loadingButton={loadingButton} />
+                    <Updatebtn currentPropertyID={currentPropertyID} loadingButton={loadingButton} isPublished={isPublished} />
                   </Tab.Pane>
                   <Tab.Pane eventKey="tab6">
                     <div className="row">
@@ -2001,32 +2002,6 @@ function Content() {
                           }
                         />
                       </div>
-                      {/*
-
-                      <div className="col-md-6 form-group">
-                        <label className="required">Property Status</label>
-                        <select
-                          className="form-control"
-                          name="add_status"
-                          onChange={(e) =>
-                            setPropertyData({
-                              ...propertyData,
-                              add_status: e.target.value,
-                            })
-                          }
-                          value={
-                            propertyData && propertyData.add_status == "1" ? "1" : "0"
-                          }
-                        >
-                          <option value="">Select</option>
-                          <option value="1">Publish</option>
-                          <option value="0">Draft</option>
-                        </select>
-                      </div>
-                        */}
-
-
-
 
                       <div className="col-md-12 form-group">
                         <label>Keywords</label>
@@ -2069,7 +2044,7 @@ function Content() {
                     </div>
 
                     <NextPrevious prev={"tab5"} next={0} />
-                    <Updatebtn currentPropertyID={currentPropertyID} loadingButton={loadingButton} />
+                    <Updatebtn currentPropertyID={currentPropertyID} loadingButton={loadingButton} isPublished={isPublished} />
                     <Publishbtn currentPropertyID={currentPropertyID} loadingButton={loadingButton} isPublished={isPublished} />
                   </Tab.Pane>
                 </Tab.Content>

@@ -2,6 +2,7 @@ import React, { Component, Fragment } from 'react';
 import MetaTags from "react-meta-tags";
 import Header from '../layouts/Header';
 import Content from '../sections/forgot-password/Content';
+import Footer from '../layouts/Footerthree';
 
 const Forgotpassword = () => {
     return (
@@ -15,6 +16,7 @@ const Forgotpassword = () => {
             </MetaTags>
             <Header />
             <Content />
+            <Footer />
         </Fragment>
     );
 }

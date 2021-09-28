@@ -227,7 +227,7 @@ const Content = ({ agentData, agentProperties, similarAgents, totalResults, setO
           {/* Agent Listings Start */}
           <div className="col-lg-8">
             {
-              agentProperties.length > 0 ? <Recentlisting properties={agentProperties} col="6" /> : <Noresults />
+              agentProperties.length > 0 ? <Recentlisting properties={agentProperties} col="6" /> : <Noresults messageOn='agents' />
             }
 
             <PaginationLogic
@@ -250,11 +250,12 @@ const Content = ({ agentData, agentProperties, similarAgents, totalResults, setO
           <div className="row">
             {/* Agent Start */}
             {similarAgents && similarAgents.slice(0, 3).map((item, i) => (
+
               <div key={i} className="col-lg-4">
                 <div className="acr-agent">
                   <div className="acr-dots-wrapper acr-agent-thumb">
                     <div className="acr-dots" />
-                    <Link to={`/agent/${convertToSlug(item.name) + "/" + item.id}`}>
+                    <Link to={item.name === undefined || item.name === null ? '/agent/user/' + item.id : `/agent/${convertToSlug(item.name) + "/" + item.id}`}>
                       <img
                         src={
                           item.profile_image ? Host + item.profile_image +
@@ -268,12 +269,12 @@ const Content = ({ agentData, agentProperties, similarAgents, totalResults, setO
                   <div className="acr-agent-body">
                     <h6>
                       {" "}
-                      <Link to={`/agent/${convertToSlug(item.name) + "/" + item.id}`}>{item.name}</Link>{" "}
+                      <Link to={item.name === undefined || item.name === null ? '/agent/user/' + item.id : `/agent/${convertToSlug(item.name) + "/" + item.id}`}>{item.name}</Link>{" "}
                     </h6>
                     <span>{item.post}</span>
                     <p>{item.about_me}</p>
                     <Link
-                      to={`/agent/${convertToSlug(item.name) + "/" + item.id}`}
+                      to={item.name === undefined || item.name === null ? '/agent/user/' + item.id : `/agent/${convertToSlug(item.name) + "/" + item.id}`}
                       className="btn-custom secondary btn-sm"
                     >
                       View Profile
@@ -281,8 +282,8 @@ const Content = ({ agentData, agentProperties, similarAgents, totalResults, setO
                   </div>
                 </div>
               </div>
-            ))}
-            {/* Agent End */}
+            ))
+            }
           </div>
         </div>
         {/* Similar Agents End */}

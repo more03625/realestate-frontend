@@ -152,15 +152,6 @@ const Shopsidebar = ({ loadingButton, setShow, show, advancedFilterModal, filter
     getClimateControlFeatures();
   }, []);
 
-  let autoComplete;
-
-  const [query, setQuery] = useState("");
-  const autoCompleteRef = useRef(null);
-  const options = {
-    componentRestrictions: { country: "np" },
-  };
-  autoComplete = new window.google.maps.places.Autocomplete(autoCompleteRef.current, options);
-  autoComplete.setFields(['place_id', 'geometry', 'name', 'formatted_address']);
 
   return (
     <div className="sidebar sidebar-left">
@@ -177,7 +168,7 @@ const Shopsidebar = ({ loadingButton, setShow, show, advancedFilterModal, filter
         </Modal.Header>
         <Modal.Body>
 
-          {/*<Searchbar search={search} autoRef={autoCompleteRef} setQuery={setQuery} />*/}
+          <Searchbar search={search} setFilterData={setFilterData} filterData={filterData} />
 
           <Tabs defaultActiveKey="buy" onSelect={(e) => handleSelect(e)} id="uncontrolled-tab-example">
             <Tab eventKey="buy" title="Buy">

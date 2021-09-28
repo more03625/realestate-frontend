@@ -39,27 +39,30 @@ const Profilelistings = React.lazy(() => import("./components/pages/Profilelisti
 const Propertyresults = React.lazy(() => import("./components/pages/Propertyresults"));
 const Alertssubscribe = React.lazy(() => import("./components/pages/Alertssubscribe"));
 
-// const Legal = React.lazy(() => import("./components/pages/Legal"));
-const Icons = React.lazy(() => import("./components/pages/Icons"));
-// const Listinggrid = React.lazy(() => import("./components/pages/Listinggrid"));
-// const Listinglist = React.lazy(() => import("./components/pages/Listinglist"));
-// const Listingmap = React.lazy(() => import("./components/pages/Listingmap"));
-// const Listingdetailsone = React.lazy(() =>import("./components/pages/Listingdetailsone"));
-// const Listingdetailstwo = React.lazy(() =>import("./components/pages/Listingdetailstwo"));
-// const Listingdetailsthree = React.lazy(() =>import("./components/pages/Listingdetailsthree"));
-// const Comparelistings = React.lazy(() =>import("./components/pages/Comparelistings"));
-// const Homethree = React.lazy(() => import("./components/pages/Homethree"));
-// const Homefour = React.lazy(() => import("./components/pages/Homefour"));
-// const Homefive = React.lazy(() => import("./components/pages/Homefive"));
-// const Bloglist = React.lazy(() => import("./components/pages/Bloglist"));
-// const Blogsingle = React.lazy(() => import("./components/pages/Blogsingle"));
-// const Profilesavedlistings = React.lazy(() =>import("./components/pages/Profilesavedlistings"));
-// const Agencyarchive = React.lazy(() => import("./components/pages/Agencyarchive"));
-// const Agencydetails = React.lazy(() =>import("./components/pages/Agencydetails"));
-// const Services = React.lazy(() => import("./components/pages/Services"));
-// const Faq = React.lazy(() => import("./components/pages/Faq"));
-// const Pricing = React.lazy(() => import("./components/pages/Pricing"));
-
+{
+  /*
+  * Legal = React.lazy(() => import("./components/pages/Legal"));
+  * Icons = React.lazy(() => import("./components/pages/Icons"));
+  * Listinggrid = React.lazy(() => import("./components/pages/Listinggrid"));
+  * Listinglist = React.lazy(() => import("./components/pages/Listinglist"));
+  * Listingmap = React.lazy(() => import("./components/pages/Listingmap"));
+  * Listingdetailsone = React.lazy(() =>import("./components/pages/Listingdetailsone"));
+  * Listingdetailstwo = React.lazy(() =>import("./components/pages/Listingdetailstwo"));
+  * Listingdetailsthree = React.lazy(() =>import("./components/pages/Listingdetailsthree"));
+  * Comparelistings = React.lazy(() =>import("./components/pages/Comparelistings"));
+  * Homethree = React.lazy(() => import("./components/pages/Homethree"));
+  * Homefour = React.lazy(() => import("./components/pages/Homefour"));
+  * Homefive = React.lazy(() => import("./components/pages/Homefive"));
+  * Bloglist = React.lazy(() => import("./components/pages/Bloglist"));
+  * Blogsingle = React.lazy(() => import("./components/pages/Blogsingle"));
+  * Profilesavedlistings = React.lazy(() =>import("./components/pages/Profilesavedlistings"));
+  * Agencyarchive = React.lazy(() => import("./components/pages/Agencyarchive"));
+  * Agencydetails = React.lazy(() =>import("./components/pages/Agencydetails"));
+  * Services = React.lazy(() => import("./components/pages/Services"));
+  * Faq = React.lazy(() => import("./components/pages/Faq"));
+  * Pricing = React.lazy(() => import("./components/pages/Pricing"));
+  */
+}
 
 function App() {
   return (
@@ -68,27 +71,27 @@ function App() {
         <Preloader />
         <Switch>
           {/* RAHUL */}
-          <Route exact path="/news" component={News} />
-          <Route path="/results" component={Results} />
-          <Route exact path="/read/news/:slug/:newsID" component={Newsdetail} />
-          <Route path="/property-results" component={Propertyresults} />
-          <Route path="/rent" component={Home} />
+          <Route exact path="/" component={CommingSoon} />
+          <Route path="/home" component={Home} />
           <Route path="/buy" component={Home} />
+          <Route path="/rent" component={Home} />
           <Route path="/sold" component={Home} />
           <Route path="/share" component={Home} />
           <Route path="/consultants" component={Home} />
           <Route path="/commercial" component={Propertyresults} />
+          <Route path="/results" component={Results} />
+          <Route path="/property-results" component={Propertyresults} />
           <Route path="/property/:slug/:propertyID" component={Propertydetails} />
+          <Route exact path="/news" component={News} />
+          <Route exact path="/read/news/:slug/:newsID" component={Newsdetail} />
           <Route path="/about" component={Privacypolicy} />
           <Route path="/terms-and-conditions" component={Privacypolicy} />
           <Route path="/privacy-policy" component={Privacypolicy} />
           <Route path="/rent-agreement" component={Privacypolicy} />
           <Route path="/disclaimers" component={Privacypolicy} />
           <Route path="/user-agreement" component={Privacypolicy} />
-          <Route exact path="/" component={CommingSoon} />
-          <Route path="/home" component={Home} />
-          <Route path="/demosite" component={Home} />
           <Route path="/contact" component={Contact} />
+          <Route path="/demosite" component={Home} />
           <Route path="/coming-soon" component={Comingsoon} />
           <Route path="/error-404" component={Error} />
           <Route path="/find-agents" component={Agentarchive} />

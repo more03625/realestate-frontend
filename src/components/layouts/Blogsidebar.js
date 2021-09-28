@@ -27,10 +27,9 @@ const Blogsidebar = ({ recentNews }) => {
         {recentNews > 0 ? recentNews.slice(0, 4).map((item, i) => (
           <article key={i} className="media">
             <Link to={`/read/news/${convertToSlug(item.title)}/${item.id}`}>
-              <img src={item.image != null ? Host + item.image + ".jpg" : Host + "/users/default.png"}
+              <img src={item.image != null ? Host + item.image + ".jpg" : Host + "/users/default.jpg"}
                 alt={`image of ${item.title}`}
               />
-
             </Link>
             <div className="media-body">
               <h6>

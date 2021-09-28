@@ -4,6 +4,7 @@ import { OverlayTrigger, Tooltip, Dropdown, NavLink } from "react-bootstrap";
 import { openInGmail, saveProperty, Endpoints, Host, convertToSlug, uppercaseFirstLetter } from "../../../helper/comman_helper";
 
 const Recentlisting = ({ properties, col, headerPresent, viewAll }) => {
+  console.log(properties)
   const listingThumbnail = {
     borderRadius: "0px"
   }
@@ -16,6 +17,7 @@ const Recentlisting = ({ properties, col, headerPresent, viewAll }) => {
   }
   const bedstip = <Tooltip>Beds</Tooltip>;
   const bathstip = <Tooltip>Bathrooms</Tooltip>;
+  const areatip = <Tooltip>Bathrooms</Tooltip>;
   const propertyType = window.location.pathname.split("/")[1] === 'home' ? 'buy' : window.location.pathname.split("/")[1];
 
   return (
@@ -47,6 +49,7 @@ const Recentlisting = ({ properties, col, headerPresent, viewAll }) => {
 
         <div className="row">
           {/* Listing Start */}
+
           {properties && properties.map((item, i) => (
             <div key={i} className={`col-lg-${col}`}>
               <div className="listing" style={listing}>
@@ -101,7 +104,7 @@ const Recentlisting = ({ properties, col, headerPresent, viewAll }) => {
                     <div className="listing-author-body">
                       <p>
                         {" "}
-                        <Link to="#">{item.name_for_contact}</Link>{" "}
+                        <Link to={item.name === undefined || item.name === null ? '/agent/user/' + item.user_id : `/agent/${convertToSlug(item.name) + "/" + item.user_id}`}>{item.name_for_contact}</Link>{" "}
                       </p>
                       <span className="listing-date">{new Date(item.createdAt).toDateString()}</span>
                     </div>
@@ -145,7 +148,7 @@ const Recentlisting = ({ properties, col, headerPresent, viewAll }) => {
                   <p className="listing-text">
                     <Link className="location-text" to={'#'} >
                       <span><i className="fas fa-map-marker-alt"></i></span>
-                      {" "}{item.address + "..."}
+                      {" "}{item.address}
                     </Link>
                   </p>
                   <span className="listing-price">
@@ -171,11 +174,11 @@ const Recentlisting = ({ properties, col, headerPresent, viewAll }) => {
                         </span>
                       </div>
                     </OverlayTrigger>
-                    <OverlayTrigger overlay={<Tooltip>Sqft</Tooltip>}>
+                    <OverlayTrigger overlay={<Tooltip>{item.default_area_unit}</Tooltip>}>
                       <div className="acr-listing-icon">
                         <i className="flaticon-ruler" />
                         <span className="acr-listing-icon-value">
-                          {item.area_in_sqft}
+                          {item.area}
                         </span>
                       </div>
                     </OverlayTrigger>

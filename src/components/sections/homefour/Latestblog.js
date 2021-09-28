@@ -15,15 +15,16 @@ const Latestblog = ({ recentNews }) => {
                     {
                         recentNews.slice(0, 4).map((value, index) => (
                             <div className="col-lg-6" key={index}>
-                                <article className="post post-list">
-                                    <div className="post-thumbnail" style={{ width: "100%", height: "186.25px" }}>
+                                <article className="post post-list row">
+
+                                    <div className="post-thumbnail col-lg-5 m-0 p-0 rounded-0" style={{ width: "100%", height: "186.25px" }}>
                                         <Link to={`/read/news/${convertToSlug(value.title)}/${value.id}`}>
-                                            <img className="custom-images" src={Host + value.image + ".jpg"} alt="blog post" />
+                                            <img className="custom-images rounded-0" src={Host + value.image + ".jpg"} alt="blog post" />
                                         </Link>
                                     </div>
 
 
-                                    <div className="post-body" style={{ height: "186.25px" }}>
+                                    <div className="post-body col-lg-7" style={{ height: "186.25px" }}>
                                         <h5 className="post-title">
                                             <Link to={`/read/news/${convertToSlug(value.title)}/${value.id}`}>{value.title.slice(0, 68) + "..."}</Link>
                                         </h5>
