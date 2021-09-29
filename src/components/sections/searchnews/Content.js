@@ -36,12 +36,14 @@ const Content = ({ resultsData }) => {
 
                         </Link>
                       </div>
+
                       <div className="post-body">
                         <div className="post-author">
                           <img
                             src={
-                              Host + item.profile_image +
-                              "_small.jpg"
+                              item.profile_image !== null ?
+                                Host + item.profile_image +
+                                "_small.jpg" : Host + "/users/default.png"
                             }
                             alt={item.profile_image + "_small.jpg"}
                           />

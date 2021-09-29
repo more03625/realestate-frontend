@@ -21,7 +21,7 @@ const Content = ({ agents, recentProperties, subCategoriesWithCount, setOffset, 
         var renderitems = <Loader />
     }
     else if (totalResults == 0) {
-        var renderitems = <Noresults />;
+        var renderitems = <Noresults messageOn={'agents'} />;
     } else {
         var renderitems = currentitems && currentitems.map((item, i) => {
             var url = "agent" + "/" + convertToSlug(item.name) + "/" + item.id;

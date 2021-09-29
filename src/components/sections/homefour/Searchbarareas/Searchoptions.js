@@ -74,15 +74,11 @@ export const Searchoptions = () => {
         { text: "5 Beds", id: 5 },
     ];
     const areaUnits = [
-        { text: "sqft", id: "sqft" },
         { text: "sqmt", id: "sqmt" },
-        { text: "daam", id: "daam" },
-        { text: "paisa", id: "paisa" },
-        { text: "aana", id: "aana" },
-        { text: "ropani", id: "ropani" },
-        { text: "dhur", id: "dhur" },
-        { text: "kattha", id: "kattha" },
-        { text: "bigga", id: "bigga" }
+        { text: "sqft", id: "sqft" },
+        { text: "acres", id: "acres" },
+        { text: "Bigha-Kattha-Dhur-Haat", id: "Bigha-Kattha-Dhur-Haat" },
+        { text: "Ropani-Aana-Paisa-Daam", id: "Ropani-Aana-Paisa-Daam" },
     ]
     return (
         <>
@@ -125,7 +121,6 @@ export const Searchoptions = () => {
                             placeholder: "Beds (max)",
                         }}
                         name="max_beds"
-
                     />
                 </div>
             </div>
@@ -138,13 +133,12 @@ export const Searchoptions = () => {
                             placeholder: "Area Unit",
                         }}
                         name="default_area_unit"
-
                     />
                 </div>
             </div>
             <div className="col-lg-2 col-md-6 col-6 area-section d-none">
                 <div className="form-group acr-custom-select">
-                    <input type="number" name="area" tabIndex="4" className="searBarInput rui-input" min="0" max="999999" placeholder="Enter Size" />
+                    <input type="text" name="area" tabIndex="4" className="searBarInput rui-input" min="0" max="999999" placeholder="Enter Size" />
                 </div>
             </div>
 

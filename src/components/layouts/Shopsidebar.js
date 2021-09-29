@@ -62,51 +62,9 @@ const Shopsidebar = ({ loadingButton, setShow, show, advancedFilterModal, filter
   var search = queryParams.get("search");
   var property_type = queryParams.get("property_type");
 
-  // const filter = (e) => { // Normal Filter
-  //   e.preventDefault();
-  //   var data = {
-  //     "property_type": filterPropertyType === null ? property_type : filterPropertyType,
-  //     "category": filterCategory !== null ? filterCategory.toString() : filterCategory,
-  //     "state": filterState,
-  //     "min_price": minFilterPrice,
-  //     "max_price": maxFilterPrice,
-  //     "min_bedroom": filterBeds,
-  //     "min_bathrooms": filterBathrooms,
-  //     "subcategory": filterSubCategories !== null ? filterSubCategories.toString() : filterSubCategories === null ? subCategoryID : filterSubCategories,
-  //     "offset": offset
-  //   }
-  //   setSelectedFilters(data);
-  // };
 
-  // const clearFilters = (e) => {
-  //   console.log("Form", document.getElementsByClassName("filter_form"))
-  //   for (var i = 0; i < document.getElementsByClassName("filter_form").length; i++) {
-  //     document.getElementsByClassName("filter_form")[i].reset();
-  //   }
-  // }
   const onSubmit = (e) => { // Advanced Filters
     advancedFilterModal();
-
-
-    // Object.assign(filterData,
-    //   { 'subcategory': '' },
-    //   { 'indoor_features': '' },
-    //   { 'outdoor_features': '' },
-    //   { 'climate_features': '' },
-    //   { 'property_type': '' },
-    //   { 'max_price': '' },
-    //   { 'min_price': '' },
-    //   { 'build_type': '' },
-    //   { 'car_spaces': '' },
-    //   { 'is_under_offer': '' },
-    //   { 'keywords': '' },
-    //   { 'landsize': '' },
-    //   { 'max_bedroom': '' },
-    //   { 'min_bathrooms': '' },
-    //   { 'min_bedroom': '' },
-    //   { 'min_price': '' }
-    // );
-
     // below is IMP to send Checkbox Data else checkbox will not work. 
     var data = Object.assign(
       filterData,
@@ -124,7 +82,7 @@ const Shopsidebar = ({ loadingButton, setShow, show, advancedFilterModal, filter
     setFormName(e)
   }
   const getSubCategories = async () => {
-    var url = Host + Endpoints.getSubCategories + '?category_id=1';
+    var url = Host + Endpoints.getSubCategories + '?type=' + formName;
     if (window.location.pathname == '/commercial') {
       var url = Host + Endpoints.getSubCategories + '?category_id=2';
     }
@@ -181,24 +139,19 @@ const Shopsidebar = ({ loadingButton, setShow, show, advancedFilterModal, filter
     });
   };
   useEffect(() => {
+    getSubCategories();
+  }, [formName])
+
+  useEffect(() => {
     getStates();
     getRecentProperties();
     getPropertyTypes();
-    getSubCategories();
+
     getIndoorFeatures();
     getOutDoorFeatures();
     getClimateControlFeatures();
   }, []);
 
-  let autoComplete;
-
-  const [query, setQuery] = useState("");
-  const autoCompleteRef = useRef(null);
-  const options = {
-    componentRestrictions: { country: "np" },
-  };
-  autoComplete = new window.google.maps.places.Autocomplete(autoCompleteRef.current, options);
-  autoComplete.setFields(['place_id', 'geometry', 'name', 'formatted_address']);
 
   return (
     <div className="sidebar sidebar-left">
@@ -215,7 +168,7 @@ const Shopsidebar = ({ loadingButton, setShow, show, advancedFilterModal, filter
         </Modal.Header>
         <Modal.Body>
 
-          {/*<Searchbar search={search} autoRef={autoCompleteRef} setQuery={setQuery} />*/}
+          <Searchbar search={search} setFilterData={setFilterData} filterData={filterData} />
 
           <Tabs defaultActiveKey="buy" onSelect={(e) => handleSelect(e)} id="uncontrolled-tab-example">
             <Tab eventKey="buy" title="Buy">

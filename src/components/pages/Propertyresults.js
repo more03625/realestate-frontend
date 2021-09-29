@@ -24,14 +24,12 @@ const Propertyresults = () => {
     const [searchResults, setSearchResults] = useState([]);
     const [totalResults, setTotalResults] = useState();
     const [offset, setOffset] = useState(0);
-    const [limit, setLimit] = useState(2)
+    const [limit, setLimit] = useState(10)
     const [loadingButton, setLoadingButton] = useState(false);
     const [filterData, setFilterData] = useState({});
     const [runUseEffect, setRunUseEffect] = useState(false);
 
     var currentPath = window.location.pathname;
-
-    console.log("Home filterData ===> ", filterData);
 
     const getSearchResults = async () => {
         setLoadingButton(true);
@@ -99,7 +97,6 @@ const Propertyresults = () => {
                 subCategoryID={subCategoryID}
                 totalResults={totalResults}
                 limit={limit}
-                setLimit={setLimit}
                 offset={offset}
                 setOffset={setOffset}
                 loadingButton={loadingButton}

@@ -1,18 +1,14 @@
-import React, { useState, Fragment, useRef } from "react";
+import React, { useState, useRef } from "react";
 
 import { Link } from "react-router-dom";
 import Sidebar from "../../layouts/Shopsidebar";
-import classNames from "classnames";
 import Loader from "../../layouts/Loader";
-import { Host, convertToSlug, openInGmail, uppercaseFirstLetter, cleanObject } from "../../../helper/comman_helper";
+import { cleanObject } from "../../../helper/comman_helper";
 import { Noresults } from '../../layouts/Noresults';
 import PaginationLogic from "../pagination-logic/PaginationLogic";
 import Listingproperties from "./Listingproperties";
 
-
-
-const Content = ({ propertyType, searchQuery, searchResults, subCategoryName, subCategoryID, totalResults, offset, setOffset, loadingButton, setFilterData, filterData, setRunUseEffect, runUseEffect, limit, setLimit }) => {
-
+const Content = ({ propertyType, searchQuery, searchResults, subCategoryName, subCategoryID, totalResults, offset, setOffset, loadingButton, setFilterData, filterData, setRunUseEffect, runUseEffect, limit }) => {
 
     const [currentPage, setCurrentPage] = useState(1);
     // const [itemsPerPage, setItemsPerPage] = useState(2);
@@ -42,15 +38,7 @@ const Content = ({ propertyType, searchQuery, searchResults, subCategoryName, su
     var search = queryParams.get("search");
     var cleanObj = cleanObject(filterData);
     var filterCount = Object.keys(cleanObj).length
-    // let autoComplete;
 
-    // const [query, setQuery] = useState("");
-    // const autoCompleteRef = useRef(null);
-    // const options = {
-    //     componentRestrictions: { country: "np" },
-    // };
-    // autoComplete = new window.google.maps.places.Autocomplete(autoCompleteRef.current, options);
-    // autoComplete.setFields(['place_id', 'geometry', 'name', 'formatted_address']);
     return (
         <div className="section pagination-content pt-0">
             <div className="container-fluid">
@@ -59,11 +47,13 @@ const Content = ({ propertyType, searchQuery, searchResults, subCategoryName, su
                     <div className="col-lg-12 mb-3 ">
                         <div className="row">
                             <div className="col-lg-6">
-                                <input type="text" className="form-control" name="search" placeholder="Type search"
-                                    defaultValue={search !== '' ? search : ''}
+                                <input
+                                    type="text"
+                                    className="form-control"
+                                    placeholder="Search region, suburb or postcode"
+                                    value={filterData.search != undefined ? filterData.search : search}
+                                    name="search"
                                     onClick={advancedFilterModal}
-                                // ref={autoCompleteRef}
-                                // onChange={event => setQuery(event.target.value)}
                                 />
                             </div>
                             <div className="col-lg-6">

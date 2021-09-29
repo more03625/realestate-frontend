@@ -2,7 +2,7 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 export const Host =
-    window.location.host === "realestate-react.netlify.app" ? "http://neprealestate.com:5254" : "http://localhost:5254"; //Node URL
+    window.location.host === "neprealestate.com" ? "http://localhost:5254" : "http://neprealestate.com:5254"; //Node URL
 
 export const Endpoints = {
     Login: "/users/login",

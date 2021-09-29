@@ -18,7 +18,7 @@ const Content = ({ userData }) => {
   // Pagination
   const [totalResults, setTotalResults] = useState();
   const [offset, setOffset] = useState(0);
-  const [limit, setLimit] = useState(2);
+  const [limit, setLimit] = useState(10);
   const [currentPage, setCurrentPage] = useState(1);
   const [loading, setLoading] = useState(false);
 
@@ -26,6 +26,7 @@ const Content = ({ userData }) => {
     var url = Host + Endpoints.getPropertiesBySellerID;
     var data = {
       "id": getUserToken().data.id,
+      "isadmin": 1,
       limit: limit,
       offset: offset
     }
@@ -43,6 +44,10 @@ const Content = ({ userData }) => {
 
   }
   useEffect(() => {
+    window.scrollTo({
+      behavior: 'smooth',
+      top: 0
+    })
     getMyProperties();
   }, [offset]);
 

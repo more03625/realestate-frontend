@@ -5,8 +5,6 @@ import Footer from '../layouts/Footerthree';
 import Content from '../sections/homefour/Content';
 
 const Homefour = () => {
-
-
     return (
         <Fragment>
             <MetaTags>

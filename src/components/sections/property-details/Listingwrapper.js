@@ -46,16 +46,7 @@ function SamplePrevArrow(props) {
         />
     );
 }
-const listingThumbnail = {
-    borderRadius: "0px"
-}
-const listing = {
-    padding: "0px"
-}
-const listingBody = {
-    margin: "10px",
-    padding: "7px"
-}
+
 const settings = {
     slidesToShow: 1,
     slidesToScroll: 1,
@@ -349,7 +340,7 @@ const Listingwrapper = ({ propertyDetails, coordinates, recentProperties }) => {
                                             </Link>
                                         ))}
                                 </Slider>
-                                <div className="thumbnail-slider-wrap">
+                                <div className="thumbnail-slider-wrap px-2">
                                     {/* Slider2 Starts */}
                                     <Slider
                                         asNavFor={nav1}
@@ -407,7 +398,7 @@ const Listingwrapper = ({ propertyDetails, coordinates, recentProperties }) => {
                                     <div className="row">
                                         {getUserToken() !== null && getUserToken().data !== undefined ? (
                                             propertyDetails !== null && getUserToken().data.id == propertyDetails.user_id ? (
-                                                <div className="listing-feature col-lg-6 col-md-6">
+                                                <div className="listing-feature col-lg-6 col-md-6 px-3">
                                                     <i className="flaticon-sales-agent"></i>
                                                     <h6 className="listing-feature-label">
                                                         Admin Charges</h6>
@@ -422,7 +413,7 @@ const Listingwrapper = ({ propertyDetails, coordinates, recentProperties }) => {
 
 
                                         {propertyDetails && propertyDetails.category_name ? (
-                                            <div className="listing-feature col-lg-6 col-md-6">
+                                            <div className="listing-feature col-lg-6 col-md-6 px-3">
                                                 <i className="flaticon-checklist"></i>
 
                                                 <h6 className="listing-feature-label">
@@ -436,7 +427,7 @@ const Listingwrapper = ({ propertyDetails, coordinates, recentProperties }) => {
                                             ""
                                         )}
                                         {propertyDetails && propertyDetails.sub_category_name ? (
-                                            <div className="listing-feature col-lg-6 col-md-6">
+                                            <div className="listing-feature col-lg-6 col-md-6 px-3">
                                                 <i className="flaticon-list"></i>
 
                                                 <h6 className="listing-feature-label">Sub category</h6>
@@ -450,7 +441,7 @@ const Listingwrapper = ({ propertyDetails, coordinates, recentProperties }) => {
                                             ""
                                         )}
                                         {propertyDetails && propertyDetails.area ? (
-                                            <div className="listing-feature col-lg-6 col-md-6">
+                                            <div className="listing-feature col-lg-6 col-md-6 px-3">
                                                 <i className="flaticon-ruler"></i>
                                                 <h6 className="listing-feature-label">Total Area</h6>
                                                 <span className="listing-feature-value">
@@ -465,7 +456,7 @@ const Listingwrapper = ({ propertyDetails, coordinates, recentProperties }) => {
                                             ""
                                         )}
                                         {propertyDetails && propertyDetails.carpet_area ? (
-                                            <div className="listing-feature col-lg-6 col-md-6">
+                                            <div className="listing-feature col-lg-6 col-md-6 px-3">
                                                 <i className="flaticon-ruler"></i>
                                                 <h6 className="listing-feature-label">Build Up Area</h6>
                                                 <span className="listing-feature-value">
@@ -478,7 +469,7 @@ const Listingwrapper = ({ propertyDetails, coordinates, recentProperties }) => {
                                             ""
                                         )}
                                         {/* {propertyDetails && propertyDetails.area_in_sqft ? (
-                                            <div className="listing-feature col-lg-6 col-md-6">
+                                            <div className="listing-feature col-lg-6 col-md-6 px-3">
                                             <span className="fa fa-star fa-lg propertyDetailsOtherDetails" aria-hidden="true"></i>  span 
                                             <h6 className="listing-feature-label">Area in Sqft.</h6>
                                                 <span className="listing-feature-value">
@@ -489,7 +480,7 @@ const Listingwrapper = ({ propertyDetails, coordinates, recentProperties }) => {
                                             ""
                                         )} */}
                                         {/* {propertyDetails && propertyDetails.area_type ? (
-                                            <div className="listing-feature col-lg-6 col-md-6">
+                                            <div className="listing-feature col-lg-6 col-md-6 px-3">
                                             <span className="fa fa-star fa-lg propertyDetailsOtherDetails" aria-hidden="true"></i>  span 
                                             <h6 className="listing-feature-label">Area Type</h6>
                                                 <span className="listing-feature-value">
@@ -500,7 +491,7 @@ const Listingwrapper = ({ propertyDetails, coordinates, recentProperties }) => {
                                             ""
                                         )} */}
                                         {propertyDetails && propertyDetails.build_type ? (
-                                            <div className="listing-feature col-lg-6 col-md-6">
+                                            <div className="listing-feature col-lg-6 col-md-6 px-3">
                                                 <i className="flaticon-new"></i>
                                                 <h6 className="listing-feature-label">Build Type</h6>
                                                 <span className="listing-feature-value">
@@ -511,7 +502,7 @@ const Listingwrapper = ({ propertyDetails, coordinates, recentProperties }) => {
                                             ""
                                         )}
                                         {propertyDetails && propertyDetails.no_of_bathrooms ? (
-                                            <div className="listing-feature col-lg-6 col-md-6">
+                                            <div className="listing-feature col-lg-6 col-md-6 px-3">
                                                 <i className="flaticon-bathroom"></i>
                                                 <h6 className="listing-feature-label">
                                                     No of bathrooms
@@ -524,7 +515,7 @@ const Listingwrapper = ({ propertyDetails, coordinates, recentProperties }) => {
                                             ""
                                         )}
                                         {propertyDetails && propertyDetails.no_of_beds ? (
-                                            <div className="listing-feature col-lg-6 col-md-6">
+                                            <div className="listing-feature col-lg-6 col-md-6 px-3">
                                                 <i className="flaticon-bedroom"></i>
                                                 <h6 className="listing-feature-label">No of Beds</h6>
                                                 <span className="listing-feature-value">
@@ -537,7 +528,7 @@ const Listingwrapper = ({ propertyDetails, coordinates, recentProperties }) => {
 
 
                                         {propertyDetails && propertyDetails.no_of_garage ? (
-                                            <div className="listing-feature col-lg-6 col-md-6">
+                                            <div className="listing-feature col-lg-6 col-md-6 px-3">
                                                 <i className="flaticon-garage"></i>
                                                 <h6 className="listing-feature-label">No of Garage</h6>
                                                 <span className="listing-feature-value">
@@ -549,7 +540,7 @@ const Listingwrapper = ({ propertyDetails, coordinates, recentProperties }) => {
                                         )}
 
                                         {propertyDetails && propertyDetails.no_of_rooms ? (
-                                            <div className="listing-feature col-lg-6 col-md-6">
+                                            <div className="listing-feature col-lg-6 col-md-6 px-3">
                                                 <i className="flaticon-company"></i>
                                                 <h6 className="listing-feature-label">No of Rooms</h6>
                                                 <span className="listing-feature-value">
@@ -561,7 +552,7 @@ const Listingwrapper = ({ propertyDetails, coordinates, recentProperties }) => {
                                         )}
 
                                         {propertyDetails && propertyDetails.road_type ? (
-                                            <div className="listing-feature col-lg-6 col-md-6">
+                                            <div className="listing-feature col-lg-6 col-md-6 px-3">
 
                                                 <i className="flaticon-towels"></i>
                                                 <h6 className="listing-feature-label">Road Type</h6>
@@ -574,7 +565,7 @@ const Listingwrapper = ({ propertyDetails, coordinates, recentProperties }) => {
                                         )}
 
                                         {propertyDetails && propertyDetails.car_spaces ? (
-                                            <div className="listing-feature col-lg-6 col-md-6">
+                                            <div className="listing-feature col-lg-6 col-md-6 px-3">
 
                                                 <i className="flaticon-garage"></i>
                                                 <h6 className="listing-feature-label">Car spaces</h6>
@@ -587,7 +578,7 @@ const Listingwrapper = ({ propertyDetails, coordinates, recentProperties }) => {
                                         )}
 
                                         {propertyDetails && propertyDetails.facing ? (
-                                            <div className="listing-feature col-lg-6 col-md-6">
+                                            <div className="listing-feature col-lg-6 col-md-6 px-3">
                                                 <i className="flaticon-eye"></i>
                                                 <h6 className="listing-feature-label">Facing</h6>
                                                 <span className="listing-feature-value">
@@ -599,7 +590,7 @@ const Listingwrapper = ({ propertyDetails, coordinates, recentProperties }) => {
                                         )}
 
                                         {propertyDetails && propertyDetails.floor ? (
-                                            <div className="listing-feature col-lg-6 col-md-6">
+                                            <div className="listing-feature col-lg-6 col-md-6 px-3">
                                                 <i className="flaticon-stairs"></i>
 
                                                 <h6 className="listing-feature-label">Floor</h6>
@@ -612,7 +603,7 @@ const Listingwrapper = ({ propertyDetails, coordinates, recentProperties }) => {
                                         )}
 
                                         {propertyDetails && propertyDetails.furnishing ? (
-                                            <div className="listing-feature col-lg-6 col-md-6">
+                                            <div className="listing-feature col-lg-6 col-md-6 px-3">
                                                 <i className="flaticon-chair"></i>
                                                 <h6 className="listing-feature-label">Furnishing</h6>
                                                 <span className="listing-feature-value">
@@ -624,7 +615,7 @@ const Listingwrapper = ({ propertyDetails, coordinates, recentProperties }) => {
                                         )}
 
                                         {/* {propertyDetails && propertyDetails.are_you ? (
-                                            <div className="listing-feature col-lg-6 col-md-6">
+                                            <div className="listing-feature col-lg-6 col-md-6 px-3">
                                             <span className="fa fa-star fa-lg propertyDetailsOtherDetails" aria-hidden="true"></i>  span 
                                             <h6 className="listing-feature-label">Posted By</h6>
                                                 <span className="listing-feature-value">
@@ -636,7 +627,7 @@ const Listingwrapper = ({ propertyDetails, coordinates, recentProperties }) => {
                                         )} */}
 
                                         {propertyDetails && propertyDetails.available_from ? (
-                                            <div className="listing-feature col-lg-6 col-md-6">
+                                            <div className="listing-feature col-lg-6 col-md-6 px-3">
                                                 <i className="flaticon-event"></i>
 
                                                 <h6 className="listing-feature-label">
@@ -650,7 +641,7 @@ const Listingwrapper = ({ propertyDetails, coordinates, recentProperties }) => {
                                             ""
                                         )}
                                         {propertyDetails && propertyDetails.build_year ? (
-                                            <div className="listing-feature col-lg-6 col-md-6">
+                                            <div className="listing-feature col-lg-6 col-md-6 px-3">
                                                 <i className="flaticon-history"></i>
                                                 <h6 className="listing-feature-label">Build Year</h6>
                                                 <span className="listing-feature-value">
@@ -660,7 +651,7 @@ const Listingwrapper = ({ propertyDetails, coordinates, recentProperties }) => {
                                         ) : (
                                             ""
                                         )}
-                                        <div className="listing-feature col-lg-6 col-md-6">
+                                        <div className="listing-feature col-lg-6 col-md-6 px-3">
                                             <i className="flaticon-bone"></i>
                                             <h6 className="listing-feature-label">Pets Considere</h6>
                                             <span className="listing-feature-value">
@@ -670,7 +661,7 @@ const Listingwrapper = ({ propertyDetails, coordinates, recentProperties }) => {
                                             </span>
                                         </div>
 
-                                        <div className="listing-feature col-lg-6 col-md-6">
+                                        <div className="listing-feature col-lg-6 col-md-6 px-3">
                                             <i className="flaticon-sales-agent"></i>
                                             <h6 className="listing-feature-label">
                                                 Price Negotiable
@@ -683,7 +674,7 @@ const Listingwrapper = ({ propertyDetails, coordinates, recentProperties }) => {
                                             </span>
                                         </div>
                                         {propertyDetails && propertyDetails.property_type ? (
-                                            <div className="listing-feature col-lg-6 col-md-6">
+                                            <div className="listing-feature col-lg-6 col-md-6 px-3">
                                                 <i className="flaticon-home"></i>
                                                 <h6 className="listing-feature-label">Property Type</h6>
                                                 <span className="listing-feature-value">
@@ -699,54 +690,36 @@ const Listingwrapper = ({ propertyDetails, coordinates, recentProperties }) => {
 
                                 <div className="section section-padding acr-listing-features">
                                     <h4>Features</h4>
-                                    <div className="row">
 
-                                        {propertyDetails && propertyDetails.features ?
-                                            (
-                                                <>
-                                                    {
-                                                        propertyDetails.features.outdoor.length > 0 && <h5 className="col-12 text-left">Outdoon Features:</h5>
-                                                    }
-                                                    {
-                                                        propertyDetails.features.outdoor ? propertyDetails.features.outdoor.map((value, index) => (
 
-                                                            <div key={index} className="listing-feature col-lg-6 col-md-6">
-                                                                <img className="propertyDetailsOtherDetails" src={Host + value.icon + ".jpg"} />
-                                                                <h6 className="listing-feature-label">
-                                                                    {value.feature}
-                                                                </h6>
-                                                                <span className="listing-feature-value">
+                                    {propertyDetails && propertyDetails.features ?
+                                        (
+                                            <div className="row">
+                                                {
+                                                    propertyDetails.features.outdoor.length > 0 && <h5 className="col-12 text-left">Outdoon Features:</h5>
+                                                }
+                                                {
+                                                    propertyDetails.features.outdoor ? propertyDetails.features.outdoor.map((value, index) => (
 
-                                                                </span>
-                                                            </div>
-                                                        )) : ("No Outdoon Features Mentioned")
-                                                    }
+                                                        <div key={index} className="listing-feature col-lg-6 col-md-6 px-3">
+                                                            <img className="propertyDetailsOtherDetails" src={Host + value.icon + ".jpg"} />
+                                                            <h6 className="listing-feature-label">
+                                                                {value.feature}
+                                                            </h6>
+                                                            <span className="listing-feature-value">
 
-                                                    {
-                                                        propertyDetails.features.indoor.length > 0 && <h5 className="col-12 text-left">Indoor Features:</h5>
-                                                    }
-                                                    {
-                                                        propertyDetails.features.indoor ? propertyDetails.features.indoor.map((value, index) => {
-                                                            {
-                                                                return <div key={index} className="listing-feature col-lg-6 col-md-6">
-                                                                    <img className="propertyDetailsOtherDetails" src={Host + value.icon + ".jpg"} />
+                                                            </span>
+                                                        </div>
+                                                    )) : ("No Outdoon Features Mentioned")
+                                                }
 
-                                                                    <h6 className="listing-feature-label">
-                                                                        {value.feature}
-                                                                    </h6>
-                                                                    <span className="listing-feature-value">
-
-                                                                    </span>
-                                                                </div>
-                                                            }
-                                                        }) : ("No Indoor Features Mentioned")
-                                                    }
-                                                    {
-                                                        propertyDetails.features.climate.length > 0 && <h5 className="col-12 text-left mt-3">Climate Control & Energy Features:</h5>
-                                                    }
-                                                    {
-                                                        propertyDetails.features.climate ? propertyDetails.features.climate.map((value, index) => (
-                                                            <div key={index} className="listing-feature col-lg-6 col-md-6">
+                                                {
+                                                    propertyDetails.features.indoor.length > 0 && <h5 className="col-12 text-left">Indoor Features:</h5>
+                                                }
+                                                {
+                                                    propertyDetails.features.indoor ? propertyDetails.features.indoor.map((value, index) => {
+                                                        {
+                                                            return <div key={index} className="listing-feature col-lg-6 col-md-6 px-3">
                                                                 <img className="propertyDetailsOtherDetails" src={Host + value.icon + ".jpg"} />
 
                                                                 <h6 className="listing-feature-label">
@@ -756,13 +729,31 @@ const Listingwrapper = ({ propertyDetails, coordinates, recentProperties }) => {
 
                                                                 </span>
                                                             </div>
-                                                        )) : ("No Climate Control Features Mentioned")
-                                                    }
-                                                </>
-                                            )
-                                            : ('There are no features selected')
-                                        }
-                                    </div>
+                                                        }
+                                                    }) : ("No Indoor Features Mentioned")
+                                                }
+                                                {
+                                                    propertyDetails.features.climate.length > 0 && <h5 className="col-12 text-left mt-3">Climate Control & Energy Features:</h5>
+                                                }
+                                                {
+                                                    propertyDetails.features.climate ? propertyDetails.features.climate.map((value, index) => (
+                                                        <div key={index} className="listing-feature col-lg-6 col-md-6 px-3">
+                                                            <img className="propertyDetailsOtherDetails" src={Host + value.icon + ".jpg"} />
+
+                                                            <h6 className="listing-feature-label">
+                                                                {value.feature}
+                                                            </h6>
+                                                            <span className="listing-feature-value">
+
+                                                            </span>
+                                                        </div>
+                                                    )) : ("No Climate Control Features Mentioned")
+                                                }
+                                            </div>
+                                        )
+                                        : ('There are no features selected')
+                                    }
+
                                 </div>
                                 {propertyDetails && propertyDetails.video_url ? (
                                     <div className="section pt-0">

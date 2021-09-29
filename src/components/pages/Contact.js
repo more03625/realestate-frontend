@@ -6,24 +6,22 @@ import Breadcrumb from '../layouts/Breadcrumb';
 import Footer from '../layouts/Footerthree';
 import Content from '../sections/contact/Content';
 
-class Contact extends Component {
-    render() {
-        return (
-            <Fragment>
-                <MetaTags>
-                    <title>Contact us | Neprealestate</title>
-                    <meta
-                        name="description"
-                        content="#"
-                    />
-                </MetaTags>
-                <Header />
-                <Breadcrumb breadcrumb={{ pagename: 'Contact Us' }} />
-                <Content />
-                <Footer />
-            </Fragment>
-        );
-    }
+const Contact = () => {
+    return (
+        <Fragment>
+            <MetaTags>
+                <title>Contact us | Neprealestate</title>
+                <meta
+                    name="description"
+                    content="#"
+                />
+            </MetaTags>
+            <Header />
+            <Breadcrumb breadcrumb={{ pagename: 'Contact Us' }} />
+            <Content />
+            <Footer />
+        </Fragment>
+    );
 }
 
 export default Contact;
