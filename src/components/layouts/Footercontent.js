@@ -126,9 +126,9 @@ const Footercontent = () => {
               </li>
               <li>
                 {" "}
-                <Link to={{ pathname: "mailto:info@neprealestate.com" }}>
+                <Link to={{ pathname: "mailto:info@infraconstruction.com" }}>
                   <i className="fas fa-envelope"></i>
-                  &nbsp;&nbsp;info@neprealestate.com
+                  &nbsp;&nbsp;info@infraconstruction.com
                 </Link>{" "}
               </li>
             </ul>
@@ -140,7 +140,7 @@ const Footercontent = () => {
           <div className="row">
             <div className="col-lg-7">
               <p className="m-0">
-                © Copyright {new Date().getFullYear()} - <Link to="/home">Neprealestate</Link> All
+                © Copyright {new Date().getFullYear()} - <Link to="/home">Infraconstruction</Link> All
                 Rights Reserved.
               </p>
             </div>
